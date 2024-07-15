@@ -1,0 +1,97 @@
+From 24a26e1aa22fd2410377055b8f0158dde0b4dca2 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Wed, 22 May 2024 08:15:45 +0000
+Subject: [PATCH 4/4] Restore VPN
+
+---
+ .../com/android/server/connectivity/Vpn.java  | 24 +++----------------
+ 1 file changed, 3 insertions(+), 21 deletions(-)
+
+diff --git a/frameworks/base/services/core/java/com/android/server/connectivity/Vpn.java b/frameworks/base/services/core/java/com/android/server/connectivity/Vpn.java
+index 09d202f512..e41eaed7b8 100644
+--- a/frameworks/base/services/core/java/com/android/server/connectivity/Vpn.java
++++ b/frameworks/base/services/core/java/com/android/server/connectivity/Vpn.java
+@@ -95,7 +95,6 @@ import com.android.internal.net.VpnConfig;
+ import com.android.internal.net.VpnInfo;
+ import com.android.internal.net.VpnProfile;
+ import com.android.internal.notification.SystemNotificationChannels;
+-import com.android.internal.space.api.VpnMock;
+ import com.android.internal.util.ArrayUtils;
+ import com.android.server.ConnectivityService;
+ import com.android.server.DeviceIdleController;
+@@ -188,8 +187,6 @@ public class Vpn {
+     protected final NetworkCapabilities mNetworkCapabilities;
+     private final SystemServices mSystemServices;
+ 
+-    private VpnMock mMock;
+-
+     /**
+      * Whether to keep the connection active after rebooting, or upgrading or reinstalling. This
+      * only applies to {@link VpnService} connections.
+@@ -252,7 +249,6 @@ public class Vpn {
+         updateCapabilities(null /* defaultNetwork */);
+ 
+         loadAlwaysOnPackage();
+-        mMock = new VpnMock(mContext);
+     }
+ 
+     /**
+@@ -1106,7 +1102,6 @@ public class Vpn {
+             config.user = mPackage;
+             config.interfaze = mInterface;
+             config.startTime = SystemClock.elapsedRealtime();
+-            config.dnsServers = mMock.regroupDnsServer(config.dnsServers);
+             mConfig = config;
+ 
+             // Set up forwarding and DNS rules.
+@@ -1167,24 +1162,12 @@ public class Vpn {
+     }
+ 
+     // Note: Return type guarantees results are deduped and sorted, which callers require.
+-    private SortedSet<Integer> getAppsUids(List<String> packageNames, int userHandle,
+-            List<Integer> bypass, boolean add) {
++    private SortedSet<Integer> getAppsUids(List<String> packageNames, int userHandle) {
+         SortedSet<Integer> uids = new TreeSet<Integer>();
+         for (String app : packageNames) {
+             int uid = getAppUid(app, userHandle);
+             if (uid != -1) uids.add(uid);
+         }
+-        for (Integer id : bypass) {
+-            if (add) {
+-                if (!uids.contains(id)) {
+-                    uids.add(id);
+-                }
+-            } else {
+-                if (uids.contains(id)) {
+-                    uids.remove(id);
+-                }
+-            }
+-        }
+         return uids;
+     }
+ 
+@@ -1245,11 +1228,10 @@ public class Vpn {
+     void addUserToRanges(@NonNull Set<UidRange> ranges, @UserIdInt int userHandle,
+             @Nullable List<String> allowedApplications,
+             @Nullable List<String> disallowedApplications) {
+-        List<Integer> bypass = mMock.getBypassVpnPackages();
+         if (allowedApplications != null) {
+             // Add ranges covering all UIDs for allowedApplications.
+             int start = -1, stop = -1;
+-            for (int uid : getAppsUids(allowedApplications, userHandle, bypass, false)) {
++            for (int uid : getAppsUids(allowedApplications, userHandle)) {
+                 if (start == -1) {
+                     start = uid;
+                 } else if (uid != stop + 1) {
+@@ -1263,7 +1245,7 @@ public class Vpn {
+             // Add all ranges for user skipping UIDs for disallowedApplications.
+             final UidRange userRange = UidRange.createForUser(userHandle);
+             int start = userRange.start;
+-            for (int uid : getAppsUids(disallowedApplications, userHandle, bypass, true)) {
++            for (int uid : getAppsUids(disallowedApplications, userHandle)) {
+                 if (uid == start) {
+                     start++;
+                 } else {
+-- 
+2.25.1
+

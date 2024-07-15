@@ -1,0 +1,227 @@
+diff --git a/hardware/interfaces/wifi/1.3/default/wifi.cpp b/hardware/interfaces/wifi/1.3/default/wifi.cpp
+index 4229d352d5..47bee581c1 100644
+--- a/hardware/interfaces/wifi/1.3/default/wifi.cpp
++++ b/hardware/interfaces/wifi/1.3/default/wifi.cpp
+@@ -1,20 +1,6 @@
+-/*
+- * Copyright (C) 2016 The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+ #include <android-base/logging.h>
++#include <android/hardware/wifi/1.3/IWifi.h>
++#include <android/hardware/wifi/1.3/IWifiChip.h>
+ 
+ #include "hidl_return_util.h"
+ #include "wifi.h"
+@@ -105,113 +91,76 @@ WifiStatus Wifi::startInternal() {
+         return createWifiStatus(WifiStatusCode::ERROR_NOT_AVAILABLE,
+                                 "HAL is stopping");
+     }
+-    WifiStatus wifi_status = initializeModeControllerAndLegacyHal();
+-    if (wifi_status.code == WifiStatusCode::SUCCESS) {
+-        // Create the chip instance once the HAL is started.
+-        chip_ = new WifiChip(kChipId, legacy_hal_, mode_controller_,
+-                             iface_util_, feature_flags_);
+-        run_state_ = RunState::STARTED;
+-        for (const auto& callback : event_cb_handler_.getCallbacks()) {
+-            if (!callback->onStart().isOk()) {
+-                LOG(ERROR) << "Failed to invoke onStart callback";
+-            };
+-        }
+-        LOG(INFO) << "Wifi HAL started";
+-    } else {
+-        for (const auto& callback : event_cb_handler_.getCallbacks()) {
+-            if (!callback->onFailure(wifi_status).isOk()) {
+-                LOG(ERROR) << "Failed to invoke onFailure callback";
+-            }
+-        }
+-        LOG(ERROR) << "Wifi HAL start failed";
+-        // Clear the event callback objects since the HAL start failed.
+-        event_cb_handler_.invalidate();
++    // 这里跳过实际初始化，直接设置为启动状态
++    run_state_ = RunState::STARTED;
++    for (const auto& callback : event_cb_handler_.getCallbacks()) {
++        if (!callback->onStart().isOk()) {
++            LOG(ERROR) << "Failed to invoke onStart callback";
++        };
+     }
+-    return wifi_status;
++    LOG(INFO) << "Mock Wifi HAL started";
++    return createWifiStatus(WifiStatusCode::SUCCESS);
+ }
+ 
+ WifiStatus Wifi::stopInternal(
+     /* NONNULL */ std::unique_lock<std::recursive_mutex>* lock) {
++    (void)lock;
+     if (run_state_ == RunState::STOPPED) {
+         return createWifiStatus(WifiStatusCode::SUCCESS);
+     } else if (run_state_ == RunState::STOPPING) {
+         return createWifiStatus(WifiStatusCode::ERROR_NOT_AVAILABLE,
+                                 "HAL is stopping");
+     }
+-    // Clear the chip object and its child objects since the HAL is now
+-    // stopped.
+-    if (chip_.get()) {
+-        chip_->invalidate();
+-        chip_.clear();
+-    }
+-    WifiStatus wifi_status = stopLegacyHalAndDeinitializeModeController(lock);
+-    if (wifi_status.code == WifiStatusCode::SUCCESS) {
+-        for (const auto& callback : event_cb_handler_.getCallbacks()) {
+-            if (!callback->onStop().isOk()) {
+-                LOG(ERROR) << "Failed to invoke onStop callback";
+-            };
+-        }
+-        LOG(INFO) << "Wifi HAL stopped";
+-    } else {
+-        for (const auto& callback : event_cb_handler_.getCallbacks()) {
+-            if (!callback->onFailure(wifi_status).isOk()) {
+-                LOG(ERROR) << "Failed to invoke onFailure callback";
+-            }
+-        }
+-        LOG(ERROR) << "Wifi HAL stop failed";
++    run_state_ = RunState::STOPPED;
++    for (const auto& callback : event_cb_handler_.getCallbacks()) {
++        if (!callback->onStop().isOk()) {
++            LOG(ERROR) << "Failed to invoke onStop callback";
++        };
+     }
+-    // Clear the event callback objects since the HAL is now stopped.
++    LOG(INFO) << "Mock Wifi HAL stopped";
+     event_cb_handler_.invalidate();
+-    return wifi_status;
++    return createWifiStatus(WifiStatusCode::SUCCESS);
+ }
+ 
+ std::pair<WifiStatus, std::vector<ChipId>> Wifi::getChipIdsInternal() {
+     std::vector<ChipId> chip_ids;
+-    if (chip_.get()) {
++    if (run_state_ == RunState::STARTED) {
+         chip_ids.emplace_back(kChipId);
+     }
+     return {createWifiStatus(WifiStatusCode::SUCCESS), std::move(chip_ids)};
+ }
+ 
+ std::pair<WifiStatus, sp<IWifiChip>> Wifi::getChipInternal(ChipId chip_id) {
+-    if (!chip_.get()) {
++    if (run_state_ != RunState::STARTED) {
+         return {createWifiStatus(WifiStatusCode::ERROR_NOT_STARTED), nullptr};
+     }
+     if (chip_id != kChipId) {
+         return {createWifiStatus(WifiStatusCode::ERROR_INVALID_ARGS), nullptr};
+     }
++    if (!chip_.get()) {
++        chip_ = new WifiChip(kChipId, legacy_hal_, mode_controller_, iface_util_, feature_flags_);
++    }
+     return {createWifiStatus(WifiStatusCode::SUCCESS), chip_};
+ }
+ 
+-WifiStatus Wifi::initializeModeControllerAndLegacyHal() {
+-    if (!mode_controller_->initialize()) {
+-        LOG(ERROR) << "Failed to initialize firmware mode controller";
+-        return createWifiStatus(WifiStatusCode::ERROR_UNKNOWN);
+-    }
+-    legacy_hal::wifi_error legacy_status = legacy_hal_->initialize();
+-    if (legacy_status != legacy_hal::WIFI_SUCCESS) {
+-        LOG(ERROR) << "Failed to initialize legacy HAL: "
+-                   << legacyErrorToString(legacy_status);
+-        return createWifiStatusFromLegacyError(legacy_status);
+-    }
+-    return createWifiStatus(WifiStatusCode::SUCCESS);
++// 添加Mock的扫描函数
++Return<void> Wifi::startScan(uint32_t cmdId, const hidl_vec<android::hardware::wifi::V1_0::WifiScanCmdParams>& params, const start_cb& _hidl_cb) {
++    // 模拟扫描结果
++    hidl_vec<StaScanResult> results(1);
++    results[0].ssid = hidl_vec<uint8_t>({'M', 'o', 'c', 'k', 'S', 'S', 'I', 'D'});
++    results[0].bssid = hidl_array<uint8_t, 6>({0x00, 0x11, 0x22, 0x33, 0x44, 0x55});
++    results[0].frequency = 2412;
++    // results[0].signalStrength = -50;
++    // 返回成功状态和模拟结果
++    _hidl_cb(createWifiStatus(WifiStatusCode::SUCCESS)); // 修改为单参数
++    return Void();
+ }
+ 
+-WifiStatus Wifi::stopLegacyHalAndDeinitializeModeController(
+-    /* NONNULL */ std::unique_lock<std::recursive_mutex>* lock) {
+-    run_state_ = RunState::STOPPING;
+-    legacy_hal::wifi_error legacy_status =
+-        legacy_hal_->stop(lock, [&]() { run_state_ = RunState::STOPPED; });
+-    if (legacy_status != legacy_hal::WIFI_SUCCESS) {
+-        LOG(ERROR) << "Failed to stop legacy HAL: "
+-                   << legacyErrorToString(legacy_status);
+-        return createWifiStatusFromLegacyError(legacy_status);
+-    }
+-    if (!mode_controller_->deinitialize()) {
+-        LOG(ERROR) << "Failed to deinitialize firmware mode controller";
+-        return createWifiStatus(WifiStatusCode::ERROR_UNKNOWN);
+-    }
+-    return createWifiStatus(WifiStatusCode::SUCCESS);
++// 添加Mock的连接函数
++Return<void> Wifi::connect(uint32_t cmdId, const android::hardware::wifi::V1_0::WifiStaConnectCmdParams& params, const start_cb& _hidl_cb) {
++    // 模拟连接成功
++    _hidl_cb(createWifiStatus(WifiStatusCode::SUCCESS));
++    return Void();
+ }
+ }  // namespace implementation
+ }  // namespace V1_3
+diff --git a/hardware/interfaces/wifi/1.3/default/wifi.h b/hardware/interfaces/wifi/1.3/default/wifi.h
+index 1c2a15409e..8faec12075 100644
+--- a/hardware/interfaces/wifi/1.3/default/wifi.h
++++ b/hardware/interfaces/wifi/1.3/default/wifi.h
+@@ -29,6 +29,11 @@
+ #include "wifi_legacy_hal.h"
+ #include "wifi_mode_controller.h"
+ 
++#include <android/hardware/wifi/1.3/IWifi.h>
++#include <android/hardware/wifi/1.3/IWifiChip.h>
++#include <android/hardware/wifi/1.0/IWifiStaIface.h>
++#include <android/hardware/wifi/1.0/types.h>
++
+ namespace android {
+ namespace hardware {
+ namespace wifi {
+diff --git a/hardware/interfaces/wifi/1.3/types.hal b/hardware/interfaces/wifi/1.3/types.hal
+index 3b292b074b..70dc28d84f 100644
+--- a/hardware/interfaces/wifi/1.3/types.hal
++++ b/hardware/interfaces/wifi/1.3/types.hal
+@@ -21,6 +21,28 @@ import @1.0::StaLinkLayerIfaceStats;
+ import @1.0::TimeStampInMs;
+ import @1.0::WifiChannelInfo;
+ 
++
++
++
++
++struct WifiChannel {
++    uint32_t frequency;
++    uint32_t dwellTimeMs;
++};
++
++struct WifiScanCmdParams {
++    uint32_t scanId;
++    vec<WifiChannel> channels;
++    // 添加其他需要的参数
++};
++
++struct WifiStaConnectCmdParams {
++    string someString;
++    vec<int32_t> someVector;
++    string anotherString;
++    // 添加其他需要的参数
++};
++
+ struct WifiChannelStats {
+     /**
+     * Channel information.

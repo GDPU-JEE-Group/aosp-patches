@@ -1,0 +1,62 @@
+From 42ceacc7fa0ef9567433be7601dc2bcf1a0aeac2 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Thu, 23 May 2024 02:00:34 +0000
+Subject: [PATCH] Restore VPN more specifically
+
+---
+ build_docker_android_snow.sh                              | 2 +-
+ .../core/java/com/android/internal/space/api/VpnMock.java | 8 +++++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/build_docker_android_snow.sh b/build_docker_android_snow.sh
+index 5b56ee803c..db454c42a9 100755
+--- a/build_docker_android_snow.sh
++++ b/build_docker_android_snow.sh
+@@ -142,7 +142,7 @@ cd $PROJECT_TOP
+ echo  $STUB_PATH/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz  root@192.168.30.34:/userdata/snow/
+ scp $STUB_PATH/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz  root@192.168.30.34:/userdata/snow/
+ # ssh root@192.168.30.34  drm.sh 0
+-ssh root@192.168.30.34 /userdata/snow/ctl.sh -b $TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz 0
++ssh root@192.168.30.34 /userdata/snow/ctl.sh -b $TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz 2
+ 
+ time2=$(date  +.%H%M)
+ echo $time1 $time2
+\ No newline at end of file
+diff --git a/frameworks/base/core/java/com/android/internal/space/api/VpnMock.java b/frameworks/base/core/java/com/android/internal/space/api/VpnMock.java
+index f9bfcd63eb..22d6861b57 100644
+--- a/frameworks/base/core/java/com/android/internal/space/api/VpnMock.java
++++ b/frameworks/base/core/java/com/android/internal/space/api/VpnMock.java
+@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
+ import android.net.ConnectivityManager;
+ import android.net.LinkProperties;
+ import android.text.TextUtils;
++import android.util.Log;
+ 
+ import com.android.internal.space.NineDSpaceManager;
+ 
+@@ -17,6 +18,7 @@ import java.util.Map;
+ public class VpnMock extends IMockCallback.Stub {
+ 
+     public static final String NAME = "vpn";
++    public static final String TAGCX = "chaixiangRegroupDnsServer";
+ 
+     private Map mMap;
+     private Context mContext;
+@@ -82,9 +84,13 @@ public class VpnMock extends IMockCallback.Stub {
+ 
+         LinkProperties linkProperties = manager.getLinkProperties(manager.getActiveNetwork());
+         List<InetAddress> addressList = linkProperties.getDnsServers();
++        Log.d(TAGCX,"5555555555");
+         for (InetAddress inetAddress : addressList) {
+-            result.add(inetAddress.getHostName());
++        Log.d(TAGCX,"555555556666666666");
++            // result.add(inetAddress.getHostName());
++            result.add(inetAddress.getHostAddress());
+         }
++        Log.d(TAGCX,"6666666666");
+ 
+         for (String dns : legacyDns) {
+             if (!result.contains(dns)) {
+-- 
+2.25.1
+

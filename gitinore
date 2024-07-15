@@ -1,0 +1,12 @@
+/out/
+/IMAGE/
+
+###
+a_patches
+build_docker_android_snow.sh
+link.sh
+snow.sh
+send_run.sh
+del.sh
+TODO.md
+

@@ -1,0 +1,55 @@
+From 1a7403a0292e774078380c809dac4bb26f7c3976 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Sat, 15 Jun 2024 11:22:17 +0000
+Subject: [PATCH] update qqweb
+
+---
+ device/rockchip/space-common/device.mk |  3 ++-
+ packages/apps/ntimesapp/Android.mk     | 20 ++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 1 deletion(-)
+
+diff --git a/device/rockchip/space-common/device.mk b/device/rockchip/space-common/device.mk
+index 543a47d6d1..93f4b4c7b0 100644
+--- a/device/rockchip/space-common/device.mk
++++ b/device/rockchip/space-common/device.mk
+@@ -19,7 +19,8 @@ PRODUCT_PACKAGES += \
+ 	SogouInput_11.40_android_sweb \
+ 	google-chrome \
+ 	Launcher3-aosp-withQuickstep-release \
+-        com.google.android.apps.nbu.files
++        com.google.android.apps.nbu.files \
++        qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022
+ 
+ # add ssh server
+ PRODUCT_PACKAGES += \
+diff --git a/packages/apps/ntimesapp/Android.mk b/packages/apps/ntimesapp/Android.mk
+index 7981f74de8..8d7c0e8b71 100644
+--- a/packages/apps/ntimesapp/Android.mk
++++ b/packages/apps/ntimesapp/Android.mk
+@@ -149,3 +149,23 @@ LOCAL_CERTIFICATE := platform
+ 
+ include $(BUILD_PREBUILT)
+ 
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++
++LOCAL_MODULE := qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022
++
++# 签名
++LOCAL_CERTIFICATE := PRESIGNED
++
++# 指定 src 目录 
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++
++LOCAL_MODULE_CLASS := APPS
++
++# 该模块的后缀，不用定义
++#LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++
++include $(BUILD_PREBUILT)
++
+-- 
+2.25.1
+

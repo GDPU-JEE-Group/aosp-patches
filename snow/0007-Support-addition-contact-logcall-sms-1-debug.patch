@@ -1,0 +1,321 @@
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerService.java b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerService.java
+index c6c97bb673..8bbc6322d8 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerService.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerService.java
+@@ -287,6 +287,6 @@ public class Space9dManagerService extends INineDSpace.Stub {
+     @Override
+     public void onShellCommand(FileDescriptor in, FileDescriptor out, FileDescriptor err,
+             String[] args, ShellCallback callback, ResultReceiver result) {
+-        new Space9dManagerShellCommand(this).exec(this, in, out, err, args, callback, result);
++        new Space9dManagerShellCommand(this,mContext).exec(this, in, out, err, args, callback, result);
+     }
+ }
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+index c85b951d35..645cd4f9f2 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+@@ -11,13 +11,27 @@ import com.android.internal.space.INineDSpace;
+ import java.io.PrintWriter;
+ import java.util.ArrayList;
+ import java.util.List;
++import java.util.Map;
++
++import android.content.Context;
++
++import android.provider.ContactsContract;
++import android.provider.CallLog;
++import android.provider.Telephony;
++
++import android.content.ContentResolver;
++import android.content.ContentValues;
++import android.net.Uri;
++import android.content.ContentUris;
+ 
+ public class Space9dManagerShellCommand extends ShellCommand {
+ 
+     private INineDSpace mService;
++    private final Context mContext;
+ 
+-    public Space9dManagerShellCommand(INineDSpace service) {
++    public Space9dManagerShellCommand(INineDSpace service, Context context) {
+         this.mService = service;
++        this.mContext = context;
+     }
+ 
+     public static int stringToBusinessType(String type) {
+@@ -123,6 +137,259 @@ public class Space9dManagerShellCommand extends ShellCommand {
+         pw.println(String.format("Update mock modules: %s", buffer));
+     }
+ 
++private void runContact(PrintWriter pw) {
++    ArrayMap<String, String> addMap = new ArrayMap<>();
++    List<String> delList = new ArrayList<>();
++    String nextOpt;
++    String[] item;
++
++    while ((nextOpt = getNextArg()) != null) {
++        if ("add".equals(nextOpt)) {
++            // 继续获取后续参数，直到遇到非键值对参数
++            while ((nextOpt = getNextArg()) != null) {
++                item = nextOpt.split("=");
++                if (item.length == 2) {
++                    addMap.put(item[0], item[1]);
++                    pw.println("=> " + item[0] + ": " + item[1]);
++                } else {
++                    break; // 遇到非键值对参数，退出循环
++                }
++            }
++        } else if ("-r".equals(nextOpt)) {
++            delList.add(getNextArg());
++        }
++    }
++
++    // 打印 addMap
++    pw.println("addMap:");
++    for (Map.Entry<String, String> entry : addMap.entrySet()) {
++        pw.println(entry.getKey() + "=" + entry.getValue());
++    }
++
++    // 打印 delList
++    pw.println("delList:");
++    for (String delItem : delList) {
++        pw.println(delItem);
++    }
++
++    String displayName = null;
++    String phoneNumber = null;
++    String email = null;
++    long duration = 0;
++
++    try {
++        displayName = addMap.get("displayName");
++        pw.println("displayName: " + displayName);
++
++        phoneNumber = addMap.get("phoneNumber");
++        pw.println("phoneNumber: " + phoneNumber);
++
++        email = addMap.get("email");
++        pw.println("email: " + email);
++
++        if (addMap.get("duration") != null) {
++            duration = Long.parseLong(addMap.get("duration"));
++        }
++        pw.println("duration: " + duration);
++    } catch (NumberFormatException e) {
++        pw.println("Failed to parse number: " + e.getMessage());
++    } catch (NullPointerException e) {
++        pw.println("Failed to get value: " + e.getMessage());
++    }
++
++
++    ContentResolver resolver = mContext.getContentResolver();
++
++        // 插入RawContact
++        ContentValues values = new ContentValues();
++        Uri rawContactUri = resolver.insert(ContactsContract.RawContacts.CONTENT_URI, values);
++        long rawContactId = ContentUris.parseId(rawContactUri);
++
++        // 插入姓名
++        values.clear();
++        values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
++        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
++        values.put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName);
++        resolver.insert(ContactsContract.Data.CONTENT_URI, values);
++
++        // 插入电话号码
++        values.clear();
++        values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
++        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
++        values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, phoneNumber);
++        values.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
++        resolver.insert(ContactsContract.Data.CONTENT_URI, values);
++
++        // 插入Email
++        values.clear();
++        values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
++        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
++        values.put(ContactsContract.CommonDataKinds.Email.DATA, email);
++        values.put(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK);
++        resolver.insert(ContactsContract.Data.CONTENT_URI, values);
++}
++
++private void runCallLog(PrintWriter pw) {
++    ArrayMap<String, String> addMap = new ArrayMap<>();
++    List<String> delList = new ArrayList<>();
++    String nextOpt;
++    String[] item;
++
++    while ((nextOpt = getNextArg()) != null) {
++        if ("add".equals(nextOpt)) {
++            // 继续获取后续参数，直到遇到非键值对参数
++            while ((nextOpt = getNextArg()) != null) {
++                item = nextOpt.split("=");
++                if (item.length == 2) {
++                    addMap.put(item[0], item[1]);
++                    pw.println("=> " + item[0] + ": " + item[1]);
++                } else {
++                    break; // 遇到非键值对参数，退出循环
++                }
++            }
++        } else if ("-r".equals(nextOpt)) {
++            delList.add(getNextArg());
++        }
++    }
++
++    // 打印 addMap
++    pw.println("addMap:");
++    for (Map.Entry<String, String> entry : addMap.entrySet()) {
++        pw.println(entry.getKey() + "=" + entry.getValue());
++    }
++
++    // 打印 delList
++    pw.println("delList:");
++    for (String delItem : delList) {
++        pw.println(delItem);
++    }
++
++    String phoneNumber = null;
++    int callType = 0;
++    long callDuration = 0;
++
++    try {
++        phoneNumber = addMap.get("phoneNumber");
++        pw.println("phoneNumber: " + phoneNumber);
++
++        callType = Integer.parseInt(addMap.get("callType"));
++        pw.println("callType: " + callType);
++
++        if (addMap.get("callDuration") != null) {
++            callDuration = Long.parseLong(addMap.get("callDuration"));
++            pw.println("callDuration: " + callDuration);
++        }
++    } catch (NumberFormatException e) {
++        pw.println("Failed to parse number: " + e.getMessage());
++    } catch (NullPointerException e) {
++        pw.println("Failed to get value: " + e.getMessage());
++    }
++
++    ContentResolver resolver = mContext.getContentResolver();
++    ContentValues values = new ContentValues();
++
++    // 电话号码
++    values.put(CallLog.Calls.NUMBER, phoneNumber);
++
++    // 通话类型（呼入/呼出/未接）
++    values.put(CallLog.Calls.TYPE, callType);
++
++    // 通话时长
++    values.put(CallLog.Calls.DURATION, callDuration);
++
++    // 通话日期和时间（以毫秒为单位）
++    values.put(CallLog.Calls.DATE, System.currentTimeMillis());
++
++    // 是否为新记录
++    values.put(CallLog.Calls.NEW, 1);
++
++    // 插入记录
++    resolver.insert(CallLog.Calls.CONTENT_URI, values);
++}
++
++
++private void runSms(PrintWriter pw) {
++    ArrayMap<String, String> addMap = new ArrayMap<>();
++    List<String> delList = new ArrayList<>();
++    String nextOpt;
++    String[] item;
++
++    while ((nextOpt = getNextArg()) != null) {
++        if ("add".equals(nextOpt)) {
++            // 继续获取后续参数，直到遇到非键值对参数
++            while ((nextOpt = getNextArg()) != null) {
++                item = nextOpt.split("=");
++                if (item.length == 2) {
++                    addMap.put(item[0], item[1]);
++                    pw.println("=> " + item[0] + ": " + item[1]);
++                } else {
++                    break; // 遇到非键值对参数，退出循环
++                }
++            }
++        } else if ("-r".equals(nextOpt)) {
++            delList.add(getNextArg());
++        }
++    }
++
++    // 打印 addMap
++    pw.println("addMap:");
++    for (Map.Entry<String, String> entry : addMap.entrySet()) {
++        pw.println(entry.getKey() + "=" + entry.getValue());
++    }
++
++    // 打印 delList
++    pw.println("delList:");
++    for (String delItem : delList) {
++        pw.println(delItem);
++    }
++
++    String address = null;
++    String body = null;
++    long date = 0;
++    int type = 0;
++
++    try {
++        address = addMap.get("address");
++        pw.println("address: " + address);
++
++        body = addMap.get("body");
++        pw.println("body: " + body);
++
++        if (addMap.get("date") != null) {
++            date = Long.parseLong(addMap.get("date"));
++            pw.println("date: " + date);
++        }
++
++        type = Integer.parseInt(addMap.get("type"));
++        pw.println("type: " + type);
++    } catch (NumberFormatException e) {
++        pw.println("Failed to parse number: " + e.getMessage());
++    } catch (NullPointerException e) {
++        pw.println("Failed to get value: " + e.getMessage());
++    }
++
++        ContentResolver resolver = mContext.getContentResolver();
++        ContentValues values = new ContentValues();
++
++        // 短信地址（电话号码）
++        values.put(Telephony.Sms.ADDRESS, address);
++
++        // 短信内容
++        values.put(Telephony.Sms.BODY, body);
++
++        // 短信日期和时间（以毫秒为单位）
++        values.put(Telephony.Sms.DATE, date);
++
++        // 短信类型（1: 收件箱, 2: 发件箱）
++        values.put(Telephony.Sms.TYPE, type);
++
++        // 插入记录
++        Uri uri = (type == Telephony.Sms.MESSAGE_TYPE_INBOX) 
++                  ? Telephony.Sms.Inbox.CONTENT_URI 
++                  : Telephony.Sms.Sent.CONTENT_URI;
++        resolver.insert(uri, values);
++}
++
+     @Override
+     public int onCommand(String cmd) {
+         if (cmd == null) {
+@@ -149,6 +416,15 @@ public class Space9dManagerShellCommand extends ShellCommand {
+                 case "config":
+                     runUpdateConfig(pw);
+                     break;
++                case "contact":
++                    runContact(pw);
++                    break;
++                case "calllog":
++                    runCallLog(pw);
++                    break;
++                case "sms":
++                    runSms(pw);
++                    break;
+                 default:
+                     pw.println("Unknown command: " + cmd);
+                     break;

@@ -1,0 +1,41 @@
+From db26f02bfa71510edd718620a5835cbca1b156ed Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Mon, 8 Apr 2024 07:53:06 +0000
+Subject: [PATCH] Set sogou as the default input method and find desktop bugs
+
+---
+ .../base/packages/SettingsProvider/res/values/defaults.xml    | 4 ++++
+ .../src/com/android/providers/settings/DatabaseHelper.java    | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/frameworks/base/packages/SettingsProvider/res/values/defaults.xml b/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+index bc294d58aa..77a77b6ce5 100644
+--- a/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
++++ b/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+@@ -244,4 +244,8 @@
+ 
+     <!-- should show the screenshot button default -->
+     <integer name="def_screenshot_button_show">0</integer>
++
++        <!-- 设置默认输入法 -->
++    <string name="def_enabled_input_methods" translatable="false">com.sohu.inputmethod.sogou/.SogouIME</string>
++
+ </resources>
+diff --git a/frameworks/base/packages/SettingsProvider/src/com/android/providers/settings/DatabaseHelper.java b/frameworks/base/packages/SettingsProvider/src/com/android/providers/settings/DatabaseHelper.java
+index b3ff9d08a8..2ddc48aacd 100644
+--- a/frameworks/base/packages/SettingsProvider/src/com/android/providers/settings/DatabaseHelper.java
++++ b/frameworks/base/packages/SettingsProvider/src/com/android/providers/settings/DatabaseHelper.java
+@@ -2374,6 +2374,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
+             loadBooleanSetting(stmt, Settings.Secure.ACCESSIBILITY_SPEAK_PASSWORD,
+                     R.bool.def_accessibility_speak_password);
+ 
++                    //添加到这里
++            loadStringSetting(stmt, Settings.Secure.ENABLED_INPUT_METHODS,
++                    R.string.def_enabled_input_methods);     
++
+             if (SystemProperties.getBoolean("ro.lockscreen.disable.default", false) == true) {
+                 loadSetting(stmt, Settings.System.LOCKSCREEN_DISABLED, "1");
+             } else {
+-- 
+2.25.1
+

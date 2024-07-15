@@ -1,0 +1,81 @@
+From 29b4faa629a3c840128637076475bc1426dda472 Mon Sep 17 00:00:00 2001
+From: "370483496@qq.com" <youfu_2008@163.com>
+Date: Tue, 19 Mar 2024 16:16:35 +0800
+Subject: [PATCH] Add sshd service
+
+---
+ device/rockchip/rk3588/init.rk3588.rc  | 32 ++++++++++++++++++++++++++
+ device/rockchip/space-common/device.mk | 14 ++++++++++-
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+
+diff --git a/device/rockchip/rk3588/init.rk3588.rc b/device/rockchip/rk3588/init.rk3588.rc
+index 7cb4cb9d4d..ecf344c4f3 100644
+--- a/device/rockchip/rk3588/init.rk3588.rc
++++ b/device/rockchip/rk3588/init.rk3588.rc
+@@ -64,6 +64,38 @@ on boot
+     # The initial load of RT process, set the range of 0-1024, set the RT task above 300 will preferentially run on the cpuB(cpu4-cpu7)
+     write /proc/sys/kernel/sched_util_clamp_min_rt_default 0
+ 
++    # For ssh 开机拷贝配置文件
++    mkdir  /var
++    mkdir  /var/run
++    mkdir  /var/run/ssh
++    mkdir  /var/run/ssh/empty
++     mkdir /data/ssh
++     chmod 777 /data/ssh
++     copy /system/etc/ssh/authorized_keys /data/ssh/authorized_keys
++     copy /system/etc/ssh/ssh_host_dsa_key /data/ssh/ssh_host_dsa_key
++     copy /system/etc/ssh/ssh_host_dsa_key.pub /data/ssh/ssh_host_dsa_key.pub
++     copy /system/etc/ssh/ssh_host_ecdsa_key /data/ssh/ssh_host_ecdsa_key
++     copy /system/etc/ssh/ssh_host_ecdsa_key.pub /data/ssh/ssh_host_ecdsa_key.pub
++     copy /system/etc/ssh/ssh_host_rsa_key /data/ssh/ssh_host_rsa_key
++     copy /system/etc/ssh/ssh_host_rsa_key.pub /data/ssh/ssh_host_rsa_key.pub
++     copy /system/etc/ssh/sshd_config /data/ssh/sshd_config
++     mkdir /data/ssh/empty
++     chmod 600 /data/ssh/empty
++     chmod 600 /data/ssh/authorized_keys
++     chmod 600 /data/ssh/ssh_host_dsa_key
++     chmod 600 /data/ssh/ssh_host_dsa_key.pub
++     chmod 600 /data/ssh/ssh_host_ecdsa_key
++     chmod 600 /data/ssh/ssh_host_ecdsa_key.pub
++     chmod 600 /data/ssh/ssh_host_rsa_key
++     chmod 600 /data/ssh/ssh_host_rsa_key.pub
++     chmod 600 /data/ssh/sshd_config
++
++#open ssh 开机启动ssh服务
++service daemonssh /system/bin/start-ssh
++       class main
++       user  root
++       group root
++
+ 
+ on init
+     # Increased power consumption and CPU in exchange for memory
+diff --git a/device/rockchip/space-common/device.mk b/device/rockchip/space-common/device.mk
+index 48e6d0d39e..8b98b603ce 100644
+--- a/device/rockchip/space-common/device.mk
++++ b/device/rockchip/space-common/device.mk
+@@ -9,7 +9,19 @@ PRODUCT_PACKAGES += \
+ 	ESFileExplorer-cn \
+ 	abcd \
+ 	SogouInput_11.40_android_sweb \
+-	yinyongbao 	
++	yinyongbao 	\
++	libssh \
++    ssh \
++    sftp \
++    scp \
++    sshd \
++    sshd_config \
++    ssh-keygen \
++    start-ssh
++
++PRODUCT_COPY_FILES += \
++       $(call find-copy-subdir-files,*,$(LOCAL_PATH)/ssh,system/etc/ssh)
++
+ # qqbrowser_14.8.5.5046_GA_20240229_120905_1100125022 \
+ 
+ # cx文件管理器
+-- 
+2.25.1
+

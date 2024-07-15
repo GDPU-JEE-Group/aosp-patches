@@ -1,0 +1,127 @@
+From bf6a69e03c01fc7cf254b6cd6e6d0cd104845fbd Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Thu, 6 Jun 2024 01:47:54 +0000
+Subject: [PATCH] Remove widevine and solve blank screen BUG
+
+---
+ device/rockchip/common/4g_modem/manifest.xml     |  4 ++--
+ device/rockchip/common/manifest.xml              |  4 ++--
+ .../rockchip/rk3588/rk3588_docker/manifest.xml   |  4 ++--
+ device/rockchip/rk3588/rk3588_qt/manifest.xml    |  4 ++--
+ .../java/android/bluetooth/BluetoothAdapter.java | 16 ++++++++++++++++
+ 5 files changed, 24 insertions(+), 8 deletions(-)
+
+diff --git a/device/rockchip/common/4g_modem/manifest.xml b/device/rockchip/common/4g_modem/manifest.xml
+index 2cc659eafa..5d199741fe 100644
+--- a/device/rockchip/common/4g_modem/manifest.xml
++++ b/device/rockchip/common/4g_modem/manifest.xml
+@@ -49,8 +49,8 @@
+         </interface>
+         <fqname>@1.2::ICryptoFactory/clearkey</fqname>
+         <fqname>@1.2::IDrmFactory/clearkey</fqname>
+-        <fqname>@1.2::ICryptoFactory/widevine</fqname>
+-        <fqname>@1.2::IDrmFactory/widevine</fqname>
++        <!-- <fqname>@1.2::ICryptoFactory/widevine</fqname>
++        <fqname>@1.2::IDrmFactory/widevine</fqname> -->
+     </hal>
+     <hal format="hidl">
+         <name>android.hardware.graphics.allocator</name>
+diff --git a/device/rockchip/common/manifest.xml b/device/rockchip/common/manifest.xml
+index 5d0af2194b..4d807de6f5 100755
+--- a/device/rockchip/common/manifest.xml
++++ b/device/rockchip/common/manifest.xml
+@@ -49,8 +49,8 @@
+         </interface>
+         <fqname>@1.2::ICryptoFactory/clearkey</fqname>
+         <fqname>@1.2::IDrmFactory/clearkey</fqname>
+-        <fqname>@1.2::ICryptoFactory/widevine</fqname>
+-        <fqname>@1.2::IDrmFactory/widevine</fqname>
++        <!-- <fqname>@1.2::ICryptoFactory/widevine</fqname>
++        <fqname>@1.2::IDrmFactory/widevine</fqname> -->
+     </hal>
+     <hal format="hidl">
+         <name>android.hardware.graphics.allocator</name>
+diff --git a/device/rockchip/rk3588/rk3588_docker/manifest.xml b/device/rockchip/rk3588/rk3588_docker/manifest.xml
+index f7d71df107..c540005b47 100644
+--- a/device/rockchip/rk3588/rk3588_docker/manifest.xml
++++ b/device/rockchip/rk3588/rk3588_docker/manifest.xml
+@@ -49,8 +49,8 @@
+         </interface>
+         <fqname>@1.2::ICryptoFactory/clearkey</fqname>
+         <fqname>@1.2::IDrmFactory/clearkey</fqname>
+-        <fqname>@1.2::ICryptoFactory/widevine</fqname>
+-        <fqname>@1.2::IDrmFactory/widevine</fqname>
++        <!-- <fqname>@1.2::ICryptoFactory/widevine</fqname>
++        <fqname>@1.2::IDrmFactory/widevine</fqname> -->
+     </hal>
+     <hal format="hidl">
+         <name>android.hardware.graphics.allocator</name>
+diff --git a/device/rockchip/rk3588/rk3588_qt/manifest.xml b/device/rockchip/rk3588/rk3588_qt/manifest.xml
+index 579e6336df..d166b1d352 100644
+--- a/device/rockchip/rk3588/rk3588_qt/manifest.xml
++++ b/device/rockchip/rk3588/rk3588_qt/manifest.xml
+@@ -49,8 +49,8 @@
+         </interface>
+         <fqname>@1.2::ICryptoFactory/clearkey</fqname>
+         <fqname>@1.2::IDrmFactory/clearkey</fqname>
+-        <fqname>@1.2::ICryptoFactory/widevine</fqname>
+-        <fqname>@1.2::IDrmFactory/widevine</fqname>
++        <!-- <fqname>@1.2::ICryptoFactory/widevine</fqname>
++        <fqname>@1.2::IDrmFactory/widevine</fqname> -->
+     </hal>
+     <hal format="hidl">
+         <name>android.hardware.graphics.allocator</name>
+diff --git a/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java b/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java
+index e628e4716e..d09f070857 100644
+--- a/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java
++++ b/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java
+@@ -697,14 +697,23 @@ public final class BluetoothAdapter {
+     public static synchronized BluetoothAdapter getDefaultAdapter() {
+         Log.d("bluetooth", "-----> getDefaultAdapter()");
+         if (sAdapter == null) {
++        Log.d("bluetooth", "--11111111111111111111111111");
++
+             IBinder b = ServiceManager.getService(BLUETOOTH_MANAGER_SERVICE);
++        Log.d("bluetooth", "--1122222222222222222222222222222222");
++
+             if (b != null) {
+                 IBluetoothManager managerService = IBluetoothManager.Stub.asInterface(b);
+                 sAdapter = new BluetoothAdapter(managerService);
++        Log.d("bluetooth", "--111111113333333333333333333333331111");
++
+             } else {
+                 Log.e(TAG, "Bluetooth binder is null");
+             }
+         }
++
++        Log.d("bluetooth", "--111444444444444444444111111");
++
+         return sAdapter;
+     }
+ 
+@@ -716,15 +725,22 @@ public final class BluetoothAdapter {
+         if (managerService == null) {
+             throw new IllegalArgumentException("bluetooth manager service is null");
+         }
++
++        Log.d("bluetooth", "--1111111666666666666666666666661111");
++
+         try {
+             mServiceLock.writeLock().lock();
+             mService = managerService.registerAdapter(mManagerCallback);
++        Log.d("bluetooth", "--11111111777777777777777777711111");
++
+         } catch (RemoteException e) {
+             Log.e(TAG, "", e);
+         } finally {
+             mServiceLock.writeLock().unlock();
+         }
+         mManagerService = managerService;
++        Log.d("bluetooth", "--11111888888888888888888888888888811");
++
+         mLeScanClients = new HashMap<LeScanCallback, ScanCallback>();
+         mToken = new Binder();
+         mMock = BluetoothMock.getMock();
+-- 
+2.25.1
+

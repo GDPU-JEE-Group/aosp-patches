@@ -1,0 +1,25 @@
+From 2cb03ef9ceb4858531961417980cca8a791a6c3c Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Mon, 29 Apr 2024 09:13:11 +0000
+Subject: [PATCH] Fix the problem that keyboard input Chinese
+
+---
+ packages/apps/ntimesapp/Android.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/packages/apps/ntimesapp/Android.mk b/packages/apps/ntimesapp/Android.mk
+index 33a5e5d0aa..f4f9f1346e 100644
+--- a/packages/apps/ntimesapp/Android.mk
++++ b/packages/apps/ntimesapp/Android.mk
+@@ -51,7 +51,7 @@ include $(CLEAR_VARS)
+ 
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE := SogouInput_11.40_android_sweb
+-LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_SRC_FILES := com.sohu.inputmethod.sogou-8.31.6-APK4Fun.com.apk
+ LOCAL_MODULE_CLASS := APPS
+ LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+ LOCAL_CERTIFICATE := PRESIGNED
+-- 
+2.25.1
+

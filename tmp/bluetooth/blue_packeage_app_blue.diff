@@ -1,0 +1,41 @@
+Only in ../redroid/packages/apps/Bluetooth: .git
+diff packages/apps/Bluetooth/Android.mk ../redroid/packages/apps/Bluetooth/Android.mk
+32d31
+<         androidx.legacy_legacy-support-v4 \
+diff packages/apps/Bluetooth/AndroidManifest.xml ../redroid/packages/apps/Bluetooth/AndroidManifest.xml
+165d164
+<                 <data android:mimeType="application/vnd.android.package-archive" />
+324,333d322
+< 
+<         <activity
+<             android:name=".BluetoothPrefs"
+<             android:exported="@bool/profile_supported_a2dp_sink"
+<             android:enabled="@bool/profile_supported_a2dp_sink">
+<             <intent-filter>
+<                 <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>
+<             </intent-filter>
+<         </activity>
+< 
+Common subdirectories: packages/apps/Bluetooth/jni and ../redroid/packages/apps/Bluetooth/jni
+Common subdirectories: packages/apps/Bluetooth/lib and ../redroid/packages/apps/Bluetooth/lib
+Common subdirectories: packages/apps/Bluetooth/res and ../redroid/packages/apps/Bluetooth/res
+Common subdirectories: packages/apps/Bluetooth/services and ../redroid/packages/apps/Bluetooth/services
+Common subdirectories: packages/apps/Bluetooth/src and ../redroid/packages/apps/Bluetooth/src
+Common subdirectories: packages/apps/Bluetooth/tests and ../redroid/packages/apps/Bluetooth/tests
+Common subdirectories: packages/apps/Bluetooth/tools and ../redroid/packages/apps/Bluetooth/tools
+
+
+
+
+-------------------------------------------------------------
+
+这些修改主要涉及到两个文件：`Android.mk`和`AndroidManifest.xml`。以下是对这些修改的解释：
+
+1. `Android.mk`:
+   - 删除了`androidx.legacy_legacy-support-v4`。这是一个Android库，用于向后兼容旧版本的Android。删除这个可能意味着项目不再需要这个库的功能，或者已经有其他方式来实现这个库提供的功能。
+
+2. `AndroidManifest.xml`:
+   - 删除了一个`<data>`元素，它的`android:mimeType`属性被设置为`"application/vnd.android.package-archive"`。这个元素通常用于定义Intent过滤器，用于处理特定类型的数据。删除这个元素可能意味着应用不再需要处理这种类型的数据。
+   - 删除了一个名为`.BluetoothPrefs`的`<activity>`元素。这个元素定义了一个Activity，它的`android:exported`和`android:enabled`属性都被设置为`"@bool/profile_supported_a2dp_sink"`。删除这个Activity可能意味着应用不再需要这个Activity的功能，或者已经有其他方式来实现这个Activity提供的功能。
+
+总的来说，这些修改似乎是在简化代码和减少复杂性，可能是为了提高代码的可读性和可维护性。但是，这也可能会影响到应用的功能，因为删除了一些元素和库。具体的影响取决于这些元素和库在整个项目中的使用情况。如果这些元素和库没有被其他地方使用，那么这些修改可能不会有太大的影响。否则，可能需要对相关的代码进行相应的修改。这就需要查看整个项目的代码来确定。希望这个解释对你有所帮助！

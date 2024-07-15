@@ -1,0 +1,127 @@
+From 5beae2842c424986fd1b1fcb76b839eda5518993 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Fri, 15 Mar 2024 07:29:49 +0000
+Subject: [PATCH] test binder log
+
+---
+ .../base/core/java/android/os/Binder.java     | 19 +++++++++
+ .../base/core/jni/android_util_Binder.cpp     | 39 +++++++++++++++++++
+ hardware/rockchip/libhwjpeg/src/version.h     |  4 +-
+ .../omx_il/include/rockchip/git_info.h        |  2 +-
+ 4 files changed, 61 insertions(+), 3 deletions(-)
+
+diff --git a/frameworks/base/core/java/android/os/Binder.java b/frameworks/base/core/java/android/os/Binder.java
+index 6178b2bf58..2da24d30c3 100644
+--- a/frameworks/base/core/java/android/os/Binder.java
++++ b/frameworks/base/core/java/android/os/Binder.java
+@@ -915,9 +915,28 @@ public class Binder implements IBinder {
+         if (reply != null) {
+             reply.setDataPosition(0);
+         }
++
++        String descriptor = getInterfaceDescriptor();
++        if ("com.google.android.play.core.integrity.protocol.IIntegrityServiceCallback".equals(descriptor)) {
++            // 打印数据
++            Log.d("chaixiangBinder", "data****************");
++            data.setDataPosition(0); // 将数据位置重置为开头
++            printParcelData(data);
++            Log.d("chaixiangBinder", "reply**************");
++            reply.setDataPosition(0); // 将数据位置重置为开头
++            printParcelData(reply);
++        }
++
+         return r;
+     }
+ 
++    private void printParcelData(Parcel parcel) {
++        int dataSize = parcel.dataSize();
++        byte[] bytes = new byte[dataSize];
++        parcel.readByteArray(bytes);
++        Log.d("chaixiangBinder", new String(bytes));
++    }
++
+     /**
+      * Local implementation is a no-op.
+      */
+diff --git a/frameworks/base/core/jni/android_util_Binder.cpp b/frameworks/base/core/jni/android_util_Binder.cpp
+index df98cdc9f1..f3c46136bf 100644
+--- a/frameworks/base/core/jni/android_util_Binder.cpp
++++ b/frameworks/base/core/jni/android_util_Binder.cpp
+@@ -16,6 +16,12 @@
+ 
+ #define LOG_TAG "JavaBinder"
+ //#define LOG_NDEBUG 0
++// #include <utils/TextOutput.h>
++
++
++#include "binder/TextOutput.h" // 导入 TextOutput 头文件
++// frameworks/native/libs/binder/include/binder/TextOutput.h
++#include <android/log.h> // 导入 Android Log 头文件
+ 
+ #include "android_os_Parcel.h"
+ #include "android_util_Binder.h"
+@@ -362,6 +368,39 @@ protected:
+         IPCThreadState* thread_state = IPCThreadState::self();
+         const int32_t strict_policy_before = thread_state->getStrictModePolicy();
+ 
++        //------------cx
++          // 获取调用者的 pid 和 uid
++        int32_t callerPid = thread_state->getCallingPid();
++        int32_t callerUid = thread_state->getCallingUid();
++
++        // 获取接口描述符
++        String16 descriptor = getInterfaceDescriptor();
++
++        // 打印调用者的 pid、uid、code 和接口描述符
++        ALOGD("onTransact: code=%u, descriptor=%s, caller PID=%d, UID=%d ---chaixiang", code, String8(descriptor).string(), callerPid, callerUid);
++
++        if(String16("com.google.android.play.core.integrity.protocol.IIntegrityServiceCallback")==descriptor) {
++            ALOGD("Data Parcel: *******************************************************");
++            
++            // // android::TextOutput to;
++                
++            //     // 创建 Bundle 对象，并传递 TextOutput 对象
++            //     android::TextOutput output = android::TextOutput();
++
++            //     // 打印 Parcel& data 的内容
++            //     ALOGD("onTransact: data contents:");
++            //     data.print(aout); endl(aout);
++
++            //     // 如果需要，你也可以打印 Parcel* reply 的内容
++            //     if (reply != nullptr) {
++            //         ALOGD("onTransact: reply contents:");
++            //         reply->print(aout); 
++            //         endl(aout);;
++            //     }
++
++        }   
++
++
+         //printf("Transact from %p to Java code sending: ", this);
+         //data.print();
+         //printf("\n");
+diff --git a/hardware/rockchip/libhwjpeg/src/version.h b/hardware/rockchip/libhwjpeg/src/version.h
+index 4f637f2314..7bf85e95f5 100644
+--- a/hardware/rockchip/libhwjpeg/src/version.h
++++ b/hardware/rockchip/libhwjpeg/src/version.h
+@@ -18,7 +18,7 @@
+ #ifndef __VERSION_H__
+ #define __VERSION_H__
+ 
+-#define HWJPEG_VERSION_INFO     "git-d74fb26a7a author: ntimesrepo 2024-03-14 restart adbd"
+-#define HWJPEG_BUILD_INFO       "built-nti 2024-03-14 16:17:46"
++#define HWJPEG_VERSION_INFO     "git-3b7466c193 author: ntimesrepo 2024-03-15 add 4G"
++#define HWJPEG_BUILD_INFO       "built-nti 2024-03-15 06:15:02"
+ 
+ #endif  // __VERSION_H__
+\ No newline at end of file
+diff --git a/hardware/rockchip/omx_il/include/rockchip/git_info.h b/hardware/rockchip/omx_il/include/rockchip/git_info.h
+index 094d3fe25e..100d561ea7 100644
+--- a/hardware/rockchip/omx_il/include/rockchip/git_info.h
++++ b/hardware/rockchip/omx_il/include/rockchip/git_info.h
+@@ -1 +1 @@
+-#define OMX_COMPILE_INFO      "author:  root\n time: Thu, 14 Mar 2024 16:17:46 +0000 git commit d74fb26a7a48a41fad555d6aec8fe0dce49f2219 "
++#define OMX_COMPILE_INFO      "author:  root\n time: Fri, 15 Mar 2024 06:15:03 +0000 git commit 3b7466c1939d586e96ebf57acb937ea15dca6561 "
+-- 
+2.25.1
+

@@ -1,0 +1,218 @@
+07-05 02:32:44.439   161  2745 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-05 02:32:44.439   161  2745 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-05 02:32:44.439   161  2745 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-05 02:32:44.439   161  2745 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-05 02:32:44.439   161  2746 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-05 02:32:44.439   161  2746 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-05 02:32:44.439   161  2746 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-05 02:32:44.439   161  2746 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-05 02:32:44.439   161  2746 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-05 02:32:44.439   161  2746 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-05 02:32:44.439   161  2746 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-05 02:32:44.439   161  2746 I mpp_enc : xxxxmpp_packet_append
+07-05 02:32:44.615    89   944 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+07-05 02:32:44.687   317   404 V InputDispatcher: Asynchronous input event injection succeeded.
+07-05 02:32:44.690   161  2746 I rc_model_v2: fps chg from 60 -> 115
+07-05 02:32:44.850   317   404 V InputDispatcher: Asynchronous input event injection succeeded.
+07-05 02:32:44.889   317  1171 E InputDispatcher: Window handle Window{b86c4ed u0 com.tencent.mtt/com.tencent.mtt.MainActivity} has no registered input channel
+07-05 02:32:44.937    78  5063 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-05 02:32:44.943   161  2746 I rc_model_v2: fps chg from 115 -> 59
+07-05 02:32:44.966  3863  4124 W System.err: java.lang.Throwable: COOKIE - getCookie
+07-05 02:32:44.966  3863  4124 W System.err:    at com.tencent.mtt.browser.lite.LiteWebEngine.d(Unknown Source:9)
+07-05 02:32:44.966  3863  4124 W System.err:    at com.tencent.mtt.businesscenter.config.QBHttpCookieManager.getCookie(Unknown Source:4)
+07-05 02:32:44.966  3863  4124 W System.err:    at com.tencent.common.http.MttRequest.fillCookies(Unknown Source:12)
+07-05 02:32:44.966  3863  4124 W System.err:    at com.tencent.common.http.MttRequestBase.addHeaders(Unknown Source:34)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.common.http.HttpRequesterBase.a(Unknown Source:9)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.common.http.HttpRequesterBase.a(Unknown Source:96)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.common.http.HttpRequesterBase.realExecute(Unknown Source:34)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.common.http.Requester.execute(Unknown Source:32)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.mtt.browser.download.engine.network.DownloadConnection.e(Unknown Source:11)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.mtt.browser.download.engine.core.DownloadWorker.run(Unknown Source:296)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.mtt.nxeasy.threadpool.lib.CommandThreadPoolExecutor.a(Unknown Source:57)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.mtt.nxeasy.threadpool.lib.Worker.run(Unknown Source:2)
+07-05 02:32:44.967  3863  4124 W System.err:    at java.lang.Thread.run(Thread.java:919)
+07-05 02:32:44.967  3863  4124 W System.err:    at com.tencent.mtt.nxeasy.threadpool.lib.CommandThreadFactory$1.run(Unknown Source:14)
+07-05 02:32:44.979  3863  3863 E com.tencent.mt: Invalid ID 0x00000001.
+07-05 02:32:44.989  3863  3863 V unknown:AbstractDraweeController: controller 40fe149 7: onDetach
+07-05 02:32:44.990  3863  3863 V unknown:AbstractDraweeController: controller 7328cac 8: onDetach
+07-05 02:32:44.990  3863  3863 V unknown:AbstractDraweeController: controller d0f410a 9: onDetach
+07-05 02:32:44.991  3863  3863 V unknown:AbstractDraweeController: controller 7e863d6 10: onDetach
+07-05 02:32:44.991  3863  3863 V unknown:AbstractDraweeController: controller 721e62d 11: onDetach
+07-05 02:32:44.991  3863  3863 V unknown:AbstractDraweeController: controller ac817ae 12: onDetach
+07-05 02:32:44.991  3863  3863 V unknown:AbstractDraweeController: controller 64878dc 13: onDetach
+07-05 02:32:44.991  3863  3863 V unknown:AbstractDraweeController: controller 38200ba 14: onDetach
+07-05 02:32:44.991  3863  3863 V unknown:AbstractDraweeController: controller 6d31347 15: onDetach
+07-05 02:32:44.991  3863  3863 V unknown:AbstractDraweeController: controller af5b49d 16: onDetach
+07-05 02:32:44.992  3863  3863 V unknown:AbstractDraweeController: controller 6fdfd99 17: onDetach
+07-05 02:32:44.992  3863  3863 V unknown:AbstractDraweeController: controller 289d10c 18: onDetach
+07-05 02:32:44.993  3863  3863 V unknown:AbstractDraweeController: controller 74c253a 36: onDetach
+07-05 02:32:44.993  3863  3863 V unknown:AbstractDraweeController: controller 44e4ba0 19: onDetach
+07-05 02:32:44.993  3863  3863 V unknown:AbstractDraweeController: controller cb75b1e 20: onDetach
+07-05 02:32:44.993  3863  3863 V unknown:AbstractDraweeController: controller f7c7803 21: onDetach
+07-05 02:32:44.994  3863  3863 V unknown:AbstractDraweeController: controller 2ffd16e 23: onDetach
+07-05 02:32:44.994  3863  3863 V unknown:AbstractDraweeController: controller 661289c 24: onDetach
+07-05 02:32:44.994  3863  3863 V unknown:AbstractDraweeController: controller 7b46e2b 25: onDetach
+07-05 02:32:44.995  3863  3863 V unknown:AbstractDraweeController: controller 57ca046 26: onDetach
+07-05 02:32:44.995  3863  3863 V unknown:AbstractDraweeController: controller 4afef34 27: onDetach
+07-05 02:32:44.995  3863  3863 V unknown:AbstractDraweeController: controller 77677a3 28: onDetach
+07-05 02:32:44.995  3863  3863 V unknown:AbstractDraweeController: controller deb23e2 29: onDetach
+07-05 02:32:44.995  3863  3863 V unknown:AbstractDraweeController: controller 5e7c230 30: onDetach
+07-05 02:32:44.995  3863  3863 V unknown:AbstractDraweeController: controller 7ebb3cf 31: onDetach
+07-05 02:32:44.997  3863  3863 V unknown:AbstractDraweeController: controller 3aad3e2 37: onDetach
+07-05 02:32:44.998  3863  3863 V unknown:AbstractDraweeController: controller 4ae47b 22: onDetach
+07-05 02:32:44.998  3863  3863 V unknown:AbstractDraweeController: controller 8d5ccfe 32: onDetach
+07-05 02:32:45.022  3863  3863 D ViewPager: computeScroll,mNextScreen=-1
+07-05 02:32:45.058  3863  5066 E tg_ad_mob: ThirdPartyIdUtil turingIdClass ClassNotFoundException  = %s
+07-05 02:32:45.058  3863  5066 E tg_ad_mob: java.lang.ClassNotFoundException: com.tencent.turingfd.sdk.ams.aucommon.ITuringDID
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.lang.Class.classForName(Native Method)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.lang.Class.forName(Class.java:454)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.lang.Class.forName(Class.java:379)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at com.qq.e.comm.plugin.d.g.a(Unknown Source:3)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at com.qq.e.comm.plugin.d.b$3.run(Unknown Source:2)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.lang.Thread.run(Thread.java:919)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob: Caused by: java.lang.ClassNotFoundException: Didn't find class "com.tencent.turingfd.sdk.ams.aucommon.ITuringDID" on path: DexPathList[[zip file "/system/priv-app/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022.apk"],nativeLibraryDirectories=[/system/priv-app/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022/lib/arm, /system/priv-app/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022.apk!/lib/armeabi, /system/lib, /system/lib]]
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:196)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.lang.ClassLoader.loadClass(ClassLoader.java:379)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at com.tencent.tinker.loader.TinkerClassLoader.findClass(Unknown Source:11)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.lang.ClassLoader.loadClass(ClassLoader.java:379)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+07-05 02:32:45.058  3863  5066 E tg_ad_mob:     ... 8 more
+07-05 02:32:45.058  3863  5067 E tg_ad_mob: ThirdPartyIdUtil turingIdClass ClassNotFoundException  = %s
+07-05 02:32:45.058  3863  5067 E tg_ad_mob: java.lang.ClassNotFoundException: com.tencent.turingfd.sdk.ams.aucommon.ITuringDID
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.lang.Class.classForName(Native Method)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.lang.Class.forName(Class.java:454)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.lang.Class.forName(Class.java:379)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at com.qq.e.comm.plugin.d.g.a(Unknown Source:3)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at com.qq.e.comm.plugin.d.b$3.run(Unknown Source:2)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.lang.Thread.run(Thread.java:919)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob: Caused by: java.lang.ClassNotFoundException: Didn't find class "com.tencent.turingfd.sdk.ams.aucommon.ITuringDID" on path: DexPathList[[zip file "/system/priv-app/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022.apk"],nativeLibraryDirectories=[/system/priv-app/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022/lib/arm, /system/priv-app/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022.apk!/lib/armeabi, /system/lib, /system/lib]]
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:196)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.lang.ClassLoader.loadClass(ClassLoader.java:379)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at com.tencent.tinker.loader.TinkerClassLoader.findClass(Unknown Source:11)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.lang.ClassLoader.loadClass(ClassLoader.java:379)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+07-05 02:32:45.058  3863  5067 E tg_ad_mob:     ... 8 more
+07-05 02:32:45.073  3863  3863 I System.out: xxx
+07-05 02:32:45.075  3863  5065 D tg_ad_mob: isHarmonyOs error: com.huawei.system.BuildEx
+07-05 02:32:45.076  3863  5064 D tg_ad_mob: isHarmonyOs error: com.huawei.system.BuildEx
+07-05 02:32:45.077  3863  5069 I tdf     : [INFO:entry.cc(366)] InitInstance begin, j_single_thread_mode = 0, j_bridge_param_json = 1, j_is_dev_module = 0, j_group_id = -1
+07-05 02:32:45.077  3863  5069 I tdf     : [INFO:entry.cc(393)] global_config = {"Platform":{"OS":"android","PackageName":"qbmtt","APILevel":29,"VersionName":"12.1.5.5134","NightMode":false},"Dimensions":{"screenPhysicalPixels":{"densityDpi":320.0,"width":720,"scale":2.0,"statusBarHeight":48.0,"navigationBarHeight":0.0,"fontScale":2.0,"height":1280},"windowPhysicalPixels":{"densityDpi":320.0,"width":720,"scale":2.0,"statusBarHeight":48.0,"navigationBarHeight":0.0,"fontScale":2.0,"height":1280}},"tkd":{"appVersion":"12.1.5.5134","appName":"qbmtt","extra":{},"url":""}}
+07-05 02:32:45.077  3863  5069 I tdf     : [INFO:entry.cc(489)] InitInstance end, runtime_id = 10
+07-05 02:32:45.077  3863  3863 V unknown:AbstractDraweeController: controller 40fe149 7: release: image: DefaultCloseableReference 2ab1dfd
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller 7328cac 8: release: image: DefaultCloseableReference 122fbc
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller d0f410a 9: release: image: DefaultCloseableReference b986e66
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller 7e863d6 10: release: image: DefaultCloseableReference 56ba54
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller 721e62d 11: release: image: DefaultCloseableReference b986e66
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller ac817ae 12: release: image: DefaultCloseableReference 597a15b
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller 64878dc 13: release: image: DefaultCloseableReference b986e66
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller 38200ba 14: release: image: DefaultCloseableReference db9f7cb
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller 6d31347 15: release: image: DefaultCloseableReference a5e7398
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller af5b49d 16: release: image: DefaultCloseableReference ce7caea
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller 6fdfd99 17: release: image: DefaultCloseableReference 159619b
+07-05 02:32:45.078  3863  3863 V unknown:AbstractDraweeController: controller 289d10c 18: release: image: DefaultCloseableReference b986e66
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 74c253a 36: release: image: DefaultCloseableReference 5f26062
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 44e4ba0 19: release: image: DefaultCloseableReference 59be463
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller cb75b1e 20: release: image: DefaultCloseableReference 59be463
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller f7c7803 21: release: image: DefaultCloseableReference f1752f0
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 2ffd16e 23: release: image: DefaultCloseableReference fa636b7
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 661289c 24: release: image: DefaultCloseableReference 8687fbb
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 7b46e2b 25: release: image: DefaultCloseableReference ba2b0b4
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 57ca046 26: release: image: DefaultCloseableReference 705d198
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 4afef34 27: release: image: DefaultCloseableReference 8687fbb
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 77677a3 28: release: image: DefaultCloseableReference ba2b0b4
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller deb23e2 29: release: image: DefaultCloseableReference 25551d9
+07-05 02:32:45.079  3863  3863 V unknown:AbstractDraweeController: controller 5e7c230 30: release: image: DefaultCloseableReference 1951f4d
+07-05 02:32:45.080  3863  3863 V unknown:AbstractDraweeController: controller 7ebb3cf 31: release: image: DefaultCloseableReference ba2b0b4
+07-05 02:32:45.080  3863  3863 V unknown:AbstractDraweeController: controller 3aad3e2 37: release: image: DefaultCloseableReference a0627e9
+07-05 02:32:45.080  3863  3863 V unknown:AbstractDraweeController: controller 4ae47b 22: release: image: DefaultCloseableReference 280a4b4
+07-05 02:32:45.080  3863  3863 V unknown:AbstractDraweeController: controller 8d5ccfe 32: release: image: DefaultCloseableReference 7a2a162
+07-05 02:32:45.081  3863  3863 D ViewPager: computeScroll,mNextScreen=-1
+07-05 02:32:45.084  3863  3863 I chatty  : uid=10052(com.tencent.mtt) identical 1 line
+07-05 02:32:45.084  3863  3863 D ViewPager: computeScroll,mNextScreen=-1
+07-05 02:32:45.087  3863  5072 I tdf     : [INFO:entry.cc(400)] InitInstance register hippyCallNatives, runtime_key = 10
+07-05 02:32:45.087  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = bootstrap.js, is_use_code_cache = 0, cache = 0x0, is_copy = 1
+07-05 02:32:45.089  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = hippy.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.089  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = Others.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.089  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = DynamicLoad.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.090  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = Platform.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.090  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = js2native.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.091  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = TimerModule.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.091  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = ConsoleModule.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.092  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = UIManagerModule.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.093  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = Network.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.093  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = Storage.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.094  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = Event.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.094  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = Dimensions.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.095  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = UtilsModule.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.095  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = global.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.095  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = native2js.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.096  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = requestAnimationFrame.js, is_use_code_cache = 0, cache = 0x0, is_copy = 0
+07-05 02:32:45.096  3863  5072 I tdf     : [INFO:entry.cc(440)] run scope cb
+07-05 02:32:45.096  3863  5072 I tdf     : [INFO:entry.cc(129)] RunScript begin, file_name = hippy_common.jsbundle, is_use_code_cache = 1, code_cache_dir = /data/user/0/com.tencent.mtt/files/hippy/codecache/bundles/common/hippy_common.jsbundle/, uri = asset:/bundles/common/hippy_common.jsbundle, asset_manager = 0xebb5a100
+07-05 02:32:45.102  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = hippy_common.jsbundle, is_use_code_cache = 1, cache = 0xaf8c0098, is_copy = 1
+07-05 02:32:45.118  3863  5072 I tdf     : [INFO:entry.cc(237)] runScript end, flag = 1
+07-05 02:32:45.119  3863  5073 I tdf     : [INFO:entry.cc(229)] code cache save_file_ret = 1
+07-05 02:32:45.123  3863  5072 I tdf     : [INFO:entry.cc(129)] RunScript begin, file_name = index.android.jsbundle, is_use_code_cache = 1, code_cache_dir = /data/user/0/com.tencent.mtt/files/hippy/codecache/penetration/, uri = file:/data/user/0/com.tencent.mtt/files/public/hippy/bundles/penetration/60/index.android.jsbundle, asset_manager = 0x0
+07-05 02:32:45.125  3863  5072 I tdf     : [INFO:js_native_api_v8.cc(700)] V8Ctx::RunScript file_name = index.android.jsbundle, is_use_code_cache = 1, cache = 0xaf8c0098, is_copy = 1
+07-05 02:32:45.154  3863  5072 I tdf     : [INFO:entry.cc(237)] runScript end, flag = 1
+07-05 02:32:45.154  3863  5073 I tdf     : [INFO:entry.cc(229)] code cache save_file_ret = 1
+07-05 02:32:45.207   161  2746 I rc_model_v2: fps chg from 59 -> 30
+07-05 02:32:45.357    78  5074 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-05 02:32:45.497    78  5075 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-05 02:32:45.503  3863  3863 V unknown:AbstractDraweeController: controller 684b6d7 null -> null: initialize
+07-05 02:32:45.504  3863  3863 V unknown:AbstractDraweeController: controller 684b6d7 null -> 44: initialize
+07-05 02:32:45.504  3863  3863 V unknown:AbstractDraweeController: controller 684b6d7 44: setHierarchy: com.facebook.drawee.generic.GenericDraweeHierarchy@7818bc4
+07-05 02:32:45.505  3863  3863 V unknown:AbstractDraweeController: controller 684b6d7 44: onAttach: request needs submit
+07-05 02:32:45.506  3863  3863 V unknown:AbstractDraweeController: controller 684b6d7 44: set_final_result @ onNewResult: image: DefaultCloseableReference a9bc580
+07-05 02:32:45.510   161  2746 I rc_model_v2: fps chg from 30 -> 9
+07-05 02:32:45.515  3863  3863 D ViewPager: computeScroll,mNextScreen=-1
+07-05 02:32:45.615  3863  3959 D tg_ad_mob: Report stat event : {"ts":1720161165595,"app":"1109723029","ct":1,"lg":"zh","tz":"America\/New_York","ca":1,"td":"0101869F1768840C1BE26B86058597AFD019F5C7EF47B5C8A883B362819894D06F01D9D98E783ADEB88C4E0E","pkg":"com.tencent.mtt","av":"12.1.5.5044","sv":"8.400","plv":2515,"build_num":"0","sdk_st":2,"sdk_pt":1,"ov":"10","al":29,"os":2,"st":2,"md":"rk3588_docker","pl":"samsung\/GT-P7500\/GT-P7500:3.2\/HTJ85B\/XWKL1:user\/release-keys","mn":"rk3588_docker","w":720,"h":1280,"lid":"10facf47-f5c1-47ee-8868-67c2855609d3","events":[{"seq":165,"ts":1720161165055,"ei":80022,"vl":1,"ext":{"cost_time":1,"error_code":6000}},{"seq":166,"ts":1720161165056,"ei":80001,"vl":1,"ext":{"cost_time":1,"error_code":6008}},{"seq":167,"ts":1720161165056,"ei":80022,"vl":1,"ext":{"cost_time":1,"error_code":6000}},{"seq":168,"ts":1720161165056,"ei":80001,"vl":0,"ext":{"cost_time":0,"error_code":6008}},{"seq":169,"ts":1720161165058,"ei":80002,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":170,"ts":1720161165058,"ei":80003,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":171,"ts":1720161165058,"ei":80002,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":173,"ts":1720161165058,"ei":80003,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":174,"ts":1720161165059,"ei":80004,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":175,"ts":1720161165059,"ei":80005,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":176,"ts":1720161165059,"ei":80006,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":177,"ts":1720161165060,"ei":80007,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":172,"ts":1720161165058,"ei":80004,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":178,"ts":1720161165060,"ei":80008,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":179,"ts":1720161165060,"ei":80005,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":180,"ts":1720161165060,"ei":80006,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":181,"ts":1720161165060,"ei":80009,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":182,"ts":1720161165060,"ei":80007,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":183,"ts":1720161165060,"ei":80008,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":184,"ts":1720161165061,"ei":80009,"vl":1,"ext":{"cost_time":1,"error_code":6000}},{"seq":185,"ts":1720161165061,"ei":80010,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":187,"ts":1720161165061,"ei":80012,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":186,"ts":1720161165061,"ei":80010,"vl":1,"ext":{"cost_time":1,"error_code":6000}},{"seq":188,"ts":1720161165061,"ei":80013,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":189,"ts":1720161165061,"ei":80012,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":190,"ts":1720161165061,"ei":80017,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":191,"ts":1720161165062,"ei":80013,"vl":1,"ext":{"cost_time":1,"error_code":6000}},{"seq":192,"ts":1720161165062,"ei":80017,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":193,"ts":1720161165074,"ei":53802,"vl":3,"ext":{}},{"seq":194,"ts":1720161165074,"ei":80018,"vl":0,"ext":{"cost_time":0,"error_code":6000}}]}
+07-05 02:32:45.617   599   599 D InterruptionStateProvider: No heads up: unimportant notification: 0|com.tencent.mtt|26|null|10052
+07-05 02:32:45.625  1189  1189 V Space   : onNotificationPosted: StatusBarNotification(pkg=com.tencent.mtt user=UserHandle{0} id=26 tag=null key=0|com.tencent.mtt|26|null|10052: Notification(channel=1003 pri=0 contentView=null vibrate=null sound=null tick defaults=0x0 flags=0x10 color=0x00000000 vis=PRIVATE))
+07-05 02:32:45.625  1189  1189 V Space   : sendTracking: post_notification ({"opType":"post_notification","resultCode":0,"package":"com.tencent.mtt","text":"下载失败，错误码：403"})
+07-05 02:32:45.622   599   599 D InterruptionStateProvider: No heads up: unimportant notification: 0|com.tencent.mtt|26|null|10052
+07-05 02:32:45.632    78  5077 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-05 02:32:45.774   161  2746 I rc_model_v2: fps chg from 9 -> 60
+07-05 02:32:45.992   161  2745 I vpu_api_legacy: setup encoder rate control config:
+07-05 02:32:45.992   161  2745 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-05 02:32:45.992   161  2745 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-05 02:32:45.992   161  2745 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-05 02:32:45.992   161  2745 I vpu_api_legacy: setup encoder stream feature config:
+07-05 02:32:45.992   161  2745 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-05 02:32:45.992   161  2746 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-05 02:32:45.992   161  2746 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-05 02:32:45.992   161  2746 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-05 02:32:45.992   161  2746 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-05 02:32:45.992   161  2746 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-05 02:32:45.992   161  2746 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-05 02:32:45.992   161  2745 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-05 02:32:45.992   161  2745 I omx_vmpp: setupEncCfg
+07-05 02:32:45.992   161  2745 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-05 02:32:45.992   161  2746 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-05 02:32:45.992   161  2745 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-05 02:32:45.992   161  2745 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-05 02:32:45.992   161  2745 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-05 02:32:45.992   161  2745 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-05 02:32:45.994   161  2746 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-05 02:32:45.994   161  2746 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-05 02:32:45.994   161  2746 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-05 02:32:45.994   161  2746 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-05 02:32:45.994   161  2746 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-05 02:32:45.994   161  2746 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-05 02:32:45.994   161  2746 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-05 02:32:45.994   161  2746 I mpp_enc : xxxxmpp_packet_append
+07-05 02:32:46.131  3863  3875 I com.tencent.mt: Background concurrent copying GC freed 514933(24MB) AllocSpace objects, 116(4956KB) LOS objects, 36% free, 42MB/66MB, paused 84us total 159.647ms
+07-05 02:32:46.293   161  2746 I rc_model_v2: fps chg from 60 -> 20
+07-05 02:32:46.530  3863  4087 W System  : A resource failed to call response.body().close(). 
+07-05 02:32:46.595   161  2746 I rc_model_v2: fps chg from 20 -> 9
+07-05 02:32:46.858   161  2746 I rc_model_v2: fps chg from 9 -> 60
+07-05 02:32:47.176   161  2746 I rc_model_v2: fps chg from 60 -> 12
+07-05 02:32:47.414  3863  3959 D tg_ad_mob: Report stat event : {"ts":1720161167398,"app":"1109723029","ct":1,"lg":"zh","tz":"America\/New_York","ca":1,"td":"0101869F1768840C1BE26B86058597AFD019F5C7EF47B5C8A883B362819894D06F01D9D98E783ADEB88C4E0E","pkg":"com.tencent.mtt","av":"12.1.5.5044","sv":"8.400","plv":2515,"build_num":"0","sdk_st":2,"sdk_pt":1,"ov":"10","al":29,"os":2,"st":2,"md":"rk3588_docker","pl":"samsung\/GT-P7500\/GT-P7500:3.2\/HTJ85B\/XWKL1:user\/release-keys","mn":"rk3588_docker","w":720,"h":1280,"lid":"10facf47-f5c1-47ee-8868-67c2855609d3","events":[{"seq":195,"ts":1720161165074,"ei":80019,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":196,"ts":1720161165074,"ei":80020,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":197,"ts":1720161165074,"ei":80021,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":198,"ts":1720161165075,"ei":53802,"vl":3,"ext":{}},{"seq":199,"ts":1720161165075,"ei":80018,"vl":1,"ext":{"cost_time":1,"error_code":6000}},{"seq":200,"ts":1720161165075,"ei":80019,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":201,"ts":1720161165075,"ei":80020,"vl":0,"ext":{"cost_time":0,"error_code":6000}},{"seq":202,"ts":1720161165075,"ei":80021,"vl":0,"ext":{"cost_time":0,"error_code":6000}}]}
+07-05 02:32:47.925    78  5081 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+^C

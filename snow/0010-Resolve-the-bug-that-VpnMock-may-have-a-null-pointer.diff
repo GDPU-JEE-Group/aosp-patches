@@ -1,0 +1,36 @@
+diff --git a/frameworks/base/services/core/java/com/android/server/connectivity/Vpn.java b/frameworks/base/services/core/java/com/android/server/connectivity/Vpn.java
+index 09d202f512..8c76e5a698 100644
+--- a/frameworks/base/services/core/java/com/android/server/connectivity/Vpn.java
++++ b/frameworks/base/services/core/java/com/android/server/connectivity/Vpn.java
+@@ -251,8 +251,10 @@ public class Vpn {
+         mNetworkCapabilities.removeCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN);
+         updateCapabilities(null /* defaultNetwork */);
+ 
++        if (mMock == null) {
++            mMock = new VpnMock(mContext);
++        }
+         loadAlwaysOnPackage();
+-        mMock = new VpnMock(mContext);
+     }
+ 
+     /**
+@@ -1106,6 +1108,9 @@ public class Vpn {
+             config.user = mPackage;
+             config.interfaze = mInterface;
+             config.startTime = SystemClock.elapsedRealtime();
++            if (mMock == null) {
++                mMock = new VpnMock(mContext);
++            }
+             config.dnsServers = mMock.regroupDnsServer(config.dnsServers);
+             mConfig = config;
+ 
+@@ -1245,6 +1250,9 @@ public class Vpn {
+     void addUserToRanges(@NonNull Set<UidRange> ranges, @UserIdInt int userHandle,
+             @Nullable List<String> allowedApplications,
+             @Nullable List<String> disallowedApplications) {
++        if (mMock == null) {
++            mMock = new VpnMock(mContext);
++        }
+         List<Integer> bypass = mMock.getBypassVpnPackages();
+         if (allowedApplications != null) {
+             // Add ranges covering all UIDs for allowedApplications.

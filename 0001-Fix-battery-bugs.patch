@@ -1,0 +1,115 @@
+From 7fdc51a323e973ad35c1aa0ba0880cd7ed726fd3 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Thu, 9 May 2024 10:34:34 +0000
+Subject: [PATCH] Fix battery bugs
+
+---
+ .../base/core/java/android/net/Alog.java      |  8 +++++
+ .../internal/space/api/BatteryMock.java       | 36 ++++++++++++++++++-
+ 2 files changed, 43 insertions(+), 1 deletion(-)
+
+diff --git a/frameworks/base/core/java/android/net/Alog.java b/frameworks/base/core/java/android/net/Alog.java
+index 61ab8cfc2f..9fb597bf9b 100644
+--- a/frameworks/base/core/java/android/net/Alog.java
++++ b/frameworks/base/core/java/android/net/Alog.java
+@@ -27,6 +27,14 @@ public class Alog  {
+         Log.d(tag,s);
+     } 
+ 
++            /**
++    * @hide
++    */
++    public static void logcx(String s) {
++        // =====================================
++        Log.d(TAGCX,s);
++    } 
++
+     /**
+     * @hide
+     */
+diff --git a/frameworks/base/core/java/com/android/internal/space/api/BatteryMock.java b/frameworks/base/core/java/com/android/internal/space/api/BatteryMock.java
+index 0bf764b10a..880c48c467 100644
+--- a/frameworks/base/core/java/com/android/internal/space/api/BatteryMock.java
++++ b/frameworks/base/core/java/com/android/internal/space/api/BatteryMock.java
+@@ -4,6 +4,7 @@ import android.content.Context;
+ import android.hardware.health.V1_0.HealthInfo;
+ import com.android.internal.space.NineDSpaceManager;
+ import java.util.Map;
++import android.net.Alog;
+ 
+ public class BatteryMock extends IMockCallback.Stub {
+     public static final String NAME = "battery";
+@@ -14,17 +15,22 @@ public class BatteryMock extends IMockCallback.Stub {
+     public void onCallback(Map map) {
+         this.mMap = map;
+         isChanged = true;
++        Alog.logcx("onCallback()");
+     }
+ 
+     public boolean isChanged() {
++        Alog.logcx("isChanged()");
++        getChargingMode();
+         return isChanged;
+     }
+ 
+     public void setLegacyStatus() {
++        Alog.logcx("setLegacyStatus()");
+         isChanged = false;
+     }
+ 
+     public BatteryMock(Context context) {
++        Alog.logcx("BatteryMock()");
+         mSpaceService = (NineDSpaceManager) context
+                 .getSystemService(Context.SPACE_SERVICE);
+     }
+@@ -41,6 +47,7 @@ public class BatteryMock extends IMockCallback.Stub {
+      * @Todo default value need rewrite
+      */
+     public HealthInfo getMockHealthInfo() {
++        Alog.logcx("isMock()"+isMock());
+         HealthInfo healthInfo = new HealthInfo();
+         if (isMock()) {
+             healthInfo.maxChargingCurrent = (int) mMap.getOrDefault("max_charging_current", 500000);
+@@ -52,11 +59,38 @@ public class BatteryMock extends IMockCallback.Stub {
+             healthInfo.batteryFullCharge = (int) mMap.getOrDefault("full_charge", 1000);
+             healthInfo.batteryChargeCounter = (int) mMap.getOrDefault("charge_counter", 5235);
+             healthInfo.batteryTechnology = (String) mMap.getOrDefault("technology", "Li-poly");
++
++            Alog.set("chaixiang-Battery");
++            Alog.logcx("isMock()"+isMock());
+         }
+         return healthInfo;
+     }
+ 
+     public String getChargingMode() {
+-        return (String) mMap.getOrDefault("mode", "ac");
++        Alog.set("chaixiang-Battery");
++        Alog.logcx("isMock()"+isMock());
++        if(isMock()){
++            //cx-----
++            for (Object value : mMap.values()) {
++                Alog.logcx((String)value);
++            }
++            //---
++            Alog.logcx("------------------------------------");
++
++            if(mMap==null){
++                Alog.logcx("mMap is null");
++                return "ac";
++            }
++
++            String res=(String) mMap.getOrDefault("mode", "ac");
++            if(res==null){
++                Alog.logcx("res is null");
++                return "ac";
++            }
++            Alog.logcx("res => "+res);
++            return res;
++        }
++        Alog.logcx("No mocking , error ->frameworks/base/core/java/com/android/internal/space/api/BatteryMock.java getChargingMode()");
++        return "ac";
+     }
+ }
+-- 
+2.25.1
+

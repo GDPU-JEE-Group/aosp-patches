@@ -1,0 +1,16 @@
+diff --git a/packages/apps/Settings/src/com/android/settings/deviceinfo/simstatus/SimStatusPreferenceController.java b/packages/apps/Settings/src/com/android/settings/deviceinfo/simstatus/SimStatusPreferenceController.java
+index ed01e22724..2fc956a907 100644
+--- a/packages/apps/Settings/src/com/android/settings/deviceinfo/simstatus/SimStatusPreferenceController.java
++++ b/packages/apps/Settings/src/com/android/settings/deviceinfo/simstatus/SimStatusPreferenceController.java
+@@ -76,6 +76,11 @@ public class SimStatusPreferenceController extends
+             multiSimPreference.setKey(KEY_SIM_STATUS + simSlotNumber);
+             screen.addPreference(multiSimPreference);
+             mPreferenceList.add(multiSimPreference);
++
++            Log.d("SIM Status","simStatusOrder"+simStatusOrder);
++            Log.d("SIM Status","simSlotNumber"+simSlotNumber);
++            Log.d("SIM Status","KEY_SIM_STATUS"+KEY_SIM_STATUS);
++            Log.d("SIM Status","||||||||||||||");
+         }
+     }
+ 

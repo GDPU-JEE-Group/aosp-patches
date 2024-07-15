@@ -1,0 +1,605 @@
+diff frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java ../redroid/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java
+51,52d50
+< import com.android.internal.space.api.BluetoothMock;
+< 
+659,660d656
+<     private BluetoothMock mMock;
+< 
+669d664
+<             Log.d("bluetooth", "----->onMetadataChanged(BluetoothDevice device, int key, byte[] value)");
+698d692
+<         Log.d("bluetooth", "-----> getDefaultAdapter()");
+715c709
+<         Log.d("bluetooth", "-----> BluetoothAdapter(IBluetoothManager managerService)");
+---
+> 
+730d723
+<         mMock = BluetoothMock.getMock();
+746d738
+<         Log.d("bluetooth", "-----> getRemoteDevice(String address)");
+762d753
+<         Log.d("bluetooth", "-----> getRemoteDevice(byte[] address)");
+780d770
+<         Log.d("bluetooth", "-----> getBluetoothLeAdvertiser()");
+803d792
+<         Log.d("bluetooth", "-----> getPeriodicAdvertisingManager()");
+824d812
+<         Log.d("bluetooth", "-----> getBluetoothLeScanner()");
+845,857c833,842
+<         Log.d("bluetooth", "-----> isEnabled()");
+<         return mMock.isEnabled(false);
+< 
+<         // try {
+<         //     mServiceLock.readLock().lock();
+<         //     if (mService != null) {
+<         //         return mMock.isEnabled(mService.isEnabled());
+<         //     }
+<         // } catch (RemoteException e) {
+<         //     Log.e(TAG, "", e);
+<         // } finally {
+<         //     mServiceLock.readLock().unlock();
+<         // }
+---
+>         try {
+>             mServiceLock.readLock().lock();
+>             if (mService != null) {
+>                 return mService.isEnabled();
+>             }
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         } finally {
+>             mServiceLock.readLock().unlock();
+>         }
+859c844
+<         // return mMock.isEnabled(false);
+---
+>         return false;
+872d856
+<         Log.d("bluetooth", "-----> isLeEnabled()");
+907d890
+<         Log.d("bluetooth", "-----> disableBLE() ");
+965d947
+<         Log.d("bluetooth", "-----> enableBLE()");
+1003,1004c985
+<        int state = BluetoothAdapter.STATE_OFF;
+<         return mMock.getState(state);
+---
+>         int state = BluetoothAdapter.STATE_OFF;
+1006,1031c987,1010
+<     //    int state = BluetoothAdapter.STATE_OFF;
+< //
+<     //    try {
+<     //        mServiceLock.readLock().lock();
+<     //        if (mService != null) {
+<     //            state = mService.getState();
+<     //        }
+<     //    } catch (RemoteException e) {
+<     //        Log.e(TAG, "", e);
+<     //    } finally {
+<     //        mServiceLock.readLock().unlock();
+<     //    }
+< //
+<     //    // Consider all internal states as OFF
+<     //    if (state == BluetoothAdapter.STATE_BLE_ON || state == BluetoothAdapter.STATE_BLE_TURNING_ON
+<     //            || state == BluetoothAdapter.STATE_BLE_TURNING_OFF) {
+<     //        if (VDBG) {
+<     //            Log.d(TAG, "Consider " + BluetoothAdapter.nameForState(state) + " state as OFF");
+<     //        }
+<     //        state = BluetoothAdapter.STATE_OFF;
+<     //    }
+<     //    if (VDBG) {
+<     //        Log.d(TAG, "" + hashCode() + ": getState(). Returning " + BluetoothAdapter.nameForState(
+<     //                state));
+<     //    }
+<     //    return mMock.getState(state);
+---
+>         try {
+>             mServiceLock.readLock().lock();
+>             if (mService != null) {
+>                 state = mService.getState();
+>             }
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         } finally {
+>             mServiceLock.readLock().unlock();
+>         }
+> 
+>         // Consider all internal states as OFF
+>         if (state == BluetoothAdapter.STATE_BLE_ON || state == BluetoothAdapter.STATE_BLE_TURNING_ON
+>                 || state == BluetoothAdapter.STATE_BLE_TURNING_OFF) {
+>             if (VDBG) {
+>                 Log.d(TAG, "Consider " + BluetoothAdapter.nameForState(state) + " state as OFF");
+>             }
+>             state = BluetoothAdapter.STATE_OFF;
+>         }
+>         if (VDBG) {
+>             Log.d(TAG, "" + hashCode() + ": getState(). Returning " + BluetoothAdapter.nameForState(
+>                     state));
+>         }
+>         return state;
+1054d1032
+<         Log.d("bluetooth", "-----> getLeState()");
+1075,1076d1052
+<         Log.d("bluetooth", "-----> getLeAccess()");
+< 
+1112,1127c1088,1099
+<         Log.d("bluetooth", "-----> enable()");
+<         mMock.setAble(true);
+<         return true;
+<         
+<         // if (isEnabled()) {
+<         //     if (DBG) {
+<         //         Log.d(TAG, "enable(): BT already enabled!");
+<         //     }
+<         //     return true;
+<         // }
+<         // try {
+<         //     return mManagerService.enable(ActivityThread.currentPackageName());
+<         // } catch (RemoteException e) {
+<         //     Log.e(TAG, "", e);
+<         // }
+<         // return false;
+---
+>         if (isEnabled()) {
+>             if (DBG) {
+>                 Log.d(TAG, "enable(): BT already enabled!");
+>             }
+>             return true;
+>         }
+>         try {
+>             return mManagerService.enable(ActivityThread.currentPackageName());
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         }
+>         return false;
+1153,1161c1125,1130
+<         Log.d("bluetooth", "-----> disable()");
+<         mMock.setAble(false);
+<         return true;
+<         // try {
+<         //     return mManagerService.disable(ActivityThread.currentPackageName(), true);
+<         // } catch (RemoteException e) {
+<         //     Log.e(TAG, "", e);
+<         // }
+<         // return false;
+---
+>         try {
+>             return mManagerService.disable(ActivityThread.currentPackageName(), true);
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         }
+>         return false;
+1175,1177d1143
+<         Log.d("bluetooth", "-----> disable(boolean persist)"+persist);
+<         mMock.setAble(false);
+<         return true;
+1179,1184c1145,1150
+<         // try {
+<         //     return mManagerService.disable(ActivityThread.currentPackageName(), persist);
+<         // } catch (RemoteException e) {
+<         //     Log.e(TAG, "", e);
+<         // }
+<         // return false;
+---
+>         try {
+>             return mManagerService.disable(ActivityThread.currentPackageName(), persist);
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         }
+>         return false;
+1195,1203c1161,1166
+<         Log.d("bluetooth", "-----> getAddress()");
+<         return mMock.getAddress(null);
+< 
+<         // try {
+<         //     return mMock.getAddress(mManagerService.getAddress());
+<         // } catch (RemoteException e) {
+<         //     Log.e(TAG, "", e);
+<         // }
+<         // return mMock.getAddress(null);
+---
+>         try {
+>             return mManagerService.getAddress();
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         }
+>         return null;
+1214,1222c1177,1182
+<         Log.d("bluetooth", "-----> getName()");
+<         return mMock.getName(null);
+< 
+<         // try {
+<         //     return mMock.getName(mManagerService.getName());
+<         // } catch (RemoteException e) {
+<         //     Log.e(TAG, "", e);
+<         // }
+<         // return mMock.getName(null);
+---
+>         try {
+>             return mManagerService.getName();
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         }
+>         return null;
+1236,1237d1195
+<          Log.d("bluetooth", "-----> factoryReset()");
+< 
+1240,1242c1198,1199
+<             if (mService != null && mService.factoryReset()
+<                     && mManagerService != null && mManagerService.onFactoryReset()) {
+<                 return true;
+---
+>             if (mService != null) {
+>                 return mService.factoryReset();
+1244d1200
+<             Log.e(TAG, "factoryReset(): Setting persist.bluetooth.factoryreset to retry later");
+1264,1265d1219
+<         Log.d("bluetooth", "-----> getUuids()");
+< 
+1298,1299d1251
+<         Log.d("bluetooth", "-----> setName(String name)");
+< 
+1326,1327d1277
+<         Log.d("bluetooth", "-----> getBluetoothClass()");
+< 
+1357,1358d1306
+<         Log.d("bluetooth", "-----> setBluetoothClass(BluetoothClass bluetoothClass)");
+< 
+1387,1388d1334
+<         Log.d("bluetooth", "-----> getIoCapability()");
+< 
+1416d1361
+<         Log.d("bluetooth", "-----> ");
+1441d1385
+<         Log.d("bluetooth", "-----> ");
+1469d1412
+<         Log.d("bluetooth", "-----> ");
+1500c1443,1455
+<         Log.d("bluetooth", "-----> ");
+---
+>         if (getState() != STATE_ON) {
+>             return SCAN_MODE_NONE;
+>         }
+>         try {
+>             mServiceLock.readLock().lock();
+>             if (mService != null) {
+>                 return mService.getScanMode();
+>             }
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         } finally {
+>             mServiceLock.readLock().unlock();
+>         }
+1502,1515d1456
+<         // if (getState() != STATE_ON) {
+<         //     return SCAN_MODE_NONE;
+<         // }
+<         // try {
+<         //     mServiceLock.readLock().lock();
+<         //     if (mService != null) {
+<         //         return mService.getScanMode();
+<         //     }
+<         // } catch (RemoteException e) {
+<         //     Log.e(TAG, "", e);
+<         // } finally {
+<         //     mServiceLock.readLock().unlock();
+<         // }
+<         // return SCAN_MODE_NONE;
+1548,1563c1489,1502
+<         Log.d("bluetooth", "-----> ");
+<         return true;
+<         // if (getState() != STATE_ON) {
+<             // return false;
+<         // }
+<         // try {
+<             // mServiceLock.readLock().lock();
+<             // if (mService != null) {
+<                 // return mService.setScanMode(mode, duration);
+<             // }
+<         // } catch (RemoteException e) {
+<             // Log.e(TAG, "", e);
+<         // } finally {
+<             // mServiceLock.readLock().unlock();
+<         // }
+<         // return false;
+---
+>         if (getState() != STATE_ON) {
+>             return false;
+>         }
+>         try {
+>             mServiceLock.readLock().lock();
+>             if (mService != null) {
+>                 return mService.setScanMode(mode, duration);
+>             }
+>         } catch (RemoteException e) {
+>             Log.e(TAG, "", e);
+>         } finally {
+>             mServiceLock.readLock().unlock();
+>         }
+>         return false;
+1569,1575c1508,1512
+<         Log.d("bluetooth", "-----> ");
+<         return true;
+<         // if (getState() != STATE_ON) {
+<         //     return false;
+<         // }
+<         // /* getDiscoverableTimeout() to use the latest from NV than use 0 */
+<         // return setScanMode(mode, getDiscoverableTimeout());
+---
+>         if (getState() != STATE_ON) {
+>             return false;
+>         }
+>         /* getDiscoverableTimeout() to use the latest from NV than use 0 */
+>         return setScanMode(mode, getDiscoverableTimeout());
+1581d1517
+<         Log.d("bluetooth", "-----> ");
+1601d1536
+<         Log.d("bluetooth", "-----> ");
+1626d1560
+<         Log.d("bluetooth", "-----> ");
+1649d1582
+<         Log.d("bluetooth", "-----> ");
+1689d1621
+<         Log.d("bluetooth", "-----> ");
+1724d1655
+<         Log.d("bluetooth", "-----> ");
+1761d1691
+<         Log.d("bluetooth", "-----> ");
+1784d1713
+<         Log.d("bluetooth", "-----> ");
+1813d1741
+<         Log.d("bluetooth", "-----> ");
+1828d1755
+<         Log.d("bluetooth", "-----> ");
+1851d1777
+<         Log.d("bluetooth", "-----> ");
+1874d1799
+<         Log.d("bluetooth", "-----> ");
+1897d1821
+<         Log.d("bluetooth", "-----> ");
+1920d1843
+<         Log.d("bluetooth", "-----> ");
+1943d1865
+<         Log.d("bluetooth", "-----> ");
+1967d1888
+<         Log.d("bluetooth", "-----> ");
+1990d1910
+<         Log.d("bluetooth", "-----> ");
+2007d1926
+<         Log.d("bluetooth", "-----> ");
+2028d1946
+<         Log.d("bluetooth", "-----> ");
+2059d1976
+<         Log.d("bluetooth", "-----> ");
+2085d2001
+<         Log.d("bluetooth", "-----> ");
+2115,2118d2030
+<         Log.d("bluetooth", "-----> ");
+<         if (mMock != null) {
+<             return mMock.getBondedDevices();
+<         }
+2147d2058
+<         Log.d("bluetooth", "-----> ");
+2187d2097
+<         Log.d("bluetooth", "-----> ");
+2218d2127
+<         Log.d("bluetooth", "-----> ");
+2251d2159
+<         Log.d("bluetooth", "-----> ");
+2278d2185
+<                 Log.d("bluetooth", "-----> ");
+2320d2226
+<                 Log.d("bluetooth", "-----> ");
+2353d2258
+<                 Log.d("bluetooth", "-----> ");
+2394d2298
+<                 Log.d("bluetooth", "-----> ");
+2401d2304
+<                 Log.d("bluetooth", "-----> ");
+2426d2328
+<         Log.d("bluetooth", "-----> ");
+2452d2353
+<         Log.d("bluetooth", "-----> ");
+2478d2378
+<         Log.d("bluetooth", "-----> ");
+2507d2406
+<                 Log.d("bluetooth", "-----> ");
+2539d2437
+<         Log.d("bluetooth", "-----> ");
+2557d2454
+<         Log.d("bluetooth", "-----> ");
+2589d2485
+<         Log.d("bluetooth", "-----> ");
+2611d2506
+<                 Log.d("bluetooth", "-----> ");
+2832d2726
+<         Log.d("bluetooth", "----->enableNoAutoConnect() ");
+2878d2771
+<                 Log.d("bluetooth", "-----> ");
+2909d2801
+<         Log.d("bluetooth", "-----> ");
+2915d2806
+<         Log.d("bluetooth", "-----> ");
+2934d2824
+<         Log.d("bluetooth", "-----> ");
+2960d2849
+<         Log.d("bluetooth", "-----> ");
+2969d2857
+<         Log.d("bluetooth", "-----> ");
+2981d2868
+<         Log.d("bluetooth", "-----> ");
+diff frameworks/base/core/java/android/bluetooth/BluetoothCodecConfig.java ../redroid/frameworks/base/core/java/android/bluetooth/BluetoothCodecConfig.java
+444,480d443
+<      * Checks whether a value set presented by a bitmask has zero or single bit
+<      *
+<      * @param valueSet the value set presented by a bitmask
+<      * @return true if the valueSet contains zero or single bit, otherwise false.
+<      */
+<     private static boolean hasSingleBit(int valueSet) {
+<         return (valueSet == 0 || (valueSet & (valueSet - 1)) == 0);
+<     }
+< 
+<     /**
+<      * Checks whether the object contains none or single sample rate.
+<      *
+<      * @return true if the object contains none or single sample rate, otherwise false.
+<      */
+<     public boolean hasSingleSampleRate() {
+<         return hasSingleBit(mSampleRate);
+<     }
+< 
+<     /**
+<      * Checks whether the object contains none or single bits per sample.
+<      *
+<      * @return true if the object contains none or single bits per sample, otherwise false.
+<      */
+<     public boolean hasSingleBitsPerSample() {
+<         return hasSingleBit(mBitsPerSample);
+<     }
+< 
+<     /**
+<      * Checks whether the object contains none or single channel mode.
+<      *
+<      * @return true if the object contains none or single channel mode, otherwise false.
+<      */
+<     public boolean hasSingleChannelMode() {
+<         return hasSingleBit(mChannelMode);
+<     }
+< 
+<     /**
+490,543d452
+<     }
+< 
+<     /**
+<      * Checks whether another codec config has the similar feeding parameters.
+<      * Any parameters with NONE value will be considered to be a wildcard matching.
+<      *
+<      * @param other the codec config to compare against
+<      * @return true if the audio feeding parameters are similar, otherwise false.
+<      */
+<     public boolean similarCodecFeedingParameters(BluetoothCodecConfig other) {
+<         if (other == null || mCodecType != other.mCodecType) {
+<             return false;
+<         }
+<         int sampleRate = other.mSampleRate;
+<         if (mSampleRate == BluetoothCodecConfig.SAMPLE_RATE_NONE
+<                 || sampleRate == BluetoothCodecConfig.SAMPLE_RATE_NONE) {
+<             sampleRate = mSampleRate;
+<         }
+<         int bitsPerSample = other.mBitsPerSample;
+<         if (mBitsPerSample == BluetoothCodecConfig.BITS_PER_SAMPLE_NONE
+<                 || bitsPerSample == BluetoothCodecConfig.BITS_PER_SAMPLE_NONE) {
+<             bitsPerSample = mBitsPerSample;
+<         }
+<         int channelMode = other.mChannelMode;
+<         if (mChannelMode == BluetoothCodecConfig.CHANNEL_MODE_NONE
+<                 || channelMode == BluetoothCodecConfig.CHANNEL_MODE_NONE) {
+<             channelMode = mChannelMode;
+<         }
+<         return sameAudioFeedingParameters(new BluetoothCodecConfig(
+<                 mCodecType, /* priority */ 0, sampleRate, bitsPerSample, channelMode,
+<                 /* specific1 */ 0, /* specific2 */ 0, /* specific3 */ 0,
+<                 /* specific4 */ 0));
+<     }
+< 
+<     /**
+<      * Checks whether the codec specific parameters are the same.
+<      *
+<      * @param other the codec config to compare against
+<      * @return true if the codec specific parameters are the same, otherwise false.
+<      */
+<     public boolean sameCodecSpecificParameters(BluetoothCodecConfig other) {
+<         if (other == null && mCodecType != other.mCodecType) {
+<             return false;
+<         }
+<         // Currently we only care about the LDAC Playback Quality at CodecSpecific1
+<         switch (mCodecType) {
+<             case SOURCE_CODEC_TYPE_LDAC:
+<                 if (mCodecSpecific1 != other.mCodecSpecific1) {
+<                     return false;
+<                 }
+<                 // fall through
+<             default:
+<                 return true;
+<         }
+diff frameworks/base/core/java/android/bluetooth/BluetoothCodecStatus.java ../redroid/frameworks/base/core/java/android/bluetooth/BluetoothCodecStatus.java
+92,128d91
+<     /**
+<      * Checks whether the codec config matches the selectable capabilities.
+<      * Any parameters of the codec config with NONE value will be considered a wildcard matching.
+<      *
+<      * @param codecConfig the codec config to compare against
+<      * @return true if the codec config matches, otherwise false
+<      */
+<     public boolean isCodecConfigSelectable(BluetoothCodecConfig codecConfig) {
+<         if (codecConfig == null || !codecConfig.hasSingleSampleRate()
+<                 || !codecConfig.hasSingleBitsPerSample() || !codecConfig.hasSingleChannelMode()) {
+<             return false;
+<         }
+<         for (BluetoothCodecConfig selectableConfig : mCodecsSelectableCapabilities) {
+<             if (codecConfig.getCodecType() != selectableConfig.getCodecType()) {
+<                 continue;
+<             }
+<             int sampleRate = codecConfig.getSampleRate();
+<             if ((sampleRate & selectableConfig.getSampleRate()) == 0
+<                     && sampleRate != BluetoothCodecConfig.SAMPLE_RATE_NONE) {
+<                 continue;
+<             }
+<             int bitsPerSample = codecConfig.getBitsPerSample();
+<             if ((bitsPerSample & selectableConfig.getBitsPerSample()) == 0
+<                     && bitsPerSample != BluetoothCodecConfig.BITS_PER_SAMPLE_NONE) {
+<                 continue;
+<             }
+<             int channelMode = codecConfig.getChannelMode();
+<             if ((channelMode & selectableConfig.getChannelMode()) == 0
+<                     && channelMode != BluetoothCodecConfig.CHANNEL_MODE_NONE) {
+<                 continue;
+<             }
+<             return true;
+<         }
+<         return false;
+<     }
+< 
+< 
+diff frameworks/base/core/java/android/bluetooth/BluetoothPan.java ../redroid/frameworks/base/core/java/android/bluetooth/BluetoothPan.java
+121,122d120
+<     private final Context mContext;
+< 
+141d138
+<         mContext = context;
+293,294c290
+<         String pkgName = mContext.getOpPackageName();
+<         if (DBG) log("setBluetoothTethering(" + value + "), calling package:" + pkgName);
+---
+>         if (DBG) log("setBluetoothTethering(" + value + ")");
+298c294
+<                 service.setBluetoothTethering(value, pkgName);
+---
+>                 service.setBluetoothTethering(value);
+Common subdirectories: frameworks/base/core/java/android/bluetooth/le and ../redroid/frameworks/base/core/java/android/bluetooth/le
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------
+这些修改主要涉及到三个文件：`BluetoothCodecConfig.java`，`BluetoothCodecStatus.java`和`BluetoothPan.java`。以下是对这些修改的解释：
+
+1. `BluetoothCodecConfig.java`:
+   - 删除了一些方法，包括`hasSingleBit`，`hasSingleSampleRate`，`hasSingleBitsPerSample`，`hasSingleChannelMode`，`similarCodecFeedingParameters`和`sameCodecSpecificParameters`。这些方法主要用于检查编解码器配置的各种参数。
+
+2. `BluetoothCodecStatus.java`:
+   - 删除了`isCodecConfigSelectable`方法，该方法用于检查编解码器配置是否匹配可选的能力。
+
+3. `BluetoothPan.java`:
+   - 删除了`mContext`成员变量以及其在构造函数中的初始化。
+   - 在`setBluetoothTethering`方法中，删除了`pkgName`变量的使用，该变量用于获取操作包名。
+
+总的来说，这些修改似乎是在简化代码和减少复杂性，可能是为了提高代码的可读性和可维护性。但是，这也可能会影响到这些类的功能，因为删除了一些方法和变量。具体的影响取决于这些方法和变量在整个项目中的使用情况。如果这些方法和变量没有被其他地方使用，那么这些修改可能不会有太大的影响。否则，可能需要对相关的代码进行相应的修改。这就需要查看整个项目的代码来确定。希望这个解释对你有所帮助！

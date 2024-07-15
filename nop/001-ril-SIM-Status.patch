@@ -1,0 +1,90 @@
+diff --git a/device/rockchip/space-common/configs/default_radio.conf b/device/rockchip/space-common/configs/default_radio.conf
+index 3c17df7e06..c8d0c60ea9 100644
+--- a/device/rockchip/space-common/configs/default_radio.conf
++++ b/device/rockchip/space-common/configs/default_radio.conf
+@@ -10,7 +10,7 @@ operatorShortName=T-Mobile
+ numeric=310260
+ spn=T-Mobile
+ iccid=8901240197145277856F
+-msisdn=13106958678
++msisdn=8618023893147
+ imsi=310260123456789
+ signalStrength=290
+ 
+diff --git a/device/rockchip/space-common/device.mk b/device/rockchip/space-common/device.mk
+index 19e3e6609f..9cafe6053b 100644
+--- a/device/rockchip/space-common/device.mk
++++ b/device/rockchip/space-common/device.mk
+@@ -43,6 +43,7 @@ PRODUCT_PACKAGES += \
+         rild \
+         libspace-reference-ril \
+         android.hardware.radio@1.0 \
++        android.hardware.radio.deprecated@1.0.so \
+         android.hardware.radio.config@1.0 \
+         android.hardware.radio.config@1.0-service
+ 
+diff --git a/frameworks/base/services/core/java/com/android/server/DeviceIdleController.java b/frameworks/base/services/core/java/com/android/server/DeviceIdleController.java
+index 1fd4a0c384..93d17f1e0b 100644
+--- a/frameworks/base/services/core/java/com/android/server/DeviceIdleController.java
++++ b/frameworks/base/services/core/java/com/android/server/DeviceIdleController.java
+@@ -1998,8 +1998,7 @@ public class DeviceIdleController extends SystemService
+             for (int i=0; i<allowPowerExceptIdle.size(); i++) {
+                 String pkg = allowPowerExceptIdle.valueAt(i);
+                 try {
+-                    ApplicationInfo ai = pm.getApplicationInfo(pkg,
+-                            PackageManager.MATCH_SYSTEM_ONLY);
++                    ApplicationInfo ai = pm.getApplicationInfo(pkg, 0);
+                     int appid = UserHandle.getAppId(ai.uid);
+                     mPowerSaveWhitelistAppsExceptIdle.put(ai.packageName, appid);
+                     mPowerSaveWhitelistSystemAppIdsExceptIdle.put(appid, true);
+@@ -2010,8 +2009,7 @@ public class DeviceIdleController extends SystemService
+             for (int i=0; i<allowPower.size(); i++) {
+                 String pkg = allowPower.valueAt(i);
+                 try {
+-                    ApplicationInfo ai = pm.getApplicationInfo(pkg,
+-                            PackageManager.MATCH_SYSTEM_ONLY);
++                    ApplicationInfo ai = pm.getApplicationInfo(pkg, 0);
+                     int appid = UserHandle.getAppId(ai.uid);
+                     // These apps are on both the whitelist-except-idle as well
+                     // as the full whitelist, so they apply in all cases.
+diff --git a/hardware/ntimespace/space-reference-ril/config.h b/hardware/ntimespace/space-reference-ril/config.h
+index cd80756744..0b78d8f5e7 100644
+--- a/hardware/ntimespace/space-reference-ril/config.h
++++ b/hardware/ntimespace/space-reference-ril/config.h
+@@ -26,7 +26,7 @@ struct SIM_CONFIG
+     char operatorShortName[11];
+     char numeric[7];    /* mnc + mcc 3 + 3 */
+     char iccid[32];     /* max length 32 */
+-    char msisdn[13];    /* phone number 11, but must even number. 12 */
++    char msisdn[15];    /* phone number 11, but must even number. 12 */
+     char imsi[16];      /* max length 15 */
+     char spn[128];
+     int signalStrength;
+diff --git a/hardware/ntimespace/space-reference-ril/reference-ril.c b/hardware/ntimespace/space-reference-ril/reference-ril.c
+index ada6dd275d..1ce005c794 100644
+--- a/hardware/ntimespace/space-reference-ril/reference-ril.c
++++ b/hardware/ntimespace/space-reference-ril/reference-ril.c
+@@ -18,6 +18,7 @@
+ #include <telephony/ril_cdma_sms.h>
+ #include <telephony/librilutils.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <assert.h>
+ #include <string.h>
+ #include <errno.h>
+@@ -2268,7 +2269,14 @@ static void  requestSIM_IO(void *data, size_t datalen __unused, RIL_Token t)
+                sr.simResponse = "000001110000040000000000000101";
+            } else {
+                char msisdn[29];
+-               sprintf(msisdn, "%s%sffffffffff", "089168", sim_conf.msisdn);
++               memset(msisdn, 'f', sizeof(msisdn));
++
++               strncpy(msisdn, "0891", 4);
++               strncpy(msisdn + 4, sim_conf.msisdn, strlen(sim_conf.msisdn));
++               *(msisdn + 28) = 0;
++
++               ALOGE("msisdn = (%s)", msisdn);
++
+                sr.simResponse = msisdn;
+            }
+            break;

@@ -1,0 +1,78 @@
+From 86078a7ec56eb94a9cd7c18b99d25e772ca0a5ff Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Tue, 21 May 2024 07:19:52 +0000
+Subject: [PATCH 2/4] Delete the system's own input method
+
+---
+ build/make/target/product/handheld_product.mk | 3 ++-
+ build/make/target/product/mainline_arm64.mk   | 6 +++---
+ device/rockchip/common/tv/tv_base.mk          | 3 ++-
+ 3 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/build/make/target/product/handheld_product.mk b/build/make/target/product/handheld_product.mk
+index 8511a7f862..5990965772 100644
+--- a/build/make/target/product/handheld_product.mk
++++ b/build/make/target/product/handheld_product.mk
+@@ -27,7 +27,6 @@ PRODUCT_PACKAGES += \
+     Contacts \
+     DeskClock \
+     Gallery2 \
+-    LatinIME \
+     Launcher3QuickStep \
+     OneTimeInitializer \
+     Provision \
+@@ -39,6 +38,8 @@ PRODUCT_PACKAGES += \
+     WallpaperCropper \
+     frameworks-base-overlays \
+     Browser2 
++    # LatinIME \
++
+ 
+ PRODUCT_PACKAGES_DEBUG += \
+     frameworks-base-overlays-debug
+diff --git a/build/make/target/product/mainline_arm64.mk b/build/make/target/product/mainline_arm64.mk
+index 8769bb97ce..8c9515192e 100644
+--- a/build/make/target/product/mainline_arm64.mk
++++ b/build/make/target/product/mainline_arm64.mk
+@@ -38,9 +38,6 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_WHITELIST += \
+   system/app/DeskClock/oat/arm64/DeskClock.vdex \
+   system/app/Email/Email.apk \
+   system/app/Gallery2/Gallery2.apk \
+-  system/app/LatinIME/LatinIME.apk \
+-  system/app/LatinIME/oat/arm64/LatinIME.odex \
+-  system/app/LatinIME/oat/arm64/LatinIME.vdex \
+   system/app/Music/Music.apk \
+   system/app/QuickSearchBox/QuickSearchBox.apk \
+   system/app/webview/webview.apk \
+@@ -65,4 +62,7 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_WHITELIST += \
+   system/priv-app/StorageManager/StorageManager.apk \
+   system/priv-app/WallpaperCropper/WallpaperCropper.apk 
+   # system/app/Browser2/Browser2.apk \
++  #   system/app/LatinIME/LatinIME.apk \
++  # system/app/LatinIME/oat/arm64/LatinIME.odex \
++  # system/app/LatinIME/oat/arm64/LatinIME.vdex \
+ 
+diff --git a/device/rockchip/common/tv/tv_base.mk b/device/rockchip/common/tv/tv_base.mk
+index 2f592ac341..839e7e255e 100755
+--- a/device/rockchip/common/tv/tv_base.mk
++++ b/device/rockchip/common/tv/tv_base.mk
+@@ -75,7 +75,6 @@ PRODUCT_PACKAGES += \
+     FusedLocation \
+     InputDevices \
+     KeyChain \
+-    BoxLatinIME \
+     PicoTts \
+     PacProcessor \
+     PrintSpooler \
+@@ -84,6 +83,8 @@ PRODUCT_PACKAGES += \
+     VpnDialogs \
+     com.android.media.tv.remoteprovider \
+     com.android.media.tv.remoteprovider.xml
++    # BoxLatinIME \
++
+ 
+ # From build/target/product/generic_no_telephony.mk
+ PRODUCT_PACKAGES += \
+-- 
+2.25.1
+

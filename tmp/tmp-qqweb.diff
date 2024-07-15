@@ -1,0 +1,53 @@
+diff --git a/device/rockchip/space-common/device.mk b/device/rockchip/space-common/device.mk
+index 2fadf9f128..99e50a76f5 100644
+--- a/device/rockchip/space-common/device.mk
++++ b/device/rockchip/space-common/device.mk
+@@ -79,7 +79,8 @@ PRODUCT_COPY_FILES += \
+         vendor/ntimespace/scripts/os_prepars.sh:system/etc/scripts/init/os_prepars.sh \
+         vendor/ntimespace/scripts/os_prepars.sh:system/etc/scripts/boot/os_prepars.sh \
+         vendor/ntimespace/scripts/s9.boot.rc:system/etc/init/s9.boot.rc \
+-        vendor/ntimespace/scripts/script.sh:system/bin/script.sh
++        vendor/ntimespace/scripts/script.sh:system/bin/script.sh \
++        vendor/ntimespace/scripts/first_boot.sh:system/bin/first_boot.sh 
+ 
+ # logcatd
+ PRODUCT_PACKAGES += logcatd logpersist.start
+diff --git a/vendor/ntimespace/scripts/first_boot.sh b/vendor/ntimespace/scripts/first_boot.sh
+new file mode 100644
+index 0000000000..58c296de34
+--- /dev/null
++++ b/vendor/ntimespace/scripts/first_boot.sh
+@@ -0,0 +1,17 @@
++#!/system/bin/sh
++APK_PATH="system/priv-app/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022/qqbrowser_15.1.5.5032_GA_20240604_115940_1100125022.apk"
++
++log -t "MyTag" -p i "---this is first_boot_start"
++
++
++
++if [ ! -f /data/local/tmp/first_boot_done ] && [ -f $APK_PATH ]; then
++    log -t "MyTag" -p i "---this is first_boot_start"
++    # 在这里添加你的脚本内容
++    pm install $APK_PATH
++    pm clear com.tencent.mtt
++
++    # 脚本执行完成后，创建一个文件来标记脚本已经执行过
++    touch /data/local/tmp/first_boot_done
++    log -t "MyTag" -p i "---this is first_boot_done"
++fi
+diff --git a/vendor/ntimespace/scripts/s9.boot.rc b/vendor/ntimespace/scripts/s9.boot.rc
+index 03ed68bb53..54876cabca 100644
+--- a/vendor/ntimespace/scripts/s9.boot.rc
++++ b/vendor/ntimespace/scripts/s9.boot.rc
+@@ -3,3 +3,10 @@ on boot
+ 
+ on property:sys.boot_completed=1
+     exec root root -- /system/bin/sh -c /system/bin/script.sh true
++
++
++service snow /system/bin/sh /system/bin/first_boot.sh
++    class late_start
++    user root
++    group root
++    oneshot
+\ No newline at end of file

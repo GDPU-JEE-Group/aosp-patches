@@ -1,0 +1,1239 @@
+From 8c9173da38767abb31c9b907101002856c6ca6a4 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Tue, 30 Apr 2024 03:19:32 +0000
+Subject: [PATCH] Update GPS, but not completed
+
+---
+ .gitignore                            |   3 +
+ device/rockchip/rk3588/device.mk      |  10 +
+ hardware/rockchip/gps/Android.mk      |  39 ++
+ hardware/rockchip/gps/gps.h           |  30 ++
+ hardware/rockchip/gps/gps_hw.cpp      | 455 +++++++++++++++++++++
+ hardware/rockchip/gps/nmea_parser.cpp | 545 ++++++++++++++++++++++++++
+ hardware/rockchip/gps/nmea_parser.h   |  72 ++++
+ system/core/rootdir/init.rc           |   1 +
+ 8 files changed, 1155 insertions(+)
+ create mode 100644 hardware/rockchip/gps/Android.mk
+ create mode 100644 hardware/rockchip/gps/gps.h
+ create mode 100644 hardware/rockchip/gps/gps_hw.cpp
+ create mode 100644 hardware/rockchip/gps/nmea_parser.cpp
+ create mode 100644 hardware/rockchip/gps/nmea_parser.h
+
+diff --git a/.gitignore b/.gitignore
+index 144e8ec48a..858f076c8e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -2,5 +2,8 @@ IMAGE
+ out
+ .vscode
+ 
++A_patches
++packages/apps/ntimesapp/*.apk
++packages/apps/ntimesapp/lib
+ hardware/rockchip/libhwjpeg/src/version.h
+ hardware/rockchip/omx_il/include/rockchip/git_info.h
+diff --git a/device/rockchip/rk3588/device.mk b/device/rockchip/rk3588/device.mk
+index 78915881d6..6b0911972c 100644
+--- a/device/rockchip/rk3588/device.mk
++++ b/device/rockchip/rk3588/device.mk
+@@ -104,3 +104,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
+                 ro.build.shutdown_timeout=6 \
+                 persist.enable_task_snapshots=false \
+                 ro.vendor.frameratelock=true
++
++
++
++
++PRODUCT_PACKAGES += \
++    android.hardware.gnss@1.0 \
++    android.hardware.gnss@1.0.vendor \
++    android.hardware.gnss@1.0-impl \
++    android.hardware.gnss@1.0-service \
++    gps.rk30board
+\ No newline at end of file
+diff --git a/hardware/rockchip/gps/Android.mk b/hardware/rockchip/gps/Android.mk
+new file mode 100644
+index 0000000000..6afc135096
+--- /dev/null
++++ b/hardware/rockchip/gps/Android.mk
+@@ -0,0 +1,39 @@
++LOCAL_PATH := $(call my-dir)
++
++# HAL module implemenation, not prelinked, and stored in
++# hw/<SENSORS_HARDWARE_MODULE_ID>.<ro.product.board>.so
++include $(CLEAR_VARS)
++
++LOCAL_MULTILIB := both
++
++LOCAL_CFLAGS += -Wno-unused-parameter
++
++LOCAL_CPPFLAGS += -Wno-unused-parameter
++
++LOCAL_MODULE := gps.rk30board
++# LOCAL_MODULE := gps.$(TARGET_BOARD_HARDWARE)
++$(warning " LOCALP------------------------------------------ATH is $(TARGET_BOARD_HARDWARE)")
++$(warning " LOCALP------------------------------------------ATH is $(TARGET_BOARD_HARDWARE)")
++#LOCAL_MODULE := gps.rk3588
++
++LOCAL_MODULE_RELATIVE_PATH := hw
++
++LOCAL_PROPRIETARY_MODULE := true
++
++LOCAL_MODULE_TAGS := optional
++
++LOCAL_CFLAGS += -DLOG_TAG=\"GpsHal\" \
++	-DPLATFORM_SDK_VERSION=$(PLATFORM_SDK_VERSION) \
++    -DLOG_NDEBUG=0
++
++LOCAL_SRC_FILES := gps_hw.cpp nmea_parser.cpp
++
++LOCAL_SHARED_LIBRARIES := \
++        liblog \
++        libcutils \
++        libutils
++
++LOCAL_HEADER_LIBRARIES := \
++    libhardware_headers
++
++include $(BUILD_SHARED_LIBRARY)
+diff --git a/hardware/rockchip/gps/gps.h b/hardware/rockchip/gps/gps.h
+new file mode 100644
+index 0000000000..6cca3cb2cf
+--- /dev/null
++++ b/hardware/rockchip/gps/gps.h
+@@ -0,0 +1,30 @@
++#ifndef __GPS_H__
++#define __GPS_H__
++
++#include <hardware/gps.h>
++#include <android/log.h>
++#include <log/log.h>
++
++#define ERR(...) __android_log_print(ANDROID_LOG_ERROR, "jw_gps", __VA_ARGS__)
++#define INF(...) __android_log_print(ANDROID_LOG_INFO, "jw_gps", __VA_ARGS__)
++#define DBG(...) __android_log_print(ANDROID_LOG_DEBUG, "jw_gps", __VA_ARGS__)
++
++#define JWGPS_START         0xFF100000
++#define JWGPS_STOP          0xFF200000
++#define JWGPS_HEART_BEAT    0xFF300000
++
++
++
++#define GPS_CTRL "/data/misc/gps/gps_ctrl"  
++#define GPS_DATA "/data/misc/gps/gps_data"
++
++struct GpsState {
++    int             init;
++    int             fd;
++    GpsCallbacks    callbacks;
++    pthread_t       thread;
++    int             control[2];
++    volatile int    debug;
++};
++
++#endif
+diff --git a/hardware/rockchip/gps/gps_hw.cpp b/hardware/rockchip/gps/gps_hw.cpp
+new file mode 100644
+index 0000000000..ab985f35a8
+--- /dev/null
++++ b/hardware/rockchip/gps/gps_hw.cpp
+@@ -0,0 +1,455 @@
++#include <errno.h>
++#include <pthread.h>
++#include <fcntl.h>
++#include <sys/epoll.h>
++#include <unistd.h>
++#include <sys/socket.h>
++#include <sys/mman.h>
++#include <math.h>
++#include <time.h>
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <string.h>
++#include <cutils/properties.h>
++#include <cutils/sockets.h>
++#include <linux/input.h>
++#include <linux/uinput.h>
++#include <android/log.h>
++#include <log/log.h>
++#include <sys/un.h>
++#include "gps.h"
++#include "nmea_parser.h"
++
++/* commands sent to the gps thread */
++enum {
++    CMD_QUIT  = 0,
++    CMD_START = 1,
++    CMD_STOP  = 2
++};
++
++
++int started = 0; //it is a flag which start and stop read dev.
++
++GpsState _gps_state[1];
++int g_sockfd_ctrl, g_sockfd_data;
++struct sockaddr_un g_data_srv_addr, g_data_cli_addr;  //for gps data 
++struct sockaddr_un g_ctrl_srv_addr;                    //for control msg
++pthread_t g_receiver, g_serverConnecter;
++bool g_recvQuit;
++bool g_connecterQuit;
++char g_ctrlPath[256];
++char g_dataPath[256];
++
++
++int sendMsg(int sockfd, int type){
++    
++    struct iovec send_iov[1];
++    send_iov[0].iov_base = (void *)&type;
++    send_iov[0].iov_len = sizeof(int);
++    struct msghdr msg;
++    memset(&msg, 0, sizeof(msg));
++    msg.msg_name = &g_ctrl_srv_addr;
++    msg.msg_namelen = sizeof(g_ctrl_srv_addr);
++    msg.msg_iov = send_iov;
++    msg.msg_iovlen = 1;
++
++    // 发送 UDP 数据
++    ALOGV("sending type:0x%x to %s\n", type, g_ctrlPath);
++    ssize_t send_bytes = sendmsg(sockfd, &msg, 0);
++    /*if(send_bytes < 0)
++        ALOGE("send to %s error:%d %s\n", g_audio_out_path, errno, strerror(errno));
++    */
++    return send_bytes;
++}
++
++static void *server_connecter(void*) {
++    int ret = 0;
++    INF("connecter thread init pid:%d, tid:%d\n", getpid(), gettid());
++
++retry:
++    if(g_connecterQuit)
++        goto exit;
++    ret = connect(g_sockfd_ctrl, (struct sockaddr *) &g_ctrl_srv_addr, sizeof(g_ctrl_srv_addr));
++    if (!ret) {
++        INF("connect to %s success\n", g_ctrlPath);
++        while(!g_connecterQuit) {
++            if(sendMsg(g_sockfd_ctrl, JWGPS_HEART_BEAT) < 0) {
++                ERR("send heart beat to client:%s failed, reconnect\n", g_ctrlPath);
++                sleep(5);
++                goto retry;
++            }
++            sleep(10);
++        }
++    }else {
++        ERR("connect to %s error:%d %s\n", g_ctrlPath, errno, strerror(errno));
++        sleep(5);
++        goto retry;
++    }
++exit:
++    INF("connecter thread exit pid:%d, tid:%d\n", getpid(), gettid());
++	pthread_exit(NULL);
++}
++
++void gps_state_done(GpsState* s) {
++    // tell the thread to quit, and wait for it
++    char   cmd = CMD_QUIT;
++    void*  dummy;
++    write(s->control[0], &cmd, 1);
++    g_connecterQuit = true;
++    pthread_join(g_serverConnecter, NULL);
++    pthread_join(s->thread, &dummy);
++
++    // close the control socket pair
++    close( s->control[0] ); s->control[0] = -1;
++    close( s->control[1] ); s->control[1] = -1;
++    s->fd = -1;
++    s->init = 0;
++}
++
++void gps_state_start(GpsState*  s) {
++ 
++    DBG("%s called", __FUNCTION__);
++
++    char  cmd = CMD_START;
++    int   ret;
++
++    do {
++        ret=write(s->control[0], &cmd, 1);
++    } while (ret < 0 && errno == EINTR);
++
++    if (ret != 1)
++        DBG("%s: could not send CMD_START command: ret=%d: %s", __FUNCTION__, ret, strerror(errno));
++}
++
++void gps_state_stop(GpsState* s) {
++    DBG("%s called", __FUNCTION__);
++
++    char  cmd = CMD_STOP;
++    int   ret;
++
++    do {
++        ret = write(s->control[0], &cmd, 1);
++    } while(ret < 0 && errno == EINTR);
++
++    if (ret != 1)
++        DBG("%s: could not send CMD_STOP command: ret=%d: %s", __FUNCTION__, ret, strerror(errno));
++    //started=0;// stop read dev
++}
++
++
++static int epoll_register(int epoll_fd, int fd) {
++    int flags = fcntl(fd, F_GETFL);
++    fcntl(fd, F_SETFL, flags | O_NONBLOCK);
++
++    struct epoll_event  ev;
++    ev.events  = EPOLLIN;
++    ev.data.fd = fd;
++    epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &ev);
++    return 0;
++}
++
++static void epoll_unregister(int epoll_fd, int fd) {
++    epoll_ctl(epoll_fd, EPOLL_CTL_DEL, fd, NULL);
++}
++
++
++static void gps_state_thread(void* arg) {
++    GpsState*   state = (GpsState*) arg;
++    NmeaReader  reader;
++    int         epoll_fd   = epoll_create(4);
++    int         gps_fd     = -1;
++    int         control_fd = state->control[1];
++    socklen_t   addr_len = sizeof(g_data_cli_addr);
++    INF("gps thread running, gps_fd is %d, control_fd is :%d", gps_fd, control_fd);
++
++    // register control file descriptors for polling
++    epoll_register(epoll_fd, control_fd);
++    // register gps data descriptors for polling
++    epoll_register(epoll_fd, g_sockfd_data);
++        
++
++    // now loop
++    for(;;) {
++        struct epoll_event   events[4];
++        int nevents = epoll_wait(epoll_fd, events, 4, -1);
++        if (nevents < 0) {
++            if (errno != EINTR)
++                ERR("epoll_wait() unexpected error: %s", strerror(errno));
++            continue;
++        }
++
++        for(int ne = 0; ne < nevents; ne++) {
++            if((events[ne].events & (EPOLLERR|EPOLLHUP)) != 0) {
++                ERR("EPOLLERR or EPOLLHUP after epoll_wait() !?");
++                continue;
++            }
++
++            if((events[ne].events & EPOLLIN) != 0) {
++                int  fd = events[ne].data.fd;
++                DBG("getevent:%x, fd=%d", events[ne].events, fd);
++                if(fd == control_fd) {
++                    char  cmd = 255;
++                    int   ret;
++                    do {
++                        ret = read(fd, &cmd, 1);
++                    } while (ret < 0 && errno == EINTR);
++
++                    DBG("get cmd :%c", cmd);
++                    if (cmd == CMD_QUIT) { 
++                        DBG("gps thread quitting on demand");
++                        close(epoll_fd);
++                        return;
++                    } else if(cmd == CMD_START) { 
++                        if (!started) {
++                            INF("gps service starting");
++                            started = 1;
++                            reader.start(state->callbacks);
++                            epoll_register(epoll_fd, gps_fd);
++                            sendMsg(g_sockfd_ctrl, JWGPS_START);
++                        }
++                    } else if(cmd == CMD_STOP) {
++                        if(started) {
++                            INF("gps service stopping");
++                            started = 0;
++                            reader.stop();
++                            sendMsg(g_sockfd_ctrl, JWGPS_STOP);
++                            epoll_unregister(epoll_fd, gps_fd);
++                            close(gps_fd);
++                            gps_fd = -1;
++                        }
++                    }
++                }else if(fd == g_sockfd_data){
++                    if(started) {
++                        gps_fd = accept(g_sockfd_data, (struct sockaddr *)&g_data_cli_addr, &addr_len);
++                        if(gps_fd < 0) {
++                            ERR("gps accept data socket connect failed(ret<0) :%s", strerror(errno));
++                            break;
++                        }
++                        INF("gps accept data socket connec success, fd is %d", gps_fd);
++                        epoll_register(epoll_fd, gps_fd);
++                    }
++                }else if(fd == gps_fd) {
++                    char  buff[256] = {0};
++                    ssize_t len = read(fd, buff, sizeof(buff));
++
++                    if(len < 0) {
++                        ERR("gps read device files id failed(ret<0) :%s", strerror(errno));
++                        if (errno == EINTR) {
++                            continue;
++                        }
++                        if (errno != EWOULDBLOCK) {
++                            ERR("error while reading from gps daemon socket: %s:", strerror(errno));
++                        }
++                        break;
++                    }
++
++                    DBG("NMEA: %s", buff);
++                    for(ssize_t n = 0; n < len; ++n) {
++                        reader.input(buff[n]);
++                    }
++                } else {
++                    ERR("epoll_wait() returned unkown fd %d ?", fd);
++                }
++            }
++        }
++    }
++}
++
++void gps_state_init(GpsState*  state, GpsCallbacks* callbacks) {
++
++    state->init       = 1;
++    state->control[0] = -1;
++    state->control[1] = -1;
++    state->callbacks  = *callbacks;
++    state->fd = 1; //fake fd, but necessary
++    int ret = -1;
++    if (callbacks == NULL) {
++        ERR("no gps detected or state_callbacks is null cause gps_state_init failed.error=%d:%s", errno, strerror(errno));
++        return;
++    }
++    if((callbacks != NULL) && (callbacks->size == sizeof(GpsCallbacks))) {
++        state->callbacks = *callbacks;
++    } else {
++        ERR("gps_state_init Callback Function Error");
++        return;
++    }
++
++    if(socketpair(AF_LOCAL, SOCK_STREAM, 0, state->control) < 0) {
++        ERR("could not create thread control socket pair: %s", strerror(errno));
++        goto Fail;
++    }
++
++    ret = pthread_create(&g_serverConnecter, nullptr, server_connecter, nullptr);
++    if (ret) {
++        ERR("%s connecter thread create error:%s", __FUNCTION__, strerror(errno));
++        goto Fail;
++    }
++
++    state->thread = callbacks->create_thread_cb("gps_state_thread", gps_state_thread, state);
++    if ( !state->thread ) {
++        ERR("could not create gps thread: %s", strerror(errno));
++        goto Fail;
++    }
++
++    state->callbacks = *callbacks;
++    DBG("gps state initialized");
++    return;
++
++Fail:
++    gps_state_done( state );
++}
++
++
++
++
++static int gps_init(GpsCallbacks* callbacks) {
++    DBG("%s called", __FUNCTION__);
++
++    
++    GpsState* s = _gps_state;
++
++    if (!s->init) {
++        gps_state_init(s, callbacks);
++    }
++
++    if (s->fd < 0)
++        return -1;
++
++    return 0;
++}
++
++static void gps_cleanup(void) {
++    GpsState* s = _gps_state;
++    if (s->init) {
++        gps_state_done(s);
++    }
++}
++
++static int gps_start() {
++    DBG("%s", __FUNCTION__);
++
++    GpsState*  s = _gps_state;
++    if (!s->init) {
++        DBG("%s: called with uninitialized state !!", __FUNCTION__);
++        return -1;
++    }
++
++    DBG("%s: called", __FUNCTION__);
++    gps_state_start(s);
++    return 0;
++}
++
++static int gps_stop() {
++    GpsState*  s = _gps_state;
++    if (!s->init) {
++        DBG("%s: called with uninitialized state !!", __FUNCTION__);
++        return -1;
++    }
++
++    DBG("%s: called", __FUNCTION__);
++    gps_state_stop(s);
++    return 0;
++}
++
++
++static int gps_inject_time(GpsUtcTime time, int64_t timeReference, int uncertainty) {
++    return 0;
++}
++
++static int gps_inject_location(double latitude, double longitude, float accuracy) {
++    return 0;
++}
++
++static void gps_delete_aiding_data(GpsAidingData flags) {
++     return ;
++}
++
++static int gps_set_position_mode(GpsPositionMode mode, GpsPositionRecurrence recurrence,
++        uint32_t min_interval, uint32_t preferred_accuracy, uint32_t preferred_time) {
++    return 0;
++}
++
++static const void* gps_get_extension(const char* name) {
++    return NULL;
++}
++
++static const GpsInterface  gps_interface = {
++    .size = sizeof(GpsInterface),
++    .init = gps_init,
++    .start = gps_start,
++    .stop = gps_stop,
++    .cleanup = gps_cleanup,
++    .inject_time = gps_inject_time,
++    .inject_location = gps_inject_location,
++    .delete_aiding_data = gps_delete_aiding_data,
++    .set_position_mode = gps_set_position_mode,
++    .get_extension = gps_get_extension,
++};
++
++
++const GpsInterface* gps__get_gps_interface(struct gps_device_t* dev){
++    return &gps_interface;
++}
++
++
++static int open_gps(const struct hw_module_t* module, char const* name,
++        struct hw_device_t** device) {
++
++    struct gps_device_t *dev = (struct gps_device_t*)malloc(sizeof(struct gps_device_t));
++    memset(dev, 0, sizeof(*dev));
++
++    property_get("ro.gps.ctrl", g_ctrlPath, GPS_CTRL);
++    property_get("ro.gps.data", g_dataPath, GPS_DATA);
++
++    g_sockfd_ctrl = socket(AF_UNIX, SOCK_DGRAM, 0);
++    if (g_sockfd_ctrl == -1) {
++        ERR("gps_init: unable to create gps ctrl socket, error=%d:%s", errno, strerror(errno));
++        return -1; 
++    }
++    g_sockfd_data = socket(AF_UNIX, SOCK_STREAM, 0);
++    if (g_sockfd_data == -1) {
++        ERR("gps_init: unable to create gps data socket, error=%d:%s", errno, strerror(errno));
++        return -1; 
++    }
++	memset(&g_ctrl_srv_addr, 0, sizeof(g_ctrl_srv_addr));
++	g_ctrl_srv_addr.sun_family = AF_UNIX;
++	strncpy(g_ctrl_srv_addr.sun_path, g_ctrlPath, sizeof(g_ctrl_srv_addr.sun_path) - 1);  //post to server
++
++	memset(&g_data_srv_addr, 0, sizeof(g_data_srv_addr));
++	g_data_srv_addr.sun_family = AF_UNIX;
++	strncpy(g_data_srv_addr.sun_path, g_dataPath, sizeof(g_data_srv_addr.sun_path) - 1);  //recv from client
++
++    if(!access(g_dataPath, F_OK))
++        unlink(g_dataPath);
++	if (bind(g_sockfd_data, (struct sockaddr *)&g_data_srv_addr, sizeof(g_data_srv_addr)) < 0) {
++		ERR("%s Binding gps data sock failed:%s", __FUNCTION__, strerror(errno));
++        return -1; 
++    }
++    if(listen(g_sockfd_data, 1) < 0) {
++        ERR("gps_init: could not listen on gps data socket: %s", strerror(errno));
++    }
++
++    dev->common.tag = HARDWARE_DEVICE_TAG;
++    dev->common.version = 0;
++    dev->common.module = (struct hw_module_t*)module;
++    dev->get_gps_interface = gps__get_gps_interface;
++
++    *device = (struct hw_device_t*)dev;
++    return 0;
++}
++
++
++static struct hw_module_methods_t gps_module_methods = {
++    .open = open_gps
++};
++
++struct hw_module_t HAL_MODULE_INFO_SYM = {
++    .tag = HARDWARE_MODULE_TAG,
++    .version_major = 1,
++    .version_minor = 0,
++    .id = GPS_HARDWARE_MODULE_ID,
++    .name = "GPS Module",
++    .author = "The Android Open Source Project",
++    .methods = &gps_module_methods,
++};
++
+diff --git a/hardware/rockchip/gps/nmea_parser.cpp b/hardware/rockchip/gps/nmea_parser.cpp
+new file mode 100644
+index 0000000000..5060c65b47
+--- /dev/null
++++ b/hardware/rockchip/gps/nmea_parser.cpp
+@@ -0,0 +1,545 @@
++#include <cstdint>
++#include <stdio.h>
++#include <time.h>
++#include <stdlib.h>
++#include <string.h>
++#include <stdarg.h>
++#include "gps.h"
++#include "nmea_parser.h"
++
++void NmeaReader::start(const GpsCallbacks& gpsCallbacks) {
++    this->pos      = 0;
++    this->overflow = 0;
++    this->utc_year = -1;
++    this->utc_mon  = -1;
++    this->utc_day  = -1;
++    this->callback = NULL;
++    memset(&this->fix, 0, sizeof(this->fix));
++    memset(&this->sv_status, 0, sizeof(this->sv_status));
++    this->fix.size = sizeof(this->fix);
++    update_utc_diff();
++
++    set_callback(gpsCallbacks.location_cb);
++    set_nmea_callback(gpsCallbacks.nmea_cb);
++    set_status_callback(gpsCallbacks.status_cb);
++    set_sv_status_callback(gpsCallbacks.sv_status_cb);
++}
++
++void NmeaReader::stop() {
++    set_callback(NULL);
++    set_nmea_callback(NULL);
++    set_status_callback(NULL);
++    set_sv_status_callback(NULL);
++}
++
++void NmeaReader::input(char c) {
++    if (this->overflow) {
++        this->overflow = (c != '\n');
++        return;
++    }
++
++    if (this->pos >= int(sizeof(this->in) - 1)) { 
++        this->overflow = 1;
++        this->pos      = 0;
++        return;
++    }
++
++    
++    this->in[this->pos] = (char)c;
++    ++this->pos;
++
++    if (c == '\n') {
++        this->in[this->pos] = '\0';
++        parse(); 
++        this->pos = 0;
++    }
++}
++
++//static
++int NmeaReader::nmea_tokenizer_init(NmeaTokenizer& nt, const char* start, const char* end) {
++    int count = 0;
++    const char* startPos = (*start == '$') ? start + 1 : start; 
++
++    nt.tokens[0] = Token{startPos, startPos};
++
++    for(const char* p = startPos; p < end; ++p) {
++        if(',' == *p) { 
++            ++count;
++            if(count == NmeaTokenizer::MAX_NMEA_TOKENS) {
++                break;
++            }
++            nt.tokens[count].start = nt.tokens[count].end = p + 1;
++            continue;
++        } else if('*' == *p) {
++            ++count;
++            break; 
++        } else {
++            ++nt.tokens[count].end;
++        }
++    }
++
++    nt.count = count;
++    return count;
++}
++
++NmeaReader::Token NmeaReader::nmea_tokenizer_get(NmeaTokenizer& t, int index) {
++    Token  tok;
++    static const char*  dummy = "";
++
++    if (index < 0 || index >= t.count) {
++        tok.start = tok.end = dummy;
++    } else {
++        tok = t.tokens[index];
++    }
++    return tok;
++}
++
++int NmeaReader::str2int(const char* p, const char* end) {
++    int result = 0;
++    for(int len = end - p; len > 0; len--, p++ ) {
++        if (p >= end) {
++            return -1;
++        }
++
++        int c = *p - '0';
++        if (unsigned(c)>= 10) {
++            return -1;
++        }
++
++        result = result * 10 + c;
++    }
++    return  result;
++}
++
++double NmeaReader::str2float(const char* p, const char* end) {
++    int   len    = end - p;
++    char  temp[16];
++
++    if (len >= (int)sizeof(temp)) {
++        return 0.;
++    }
++
++    memcpy( temp, p, len );
++    temp[len] = 0;
++    return strtod( temp, NULL );
++}
++
++void NmeaReader::update_utc_diff() {
++    time_t         now = time(NULL);
++    struct tm      tm_local;
++    struct tm      tm_utc;
++    long           time_local, time_utc;
++
++    gmtime_r(&now, &tm_utc);
++    localtime_r(&now, &tm_local);
++
++    time_local = tm_local.tm_sec +
++                 60*(tm_local.tm_min  +
++                 60*(tm_local.tm_hour +
++                 24*(tm_local.tm_yday +
++                 365*tm_local.tm_year)));
++
++    time_utc = tm_utc.tm_sec +
++               60*(tm_utc.tm_min  +
++               60*(tm_utc.tm_hour +
++               24*(tm_utc.tm_yday +
++               365*tm_utc.tm_year)));
++
++    this->utc_diff = time_utc - time_local;
++}
++
++double NmeaReader::convert_from_hhmm(Token  tok) {
++    double  val     = str2float(tok.start, tok.end);
++    int     degrees = int(floor(val) / 100);
++    double  minutes = val - degrees * 100.;
++    double  dcoord  = degrees + minutes / 60.0;
++    return  dcoord;
++}
++
++int NmeaReader::update_accuracy() {
++    // Always return 20m accuracy.
++    // Possibly parse it from the NMEA sentence in the future.
++    this->fix.flags   |= GPS_LOCATION_HAS_ACCURACY;
++    this->fix.accuracy = 20;
++    return 0;
++}
++
++int NmeaReader::update_sv(Token tok_sat_num, Token tok_elevation, Token tok_azimuth, Token tok_snr ) {
++    int prn = str2int(tok_sat_num.start, tok_sat_num.end);
++    /*GpsSvInfo *psvInfo = &r->sv_status.sv_list[r->sv_status.num_svs];*/
++    GpsSvInfo *psvInfo = NULL;
++    for(int i = 0; i < GPS_MAX_SVS; i++) {
++        if (prn == this->sv_status.sv_list[i].prn) {
++            psvInfo = &this->sv_status.sv_list[i];
++            break;
++        }
++    }
++
++    if (!psvInfo) {
++        if (this->sv_status.num_svs >= GPS_MAX_SVS) {
++            this->sv_status.num_svs = GPS_MAX_SVS - 1;
++        }
++        psvInfo = &this->sv_status.sv_list[this->sv_status.num_svs];
++        this->sv_status.num_svs++;
++    }
++
++    psvInfo->size = sizeof(GpsSvInfo);
++    psvInfo->prn = str2int(tok_sat_num.start, tok_sat_num.end);
++    psvInfo->snr = str2float(tok_snr.start, tok_snr.end);
++    psvInfo->elevation = str2float(tok_elevation.start, tok_elevation.end);
++    psvInfo->azimuth = str2float(tok_azimuth.start, tok_azimuth.end);
++    //DBG("num_svs: %d", r->sv_status.num_svs);
++    //DBG("prn %d, snr %.4f, elevation %.4f, azimuth %.4f", psvInfo->prn, psvInfo->snr, psvInfo->elevation, psvInfo->azimuth);
++    /*r->sv_status.num_svs++;*/
++    /*r->sv_status.num_svs %= GPS_MAX_SVS;*/
++    return 0;
++}
++
++int NmeaReader::update_speed(Token speed) {
++    Token   tok = speed;
++    if (tok.start >= tok.end) {
++        return -1;
++    }
++
++    this->fix.flags |= GPS_LOCATION_HAS_SPEED;
++    this->fix.speed  = str2float(tok.start, tok.end);
++    return 0;
++}
++
++int NmeaReader::update_bearing(Token bearing) {
++    Token   tok = bearing;
++    if (tok.start >= tok.end) {
++        return -1;
++    }
++
++    this->fix.flags   |= GPS_LOCATION_HAS_BEARING;
++    this->fix.bearing  = str2float(tok.start, tok.end);
++    return 0;
++}
++
++int NmeaReader::update_date(Token date, Token time) {
++    Token  tok = date;
++    int    day, mon, year;
++
++    if (tok.start + 6 != tok.end) {
++        DBG("date not properly formatted: '%.*s'", int(tok.end-tok.start), tok.start);
++        return -1;
++    }
++    day  = str2int(tok.start,   tok.start + 2);
++    mon  = str2int(tok.start + 2, tok.start + 4);
++    year = str2int(tok.start + 4, tok.start + 6) + 2000;
++
++    if ((day|mon|year) < 0) {
++        DBG("date not properly formatted: '%.*s'", int(tok.end-tok.start), tok.start);
++        return -1;
++    }
++
++    this->utc_year = year;
++    this->utc_mon  = mon;
++    this->utc_day  = day;
++    return update_time(time);
++}
++
++int NmeaReader::update_time(Token tok) {
++    int        hour, minute;
++    double     seconds;
++    struct tm  tm;
++    time_t     fix_time;
++
++    if (tok.start + 6 > tok.end) {
++        return -1;
++    }
++
++    if (this->utc_year < 0) {
++        // no date yet, get current one
++        time_t  now = time(NULL);
++        gmtime_r( &now, &tm );
++        this->utc_year = tm.tm_year + 1900;
++        this->utc_mon  = tm.tm_mon + 1;
++        this->utc_day  = tm.tm_mday;
++    }
++
++    hour    = str2int(tok.start,   tok.start+2);
++    minute  = str2int(tok.start+2, tok.start+4);
++    seconds = str2float(tok.start+4, tok.end);
++
++    tm.tm_hour  = hour;
++    tm.tm_min   = minute;
++    tm.tm_sec   = (int) seconds;
++    tm.tm_year  = this->utc_year - 1900;
++    tm.tm_mon   = this->utc_mon - 1;
++    tm.tm_mday  = this->utc_day;
++    tm.tm_isdst = -1;
++
++    fix_time = mktime(&tm) + this->utc_diff;
++    this->fix.timestamp = (long long)fix_time * 1000;
++    return 0;
++}
++
++int NmeaReader::update_latlong(Token latitude, char latitudeHemi, Token longitude, char longitudeHemi) {
++    double   lat, lon;
++    Token    tok;
++
++    tok = latitude;
++    if (tok.start + 6 > tok.end) {
++        DBG("latitude is too short: '%.*s'", int(tok.end-tok.start), tok.start);
++        return -1;
++    }
++    lat = convert_from_hhmm(tok);
++    if (latitudeHemi == 'S')
++        lat = -lat;
++
++    tok = longitude;
++    if (tok.start + 6 > tok.end) {
++        DBG("longitude is too short: '%.*s'", int(tok.end-tok.start), tok.start);
++        return -1;
++    }
++    lon = convert_from_hhmm(tok);
++    if (longitudeHemi == 'W')
++        lon = -lon;
++
++    this->fix.flags    |= GPS_LOCATION_HAS_LAT_LONG;
++    this->fix.latitude  = lat;
++    this->fix.longitude = lon;
++    return 0;
++}
++
++int NmeaReader::update_altitude(Token altitude, Token units) {
++    Token   tok = altitude;
++    if (tok.start >= tok.end) {
++        return -1;
++    }
++
++    this->fix.flags   |= GPS_LOCATION_HAS_ALTITUDE;
++    this->fix.altitude = str2float(tok.start, tok.end);
++    return 0;
++}
++
++int NmeaReader::update_used_in_fix_mask(Token tok) {
++    if (tok.start >= tok.end) {
++        return -1;
++    }
++
++    this->sv_status.used_in_fix_mask |= (1 << str2int(tok.start, tok.end));
++    //DBG("sv_status used_in_fix_mask 0x%x", r->sv_status.used_in_fix_mask);
++    return 0;
++}
++
++void NmeaReader::parse() {
++   /* we received a complete sentence, now parse it to generate
++    * a new GPS fix...
++    */
++    NmeaTokenizer  tzer;
++    Token          tok;
++
++    DBG("Received: %.*s", this->pos, this->in);
++    if (this->pos < 9) {
++        DBG("Too short. discarded.");
++        return;
++    }
++
++    nmea_tokenizer_init(tzer, this->in, this->in + this->pos);
++#if GPS_DEBUG
++    {
++        int  n;
++        DBG("Found %d tokens", tzer.count);
++        for (n = 0; n < tzer.count; n++) {
++            Token  tok = nmea_tokenizer_get(tzer, n);
++            DBG("%2d: '%.*s'", n, int(tok.end - tok.start), tok.start);
++        }
++    }
++#endif
++
++    tok = nmea_tokenizer_get(tzer, 0);
++    if (tok.start + 5 > tok.end) {
++        DBG("sentence id '%.*s' too short, ignored.", int(tok.end-tok.start), tok.start);
++        return;
++    }
++
++    // ignore first two characters.
++    tok.start += 2;
++    if ( !memcmp(tok.start, "GGA", 3) ) {
++        DBG("parser GGA");
++        // GPS fix
++        Token  tok_time          = nmea_tokenizer_get(tzer,1);
++        Token  tok_latitude      = nmea_tokenizer_get(tzer,2);
++        Token  tok_latitudeHemi  = nmea_tokenizer_get(tzer,3);
++        Token  tok_longitude     = nmea_tokenizer_get(tzer,4);
++        Token  tok_longitudeHemi = nmea_tokenizer_get(tzer,5);
++        Token  tok_altitude      = nmea_tokenizer_get(tzer,9);
++        Token  tok_altitudeUnits = nmea_tokenizer_get(tzer,10);
++
++        update_time(tok_time);
++        update_latlong(tok_latitude, tok_latitudeHemi.start[0], tok_longitude, tok_longitudeHemi.start[0]);
++        update_altitude(tok_altitude, tok_altitudeUnits);
++    } else if ( !memcmp(tok.start, "GSA", 3) ) {
++        // psw0523 add
++        DBG("parser GSA");
++        Token tok_id1 = nmea_tokenizer_get(tzer,3);
++        Token tok_id2 = nmea_tokenizer_get(tzer,4);
++        Token tok_id3 = nmea_tokenizer_get(tzer,5);
++        Token tok_id4 = nmea_tokenizer_get(tzer,6);
++        Token tok_id5 = nmea_tokenizer_get(tzer,7);
++        Token tok_id6 = nmea_tokenizer_get(tzer,8);
++        Token tok_id7 = nmea_tokenizer_get(tzer,9);
++        Token tok_id8 = nmea_tokenizer_get(tzer,10);
++        Token tok_id9 = nmea_tokenizer_get(tzer,11);
++        Token tok_id10 = nmea_tokenizer_get(tzer,12);
++        Token tok_id11 = nmea_tokenizer_get(tzer,13);
++        Token tok_id12 = nmea_tokenizer_get(tzer,14);
++
++        /*r->sv_status.used_in_fix_mask = 0;*/
++
++        update_used_in_fix_mask(tok_id1);
++        update_used_in_fix_mask(tok_id2);
++        update_used_in_fix_mask(tok_id3);
++        update_used_in_fix_mask(tok_id4);
++        update_used_in_fix_mask(tok_id5);
++        update_used_in_fix_mask(tok_id6);
++        update_used_in_fix_mask(tok_id7);
++        update_used_in_fix_mask(tok_id8);
++        update_used_in_fix_mask(tok_id9);
++        update_used_in_fix_mask(tok_id10);
++        update_used_in_fix_mask(tok_id11);
++        update_used_in_fix_mask(tok_id12);
++        // end psw0523
++    } else if ( !memcmp(tok.start, "RMC", 3) ) {
++        DBG("parser RMC");
++        Token  tok_time          = nmea_tokenizer_get(tzer,1);
++        Token  tok_fixStatus     = nmea_tokenizer_get(tzer,2);
++        Token  tok_latitude      = nmea_tokenizer_get(tzer,3);
++        Token  tok_latitudeHemi  = nmea_tokenizer_get(tzer,4);
++        Token  tok_longitude     = nmea_tokenizer_get(tzer,5);
++        Token  tok_longitudeHemi = nmea_tokenizer_get(tzer,6);
++        Token  tok_speed         = nmea_tokenizer_get(tzer,7);
++        Token  tok_bearing       = nmea_tokenizer_get(tzer,8);
++        Token  tok_date          = nmea_tokenizer_get(tzer,9);
++
++        DBG("in RMC, fixStatus=%c", tok_fixStatus.start[0]);
++        if (tok_fixStatus.start[0] == 'A') {
++            update_date(tok_date, tok_time);
++            update_latlong(tok_latitude, tok_latitudeHemi.start[0], tok_longitude, tok_longitudeHemi.start[0]);
++
++            update_bearing(tok_bearing);
++            update_speed(tok_speed);
++        }
++    } else if (!memcmp(tok.start, "GSV", 3)) {
++        DBG("parser GSV");
++        int num_svs = (tzer.count - 3) / 4;
++        int n;
++        int token_num = 4;
++        Token tok_total_number;
++        Token tok_current_number;
++        Token tok_sat_num;
++        Token tok_elevation;
++        Token tok_azimuth;
++        Token tok_snr;
++
++        tok_total_number = nmea_tokenizer_get(tzer,1);
++        tok_current_number = nmea_tokenizer_get(tzer,2);
++        this->gsv_total_number = str2int(tok_total_number.start, tok_total_number.end);
++        this->gsv_current_number = str2int(tok_current_number.start, tok_current_number.end);
++        /*memset(&r->sv_status, 0, sizeof(GpsSvInfo));*/
++        /*r->sv_status.size = sizeof(GpsSvInfo);*/
++        for (n = 0; n < num_svs; n++) {
++            tok_sat_num = nmea_tokenizer_get(tzer,token_num);
++            token_num++;
++            tok_elevation = nmea_tokenizer_get(tzer,token_num);
++            token_num++;
++            tok_azimuth = nmea_tokenizer_get(tzer,token_num);
++            token_num++;
++            tok_snr = nmea_tokenizer_get(tzer,token_num);
++            token_num++;
++            update_sv(tok_sat_num, tok_elevation, tok_azimuth, tok_snr);
++        }
++        // end psw0523
++    }
++    else {
++        tok.start -= 2;
++        DBG("unknown sentence '%.*s", int(tok.end-tok.start), tok.start);
++    }
++
++    // Always update accuracy
++    this->update_accuracy();
++
++    if (this->fix.flags != 0) {
++#if GPS_DEBUG
++        char   temp[256];
++        char*  p   = temp;
++        char*  end = p + sizeof(temp);
++        struct tm   utc;
++
++        p += snprintf( p, end-p, "sending fix" );
++        if (this->fix.flags & GPS_LOCATION_HAS_LAT_LONG) {
++            p += snprintf(p, end-p, " lat=%g lon=%g", this->fix.latitude, this->fix.longitude);
++        }
++        if (this->fix.flags & GPS_LOCATION_HAS_ALTITUDE) {
++            p += snprintf(p, end-p, " altitude=%g", this->fix.altitude);
++        }
++        if (this->fix.flags & GPS_LOCATION_HAS_SPEED) {
++            p += snprintf(p, end-p, " speed=%g", this->fix.speed);
++        }
++        if (this->fix.flags & GPS_LOCATION_HAS_BEARING) {
++            p += snprintf(p, end-p, " bearing=%g", this->fix.bearing);
++        }
++        if (this->fix.flags & GPS_LOCATION_HAS_ACCURACY) {
++            p += snprintf(p,end-p, " accuracy=%g", this->fix.accuracy);
++        }
++        gmtime_r( (time_t*) &this->fix.timestamp, &utc );
++        p += snprintf(p, end-p, " time=%s", asctime( &utc ) );
++        DBG("%s", temp);
++#endif
++
++        if (this->callback) {
++            if (this->fix.flags & GPS_LOCATION_HAS_LAT_LONG) {
++                this->callback(&this->fix);
++            }
++            // psw0523 add
++            if (this->nmea_callback) {
++                DBG("nmea_callback:%d:%s", this->pos, this->in);
++                this->nmea_callback(this->fix.timestamp, this->in, this->pos);
++            }
++
++            if (this->sv_status_callback) {
++                this->sv_status.size = sizeof(GpsSvStatus);
++                this->sv_status_callback(&this->sv_status);
++                /*this->gsv_total_number = 0;*/
++                /*this->gsv_current_number = 0;*/
++                /*memset(&this->sv_status, 0, sizeof(GpsSvStatus));*/
++            }
++            
++            if (this->status_callback) {
++                this->status.size = sizeof(GpsStatus);
++                this->status.status = GPS_STATUS_SESSION_BEGIN;
++                this->status_callback(&this->status);
++            }
++            // end psw0523
++            this->fix.flags = 0;
++        } else {
++            if(this->callback==NULL) {
++            }
++            DBG("no callback, keeping data until needed !");
++        }
++    }
++}
++
++void NmeaReader::set_callback(gps_location_callback cb) {
++    this->callback = cb;
++    if (cb != NULL && this->fix.flags != 0) {
++        this->callback(&this->fix);
++        this->fix.flags = 0;
++    }
++}
++
++void NmeaReader::set_nmea_callback(gps_nmea_callback cb) {
++    this->nmea_callback = cb;
++}
++
++void NmeaReader::set_sv_status_callback(gps_sv_status_callback cb) {
++    this->sv_status_callback = cb;
++}
++
++void NmeaReader::set_status_callback(gps_status_callback cb) {
++    this->status_callback = cb;
++}
++
+diff --git a/hardware/rockchip/gps/nmea_parser.h b/hardware/rockchip/gps/nmea_parser.h
+new file mode 100644
+index 0000000000..f7a4872f18
+--- /dev/null
++++ b/hardware/rockchip/gps/nmea_parser.h
+@@ -0,0 +1,72 @@
++#ifndef __NMEA_PARSER_H__
++#define __NMEA_PARSER_H__
++
++#include <math.h>
++#include <hardware/gps.h>
++
++
++class NmeaReader {
++
++private:
++    struct Token {
++        const char*  start;
++        const char*  end;
++    };
++
++    struct NmeaTokenizer {
++        const static int MAX_NMEA_TOKENS = 30;
++        int     count;
++        Token   tokens[ MAX_NMEA_TOKENS ];
++    };
++
++public:
++    const static int NMEA_MAX_SIZE = 128;
++
++private:
++    int     pos;
++    int     overflow;
++    int     utc_year;
++    int     utc_mon;
++    int     utc_day;
++    int     utc_diff;
++    GpsLocation  fix;
++    gps_location_callback  callback; //位置信息回调
++    gps_nmea_callback nmea_callback; //NMEA数据回调
++    gps_sv_status_callback sv_status_callback; //SV信息状态回调
++    gps_status_callback status_callback; //状态信息回调
++    GpsSvStatus sv_status;
++    int gsv_total_number;
++    int gsv_current_number;
++    GpsStatus status;
++    char in[NMEA_MAX_SIZE + 1]; 
++
++public:
++    void start(const GpsCallbacks& gpsCallbacks);
++    void stop();
++    void input(char c); 
++
++private:
++    static int nmea_tokenizer_init(NmeaTokenizer& t, const char* start, const char* end);
++    static Token nmea_tokenizer_get(NmeaTokenizer& t, int index);
++    static int str2int(const char* p, const char* end);
++    static double str2float(const char* p, const char* end);
++    static double convert_from_hhmm(Token  tok);
++    void update_utc_diff();
++    int update_accuracy();
++    int update_sv(Token tok_sat_num, Token tok_elevation, Token tok_azimuth, Token tok_snr );
++    int update_speed(Token speed);
++    int update_bearing(Token bearing);
++    int update_date(Token date, Token time);
++    int update_time(Token tok);
++    int update_latlong(Token latitude, char latitudeHemi, Token longitude, char longitudeHemi);
++    int update_altitude(Token altitude, Token units);
++    int update_used_in_fix_mask(Token tok);
++    void parse(); 
++
++    void set_callback(gps_location_callback cb);
++    void set_nmea_callback(gps_nmea_callback cb);
++    void set_sv_status_callback(gps_sv_status_callback cb);
++    void set_status_callback(gps_status_callback cb);
++};
++
++#endif
+diff --git a/system/core/rootdir/init.rc b/system/core/rootdir/init.rc
+index ee6cfd0519..61784c45cf 100644
+--- a/system/core/rootdir/init.rc
++++ b/system/core/rootdir/init.rc
+@@ -761,6 +761,7 @@ on boot
+     class_start hal
+ 
+     class_start core
++    mkdir /data/misc/gps/ 0755 gps gps
+ 
+ on nonencrypted
+     class_start main
+-- 
+2.25.1
+

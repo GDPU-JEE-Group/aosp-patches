@@ -1,0 +1,1034 @@
+From 66cd54a66a2cae12b0a8843a1c6c4a3fb0a28737 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Tue, 14 May 2024 12:08:12 +0000
+Subject: [PATCH 2/2] Fix Bluetooth on and off error
+
+---
+ build_docker_android_snow.sh                  |   1 +
+ device/rockchip/space-common/apps.mk          |   2 +
+ device/rockchip/space-common/device.mk        |   4 +-
+ device/rockchip/space-common/snow/Android.bp  |   6 +
+ device/rockchip/space-common/snow/hello.cpp   |   7 +
+ .../rockchip/space-common/snowjava/Android.bp |  10 +
+ .../snowjava/com/snow/main/HelloJava.java     |   9 +
+ .../android/bluetooth/BluetoothAdapter.java   | 309 ++++++++++++------
+ .../internal/space/api/BluetoothMock.java     |  10 +-
+ vendor/ntimespace/scripts/snow.rc             |   4 +
+ 10 files changed, 257 insertions(+), 105 deletions(-)
+ create mode 100644 device/rockchip/space-common/snow/Android.bp
+ create mode 100644 device/rockchip/space-common/snow/hello.cpp
+ create mode 100644 device/rockchip/space-common/snowjava/Android.bp
+ create mode 100644 device/rockchip/space-common/snowjava/com/snow/main/HelloJava.java
+ create mode 100644 vendor/ntimespace/scripts/snow.rc
+
+diff --git a/build_docker_android_snow.sh b/build_docker_android_snow.sh
+index b2a225b8dc..de8dd4833d 100755
+--- a/build_docker_android_snow.sh
++++ b/build_docker_android_snow.sh
+@@ -141,3 +141,4 @@ fi
+ cd $PROJECT_TOP
+ echo  $STUB_PATH/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz  root@192.168.30.34:/userdata/snow/
+ scp $STUB_PATH/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz  root@192.168.30.34:/userdata/snow/
++ssh root@192.168.30.34 /userdata/snow/ctl.sh -b /userdata/snow/$STUB_PATH/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz 0
+diff --git a/device/rockchip/space-common/apps.mk b/device/rockchip/space-common/apps.mk
+index bc62036417..93e2e00dba 100644
+--- a/device/rockchip/space-common/apps.mk
++++ b/device/rockchip/space-common/apps.mk
+@@ -31,3 +31,5 @@ PRODUCT_PACKAGES += \
+ # 应用宝
+ ##AppStore_v100_docker
+ ##Launcher3-aosp-withQuickstep-release
++
++PRODUCT_PACKAGES += hello hellojava
+\ No newline at end of file
+diff --git a/device/rockchip/space-common/device.mk b/device/rockchip/space-common/device.mk
+index 9930c67ad6..19e3e6609f 100644
+--- a/device/rockchip/space-common/device.mk
++++ b/device/rockchip/space-common/device.mk
+@@ -62,7 +62,9 @@ PRODUCT_COPY_FILES += \
+         vendor/ntimespace/scripts/os_prepars.sh:system/etc/scripts/init/os_prepars.sh \
+         vendor/ntimespace/scripts/os_prepars.sh:system/etc/scripts/boot/os_prepars.sh \
+         vendor/ntimespace/scripts/s9.boot.rc:system/etc/init/s9.boot.rc \
+-        vendor/ntimespace/scripts/script.sh:system/bin/script.sh
++        vendor/ntimespace/scripts/snow.rc:system/etc/init/snow.rc \
++        vendor/ntimespace/scripts/script.sh:system/bin/script.sh \
++        vendor/ntimespace/scripts/snow.sh:system/bin/snow.sh
+ 
+ # logcatd
+ PRODUCT_PACKAGES += logcatd logpersist.start
+diff --git a/device/rockchip/space-common/snow/Android.bp b/device/rockchip/space-common/snow/Android.bp
+new file mode 100644
+index 0000000000..5f23458489
+--- /dev/null
++++ b/device/rockchip/space-common/snow/Android.bp
+@@ -0,0 +1,6 @@
++cc_binary {                 //模块类型为可执行文件
++    name: "hello",          //模块名hello
++    srcs: ["hello.cpp"],    //源文件列表
++    cflags: ["-Werror"],    //添加编译选项
++    product_specific: true,        //编译出来放在/product目录下(默认是放在/system目录下)
++}
+diff --git a/device/rockchip/space-common/snow/hello.cpp b/device/rockchip/space-common/snow/hello.cpp
+new file mode 100644
+index 0000000000..ca1e893447
+--- /dev/null
++++ b/device/rockchip/space-common/snow/hello.cpp
+@@ -0,0 +1,7 @@
++#include <cstdio>
++
++int main()
++{
++    printf("Hello , I am chaixiang!\n");
++    return 0;
++}
+diff --git a/device/rockchip/space-common/snowjava/Android.bp b/device/rockchip/space-common/snowjava/Android.bp
+new file mode 100644
+index 0000000000..13e24f577f
+--- /dev/null
++++ b/device/rockchip/space-common/snowjava/Android.bp
+@@ -0,0 +1,10 @@
++java_library {
++    name: "hellojava",
++    installable: true,
++    product_specific: true,
++    srcs: ["**/*.java"],
++    sdk_version: "current"
++}
++
++// 这里着重解释一下 installable 这个选项，如果不指定 installable: true, 则编译出来的 jar 包里面是 .class 文件。这种包是没法安装到系统上的，只能给其他 java 模块作为 static_libs 依赖。
++// 指定 installable: true, 则编译出来的 jar 包里面是 classes.dex 文件。这种才是 Android 虚拟机可以加载的格式。
+diff --git a/device/rockchip/space-common/snowjava/com/snow/main/HelloJava.java b/device/rockchip/space-common/snowjava/com/snow/main/HelloJava.java
+new file mode 100644
+index 0000000000..c9bba9ef04
+--- /dev/null
++++ b/device/rockchip/space-common/snowjava/com/snow/main/HelloJava.java
+@@ -0,0 +1,9 @@
++package com.snow.main.hellojava;
++
++public class HelloJava
++{
++	public static void main(String[] args) 
++	{
++		System.out.println("Hello Java, I am chaixiang!");
++	}
++}
+diff --git a/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java b/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java
+index 130b72935e..e628e4716e 100644
+--- a/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java
++++ b/frameworks/base/core/java/android/bluetooth/BluetoothAdapter.java
+@@ -666,6 +666,7 @@ public final class BluetoothAdapter {
+             new IBluetoothMetadataListener.Stub() {
+         @Override
+         public void onMetadataChanged(BluetoothDevice device, int key, byte[] value) {
++            Log.d("bluetooth", "----->onMetadataChanged(BluetoothDevice device, int key, byte[] value)");
+             synchronized (sMetadataListeners) {
+                 if (sMetadataListeners.containsKey(device)) {
+                     List<Pair<OnMetadataChangedListener, Executor>> list =
+@@ -694,6 +695,7 @@ public final class BluetoothAdapter {
+      * platform
+      */
+     public static synchronized BluetoothAdapter getDefaultAdapter() {
++        Log.d("bluetooth", "-----> getDefaultAdapter()");
+         if (sAdapter == null) {
+             IBinder b = ServiceManager.getService(BLUETOOTH_MANAGER_SERVICE);
+             if (b != null) {
+@@ -710,7 +712,7 @@ public final class BluetoothAdapter {
+      * Use {@link #getDefaultAdapter} to get the BluetoothAdapter instance.
+      */
+     BluetoothAdapter(IBluetoothManager managerService) {
+-
++        Log.d("bluetooth", "-----> BluetoothAdapter(IBluetoothManager managerService)");
+         if (managerService == null) {
+             throw new IllegalArgumentException("bluetooth manager service is null");
+         }
+@@ -741,6 +743,7 @@ public final class BluetoothAdapter {
+      * @throws IllegalArgumentException if address is invalid
+      */
+     public BluetoothDevice getRemoteDevice(String address) {
++        Log.d("bluetooth", "-----> getRemoteDevice(String address)");
+         return new BluetoothDevice(address);
+     }
+ 
+@@ -756,6 +759,7 @@ public final class BluetoothAdapter {
+      * @throws IllegalArgumentException if address is invalid
+      */
+     public BluetoothDevice getRemoteDevice(byte[] address) {
++        Log.d("bluetooth", "-----> getRemoteDevice(byte[] address)");
+         if (address == null || address.length != 6) {
+             throw new IllegalArgumentException("Bluetooth address must have 6 bytes");
+         }
+@@ -773,6 +777,7 @@ public final class BluetoothAdapter {
+      * on this device before calling this method.
+      */
+     public BluetoothLeAdvertiser getBluetoothLeAdvertiser() {
++        Log.d("bluetooth", "-----> getBluetoothLeAdvertiser()");
+         if (!getLeAccess()) {
+             return null;
+         }
+@@ -795,6 +800,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public PeriodicAdvertisingManager getPeriodicAdvertisingManager() {
++        Log.d("bluetooth", "-----> getPeriodicAdvertisingManager()");
+         if (!getLeAccess()) {
+             return null;
+         }
+@@ -815,6 +821,7 @@ public final class BluetoothAdapter {
+      * Returns a {@link BluetoothLeScanner} object for Bluetooth LE scan operations.
+      */
+     public BluetoothLeScanner getBluetoothLeScanner() {
++        Log.d("bluetooth", "-----> getBluetoothLeScanner()");
+         if (!getLeAccess()) {
+             return null;
+         }
+@@ -835,18 +842,21 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     public boolean isEnabled() {
+-        try {
+-            mServiceLock.readLock().lock();
+-            if (mService != null) {
+-                return mMock.isEnabled(mService.isEnabled());
+-            }
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        } finally {
+-            mServiceLock.readLock().unlock();
+-        }
+-
++        Log.d("bluetooth", "-----> isEnabled()");
+         return mMock.isEnabled(false);
++
++        // try {
++        //     mServiceLock.readLock().lock();
++        //     if (mService != null) {
++        //         return mMock.isEnabled(mService.isEnabled());
++        //     }
++        // } catch (RemoteException e) {
++        //     Log.e(TAG, "", e);
++        // } finally {
++        //     mServiceLock.readLock().unlock();
++        // }
++
++        // return mMock.isEnabled(false);
+     }
+ 
+     /**
+@@ -859,6 +869,7 @@ public final class BluetoothAdapter {
+      */
+     @SystemApi
+     public boolean isLeEnabled() {
++        Log.d("bluetooth", "-----> isLeEnabled()");
+         final int state = getLeState();
+         if (DBG) {
+             Log.d(TAG, "isLeEnabled(): " + BluetoothAdapter.nameForState(state));
+@@ -893,6 +904,7 @@ public final class BluetoothAdapter {
+      */
+     @SystemApi
+     public boolean disableBLE() {
++        Log.d("bluetooth", "-----> disableBLE() ");
+         if (!isBleScanAlwaysAvailable()) {
+             return false;
+         }
+@@ -950,6 +962,7 @@ public final class BluetoothAdapter {
+      */
+     @SystemApi
+     public boolean enableBLE() {
++        Log.d("bluetooth", "-----> enableBLE()");
+         if (!isBleScanAlwaysAvailable()) {
+             return false;
+         }
+@@ -987,32 +1000,35 @@ public final class BluetoothAdapter {
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     @AdapterState
+     public int getState() {
+-        int state = BluetoothAdapter.STATE_OFF;
+-
+-        try {
+-            mServiceLock.readLock().lock();
+-            if (mService != null) {
+-                state = mService.getState();
+-            }
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        } finally {
+-            mServiceLock.readLock().unlock();
+-        }
+-
+-        // Consider all internal states as OFF
+-        if (state == BluetoothAdapter.STATE_BLE_ON || state == BluetoothAdapter.STATE_BLE_TURNING_ON
+-                || state == BluetoothAdapter.STATE_BLE_TURNING_OFF) {
+-            if (VDBG) {
+-                Log.d(TAG, "Consider " + BluetoothAdapter.nameForState(state) + " state as OFF");
+-            }
+-            state = BluetoothAdapter.STATE_OFF;
+-        }
+-        if (VDBG) {
+-            Log.d(TAG, "" + hashCode() + ": getState(). Returning " + BluetoothAdapter.nameForState(
+-                    state));
+-        }
++       int state = BluetoothAdapter.STATE_OFF;
+         return mMock.getState(state);
++
++    //    int state = BluetoothAdapter.STATE_OFF;
++//
++    //    try {
++    //        mServiceLock.readLock().lock();
++    //        if (mService != null) {
++    //            state = mService.getState();
++    //        }
++    //    } catch (RemoteException e) {
++    //        Log.e(TAG, "", e);
++    //    } finally {
++    //        mServiceLock.readLock().unlock();
++    //    }
++//
++    //    // Consider all internal states as OFF
++    //    if (state == BluetoothAdapter.STATE_BLE_ON || state == BluetoothAdapter.STATE_BLE_TURNING_ON
++    //            || state == BluetoothAdapter.STATE_BLE_TURNING_OFF) {
++    //        if (VDBG) {
++    //            Log.d(TAG, "Consider " + BluetoothAdapter.nameForState(state) + " state as OFF");
++    //        }
++    //        state = BluetoothAdapter.STATE_OFF;
++    //    }
++    //    if (VDBG) {
++    //        Log.d(TAG, "" + hashCode() + ": getState(). Returning " + BluetoothAdapter.nameForState(
++    //                state));
++    //    }
++    //    return mMock.getState(state);
+     }
+ 
+     /**
+@@ -1035,6 +1051,7 @@ public final class BluetoothAdapter {
+     @AdapterState
+     @UnsupportedAppUsage
+     public int getLeState() {
++        Log.d("bluetooth", "-----> getLeState()");
+         int state = BluetoothAdapter.STATE_OFF;
+ 
+         try {
+@@ -1055,6 +1072,8 @@ public final class BluetoothAdapter {
+     }
+ 
+     boolean getLeAccess() {
++        Log.d("bluetooth", "-----> getLeAccess()");
++
+         if (getLeState() == STATE_ON) {
+             return true;
+         } else if (getLeState() == STATE_BLE_ON) {
+@@ -1090,18 +1109,22 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
+     public boolean enable() {
+-        if (isEnabled()) {
+-            if (DBG) {
+-                Log.d(TAG, "enable(): BT already enabled!");
+-            }
+-            return true;
+-        }
+-        try {
+-            return mManagerService.enable(ActivityThread.currentPackageName());
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        }
+-        return false;
++        Log.d("bluetooth", "-----> enable()");
++        mMock.setAble(true);
++        return true;
++        
++        // if (isEnabled()) {
++        //     if (DBG) {
++        //         Log.d(TAG, "enable(): BT already enabled!");
++        //     }
++        //     return true;
++        // }
++        // try {
++        //     return mManagerService.enable(ActivityThread.currentPackageName());
++        // } catch (RemoteException e) {
++        //     Log.e(TAG, "", e);
++        // }
++        // return false;
+     }
+ 
+     /**
+@@ -1127,12 +1150,15 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
+     public boolean disable() {
+-        try {
+-            return mManagerService.disable(ActivityThread.currentPackageName(), true);
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        }
+-        return false;
++        Log.d("bluetooth", "-----> disable()");
++        mMock.setAble(false);
++        return true;
++        // try {
++        //     return mManagerService.disable(ActivityThread.currentPackageName(), true);
++        // } catch (RemoteException e) {
++        //     Log.e(TAG, "", e);
++        // }
++        // return false;
+     }
+ 
+     /**
+@@ -1146,13 +1172,16 @@ public final class BluetoothAdapter {
+      */
+     @UnsupportedAppUsage
+     public boolean disable(boolean persist) {
++        Log.d("bluetooth", "-----> disable(boolean persist)"+persist);
++        mMock.setAble(false);
++        return true;
+ 
+-        try {
+-            return mManagerService.disable(ActivityThread.currentPackageName(), persist);
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        }
+-        return false;
++        // try {
++        //     return mManagerService.disable(ActivityThread.currentPackageName(), persist);
++        // } catch (RemoteException e) {
++        //     Log.e(TAG, "", e);
++        // }
++        // return false;
+     }
+ 
+     /**
+@@ -1163,12 +1192,15 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     public String getAddress() {
+-        try {
+-            return mMock.getAddress(mManagerService.getAddress());
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        }
++        Log.d("bluetooth", "-----> getAddress()");
+         return mMock.getAddress(null);
++
++        // try {
++        //     return mMock.getAddress(mManagerService.getAddress());
++        // } catch (RemoteException e) {
++        //     Log.e(TAG, "", e);
++        // }
++        // return mMock.getAddress(null);
+     }
+ 
+     /**
+@@ -1179,12 +1211,15 @@ public final class BluetoothAdapter {
+      * @return the Bluetooth name, or null on error
+      */
+     public String getName() {
+-        try {
+-            return mMock.getName(mManagerService.getName());
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        }
++        Log.d("bluetooth", "-----> getName()");
+         return mMock.getName(null);
++
++        // try {
++        //     return mMock.getName(mManagerService.getName());
++        // } catch (RemoteException e) {
++        //     Log.e(TAG, "", e);
++        // }
++        // return mMock.getName(null);
+     }
+ 
+     /**
+@@ -1198,6 +1233,8 @@ public final class BluetoothAdapter {
+      */
+     @UnsupportedAppUsage
+     public boolean factoryReset() {
++         Log.d("bluetooth", "-----> factoryReset()");
++
+         try {
+             mServiceLock.readLock().lock();
+             if (mService != null && mService.factoryReset()
+@@ -1224,6 +1261,8 @@ public final class BluetoothAdapter {
+      */
+     @UnsupportedAppUsage
+     public ParcelUuid[] getUuids() {
++        Log.d("bluetooth", "-----> getUuids()");
++
+         if (getState() != STATE_ON) {
+             return null;
+         }
+@@ -1256,6 +1295,8 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
+     public boolean setName(String name) {
++        Log.d("bluetooth", "-----> setName(String name)");
++
+         if (getState() != STATE_ON) {
+             return false;
+         }
+@@ -1282,6 +1323,8 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
+     public BluetoothClass getBluetoothClass() {
++        Log.d("bluetooth", "-----> getBluetoothClass()");
++
+         if (getState() != STATE_ON) {
+             return null;
+         }
+@@ -1311,6 +1354,8 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_PRIVILEGED)
+     public boolean setBluetoothClass(BluetoothClass bluetoothClass) {
++        Log.d("bluetooth", "-----> setBluetoothClass(BluetoothClass bluetoothClass)");
++
+         if (getState() != STATE_ON) {
+             return false;
+         }
+@@ -1339,6 +1384,8 @@ public final class BluetoothAdapter {
+     @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
+     @IoCapability
+     public int getIoCapability() {
++        Log.d("bluetooth", "-----> getIoCapability()");
++
+         if (getState() != STATE_ON) return BluetoothAdapter.IO_CAPABILITY_UNKNOWN;
+         try {
+             mServiceLock.readLock().lock();
+@@ -1366,6 +1413,7 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_PRIVILEGED)
+     public boolean setIoCapability(@IoCapability int capability) {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) return false;
+         try {
+             mServiceLock.readLock().lock();
+@@ -1390,6 +1438,7 @@ public final class BluetoothAdapter {
+     @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
+     @IoCapability
+     public int getLeIoCapability() {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) return BluetoothAdapter.IO_CAPABILITY_UNKNOWN;
+         try {
+             mServiceLock.readLock().lock();
+@@ -1417,6 +1466,7 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_PRIVILEGED)
+     public boolean setLeIoCapability(@IoCapability int capability) {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) return false;
+         try {
+             mServiceLock.readLock().lock();
+@@ -1447,20 +1497,22 @@ public final class BluetoothAdapter {
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     @ScanMode
+     public int getScanMode() {
+-        if (getState() != STATE_ON) {
+-            return SCAN_MODE_NONE;
+-        }
+-        try {
+-            mServiceLock.readLock().lock();
+-            if (mService != null) {
+-                return mService.getScanMode();
+-            }
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        } finally {
+-            mServiceLock.readLock().unlock();
+-        }
++        Log.d("bluetooth", "-----> ");
+         return SCAN_MODE_NONE;
++        // if (getState() != STATE_ON) {
++        //     return SCAN_MODE_NONE;
++        // }
++        // try {
++        //     mServiceLock.readLock().lock();
++        //     if (mService != null) {
++        //         return mService.getScanMode();
++        //     }
++        // } catch (RemoteException e) {
++        //     Log.e(TAG, "", e);
++        // } finally {
++        //     mServiceLock.readLock().unlock();
++        // }
++        // return SCAN_MODE_NONE;
+     }
+ 
+     /**
+@@ -1493,35 +1545,40 @@ public final class BluetoothAdapter {
+      */
+     @UnsupportedAppUsage
+     public boolean setScanMode(@ScanMode int mode, int duration) {
+-        if (getState() != STATE_ON) {
+-            return false;
+-        }
+-        try {
+-            mServiceLock.readLock().lock();
+-            if (mService != null) {
+-                return mService.setScanMode(mode, duration);
+-            }
+-        } catch (RemoteException e) {
+-            Log.e(TAG, "", e);
+-        } finally {
+-            mServiceLock.readLock().unlock();
+-        }
+-        return false;
++        Log.d("bluetooth", "-----> ");
++        return true;
++        // if (getState() != STATE_ON) {
++            // return false;
++        // }
++        // try {
++            // mServiceLock.readLock().lock();
++            // if (mService != null) {
++                // return mService.setScanMode(mode, duration);
++            // }
++        // } catch (RemoteException e) {
++            // Log.e(TAG, "", e);
++        // } finally {
++            // mServiceLock.readLock().unlock();
++        // }
++        // return false;
+     }
+ 
+     /** @hide */
+     @UnsupportedAppUsage
+     public boolean setScanMode(int mode) {
+-        if (getState() != STATE_ON) {
+-            return false;
+-        }
+-        /* getDiscoverableTimeout() to use the latest from NV than use 0 */
+-        return setScanMode(mode, getDiscoverableTimeout());
++        Log.d("bluetooth", "-----> ");
++        return true;
++        // if (getState() != STATE_ON) {
++        //     return false;
++        // }
++        // /* getDiscoverableTimeout() to use the latest from NV than use 0 */
++        // return setScanMode(mode, getDiscoverableTimeout());
+     }
+ 
+     /** @hide */
+     @UnsupportedAppUsage
+     public int getDiscoverableTimeout() {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) {
+             return -1;
+         }
+@@ -1541,6 +1598,7 @@ public final class BluetoothAdapter {
+     /** @hide */
+     @UnsupportedAppUsage
+     public void setDiscoverableTimeout(int timeout) {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) {
+             return;
+         }
+@@ -1565,6 +1623,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public long getDiscoveryEndMillis() {
++        Log.d("bluetooth", "-----> ");
+         try {
+             mServiceLock.readLock().lock();
+             if (mService != null) {
+@@ -1587,6 +1646,7 @@ public final class BluetoothAdapter {
+     }
+ 
+     private String getOpPackageName() {
++        Log.d("bluetooth", "-----> ");
+         // Workaround for legacy API for getting a BluetoothAdapter not
+         // passing a context
+         if (mContext != null) {
+@@ -1626,6 +1686,7 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
+     public boolean startDiscovery() {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) {
+             return false;
+         }
+@@ -1660,6 +1721,7 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
+     public boolean cancelDiscovery() {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) {
+             return false;
+         }
+@@ -1696,6 +1758,7 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     public boolean isDiscovering() {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) {
+             return false;
+         }
+@@ -1718,6 +1781,7 @@ public final class BluetoothAdapter {
+      * @return true if Multiple Advertisement feature is supported
+      */
+     public boolean isMultipleAdvertisementSupported() {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) {
+             return false;
+         }
+@@ -1746,6 +1810,7 @@ public final class BluetoothAdapter {
+      */
+     @SystemApi
+     public boolean isBleScanAlwaysAvailable() {
++        Log.d("bluetooth", "-----> ");
+         try {
+             return mManagerService.isBleScanAlwaysAvailable();
+         } catch (RemoteException e) {
+@@ -1760,6 +1825,7 @@ public final class BluetoothAdapter {
+      * @return true if chipset supports on-chip filtering
+      */
+     public boolean isOffloadedFilteringSupported() {
++        Log.d("bluetooth", "-----> ");
+         if (!getLeAccess()) {
+             return false;
+         }
+@@ -1782,6 +1848,7 @@ public final class BluetoothAdapter {
+      * @return true if chipset supports on-chip scan batching
+      */
+     public boolean isOffloadedScanBatchingSupported() {
++        Log.d("bluetooth", "-----> ");
+         if (!getLeAccess()) {
+             return false;
+         }
+@@ -1804,6 +1871,7 @@ public final class BluetoothAdapter {
+      * @return true if chipset supports LE 2M PHY feature
+      */
+     public boolean isLe2MPhySupported() {
++        Log.d("bluetooth", "-----> ");
+         if (!getLeAccess()) {
+             return false;
+         }
+@@ -1826,6 +1894,7 @@ public final class BluetoothAdapter {
+      * @return true if chipset supports LE Coded PHY feature
+      */
+     public boolean isLeCodedPhySupported() {
++        Log.d("bluetooth", "-----> ");
+         if (!getLeAccess()) {
+             return false;
+         }
+@@ -1848,6 +1917,7 @@ public final class BluetoothAdapter {
+      * @return true if chipset supports LE Extended Advertising feature
+      */
+     public boolean isLeExtendedAdvertisingSupported() {
++        Log.d("bluetooth", "-----> ");
+         if (!getLeAccess()) {
+             return false;
+         }
+@@ -1870,6 +1940,7 @@ public final class BluetoothAdapter {
+      * @return true if chipset supports LE Periodic Advertising feature
+      */
+     public boolean isLePeriodicAdvertisingSupported() {
++        Log.d("bluetooth", "-----> ");
+         if (!getLeAccess()) {
+             return false;
+         }
+@@ -1893,6 +1964,7 @@ public final class BluetoothAdapter {
+      * @return the maximum LE advertising data length.
+      */
+     public int getLeMaximumAdvertisingDataLength() {
++        Log.d("bluetooth", "-----> ");
+         if (!getLeAccess()) {
+             return 0;
+         }
+@@ -1915,6 +1987,7 @@ public final class BluetoothAdapter {
+      * @return true if phone supports Hearing Aid Profile
+      */
+     private boolean isHearingAidProfileSupported() {
++        Log.d("bluetooth", "-----> ");
+         try {
+             return mManagerService.isHearingAidProfileSupported();
+         } catch (RemoteException e) {
+@@ -1931,6 +2004,7 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     public int getMaxConnectedAudioDevices() {
++        Log.d("bluetooth", "-----> ");
+         try {
+             mServiceLock.readLock().lock();
+             if (mService != null) {
+@@ -1951,6 +2025,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public boolean isHardwareTrackingFiltersAvailable() {
++        Log.d("bluetooth", "-----> ");
+         if (!getLeAccess()) {
+             return false;
+         }
+@@ -1981,6 +2056,7 @@ public final class BluetoothAdapter {
+      */
+     @Deprecated
+     public BluetoothActivityEnergyInfo getControllerActivityEnergyInfo(int updateType) {
++        Log.d("bluetooth", "-----> ");
+         SynchronousResultReceiver receiver = new SynchronousResultReceiver();
+         requestControllerActivityEnergyInfo(receiver);
+         try {
+@@ -2006,6 +2082,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public void requestControllerActivityEnergyInfo(ResultReceiver result) {
++        Log.d("bluetooth", "-----> ");
+         try {
+             mServiceLock.readLock().lock();
+             if (mService != null) {
+@@ -2035,6 +2112,7 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     public Set<BluetoothDevice> getBondedDevices() {
++        Log.d("bluetooth", "-----> ");
+         if (mMock != null) {
+             return mMock.getBondedDevices();
+         }
+@@ -2066,6 +2144,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public List<Integer> getSupportedProfiles() {
++        Log.d("bluetooth", "-----> ");
+         final ArrayList<Integer> supportedProfiles = new ArrayList<Integer>();
+ 
+         try {
+@@ -2105,6 +2184,7 @@ public final class BluetoothAdapter {
+      */
+     @UnsupportedAppUsage
+     public int getConnectionState() {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) {
+             return BluetoothAdapter.STATE_DISCONNECTED;
+         }
+@@ -2135,6 +2215,7 @@ public final class BluetoothAdapter {
+      */
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     public int getProfileConnectionState(int profile) {
++        Log.d("bluetooth", "-----> ");
+         if (getState() != STATE_ON) {
+             return BluetoothProfile.STATE_DISCONNECTED;
+         }
+@@ -2167,6 +2248,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public BluetoothServerSocket listenUsingRfcommOn(int channel) throws IOException {
++        Log.d("bluetooth", "-----> ");
+         return listenUsingRfcommOn(channel, false, false);
+     }
+ 
+@@ -2193,6 +2275,7 @@ public final class BluetoothAdapter {
+     @UnsupportedAppUsage
+     public BluetoothServerSocket listenUsingRfcommOn(int channel, boolean mitm,
+             boolean min16DigitPin) throws IOException {
++                Log.d("bluetooth", "-----> ");
+         BluetoothServerSocket socket =
+                 new BluetoothServerSocket(BluetoothSocket.TYPE_RFCOMM, true, true, channel, mitm,
+                         min16DigitPin);
+@@ -2234,6 +2317,7 @@ public final class BluetoothAdapter {
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     public BluetoothServerSocket listenUsingRfcommWithServiceRecord(String name, UUID uuid)
+             throws IOException {
++                Log.d("bluetooth", "-----> ");
+         return createNewRfcommSocketAndRecord(name, uuid, true, true);
+     }
+ 
+@@ -2266,6 +2350,7 @@ public final class BluetoothAdapter {
+     @RequiresPermission(Manifest.permission.BLUETOOTH)
+     public BluetoothServerSocket listenUsingInsecureRfcommWithServiceRecord(String name, UUID uuid)
+             throws IOException {
++                Log.d("bluetooth", "-----> ");
+         return createNewRfcommSocketAndRecord(name, uuid, false, false);
+     }
+ 
+@@ -2306,12 +2391,14 @@ public final class BluetoothAdapter {
+     @UnsupportedAppUsage
+     public BluetoothServerSocket listenUsingEncryptedRfcommWithServiceRecord(String name, UUID uuid)
+             throws IOException {
++                Log.d("bluetooth", "-----> ");
+         return createNewRfcommSocketAndRecord(name, uuid, false, true);
+     }
+ 
+ 
+     private BluetoothServerSocket createNewRfcommSocketAndRecord(String name, UUID uuid,
+             boolean auth, boolean encrypt) throws IOException {
++                Log.d("bluetooth", "-----> ");
+         BluetoothServerSocket socket;
+         socket = new BluetoothServerSocket(BluetoothSocket.TYPE_RFCOMM, auth, encrypt,
+                 new ParcelUuid(uuid));
+@@ -2336,6 +2423,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public BluetoothServerSocket listenUsingInsecureRfcommOn(int port) throws IOException {
++        Log.d("bluetooth", "-----> ");
+         BluetoothServerSocket socket =
+                 new BluetoothServerSocket(BluetoothSocket.TYPE_RFCOMM, false, false, port);
+         int errno = socket.mSocket.bindListen();
+@@ -2361,6 +2449,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public BluetoothServerSocket listenUsingEncryptedRfcommOn(int port) throws IOException {
++        Log.d("bluetooth", "-----> ");
+         BluetoothServerSocket socket =
+                 new BluetoothServerSocket(BluetoothSocket.TYPE_RFCOMM, false, true, port);
+         int errno = socket.mSocket.bindListen();
+@@ -2386,6 +2475,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public static BluetoothServerSocket listenUsingScoOn() throws IOException {
++        Log.d("bluetooth", "-----> ");
+         BluetoothServerSocket socket =
+                 new BluetoothServerSocket(BluetoothSocket.TYPE_SCO, false, false, -1);
+         int errno = socket.mSocket.bindListen();
+@@ -2414,6 +2504,7 @@ public final class BluetoothAdapter {
+      */
+     public BluetoothServerSocket listenUsingL2capOn(int port, boolean mitm, boolean min16DigitPin)
+             throws IOException {
++                Log.d("bluetooth", "-----> ");
+         BluetoothServerSocket socket =
+                 new BluetoothServerSocket(BluetoothSocket.TYPE_L2CAP, true, true, port, mitm,
+                         min16DigitPin);
+@@ -2445,6 +2536,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public BluetoothServerSocket listenUsingL2capOn(int port) throws IOException {
++        Log.d("bluetooth", "-----> ");
+         return listenUsingL2capOn(port, false, false);
+     }
+ 
+@@ -2462,6 +2554,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public BluetoothServerSocket listenUsingInsecureL2capOn(int port) throws IOException {
++        Log.d("bluetooth", "-----> ");
+         Log.d(TAG, "listenUsingInsecureL2capOn: port=" + port);
+         BluetoothServerSocket socket =
+                 new BluetoothServerSocket(BluetoothSocket.TYPE_L2CAP, false, false, port, false,
+@@ -2493,6 +2586,7 @@ public final class BluetoothAdapter {
+      * @hide
+      */
+     public Pair<byte[], byte[]> readOutOfBandData() {
++        Log.d("bluetooth", "-----> ");
+         return null;
+     }
+ 
+@@ -2514,6 +2608,7 @@ public final class BluetoothAdapter {
+      */
+     public boolean getProfileProxy(Context context, BluetoothProfile.ServiceListener listener,
+             int profile) {
++                Log.d("bluetooth", "-----> ");
+         if (context == null || listener == null) {
+             return false;
+         }
+@@ -2734,6 +2829,7 @@ public final class BluetoothAdapter {
+     @SystemApi
+     @RequiresPermission(android.Manifest.permission.BLUETOOTH_ADMIN)
+     public boolean enableNoAutoConnect() {
++        Log.d("bluetooth", "----->enableNoAutoConnect() ");
+         if (isEnabled()) {
+             if (DBG) {
+                 Log.d(TAG, "enableNoAutoConnect(): BT already enabled!");
+@@ -2779,6 +2875,7 @@ public final class BluetoothAdapter {
+      */
+     public boolean changeApplicationBluetoothState(boolean on,
+             BluetoothStateChangeCallback callback) {
++                Log.d("bluetooth", "-----> ");
+         return false;
+     }
+ 
+@@ -2809,11 +2906,13 @@ public final class BluetoothAdapter {
+     }
+ 
+     private Set<BluetoothDevice> toDeviceSet(BluetoothDevice[] devices) {
++        Log.d("bluetooth", "-----> ");
+         Set<BluetoothDevice> deviceSet = new HashSet<BluetoothDevice>(Arrays.asList(devices));
+         return Collections.unmodifiableSet(deviceSet);
+     }
+ 
+     protected void finalize() throws Throwable {
++        Log.d("bluetooth", "-----> ");
+         try {
+             mManagerService.unregisterAdapter(mManagerCallback);
+         } catch (RemoteException e) {
+@@ -2832,6 +2931,7 @@ public final class BluetoothAdapter {
+      * @return true if the address is valid, false otherwise
+      */
+     public static boolean checkBluetoothAddress(String address) {
++        Log.d("bluetooth", "-----> ");
+         if (address == null || address.length() != ADDRESS_LENGTH) {
+             return false;
+         }
+@@ -2857,6 +2957,7 @@ public final class BluetoothAdapter {
+ 
+     @UnsupportedAppUsage
+     /*package*/ IBluetoothManager getBluetoothManager() {
++        Log.d("bluetooth", "-----> ");
+         return mManagerService;
+     }
+ 
+@@ -2865,6 +2966,7 @@ public final class BluetoothAdapter {
+ 
+     @UnsupportedAppUsage
+     /*package*/ IBluetooth getBluetoothService(IBluetoothManagerCallback cb) {
++        Log.d("bluetooth", "-----> ");
+         synchronized (mProxyServiceStateCallbacks) {
+             if (cb == null) {
+                 Log.w(TAG, "getBluetoothService() called with no BluetoothManagerCallback");
+@@ -2876,6 +2978,7 @@ public final class BluetoothAdapter {
+     }
+ 
+     /*package*/ void removeServiceStateCallback(IBluetoothManagerCallback cb) {
++        Log.d("bluetooth", "-----> ");
+         synchronized (mProxyServiceStateCallbacks) {
+             mProxyServiceStateCallbacks.remove(cb);
+         }
+diff --git a/frameworks/base/core/java/com/android/internal/space/api/BluetoothMock.java b/frameworks/base/core/java/com/android/internal/space/api/BluetoothMock.java
+index 24880fb829..ada858464b 100644
+--- a/frameworks/base/core/java/com/android/internal/space/api/BluetoothMock.java
++++ b/frameworks/base/core/java/com/android/internal/space/api/BluetoothMock.java
+@@ -12,6 +12,7 @@ import java.util.Arrays;
+ import java.util.Collections;
+ import java.util.HashSet;
+ import java.util.Set;
++import android.util.Log;
+ 
+ public class BluetoothMock extends IMockCallback.Stub {
+ 
+@@ -20,6 +21,7 @@ public class BluetoothMock extends IMockCallback.Stub {
+     Context mContext;
+ 
+     private Map mMap;
++    private boolean Enabled;
+ 
+     INineDSpace mService;
+ 
+@@ -41,6 +43,7 @@ public class BluetoothMock extends IMockCallback.Stub {
+ 
+     private BluetoothMock() {
+          mService = INineDSpace.Stub.asInterface(ServiceManager.getService(Context.SPACE_SERVICE));
++         Enabled=false;
+     }
+ 
+     public boolean isMock() {
+@@ -66,7 +69,12 @@ public class BluetoothMock extends IMockCallback.Stub {
+ 
+     public boolean isEnabled(boolean raw) {
+         if (!isMock()) return raw;
+-        return (boolean) mMap.getOrDefault("enable", raw);
++        return Enabled;
++    }
++
++    public void setAble(boolean raw) {
++        Enabled=raw;
++        // return Enabled;
+     }
+ 
+     public int getState(int state) {
+diff --git a/vendor/ntimespace/scripts/snow.rc b/vendor/ntimespace/scripts/snow.rc
+new file mode 100644
+index 0000000000..008f84b6e8
+--- /dev/null
++++ b/vendor/ntimespace/scripts/snow.rc
+@@ -0,0 +1,4 @@
++on boot
++    exec root root -- /system/bin/sh -c /system/bin/snow.sh
++
++
+-- 
+2.25.1
+

@@ -1,0 +1,307 @@
+From 4954fa4399e463849f96dbee2d21e1d89b0ecffb Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Sun, 16 Jun 2024 15:04:19 +0000
+Subject: [PATCH] remove bluetooth hal
+
+---
+ .../target/board/BoardConfigMainlineCommon.mk |  4 +--
+ build/make/target/product/full_base.mk        |  6 +---
+ build/make/target/product/handheld_system.mk  |  2 --
+ build/make/target/product/mainline_system.mk  |  5 +--
+ device/generic/arm64/BoardConfig.mk           |  3 +-
+ device/generic/armv7-a-neon/BoardConfig.mk    |  3 +-
+ device/generic/armv7-a-neon/mini_common.mk    |  1 -
+ device/linaro/hikey/device-common.mk          | 13 ++------
+ device/rockchip/common/BoardConfig.mk         |  8 +----
+ device/rockchip/common/device.mk              | 32 +++----------------
+ device/rockchip/common/tv/tv_base.mk          |  1 -
+ device/rockchip/common/wifi_bt_common.mk      | 19 -----------
+ 12 files changed, 13 insertions(+), 84 deletions(-)
+
+diff --git a/build/make/target/board/BoardConfigMainlineCommon.mk b/build/make/target/board/BoardConfigMainlineCommon.mk
+index 6c56671eef..b7423eb315 100644
+--- a/build/make/target/board/BoardConfigMainlineCommon.mk
++++ b/build/make/target/board/BoardConfigMainlineCommon.mk
+@@ -27,9 +27,7 @@ BOARD_USES_SYSTEM_OTHER_ODEX := true
+ # Audio: must using XML format for Treblized devices
+ USE_XML_AUDIO_POLICY_CONF := 1
+ 
+-# Bluetooth defines
+-# TODO(b/123695868): Remove the need for this
+-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := build/make/target/board/mainline_arm64/bluetooth
++
+ 
+ BOARD_AVB_ENABLE := true
+ BOARD_AVB_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+diff --git a/build/make/target/product/full_base.mk b/build/make/target/product/full_base.mk
+index 447576ce15..6254f2c29a 100644
+--- a/build/make/target/product/full_base.mk
++++ b/build/make/target/product/full_base.mk
+@@ -27,11 +27,7 @@ PRODUCT_PACKAGES += \
+     LiveWallpapersPicker \
+     PhotoTable
+ 
+-# Bluetooth:
+-#   audio.a2dp.default is a system module. Generic system image includes
+-#   audio.a2dp.default to support A2DP if board has the capability.
+-PRODUCT_PACKAGES += \
+-    audio.a2dp.default
++
+ 
+ # Net:
+ #   Vendors can use the platform-provided network configuration utilities (ip,
+diff --git a/build/make/target/product/handheld_system.mk b/build/make/target/product/handheld_system.mk
+index 1ecdd7ba6d..93e0afdfde 100644
+--- a/build/make/target/product/handheld_system.mk
++++ b/build/make/target/product/handheld_system.mk
+@@ -34,8 +34,6 @@ $(call inherit-product-if-exists, frameworks/webview/chromium/chromium.mk)
+ PRODUCT_PACKAGES += \
+     BasicDreams \
+     BlockedNumberProvider \
+-    Bluetooth \
+-    BluetoothMidiService \
+     BookmarkProvider \
+     BuiltInPrintService \
+     CalendarProvider \
+diff --git a/build/make/target/product/mainline_system.mk b/build/make/target/product/mainline_system.mk
+index 3644a221ea..7c1e783951 100644
+--- a/build/make/target/product/mainline_system.mk
++++ b/build/make/target/product/mainline_system.mk
+@@ -58,10 +58,7 @@ PRODUCT_PACKAGES += \
+     cppreopts.sh \
+     otapreopt_script \
+ 
+-# Bluetooth libraries
+-PRODUCT_PACKAGES += \
+-    audio.a2dp.default \
+-    audio.hearing_aid.default \
++
+ 
+ # For ringtones that rely on forward lock encryption
+ PRODUCT_PACKAGES += libfwdlockengine
+diff --git a/device/generic/arm64/BoardConfig.mk b/device/generic/arm64/BoardConfig.mk
+index 02cbb7fae7..c0ef48fbbe 100644
+--- a/device/generic/arm64/BoardConfig.mk
++++ b/device/generic/arm64/BoardConfig.mk
+@@ -23,8 +23,7 @@ TARGET_USES_64_BIT_BINDER := true
+ SMALLER_FONT_FOOTPRINT := true
+ MINIMAL_FONT_FOOTPRINT := true
+ # Some framework code requires this to enable BT
+-BOARD_HAVE_BLUETOOTH := true
+-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/generic/common/bluetooth
++
+ 
+ BOARD_USES_GENERIC_AUDIO := true
+ 
+diff --git a/device/generic/armv7-a-neon/BoardConfig.mk b/device/generic/armv7-a-neon/BoardConfig.mk
+index bcead18212..14446a4c0b 100644
+--- a/device/generic/armv7-a-neon/BoardConfig.mk
++++ b/device/generic/armv7-a-neon/BoardConfig.mk
+@@ -16,8 +16,7 @@ TARGET_CPU_ABI2 := armeabi
+ SMALLER_FONT_FOOTPRINT := true
+ MINIMAL_FONT_FOOTPRINT := true
+ # Some framework code requires this to enable BT
+-BOARD_HAVE_BLUETOOTH := true
+-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/generic/common/bluetooth
++
+ 
+ BOARD_USES_GENERIC_AUDIO := true
+ 
+diff --git a/device/generic/armv7-a-neon/mini_common.mk b/device/generic/armv7-a-neon/mini_common.mk
+index e4df06fc33..bb2bd339db 100644
+--- a/device/generic/armv7-a-neon/mini_common.mk
++++ b/device/generic/armv7-a-neon/mini_common.mk
+@@ -24,7 +24,6 @@ PRODUCT_AAPT_PREF_CONFIG := hdpi
+ PRODUCT_LOCALES := en_US
+ 
+ PRODUCT_PACKAGES += \
+-    Bluetooth \
+     FusedLocation \
+     Home \
+     InputDevices \
+diff --git a/device/linaro/hikey/device-common.mk b/device/linaro/hikey/device-common.mk
+index 938322c4fd..ad6a0e9aa8 100644
+--- a/device/linaro/hikey/device-common.mk
++++ b/device/linaro/hikey/device-common.mk
+@@ -64,7 +64,7 @@ PRODUCT_PROPERTY_OVERRIDES += wifi.interface=wlan0 \
+ PRODUCT_RUNTIMES := runtime_libart_default
+ 
+ # Build default bluetooth a2dp and usb audio HALs
+-PRODUCT_PACKAGES += audio.a2dp.default \
++PRODUCT_PACKAGES +=  \
+ 		    audio.usb.default \
+ 		    audio.r_submix.default \
+ 		    tinyplay
+@@ -80,8 +80,7 @@ PRODUCT_PACKAGES += vndk_package
+ 
+ PRODUCT_PACKAGES += \
+     android.hardware.drm@1.0-impl \
+-    android.hardware.drm@1.0-service \
+-    android.hardware.bluetooth.audio@2.0-impl
++    android.hardware.drm@1.0-service 
+ 
+ PRODUCT_PACKAGES += libGLES_android
+ 
+@@ -98,11 +97,7 @@ PRODUCT_PACKAGES += memtrack.default \
+     android.hardware.memtrack@1.0-service \
+     android.hardware.memtrack@1.0-impl
+ 
+-ifeq ($(HIKEY_USE_LEGACY_TI_BLUETOOTH), true)
+-PRODUCT_PACKAGES += android.hardware.bluetooth@1.0-service.hikey uim
+-else
+-PRODUCT_PACKAGES += android.hardware.bluetooth@1.0-service.btlinux
+-endif
++
+ 
+ # PowerHAL
+ PRODUCT_PACKAGES += \
+@@ -214,8 +209,6 @@ $(call inherit-product, device/linaro/hikey/wpan/ti-wpan-products.mk)
+ PRODUCT_COPY_FILES += \
+         frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
+         frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml \
+-        frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
+-        frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml \
+         device/linaro/hikey/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf \
+         $(LOCAL_PATH)/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
+         $(LOCAL_PATH)/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
+diff --git a/device/rockchip/common/BoardConfig.mk b/device/rockchip/common/BoardConfig.mk
+index ab84adb4c2..1ff8f26553 100755
+--- a/device/rockchip/common/BoardConfig.mk
++++ b/device/rockchip/common/BoardConfig.mk
+@@ -276,11 +276,6 @@ BUILD_WITH_CRYPTO := false
+ # Audio
+ BOARD_USES_GENERIC_AUDIO ?= true
+ 
+-# Wifi&Bluetooth
+-BOARD_HAVE_BLUETOOTH ?= true
+-BLUETOOTH_USE_BPLUS ?= false
+-BOARD_HAVE_BLUETOOTH_BCM ?= false
+-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR ?= device/rockchip/$(TARGET_BOARD_PLATFORM)/bluetooth
+ include device/rockchip/common/wifi_bt_common.mk
+ 
+ #Camera flash
+@@ -402,8 +397,7 @@ BOARD_TEMPERATURE_SENSOR_SUPPORT ?= false
+ BOARD_USB_HOST_SUPPORT ?= false
+ BOARD_USB_ACCESSORY_SUPPORT ?= true
+ BOARD_CAMERA_SUPPORT ?= false
+-BOARD_BLUETOOTH_SUPPORT ?= true
+-BOARD_BLUETOOTH_LE_SUPPORT ?= true
++
+ BOARD_WIFI_SUPPORT ?= true
+ 
+ #for rk 4g modem
+diff --git a/device/rockchip/common/device.mk b/device/rockchip/common/device.mk
+index 5e3333407e..ef9e163ab2 100644
+--- a/device/rockchip/common/device.mk
++++ b/device/rockchip/common/device.mk
+@@ -277,14 +277,7 @@ PRODUCT_COPY_FILES += \
+     frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml
+ endif
+ 
+-ifeq ($(BOARD_BLUETOOTH_SUPPORT),true)
+-PRODUCT_COPY_FILES += \
+-    frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml
+-ifeq ($(BOARD_BLUETOOTH_LE_SUPPORT),true)
+-PRODUCT_COPY_FILES += \
+-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml
+-endif
+-endif
++
+ 
+ ifeq ($(BOARD_WIFI_SUPPORT),true)
+ PRODUCT_COPY_FILES += \
+@@ -626,19 +619,13 @@ $(call inherit-product-if-exists, external/alsa-utils/copy.mk)
+ PRODUCT_PROPERTY_OVERRIDES += \
+     persist.sys.strictmode.visual=false 
+ 
+-ifeq ($(strip $(BOARD_HAVE_BLUETOOTH)),true)
+-    PRODUCT_PROPERTY_OVERRIDES += ro.rk.bt_enable=true
+-else
+-    PRODUCT_PROPERTY_OVERRIDES += ro.rk.bt_enable=false
+-endif
++
+ 
+ ifeq ($(strip $(MT6622_BT_SUPPORT)),true)
+     PRODUCT_PROPERTY_OVERRIDES += ro.rk.btchip=mt6622
+ endif
+ 
+-ifeq ($(strip $(BLUETOOTH_USE_BPLUS)),true)
+-    PRODUCT_PROPERTY_OVERRIDES += ro.rk.btchip=broadcom.bplus
+-endif
++
+ 
+ ifeq ($(strip $(BOARD_HAVE_FLASH)), true)
+     PRODUCT_PROPERTY_OVERRIDES += ro.rk.flash_enable=true
+@@ -800,16 +787,7 @@ PRODUCT_COPY_FILES += \
+     $(call copyNfcFirmware, BCM43341NFCB0_002.001.009.0021.0000_Generic_PreI2C_NCD_Signed_configdata.ncd)
+ endif
+ 
+-# Bluetooth HAL
+-PRODUCT_PACKAGES += \
+-    libbt-vendor \
+-    android.hardware.bluetooth@1.0-impl \
+-    android.hardware.bluetooth@1.0-service \
+-    android.hardware.bluetooth@1.0-service.rc
+ 
+-ifeq ($(strip $(BOARD_HAVE_BLUETOOTH_RTK)), true)
+-include hardware/realtek/rtkbt/rtkbt.mk
+-endif
+ 
+ ifeq ($(strip $(TARGET_BOARD_PLATFORM_PRODUCT)), box)
+     include device/rockchip/common/samba/rk31_samba.mk
+@@ -1253,9 +1231,7 @@ ifeq ($(strip $(BOARD_TV_LOW_MEMOPT)), true)
+     include device/rockchip/common/tv/tv_low_ram_device.mk
+ endif
+ 
+-#bt config for ap bt
+-PRODUCT_COPY_FILES += \
+-    $(TARGET_DEVICE_DIR)/bt_vendor.conf:/vendor/etc/bluetooth/bt_vendor.conf
++
+ 
+ # prebuild camera binary tools
+ ifneq (,$(filter userdebug eng,$(TARGET_BUILD_VARIANT)))
+diff --git a/device/rockchip/common/tv/tv_base.mk b/device/rockchip/common/tv/tv_base.mk
+index 2f592ac341..8a8b61838b 100755
+--- a/device/rockchip/common/tv/tv_base.mk
++++ b/device/rockchip/common/tv/tv_base.mk
+@@ -87,7 +87,6 @@ PRODUCT_PACKAGES += \
+ 
+ # From build/target/product/generic_no_telephony.mk
+ PRODUCT_PACKAGES += \
+-    Bluetooth \
+     SystemUI \
+     librs_jni \
+     audio.primary.default \
+diff --git a/device/rockchip/common/wifi_bt_common.mk b/device/rockchip/common/wifi_bt_common.mk
+index 9e157683b6..3a73002c9b 100644
+--- a/device/rockchip/common/wifi_bt_common.mk
++++ b/device/rockchip/common/wifi_bt_common.mk
+@@ -17,25 +17,6 @@ WIFI_DRIVER_FW_PATH_P2P     := "/vendor/etc/firmware/fw_bcm4329_p2p.bin"
+ WIFI_DRIVER_FW_PATH_AP      := "/vendor/etc/firmware/fw_bcm4329_apsta.bin"
+ endif
+ 
+-# bluetooth support
+-ifeq ($(strip $(BOARD_CONNECTIVITY_VENDOR)), Broadcom)
+-BOARD_HAVE_BLUETOOTH := true
+-BOARD_HAVE_BLUETOOTH_BCM := true
+-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR ?= device/rockchip/$(TARGET_BOARD_PLATFORM)/bluetooth
+-
+-ifeq ($(strip $(PRODUCT_BUILD_MODULE)), px5car)
+-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR ?= device/rockchip/px5/bluetooth
+-endif
+ 
+-ifeq ($(strip $(PRODUCT_BUILD_MODULE)), px3car)
+-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR ?= device/rockchip/px3/bluetooth
+-endif
+-
+-ifeq ($(strip $(BOARD_CONNECTIVITY_MODULE)), ap6xxx_gps)
+-BLUETOOTH_USE_BPLUS := true
+-BLUETOOTH_ENABLE_FM := false
+-endif
+-endif
+ 
+-BOARD_HAVE_BLUETOOTH_RTK := true
+ 
+-- 
+2.25.1
+

@@ -1,0 +1,286 @@
+From e6069aa814b30f8ffd179a163316044ca9737235 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Sat, 30 Mar 2024 12:38:15 +0000
+Subject: [PATCH] add ssh and desktop
+
+---
+ .gitignore                                    |   3 +-
+ device/rockchip/common/device.mk              |   3 +-
+ device/rockchip/rk3588/init.rk3588.rc         |  32 +++++
+ .../rk3588/rk3588_docker/rk3588_docker.mk     |   1 +
+ device/rockchip/space-common/apps.mk          |  28 +++++
+ external/openssh/A_authorized_keys            |   1 +
+ external/openssh/Android.mk                   |  10 ++
+ packages/apps/ntimesapp/Android.mk            | 113 ++++++++++++++++++
+ 8 files changed, 189 insertions(+), 2 deletions(-)
+ create mode 100644 device/rockchip/space-common/apps.mk
+ create mode 100644 external/openssh/A_authorized_keys
+ create mode 100644 packages/apps/ntimesapp/Android.mk
+
+diff --git a/.gitignore b/.gitignore
+index 77926967ce..f9b69d9c1e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -7,4 +7,5 @@ hardware/rockchip/omx_il/include/rockchip/git_info.h
+ 
+ A_patches
+ 
+-packages/apps/ntimesapp/*.apk
+\ No newline at end of file
++packages/apps/ntimesapp/*.apk
++packages/apps/ntimesapp/lib
+\ No newline at end of file
+diff --git a/device/rockchip/common/device.mk b/device/rockchip/common/device.mk
+index e1a6e40bc5..e23eecc4c0 100644
+--- a/device/rockchip/common/device.mk
++++ b/device/rockchip/common/device.mk
+@@ -53,7 +53,8 @@ else ifeq ($(strip $(BUILD_WITH_GO_OPT))|$(strip $(TARGET_ARCH)) ,true|arm64)
+ else
+ # Normal tablet, add QuickStep for normal product only.
+   $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
+-  PRODUCT_PACKAGES += Launcher3QuickStep
++#   PRODUCT_PACKAGES += Launcher3QuickStep
++#   去除原始桌面
+ endif
+ 
+ PRODUCT_AAPT_CONFIG ?= normal large xlarge hdpi xhdpi xxhdpi
+diff --git a/device/rockchip/rk3588/init.rk3588.rc b/device/rockchip/rk3588/init.rk3588.rc
+index 7cb4cb9d4d..ecf344c4f3 100644
+--- a/device/rockchip/rk3588/init.rk3588.rc
++++ b/device/rockchip/rk3588/init.rk3588.rc
+@@ -64,6 +64,38 @@ on boot
+     # The initial load of RT process, set the range of 0-1024, set the RT task above 300 will preferentially run on the cpuB(cpu4-cpu7)
+     write /proc/sys/kernel/sched_util_clamp_min_rt_default 0
+ 
++    # For ssh 开机拷贝配置文件
++    mkdir  /var
++    mkdir  /var/run
++    mkdir  /var/run/ssh
++    mkdir  /var/run/ssh/empty
++     mkdir /data/ssh
++     chmod 777 /data/ssh
++     copy /system/etc/ssh/authorized_keys /data/ssh/authorized_keys
++     copy /system/etc/ssh/ssh_host_dsa_key /data/ssh/ssh_host_dsa_key
++     copy /system/etc/ssh/ssh_host_dsa_key.pub /data/ssh/ssh_host_dsa_key.pub
++     copy /system/etc/ssh/ssh_host_ecdsa_key /data/ssh/ssh_host_ecdsa_key
++     copy /system/etc/ssh/ssh_host_ecdsa_key.pub /data/ssh/ssh_host_ecdsa_key.pub
++     copy /system/etc/ssh/ssh_host_rsa_key /data/ssh/ssh_host_rsa_key
++     copy /system/etc/ssh/ssh_host_rsa_key.pub /data/ssh/ssh_host_rsa_key.pub
++     copy /system/etc/ssh/sshd_config /data/ssh/sshd_config
++     mkdir /data/ssh/empty
++     chmod 600 /data/ssh/empty
++     chmod 600 /data/ssh/authorized_keys
++     chmod 600 /data/ssh/ssh_host_dsa_key
++     chmod 600 /data/ssh/ssh_host_dsa_key.pub
++     chmod 600 /data/ssh/ssh_host_ecdsa_key
++     chmod 600 /data/ssh/ssh_host_ecdsa_key.pub
++     chmod 600 /data/ssh/ssh_host_rsa_key
++     chmod 600 /data/ssh/ssh_host_rsa_key.pub
++     chmod 600 /data/ssh/sshd_config
++
++#open ssh 开机启动ssh服务
++service daemonssh /system/bin/start-ssh
++       class main
++       user  root
++       group root
++
+ 
+ on init
+     # Increased power consumption and CPU in exchange for memory
+diff --git a/device/rockchip/rk3588/rk3588_docker/rk3588_docker.mk b/device/rockchip/rk3588/rk3588_docker/rk3588_docker.mk
+index 89eea44ac8..abff6f336d 100755
+--- a/device/rockchip/rk3588/rk3588_docker/rk3588_docker.mk
++++ b/device/rockchip/rk3588/rk3588_docker/rk3588_docker.mk
+@@ -24,6 +24,7 @@ include device/rockchip/common/BoardConfig.mk
+ $(call inherit-product, device/rockchip/rk3588/device.mk)
+ $(call inherit-product, device/rockchip/common/device.mk)
+ $(call inherit-product, device/rockchip/space-common/device.mk)
++$(call inherit-product, device/rockchip/space-common/apps.mk)
+ $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
+ 
+ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/../overlay
+diff --git a/device/rockchip/space-common/apps.mk b/device/rockchip/space-common/apps.mk
+new file mode 100644
+index 0000000000..77c24ce6c5
+--- /dev/null
++++ b/device/rockchip/space-common/apps.mk
+@@ -0,0 +1,28 @@
++#ssh
++PRODUCT_PACKAGES += \
++	libssh \
++    ssh \
++    sftp \
++    scp \
++    sshd \
++    sshd_config \
++    ssh-keygen \
++    start-ssh \
++	authorized_keys 
++PRODUCT_COPY_FILES += \
++       $(call find-copy-subdir-files,*,$(LOCAL_PATH)/ssh,system/etc/ssh)
++
++# apps
++PRODUCT_PACKAGES += \
++	SogouInput_11.40_android_sweb \
++	base-chrome 	\
++	Launcher3-aosp-withQuickstep-release \
++	AppStore_v100_docker\
++	com.google.android.apps.nbu.files
++# 搜狗输入法
++# chrome
++# 公司桌面
++# 公司商城
++# com.google.android.apps.nbu.files
++
++
+diff --git a/external/openssh/A_authorized_keys b/external/openssh/A_authorized_keys
+new file mode 100644
+index 0000000000..82622adc03
+--- /dev/null
++++ b/external/openssh/A_authorized_keys
+@@ -0,0 +1 @@
++ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEkKVsSXyBCe9dVSh2qISBqk5KEZYSiPECwwD8ujqrMwQGZw4iepOeSpkUUrx4iodkkKsGcjTbJgaVVmwnT+BUL8ICbp6GlhlkHai4ppPZPjnd9+o8tpg/IIex9fG7qzmwnWM4ml/NXxLu6JbMNgtf686exRUymmZiCnQOwXI32cunR4ZANCjeYBaAhd4LOZqMEBIT6abfTcd6CbfcCS95sOuJTIDp1Ysa3+HMy+mG9qUq9Z3hO5885vM59AQ0B0d4j+zEJZ4sW8WUMvEb+YKIbTv7d7JS1KEnZG+q2uuhYKTznSyuD0+51kUDZuW4Br+YMDq5fr/BxLK7ggDSAxqsG69ad49mYMjttZj1YM6YNGZH78zi/SGRJDbisYXkq6zoVB6BpXdo8ya8ayUm5hgp4LwtUiynQ59aKj2Q+ROBF0BsSBQei3X4j6sRKUqJSNuj/7+xFZOS/KP7bpkPc9FmB3erd8lyhD2ORcmwzuBFtrIrUqGbQkY6uBAH7CnWNFE= Android RSA Key created on 2024-03-19
+\ No newline at end of file
+diff --git a/external/openssh/Android.mk b/external/openssh/Android.mk
+index 129f719caa..47d7e57b97 100644
+--- a/external/openssh/Android.mk
++++ b/external/openssh/Android.mk
+@@ -339,6 +339,16 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/ssh
+ LOCAL_SRC_FILES := sshd_config.android
+ include $(BUILD_PREBUILT)
+ 
++###################### sshd_config ######################
++
++include $(CLEAR_VARS)
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := authorized_keys
++LOCAL_MODULE_CLASS := ETC
++LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/ssh
++LOCAL_SRC_FILES := A_authorized_keys
++include $(BUILD_PREBUILT)
++
+ ###################### start-ssh ######################
+ 
+ include $(CLEAR_VARS)
+diff --git a/packages/apps/ntimesapp/Android.mk b/packages/apps/ntimesapp/Android.mk
+new file mode 100644
+index 0000000000..33a5e5d0aa
+--- /dev/null
++++ b/packages/apps/ntimesapp/Android.mk
+@@ -0,0 +1,113 @@
++LOCAL_PATH := $(call my-dir)
++
++
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := AppStore_v100_docker
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++#######################################################
++#include $(CLEAR_VARS)
++
++#LOCAL_MODULE_TAGS := optional
++#LOCAL_MODULE := ESFileExplorer-cn
++#LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++#LOCAL_MODULE_CLASS := APPS
++#LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++#LOCAL_CERTIFICATE := PRESIGNED
++
++#include $(BUILD_PREBUILT)
++#######################################################
++#include $(CLEAR_VARS)
++
++#LOCAL_MODULE_TAGS := optional
++#LOCAL_MODULE := qqbrowser_14.8.5.5046_GA_20240229_120905_1100125022
++#LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++#LOCAL_MODULE_CLASS := APPS
++#LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++#LOCAL_CERTIFICATE := PRESIGNED
++
++#include $(BUILD_PREBUILT)
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := base-chrome
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := SogouInput_11.40_android_sweb
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++#######################################################
++#include $(CLEAR_VARS)
++
++#LOCAL_MODULE_TAGS := optional
++#LOCAL_MODULE := yinyongbao
++#LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++#LOCAL_MODULE_CLASS := APPS
++#LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++#LOCAL_CERTIFICATE := PRESIGNED
++
++#include $(BUILD_PREBUILT)
++
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := com.google.android.apps.nbu.files
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++
++#######################################################
++# include $(CLEAR_VARS)
++
++# LOCAL_MODULE_TAGS := optional
++# LOCAL_MODULE := Launcher3-aosp-cx
++# LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++# LOCAL_MODULE_CLASS := APPS
++# LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++# # LOCAL_OVERRIDES_PACKAGES := Home Launcher2 Launcher3 Launcher3QuickStep
++# LOCAL_CERTIFICATE := platform
++
++# include $(BUILD_PREBUILT)
++
++# ##AppStore_v100_docker
++# ##Launcher3-aosp-withQuickstep-release
++
++
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := Launcher3-aosp-withQuickstep-release
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := platform
++
++include $(BUILD_PREBUILT)
++
++
+-- 
+2.25.1
+

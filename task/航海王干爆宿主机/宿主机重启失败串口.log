@@ -1,0 +1,272 @@
+ reboot
+DDR d5483af87d cym 23/11/23-16:15:24,fwver: v1.15
+LPDDR4X, 2112MHz
+channel[0] BW=16 Col=10 Bk=8 CS0 Row=17 CS1 Row=17 CS=2 Die BW=8 Size=4096MB
+channel[1] BW=16 Col=10 Bk=8 CS0 Row=17 CS1 Row=17 CS=2 Die BW=8 Size=4096MB
+channel[2] BW=16 Col=10 Bk=8 CS0 Row=17 CS1 Row=17 CS=2 Die BW=8 Size=4096MB
+channel[3] BW=16 Col=10 Bk=8 CS0 Row=17 CS1 Row=17 CS=2 Die BW=8 Size=4096MB
+Manufacturer ID:0x1
+CH0 RX Vref:29.3%, TX Vref:23.8%,23.8%
+CH1 RX Vref:27.9%, TX Vref:22.8%,21.8%
+CH2 RX Vref:28.5%, TX Vref:21.8%,20.8%
+CH3 RX Vref:29.7%, TX Vref:21.8%,21.8%
+change to F1: 528MHz
+change to F2: 1068MHz
+change to F3: 1560MHz
+change to F0: 2112MHz
+out
+U-Boot SPL board init
+U-Boot SPL 2017.09-ge4e124926e-230922 #lxh (Sep 25 2023 - 10:58:38), fwver: v1.13
+Trying to boot from MMC2
+MMC: no card present
+mmc_init: -123, time 0
+spl: mmc init failed with error: -123
+Trying to boot from MMC1
+Card did not respond to voltage select!
+mmc_init: -95, time 14
+spl: mmc init failed with error: -95
+Trying to boot from MTD2
+No misc partition
+Trying fit image at 0x4000 sector
+## Verified-boot: 0
+## Checking atf-1 0x00040000 ... sha256(2e8446f969...) + OK
+## Checking uboot 0x00200000 ... sha256(3f09bb5429...) + OK
+## Checking fdt 0x00352810 ... sha256(82197f4222...) + OK
+## Checking kern-fdt 0x00358000 ... sha256(b57e303f7e...) + OK
+## Checking atf-2 0xff100000 ... sha256(9f75e6ec37...) + OK
+## Checking atf-3 0x000f0000 ... sha256(c80587de50...) + OK
+## Checking optee 0x08400000 ... sha256(4b2d406bfc...) + OK
+Jumping to U-Boot(0x00200000) via ARM Trusted Firmware(0x00040000)
+Total: 525.953/681.221 ms
+
+INFO:    Preloader serial: 2
+NOTICE:  BL31: v2.3():v2.3-662-g4acbe711b-dirty:finley.xiao, fwver: v1.44
+NOTICE:  BL31: Built : 16:44:24, Nov  7 2023
+INFO:    spec: 0x13
+INFO:    code: 0x88
+INFO:    ext 32k is not valid
+INFO:    ddr: stride-en 4CH
+INFO:    GICv3 without legacy support detected.
+INFO:    ARM GICv3 driver initialized in EL3
+INFO:    valid_cpu_msk=0xff bcore0_rst = 0x0, bcore1_rst = 0x0
+INFO:    l3 cache partition cfg-0
+INFO:    system boots from cpu-hwid-0
+INFO:    idle_st=0x21fff, pd_st=0x11fff9, repair_st=0xfff70001
+INFO:    dfs DDR fsp_params[0].freq_mhz= 2112MHz
+INFO:    dfs DDR fsp_params[1].freq_mhz= 528MHz
+INFO:    dfs DDR fsp_params[2].freq_mhz= 1068MHz
+INFO:    dfs DDR fsp_params[3].freq_mhz= 1560MHz
+INFO:    BL31: Initialising Exception Handling Framework
+INFO:    BL31: Initializing runtime services
+INFO:    BL31: Initializing BL32
+I/TC:
+I/TC: OP-TEE version: 3.13.0-752-g62aa10b78 #hisping.lin (gcc version 10.2.1 20201103 (GNU Toolchain for the A-profile Architecture 10.2-2020.11 (arm-10.16))) #2 Mon Sep 25 10:04:34 CST 2023 aarch64, fwver: v1.15
+I/TC: Primary CPU initializing
+I/TC: Primary CPU switching to normal world boot
+INFO:    BL31: Preparing for EL3 exit to normal world
+INFO:    Entry point address = 0x200000
+INFO:    SPSR = 0x3c9
+
+
+U-Boot 2017.09-231011-dirty #dev (Apr 29 2024 - 17:00:11 +0800)
+
+Model: Rockchip RK3588 Evaluation Board
+MPIDR: 0x81000000
+PreSerial: 2, raw, 0xfeb50000
+DRAM:  16 GiB
+Sysmem: init
+Relocation Offset: eda0b000
+Relocation fdt: eb9d4b90 - eb9da380, kfdt: eb9da380 - eb9fecb6
+CR: M/C/I
+Using default environment
+
+optee api revision: 2.0
+pcie@fe190000: PCIe Linking... LTSSM is 0x0
+pcie@fe190000: PCIe Link up, LTSSM is 0x130011
+pcie@fe190000: PCIE-0: Link up (Gen2-x1, Bus0)
+pcie@fe190000: invalid flags type!
+Bootdev(assign): nvme 0
+PartType: DOS
+TEEC: Waring: Could not find security partition
+DM: v2
+Always embed kernel dtb
+DTB: dts/kern.dtb
+Error binding driver 'fixed regulator': -22
+Error binding driver 'fixed regulator': -22
+Some drivers failed to bind
+I2c0 speed: 100000Hz
+vsel-gpios- not found!
+en-gpios- not found!
+vdd_cpu_big0_s0 800000 uV
+vsel-gpios- not found!
+en-gpios- not found!
+vdd_cpu_big1_s0 800000 uV
+spi2: RK806: 2
+ON=0x40, OFF=0x00
+vdd_gpu_s0 750000 uV
+vdd_cpu_lit_s0 750000 uV
+vdd_log_s0 750000 uV
+vdd_npu_s0 init 750000 uV
+vdd_ddr_s0 850000 uV
+serdes_power_init failed to get serdes misc device
+Model: Rockchip RK3588S AntDock V1.0 Board
+MPIDR: 0x81000000
+JEDEC id bytes: ef, 60, 18
+SF: Detected sfc_nor with page size 256 Bytes, erase size 4 KiB, total 16 MiB
+Minidump: init...
+No misc partition
+boot mode: None
+CLK: (sync kernel. arm: enter 1008000 KHz, init 1008000 KHz, kernel 0N/A)
+  b0pll 24000 KHz
+  b1pll 24000 KHz
+  lpll 24000 KHz
+  v0pll 24000 KHz
+  aupll 786431 KHz
+  cpll 1500000 KHz
+  gpll 1188000 KHz
+  npll 850000 KHz
+  ppll 1100000 KHz
+  aclk_center_root 702000 KHz
+  pclk_center_root 100000 KHz
+  hclk_center_root 396000 KHz
+  aclk_center_low_root 500000 KHz
+  aclk_top_root 750000 KHz
+  pclk_top_root 100000 KHz
+  aclk_low_top_root 396000 KHz
+Net:   eth1: ethernet@fe1c0000
+Hit key to stop autoboot('CTRL+C'):  0
+Could not find misc partition
+ANDROID: reboot reason: "(none)"
+Not AVB images, AVB skip
+android_image_load_by_partname: Can't find part: boot
+Android image load failed
+Android boot failed, error -1.
+## Booting FIT Image FIT: No boot partition
+FIT: No fit blob
+FIT: No FIT image
+Unknown command 'bootrkp' - try 'help'
+no mmc device at slot 1
+no mmc device at slot 0
+
+Device 2: Vendor: 0x2207 Rev: V1.00 Prod: sfc_nor
+            Type: Hard Disk
+            Capacity: 16.0 MB = 0.0 GB (32768 x 512)
+... is now current device
+Failed to mount ext2 filesystem...
+** Unrecognized filesystem type **
+
+Device 1:
+Device 0: unknown device
+starting USB...
+Bus usb@fc000000: Register 2000140 NbrPorts 2
+Starting the controller
+USB XHCI 1.10
+scanning bus usb@fc000000 for devices... 1 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+
+Device 0: unknown device
+Device 'gpio@fec40000': seq 3 is in use by 'gpio@fec40000'
+pcie@fe190000: failed to get vpcie3v3 supply (ret=-19)
+ethernet@fe1c0000 Waiting for PHY auto negotiation to complete. done
+BOOTP broadcast 1
+BOOTP broadcast 2
+DHCP client bound to address 192.168.30.134 (257 ms)
+missing environment variable: pxeuuid
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/01-2a-0f-a3-3a-fa-84
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/C0A81E86
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/C0A81E8
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/C0A81E
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/C0A81
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/C0A8
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/C0A
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/C0
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/C
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/default-arm-rockchip
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/default-arm
+*** ERROR: `serverip' not set
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/default
+*** ERROR: `serverip' not set
+Config file not found
+pcie@fe190000: failed to find reset-gpios property
+BOOTP broadcast 1
+DHCP client bound to address 192.168.30.134 (3 ms)
+## Executing script at 00500000
+Wrong image format for "source" command
+=>
+
+
+
+
+
+
+RK3588设备启动失败的原因主要在于启动设备（如MMC或MTD）未能正确识别和初始化。以下是对日志中各部分的详细解释和分析：
+
+1. **DDR初始化**：
+    - 日志显示DDR初始化成功，各个通道的频率、行列、列宽、芯片选择等参数正常。
+    - 频率切换到2112MHz，初始化成功。
+
+2. **U-Boot SPL**：
+    - 日志显示尝试从多个设备启动（MMC2、MMC1、MTD2），但均失败。
+    - `MMC: no card present` 表示没有检测到MMC卡。
+    - `mmc_init: -123` 和 `mmc_init: -95` 错误表明MMC初始化失败。
+    - `No misc partition` 表示未找到misc分区。
+    - 检查多个启动镜像（如ATF、U-Boot、FDT等）的sha256校验通过，表示这些文件是完整的。
+
+3. **BL31固件**：
+    - 日志显示BL31固件初始化成功，并开始初始化各种服务和外设。
+    - `GICv3 without legacy support detected` 表示ARM GICv3中断控制器初始化成功。
+
+4. **OP-TEE**：
+    - OP-TEE固件版本3.13.0启动并初始化成功。
+
+5. **U-Boot主镜像**：
+    - 主U-Boot镜像加载并启动成功，检测到16GiB的DRAM。
+    - 启动过程中尝试链接PCIe，成功链接到PCIE-0。
+
+6. **电源管理和其他外设**：
+    - 初始化各种电源轨（如vdd_cpu_big0_s0、vdd_cpu_big1_s0等）。
+    - `serdes_power_init failed to get serdes misc device` 表示SerDes（串行解串器）初始化失败。
+    - `spi2: RK806` 表示检测到SPI设备RK806。
+
+7. **网络和存储设备**：
+    - 启动网卡并获取到DHCP地址（192.168.30.134）。
+    - 尝试通过PXE启动，未能找到配置文件或服务器IP。
+
+8. **启动失败的关键原因**：
+    - 最终，U-Boot尝试从多个存储设备启动，但均未能成功识别文件系统或启动镜像。
+    - `ANDROID: reboot reason: "(none)"` 表示Android启动失败，没有明确的重启原因。
+    - `Android image load failed` 表示未能加载Android镜像，错误码为-1。
+    - `FIT: No boot partition` 和 `Unknown command 'bootrkp'` 表示没有找到合适的启动分区和启动命令。
+
+综上所述，启动失败的主要原因如下：
+- **MMC设备初始化失败**：无法识别和初始化MMC存储卡，导致启动设备无法找到。
+- **存储设备中的启动镜像问题**：未能找到合适的启动分区或镜像文件。
+- **PXE启动失败**：尝试通过PXE启动，但由于缺少配置文件或服务器IP未设置，导致无法成功启动。
+
+**解决建议**：
+1. **检查并确保MMC设备连接正常**：确保存储卡插入正确，设备连接无误。
+2. **验证存储设备中的启动镜像**：确认MMC或其他存储设备中的启动镜像完整且正确。
+3. **设置正确的PXE启动配置**：如果使用PXE启动，确保服务器配置和网络连接正确。
+4. **检查U-Boot和固件配置**：确保U-Boot配置正确，尤其是启动命令和设备配置。

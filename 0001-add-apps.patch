@@ -1,0 +1,245 @@
+From adfa5dbd558c70398a412fc52084726f8bf3d976 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Tue, 26 Mar 2024 06:27:43 +0000
+Subject: [PATCH] add apps
+
+---
+ device/rockchip/space-common/apps.mk |  37 ++++++
+ packages/apps/ntimesapp/Android.mk   | 183 +++++++++++++++++++++++++++
+ 2 files changed, 220 insertions(+)
+ create mode 100644 device/rockchip/space-common/apps.mk
+ create mode 100644 packages/apps/ntimesapp/Android.mk
+
+diff --git a/device/rockchip/space-common/apps.mk b/device/rockchip/space-common/apps.mk
+new file mode 100644
+index 0000000000..8bd6eb004c
+--- /dev/null
++++ b/device/rockchip/space-common/apps.mk
+@@ -0,0 +1,37 @@
++PRODUCT_PACKAGES += \
++	cx-file-explorer-2-0-3 \
++	abcd \
++	SogouInput_11.40_android_sweb \
++	yinyongbao 	\
++	Launcher3-aosp-cx \
++	libssh \
++    ssh \
++    sftp \
++    scp \
++    sshd \
++    sshd_config \
++    ssh-keygen \
++    start-ssh \
++	authorized_keys \
++	com.google.android.apps.nbu.files
++
++# ESFileExplorer-cn \
++# AppStore_v100_docker \
++
++# apex_441
++
++# Nova_Launcher_v8 \
++
++PRODUCT_COPY_FILES += \
++       $(call find-copy-subdir-files,*,$(LOCAL_PATH)/ssh,system/etc/ssh)
++
++# qqbrowser_14.8.5.5046_GA_20240229_120905_1100125022 \
++
++# cx文件管理器
++# ES文件管理器
++# qq浏览器
++# 夸克浏览器
++# 搜狗输入法
++# 应用宝
++##AppStore_v100_docker
++##Launcher3-aosp-withQuickstep-release
+\ No newline at end of file
+diff --git a/packages/apps/ntimesapp/Android.mk b/packages/apps/ntimesapp/Android.mk
+new file mode 100644
+index 0000000000..4d63a9131e
+--- /dev/null
++++ b/packages/apps/ntimesapp/Android.mk
+@@ -0,0 +1,183 @@
++LOCAL_PATH := $(call my-dir)
++
++
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := cx-file-explorer-2-0-3
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := ESFileExplorer-cn
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := qqbrowser_14.8.5.5046_GA_20240229_120905_1100125022
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := abcd
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++LOCAL_PREBUILT_JNI_LIBS := \
++	lib/arm64-v8a/libalicomphonenumberauthsdk_core.so \
++	lib/arm64-v8a/libAliDatabaseES.so \
++	lib/arm64-v8a/libAliNNPython.so \
++	lib/arm64-v8a/libali_tvsharelib.so \
++	lib/arm64-v8a/libandroidlame.so \
++	lib/arm64-v8a/libapp.so \
++	lib/arm64-v8a/libarcore_sdk_c.so \
++	lib/arm64-v8a/libarcore_sdk_jni.so \
++	lib/arm64-v8a/libathena.so \
++	lib/arm64-v8a/libbehavix_base.so \
++	lib/arm64-v8a/libbodypose.so \
++	lib/arm64-v8a/libbrowserpro.so \
++	lib/arm64-v8a/libc++_shared.so \
++	lib/arm64-v8a/libcrashsdk.so \
++	lib/arm64-v8a/libcycloneuc.so \
++	lib/arm64-v8a/libDataHighway.so \
++	lib/arm64-v8a/libdatawings.so \
++	lib/arm64-v8a/libdecode100250.so \
++	lib/arm64-v8a/libdexloaderuc.so \
++	lib/arm64-v8a/libencrypt.so \
++	lib/arm64-v8a/liberrno-lib.so \
++	lib/arm64-v8a/libfakedexuc.so \
++	lib/arm64-v8a/libflutter.so \
++	lib/arm64-v8a/libglide-webp.so \
++	lib/arm64-v8a/libgpuimage.so \
++	lib/arm64-v8a/libhelp.so \
++	lib/arm64-v8a/libhuawei_arengine_jni.so \
++	lib/arm64-v8a/libhuawei_arengine_ndk.so \
++	lib/arm64-v8a/libimagecodec.so \
++	lib/arm64-v8a/libimage_processing_util_jni.so \
++	lib/arm64-v8a/libjsi.so \
++	lib/arm64-v8a/libkernelu4_uc_7z.so \
++	lib/arm64-v8a/liblibloaderuc.so \
++	lib/arm64-v8a/libmarsulog.so \
++	lib/arm64-v8a/libMNN.so \
++	lib/arm64-v8a/libmnncv.so \
++	lib/arm64-v8a/libmnnface.so \
++	lib/arm64-v8a/libmnnkitcore.so \
++	lib/arm64-v8a/libMNNOpenCV.so \
++	lib/arm64-v8a/libmnnpybridge.so \
++	lib/arm64-v8a/libmnnruntime.so \
++	lib/arm64-v8a/libMNN_CL.so \
++	lib/arm64-v8a/libMNN_Express.so \
++	lib/arm64-v8a/libmrt.so \
++	lib/arm64-v8a/libmultiscreen-jni.so \
++	lib/arm64-v8a/libnearby_nstackx.so \
++	lib/arm64-v8a/libpars.so \
++	lib/arm64-v8a/libpixelai.so \
++	lib/arm64-v8a/libpl_droidsonroids_gif.so \
++	lib/arm64-v8a/libpns-9.5.4_alijtca_plus.so \
++	lib/arm64-v8a/libqstream.so \
++	lib/arm64-v8a/libquamera_gl.so \
++	lib/arm64-v8a/libquaramera.so \
++	lib/arm64-v8a/libquarkshell.so \
++	lib/arm64-v8a/librtmp-jni.so \
++	lib/arm64-v8a/libsamurai.so \
++	lib/arm64-v8a/libsgmain.so \
++	lib/arm64-v8a/libsgmainso-6.6.230703.so \
++	lib/arm64-v8a/libsgmainso.ucb.so \
++	lib/arm64-v8a/libsgmainso.version.so \
++	lib/arm64-v8a/libsgmiddletier.so \
++	lib/arm64-v8a/libsgmiddletierso-6.6.230703.so \
++	lib/arm64-v8a/libsgmiddletierso.ucb.so \
++	lib/arm64-v8a/libsgmiddletierso.version.so \
++	lib/arm64-v8a/libsgsecuritybody.so \
++	lib/arm64-v8a/libsgsecuritybodyso-6.6.230703.so \
++	lib/arm64-v8a/libsgsecuritybodyso.ucb.so \
++	lib/arm64-v8a/libsgsecuritybodyso.version.so \
++	lib/arm64-v8a/libsqlite3.so \
++	lib/arm64-v8a/libtnet-3.1.14.so \
++	lib/arm64-v8a/libturbojpeg.so \
++	lib/arm64-v8a/libuc_bhook_jni.so \
++	lib/arm64-v8a/libuncommon_ocr.so \
++	lib/arm64-v8a/libunet.so \
++	lib/arm64-v8a/libunet_plugin.so \
++	lib/arm64-v8a/libunrar.so \
++	lib/arm64-v8a/libusb-lib.so \
++	lib/arm64-v8a/libwalle_base.so \
++	lib/arm64-v8a/libweibosdkcore.so
++
++include $(BUILD_PREBUILT)
++
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := SogouInput_11.40_android_sweb
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := yinyongbao
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++
++#######################################################
++include $(CLEAR_VARS)
++
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE := com.google.android.apps.nbu.files
++LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++LOCAL_MODULE_CLASS := APPS
++LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
++
++#######################################################
++# include $(CLEAR_VARS)
++
++# LOCAL_MODULE_TAGS := optional
++# LOCAL_MODULE := Launcher3-aosp-cx
++# LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++# LOCAL_MODULE_CLASS := APPS
++# LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++# # LOCAL_OVERRIDES_PACKAGES := Home Launcher2 Launcher3 Launcher3QuickStep
++# LOCAL_CERTIFICATE := platform
++
++# include $(BUILD_PREBUILT)
++
++# ##AppStore_v100_docker
++# ##Launcher3-aosp-withQuickstep-release
+
+-- 
+2.25.1
+

@@ -1,0 +1,26 @@
+diff --git a/packages/apps/Settings/src/com/android/settings/development/NetAdbPreferenceController.java b/packages/apps/Settings/src/com/android/settings/development/NetAdbPreferenceController.java
+index a4b93c96cf..e3a40f8b38 100755
+--- a/packages/apps/Settings/src/com/android/settings/development/NetAdbPreferenceController.java
++++ b/packages/apps/Settings/src/com/android/settings/development/NetAdbPreferenceController.java
+@@ -35,6 +35,7 @@ public class NetAdbPreferenceController extends
+         PreferenceControllerMixin {
+ 
+     private static final String KEY_ENABLE_NETADB = "enable_netadb";
++    private static final String TAGCX = "adb_net";
+ 
+     public static final int NETADB_SETTING_ON = 1;
+     public static final int NETADB_SETTING_OFF = 0;
+@@ -60,8 +61,13 @@ public class NetAdbPreferenceController extends
+         if(isEnabled)
+         {
+             SystemProperties.set("persist.internet_adb_enable", "1");
++            SystemProperties.set("s9.adbd.auto_start", "1");
++            Log.d(TAGCX,"isEnabled 1");
+         }else{
+             SystemProperties.set("persist.internet_adb_enable", "0");
++            SystemProperties.set("s9.adbd.auto_start", "0");
++            Log.d(TAGCX,"isEnabled 0");
++
+         }
+         return true;
+     }

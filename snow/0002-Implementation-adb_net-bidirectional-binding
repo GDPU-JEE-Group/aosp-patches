@@ -1,0 +1,47 @@
+diff --git a/packages/apps/Settings/src/com/android/settings/development/NetAdbPreferenceController.java b/packages/apps/Settings/src/com/android/settings/development/NetAdbPreferenceController.java
+index fe78e3ce65..a8382ab10e 100755
+--- a/packages/apps/Settings/src/com/android/settings/development/NetAdbPreferenceController.java
++++ b/packages/apps/Settings/src/com/android/settings/development/NetAdbPreferenceController.java
+@@ -60,11 +60,9 @@ public class NetAdbPreferenceController extends
+         final boolean isEnabled = (Boolean) newValue;
+         if(isEnabled)
+         {
+-            SystemProperties.set("persist.internet_adb_enable", "1");
+             SystemProperties.set("s9.adbd.auto_start", "1");
+             Log.d(TAGCX,"isEnabled 1");
+         }else{
+-            SystemProperties.set("persist.internet_adb_enable", "0");
+             SystemProperties.set("s9.adbd.auto_start", "0");
+             Log.d(TAGCX,"isEnabled 0");
+ 
+@@ -74,14 +72,14 @@ public class NetAdbPreferenceController extends
+ 
+     @Override
+     public void updateState(Preference preference) {
+-        final int mode = SystemProperties.getInt("persist.internet_adb_enable", 0);
++        final int mode = SystemProperties.getInt("s9.adbd.auto_start", 0);
+         ((SwitchPreference) mPreference).setChecked(mode != NETADB_SETTING_OFF);
+     }
+ 
+     @Override
+     protected void onDeveloperOptionsSwitchDisabled() {
+         super.onDeveloperOptionsSwitchDisabled();
+-        SystemProperties.set("persist.internet_adb_enable", "0");
++        SystemProperties.set("s9.adbd.auto_start", "0");
+         ((SwitchPreference) mPreference).setChecked(false);
+ }
+     }
+\ No newline at end of file
+diff --git a/packages/apps/TvSettings/Settings/src/com/android/tv/settings/system/development/DevelopmentFragment.java b/packages/apps/TvSettings/Settings/src/com/android/tv/settings/system/development/DevelopmentFragment.java
+index 32558106b9..9b70d6da4c 100644
+--- a/packages/apps/TvSettings/Settings/src/com/android/tv/settings/system/development/DevelopmentFragment.java
++++ b/packages/apps/TvSettings/Settings/src/com/android/tv/settings/system/development/DevelopmentFragment.java
+@@ -170,7 +170,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment
+ 
+     private static final String PERSIST_RK_ABC_SWITCH = "persist.abc_switch";
+     private static final String PERSIST_RK_ADB_ENABLE = "persist.sys.adb_enable";
+-    private static final String PERSIST_RK_INTERNET_ADB = "persist.internet_adb_enable";
++    private static final String PERSIST_RK_INTERNET_ADB = "s9.adbd.auto_start";
+     private static String DEFAULT_LOG_RING_BUFFER_SIZE_IN_BYTES = "262144"; // 256K
+ 
+     //Go to Loader

@@ -1,0 +1,125 @@
+From 3b7466c1939d586e96ebf57acb937ea15dca6561 Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Mon, 11 Mar 2024 17:41:11 +0000
+Subject: [PATCH] add 4G
+
+---
+ .gitignore                                    |  2 +
+ .../java/android/net/ConnectivityManager.java |  4 +-
+ .../java/android/net/NetworkCapabilities.java | 11 ++++++
+ .../core/java/android/net/NetworkInfo.java    | 37 ++++++++++++++++++-
+ 4 files changed, 52 insertions(+), 2 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index 144e8ec48a..d3db168546 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -4,3 +4,5 @@ out
+ 
+ hardware/rockchip/libhwjpeg/src/version.h
+ hardware/rockchip/omx_il/include/rockchip/git_info.h
++
++my_patch
+\ No newline at end of file
+diff --git a/frameworks/base/core/java/android/net/ConnectivityManager.java b/frameworks/base/core/java/android/net/ConnectivityManager.java
+index 3c467d3322..1ba9c3d796 100644
+--- a/frameworks/base/core/java/android/net/ConnectivityManager.java
++++ b/frameworks/base/core/java/android/net/ConnectivityManager.java
+@@ -955,7 +955,9 @@ public class ConnectivityManager {
+     @Nullable
+     public NetworkInfo getActiveNetworkInfo() {
+         try {
+-            return mService.getActiveNetworkInfo();
++            NetworkInfo res=mService.getActiveNetworkInfo();
++            res.change_data_traffic();
++            return res;
+         } catch (RemoteException e) {
+             throw e.rethrowFromSystemServer();
+         }
+diff --git a/frameworks/base/core/java/android/net/NetworkCapabilities.java b/frameworks/base/core/java/android/net/NetworkCapabilities.java
+index 3e325b748f..e5bc5a6ea0 100644
+--- a/frameworks/base/core/java/android/net/NetworkCapabilities.java
++++ b/frameworks/base/core/java/android/net/NetworkCapabilities.java
+@@ -782,6 +782,17 @@ public final class NetworkCapabilities implements Parcelable {
+      * @return {@code true} if set on this instance.
+      */
+     public boolean hasTransport(@Transport int transportType) {
++        //cx
++        if(transportType == TRANSPORT_WIFI){
++            return false;
++        }else if(transportType == TRANSPORT_CELLULAR){
++            return true;
++        }else if(transportType == TRANSPORT_ETHERNET){
++            return false;
++        }else if(transportType == TRANSPORT_VPN){
++            return false;
++        }
++        
+         return isValidTransport(transportType) && ((mTransportTypes & (1 << transportType)) != 0);
+     }
+ 
+diff --git a/frameworks/base/core/java/android/net/NetworkInfo.java b/frameworks/base/core/java/android/net/NetworkInfo.java
+index 513d1c81ab..f6cf244839 100644
+--- a/frameworks/base/core/java/android/net/NetworkInfo.java
++++ b/frameworks/base/core/java/android/net/NetworkInfo.java
+@@ -22,6 +22,7 @@ import android.os.Parcel;
+ import android.os.Parcelable;
+ import android.os.Process;
+ import com.android.internal.annotations.VisibleForTesting;
++import android.util.Log;
+ 
+ import java.util.EnumMap;
+ 
+@@ -149,6 +150,40 @@ public class NetworkInfo implements Parcelable {
+     private boolean mIsAvailable;
+     private boolean mIsRoaming;
+ 
++    /**
++     * @hide
++     */
++    @UnsupportedAppUsage
++    public void chaixiang_networklog(){
++        Log.d("chaixiangNetwork","mNetworkType:"+mNetworkType);
++        Log.d("chaixiangNetwork","mSubtype:"+mSubtype);
++        Log.d("chaixiangNetwork","mTypeName:"+mTypeName);
++        Log.d("chaixiangNetwork","mSubtypeName:"+mSubtypeName);
++        Log.d("chaixiangNetwork","mReason:"+mReason);
++        Log.d("chaixiangNetwork","mExtraInfo:"+mExtraInfo);
++        Log.d("chaixiangNetwork","mIsFailover:"+mIsFailover);
++        Log.d("chaixiangNetwork","mIsRoaming:"+mIsRoaming);
++        Log.d("chaixiangNetwork","mIsAvailable:"+mIsAvailable);
++    }
++
++    /**
++     * @hide
++     */
++    @UnsupportedAppUsage
++    public void change_data_traffic(){
++        mNetworkType = 0;
++        mSubtype = 13;
++        mTypeName = "MOBILE";
++        mSubtypeName = "LTE";
++        // mState = source.mState;
++        // mDetailedState = source.mDetailedState;
++        // mReason = source.mReason;
++        // mExtraInfo = source.mExtraInfo;
++        // mIsFailover = false;
++        // mIsAvailable = true;
++        // mIsRoaming = false;
++    }
++
+     /**
+      * @hide
+      */
+@@ -205,7 +240,7 @@ public class NetworkInfo implements Parcelable {
+     @Deprecated
+     public int getType() {
+         synchronized (this) {
+-	    if(Process.getUidForPid(Process.myPid()) > 10000) return ConnectivityManager.TYPE_WIFI;
++	    // if(Process.getUidForPid(Process.myPid()) > 10000) return ConnectivityManager.TYPE_WIFI;
+             return mNetworkType;
+         }
+     }
+-- 
+2.25.1
+

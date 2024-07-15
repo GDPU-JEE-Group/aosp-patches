@@ -1,0 +1,143 @@
+diff --git a/system/core/rootdir/init.usb.configfs.rc b/system/core/rootdir/init.usb.configfs.rc
+index 2098876ff9..aef1f2e435 100644
+--- a/system/core/rootdir/init.usb.configfs.rc
++++ b/system/core/rootdir/init.usb.configfs.rc
+@@ -14,8 +14,8 @@ on property:sys.usb.config=none && property:sys.usb.configfs=1
+ on property:init.svc.adbd=stopped
+     setprop sys.usb.ffs.ready 0
+ 
+-on property:sys.usb.config=adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=adb && property:sys.usb.configfs=1
++#    # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=adb && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "adb"
+@@ -29,8 +29,8 @@ on property:sys.usb.config=mtp && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-on property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
++#     # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp_adb"
+@@ -45,8 +45,8 @@ on property:sys.usb.config=ptp && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-on property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
++#     # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ptp_adb"
+@@ -61,8 +61,8 @@ on property:sys.usb.config=accessory && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-on property:sys.usb.config=accessory,adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=accessory,adb && property:sys.usb.configfs=1
++#     # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=accessory,adb && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "accessory_adb"
+@@ -77,8 +77,8 @@ on property:sys.usb.config=audio_source && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-on property:sys.usb.config=audio_source,adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=audio_source,adb && property:sys.usb.configfs=1
++#     # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=audio_source,adb && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "audiosource_adb"
+@@ -94,8 +94,8 @@ on property:sys.usb.config=accessory,audio_source && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-on property:sys.usb.config=accessory,audio_source,adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=accessory,audio_source,adb && property:sys.usb.configfs=1
++#    # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=accessory,audio_source,adb && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "accessory_audiosource_adb"
+@@ -111,8 +111,8 @@ on property:sys.usb.config=midi && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-on property:sys.usb.config=midi,adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=midi,adb && property:sys.usb.configfs=1
++#     # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=midi,adb && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "midi_adb"
+@@ -128,8 +128,8 @@ on property:sys.usb.config=rndis && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-on property:sys.usb.config=rndis,adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=rndis,adb && property:sys.usb.configfs=1
++    # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=rndis,adb && property:sys.usb.configfs=1
+     mkdir /config/usb_gadget/g1/functions/rndis.gs4
+@@ -145,8 +145,8 @@ on property:sys.usb.config=uvc && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-on property:sys.usb.config=uvc,adb && property:sys.usb.configfs=1
+-    start adbd
++# on property:sys.usb.config=uvc,adb && property:sys.usb.configfs=1
++    # start adbd
+ 
+ on property:sys.usb.ffs.ready=1 && property:sys.usb.config=uvc,adb && property:sys.usb.configfs=1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "uvc_adb"
+diff --git a/system/core/rootdir/init.usb.rc b/system/core/rootdir/init.usb.rc
+index b6cba901e5..cf7e4bf40e 100644
+--- a/system/core/rootdir/init.usb.rc
++++ b/system/core/rootdir/init.usb.rc
+@@ -37,7 +37,7 @@ on property:sys.usb.config=adb && property:sys.usb.configfs=0
+     write /sys/class/android_usb/android0/idProduct 4EE7
+     write /sys/class/android_usb/android0/functions ${sys.usb.config}
+     write /sys/class/android_usb/android0/enable 1
+-    start adbd
++    # start adbd
+     setprop sys.usb.state ${sys.usb.config}
+ 
+ # USB accessory configuration
+@@ -56,7 +56,7 @@ on property:sys.usb.config=accessory,adb && property:sys.usb.configfs=0
+     write /sys/class/android_usb/android0/idProduct 2d01
+     write /sys/class/android_usb/android0/functions ${sys.usb.config}
+     write /sys/class/android_usb/android0/enable 1
+-    start adbd
++    # start adbd
+     setprop sys.usb.state ${sys.usb.config}
+ 
+ # audio accessory configuration
+@@ -75,7 +75,7 @@ on property:sys.usb.config=audio_source,adb && property:sys.usb.configfs=0
+     write /sys/class/android_usb/android0/idProduct 2d03
+     write /sys/class/android_usb/android0/functions ${sys.usb.config}
+     write /sys/class/android_usb/android0/enable 1
+-    start adbd
++    # start adbd
+     setprop sys.usb.state ${sys.usb.config}
+ 
+ # USB and audio accessory configuration
+@@ -94,7 +94,7 @@ on property:sys.usb.config=accessory,audio_source,adb && property:sys.usb.config
+     write /sys/class/android_usb/android0/idProduct 2d05
+     write /sys/class/android_usb/android0/functions ${sys.usb.config}
+     write /sys/class/android_usb/android0/enable 1
+-    start adbd
++    # start adbd
+     setprop sys.usb.state ${sys.usb.config}
+ 
+ # Used to set USB configuration at boot and to switch the configuration
