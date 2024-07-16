@@ -1,0 +1,272 @@
+From 2f0d3b089e6f7257f15d16fee2673b9eb567ce0a Mon Sep 17 00:00:00 2001
+From: ntimesrepo <973731820@qq.com>
+Date: Tue, 16 Jul 2024 06:54:02 +0000
+Subject: [PATCH] =?UTF-8?q?=E6=9C=AA=E7=9F=A5=E9=9C=80=E6=B1=82=E5=8F=B7-?=
+ =?UTF-8?q?=E4=BF=AE=E5=A4=8D=E8=93=9D=E7=89=99UI=E9=80=89=E9=A1=B9?=
+ =?UTF-8?q?=E6=97=A0=E6=B3=95=E6=94=B9=E5=8F=98=E7=9A=84=E7=BC=BA=E9=99=B7?=
+ =?UTF-8?q?2?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ .../internal/space/api/BluetoothMock.java     | 24 +++++++++++++++----
+ .../bluetooth/LocalBluetoothAdapter.java      | 11 +++++++++
+ .../systemui/qs/tiles/BluetoothTile.java      | 19 +++++++++++----
+ .../policy/BluetoothControllerImpl.java       |  7 ++++++
+ .../BluetoothSwitchPreferenceController.java  | 18 +++++++++++++-
+ 5 files changed, 70 insertions(+), 9 deletions(-)
+
+diff --git a/frameworks/base/core/java/com/android/internal/space/api/BluetoothMock.java b/frameworks/base/core/java/com/android/internal/space/api/BluetoothMock.java
+index ada858464b..aa282723cb 100644
+--- a/frameworks/base/core/java/com/android/internal/space/api/BluetoothMock.java
++++ b/frameworks/base/core/java/com/android/internal/space/api/BluetoothMock.java
+@@ -12,7 +12,9 @@ import java.util.Arrays;
+ import java.util.Collections;
+ import java.util.HashSet;
+ import java.util.Set;
++
+ import android.util.Log;
++import android.os.SystemProperties;
+ 
+ public class BluetoothMock extends IMockCallback.Stub {
+ 
+@@ -43,7 +45,10 @@ public class BluetoothMock extends IMockCallback.Stub {
+ 
+     private BluetoothMock() {
+          mService = INineDSpace.Stub.asInterface(ServiceManager.getService(Context.SPACE_SERVICE));
+-         Enabled=false;
++         Enabled=SystemProperties.getBoolean("s9.bluetooth.state", false);
++        Log.d("Bluetooth-","---------------------------BluetoothMock init");
++        Log.d("Bluetooth-","---Enabled:"+Enabled);
++        Log.d("Bluetooth-","---s9.bluetooth.state:"+SystemProperties.getBoolean("s9.bluetooth.state", false));
+     }
+ 
+     public boolean isMock() {
+@@ -74,11 +79,22 @@ public class BluetoothMock extends IMockCallback.Stub {
+ 
+     public void setAble(boolean raw) {
+         Enabled=raw;
+-        // return Enabled;
++        String val=Enabled ? "1" : "0";
++        SystemProperties.set("s9.bluetooth.state", val);
++        Log.d("Bluetooth-","---------------------------setAble(boolean raw)");
++        Log.d("Bluetooth-","---raw:"+raw);
++        Log.d("Bluetooth-","---Enabled:"+Enabled);
++        Log.d("Bluetooth-","---s9.bluetooth.state:"+SystemProperties.getBoolean("s9.bluetooth.state", false));
+     }
+ 
+-    public int getState(int state) {
+-        return isMock() ? BluetoothAdapter.STATE_ON : state;
++    public int getState(int state) {// state是默认值
++        Log.d("Bluetooth-","---------------------------getState(int state)");
++        Log.d("Bluetooth-","---isMock():"+isMock());
++        Enabled=SystemProperties.getBoolean("s9.bluetooth.state", false);
++        state = Enabled ? BluetoothAdapter.STATE_ON : BluetoothAdapter.STATE_OFF;
++        Log.d("Bluetooth-","---state:"+state);
++        Log.d("Bluetooth-","---Enabled:"+Enabled);
++        return state;
+     }
+ 
+     private Set<BluetoothDevice> toDeviceSet(BluetoothDevice[] devices) {
+diff --git a/frameworks/base/packages/SettingsLib/src/com/android/settingslib/bluetooth/LocalBluetoothAdapter.java b/frameworks/base/packages/SettingsLib/src/com/android/settingslib/bluetooth/LocalBluetoothAdapter.java
+index 8f40ab47fe..0107f5f7dd 100644
+--- a/frameworks/base/packages/SettingsLib/src/com/android/settingslib/bluetooth/LocalBluetoothAdapter.java
++++ b/frameworks/base/packages/SettingsLib/src/com/android/settingslib/bluetooth/LocalBluetoothAdapter.java
+@@ -195,6 +195,10 @@ public class LocalBluetoothAdapter {
+     public synchronized int getBluetoothState() {
+         // Always sync state, in case it changed while paused
+         syncBluetoothState();
++
++        Log.d("Bluetooth-2","--------------LocalBluetoothAdapter.getBluetoothState()");
++        Log.d("Bluetooth-2","---mState"+mState);
++
+         return mState;
+     }
+ 
+@@ -218,6 +222,9 @@ public class LocalBluetoothAdapter {
+     // Returns true if the state changed; false otherwise.
+     boolean syncBluetoothState() {
+         int currentState = mAdapter.getState();
++        Log.d("Bluetooth-2","------------------LocalBluetoothAdapter.syncBluetoothState()");
++        Log.d("Bluetooth-2","---mState"+mState);
++        Log.d("Bluetooth-2","---currentState"+currentState);
+         if (currentState != mState) {
+             setBluetoothStateInt(mAdapter.getState());
+             return true;
+@@ -242,6 +249,10 @@ public class LocalBluetoothAdapter {
+ 
+             syncBluetoothState();
+         }
++
++        Log.d("Bluetooth-2","-------------------LocalBluetoothAdapter.setBluetoothEnabled(boolean enabled)"+enabled);
++        Log.d("Bluetooth-2","---success"+success);
++        Log.d("Bluetooth-2","---enabled? BluetoothAdapter.STATE_TURNING_ON: BluetoothAdapter.STATE_TURNING_OFF"+(enabled ? BluetoothAdapter.STATE_TURNING_ON: BluetoothAdapter.STATE_TURNING_OFF));
+         return success;
+     }
+ 
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
+index 9282a2e3b3..5774337091 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
+@@ -30,6 +30,8 @@ import android.text.TextUtils;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.Switch;
++import android.util.Log;
++
+ 
+ import com.android.internal.logging.MetricsLogger;
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+@@ -87,6 +89,7 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+ 
+     @Override
+     protected void handleClick() {
++        Log.d("Bluetooth-2","-------handleClick-------");
+         // Secondary clicks are header clicks, just toggle.
+         final boolean isEnabled = mState.value;
+         // Immediately enter transient enabling state when turning bluetooth on.
+@@ -101,6 +104,7 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+ 
+     @Override
+     protected void handleSecondaryClick() {
++        Log.d("Bluetooth-2","-------handleSecondaryClick-------");
+         if (!mController.canConfigBluetooth()) {
+             mActivityStarter.postStartActivityDismissingKeyguard(
+                     new Intent(Settings.ACTION_BLUETOOTH_SETTINGS), 0);
+@@ -120,11 +124,16 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+     @Override
+     protected void handleUpdateState(BooleanState state, Object arg) {
+         final boolean transientEnabling = arg == ARG_SHOW_TRANSIENT_ENABLING;
+-        final boolean enabled = transientEnabling || mController.isBluetoothEnabled();
+-        final boolean connected = mController.isBluetoothConnected();
+-        final boolean connecting = mController.isBluetoothConnecting();
++        final boolean enabled = transientEnabling || mController.isBluetoothEnabled();//如果是临时启用状态或者蓝牙已启用
++        final boolean connected = mController.isBluetoothConnected();//检查蓝牙是否已连接
++        final boolean connecting = mController.isBluetoothConnecting();//检查蓝牙是否正在连接
++
++        Log.d("Bluetooth-2","--------------BluetoothTile-handleUpdateState");
++        Log.d("Bluetooth-2","---enabled"+enabled);
++        Log.d("Bluetooth-2","---connected"+connected);
++        Log.d("Bluetooth-2","---connecting"+connecting);
+         state.isTransient = transientEnabling || connecting ||
+-                mController.getBluetoothState() == BluetoothAdapter.STATE_TURNING_ON;
++                mController.getBluetoothState() == BluetoothAdapter.STATE_TURNING_ON;//如果是临时启用状态、正在连接，或者蓝牙状态为 STATE_TURNING_ON（正在开启），则 isTransient 为 true。
+         state.dualTarget = true;
+         state.value = enabled;
+         if (state.slash == null) {
+@@ -345,6 +354,8 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+         @Override
+         public void setToggleState(boolean state) {
+             MetricsLogger.action(mContext, MetricsEvent.QS_BLUETOOTH_TOGGLE, state);
++
++            Log.d("Bluetooth-2","---------setToggleState(boolean state) state"+state);
+             mController.setBluetoothEnabled(state);
+         }
+ 
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/BluetoothControllerImpl.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/BluetoothControllerImpl.java
+index 7d562fbdfe..52858a4262 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/BluetoothControllerImpl.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/BluetoothControllerImpl.java
+@@ -162,6 +162,9 @@ public class BluetoothControllerImpl implements BluetoothController, BluetoothCa
+ 
+     @Override
+     public boolean isBluetoothEnabled() {
++        mEnabled=mLocalBluetoothManager.getBluetoothAdapter().getBluetoothState()==BluetoothAdapter.STATE_ON;
++        Log.d("Bluetooth-2","-----------------BluetoothControllerImpl-isBluetoothEnabled()");
++        Log.d("Bluetooth-2","----mEnabled"+mEnabled);
+         return mEnabled;
+     }
+ 
+@@ -301,9 +304,13 @@ public class BluetoothControllerImpl implements BluetoothController, BluetoothCa
+     @Override
+     public void onBluetoothStateChanged(int bluetoothState) {
+         if (DEBUG) Log.d(TAG, "BluetoothStateChanged=" + stateToString(bluetoothState));
++
++        Log.d("Bluetooth-2","-----------------BluetoothControllerImpl-onBluetoothStateChanged");
++        Log.d("Bluetooth-2","---bluetoothState"+bluetoothState);
+         mEnabled = bluetoothState == BluetoothAdapter.STATE_ON
+                 || bluetoothState == BluetoothAdapter.STATE_TURNING_ON;
+         mState = bluetoothState;
++        Log.d("Bluetooth-2","---mEnabled"+mEnabled);
+         updateConnected();
+         mHandler.sendEmptyMessage(H.MSG_STATE_CHANGED);
+     }
+diff --git a/packages/apps/Settings/src/com/android/settings/bluetooth/BluetoothSwitchPreferenceController.java b/packages/apps/Settings/src/com/android/settings/bluetooth/BluetoothSwitchPreferenceController.java
+index 48376a779a..0f2cca31ed 100644
+--- a/packages/apps/Settings/src/com/android/settings/bluetooth/BluetoothSwitchPreferenceController.java
++++ b/packages/apps/Settings/src/com/android/settings/bluetooth/BluetoothSwitchPreferenceController.java
+@@ -18,6 +18,8 @@ package com.android.settings.bluetooth;
+ import android.app.settings.SettingsEnums;
+ import android.content.Context;
+ import android.view.View;
++import android.util.Log;
++
+ 
+ import androidx.annotation.VisibleForTesting;
+ 
+@@ -62,6 +64,7 @@ public class BluetoothSwitchPreferenceController
+ 
+         mSwitch.setupView();
+         updateText(mSwitch.isChecked());
++        Log.d("Bluetooth-2","-------BluetoothSwitchPreferenceController(Context context, RestrictionUtils restrictionUtils,SwitchWidgetController switchController, FooterPreference footerPreference)-------");
+ 
+         mBluetoothEnabler = new BluetoothEnabler(context,
+                 switchController,
+@@ -73,6 +76,7 @@ public class BluetoothSwitchPreferenceController
+ 
+     @Override
+     public void onStart() {
++        Log.d("Bluetooth-2","-------onStart()-------");
+         mBluetoothEnabler.resume(mContext);
+         if (mSwitch != null) {
+             updateText(mSwitch.isChecked());
+@@ -81,12 +85,16 @@ public class BluetoothSwitchPreferenceController
+ 
+     @Override
+     public void onStop() {
++        Log.d("Bluetooth-2","-------onStop()-------");
+         mBluetoothEnabler.pause();
+     }
+ 
+     @Override
+-    public boolean onSwitchToggled(boolean isChecked) {
++    public boolean onSwitchToggled(boolean isChecked) {// 点击按钮
++        Log.d("Bluetooth-2","------- onSwitchToggled(boolean isChecked)------oo-");
+         updateText(isChecked);
++        mBluetoothEnabler.pause();
++        mBluetoothEnabler.resume(mContext);
+         return true;
+     }
+ 
+@@ -97,9 +105,13 @@ public class BluetoothSwitchPreferenceController
+                 .setDestination(ScanningSettings.class.getName())
+                 .setSourceMetricsCategory(SettingsEnums.BLUETOOTH_FRAGMENT)
+                 .launch();
++
++        Log.d("Bluetooth-2","------- onClick(View v)-------");
+     }
+ 
+     @VisibleForTesting void updateText(boolean isChecked) {
++        Log.d("Bluetooth-2","------- updateText----11111---");
++
+         if (!isChecked
+                 && Utils.isBluetoothScanningEnabled(mContext)) {
+             AnnotationSpan.LinkInfo info = new AnnotationSpan.LinkInfo(
+@@ -107,8 +119,12 @@ public class BluetoothSwitchPreferenceController
+             CharSequence text = AnnotationSpan.linkify(
+                     mContext.getText(R.string.bluetooth_scanning_on_info_message), info);
+             mFooterPreference.setTitle(text);
++        Log.d("Bluetooth-2","------- updateText----22222---");
++
+         } else {
+             mFooterPreference.setTitle(R.string.bluetooth_empty_list_bluetooth_off);
++        Log.d("Bluetooth-2","------- updateText----33333---");
++
+         }
+     }
+ }
+\ No newline at end of file
+-- 
+2.25.1
+

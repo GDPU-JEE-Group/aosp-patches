@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # 定义源目录和目标目录
-src_dir=$1
+# src_dir=$1
+src_dir="./a_patches/sh"
 dst_dir=$2
 
 chmod +x a_patches/sh/*.sh
