@@ -1,0 +1,698 @@
+diff --git a/frameworks/base/core/java/com/android/internal/space/api/WiFiMock.java b/frameworks/base/core/java/com/android/internal/space/api/WiFiMock.java
+index c51463321e..923d300877 100644
+--- a/frameworks/base/core/java/com/android/internal/space/api/WiFiMock.java
++++ b/frameworks/base/core/java/com/android/internal/space/api/WiFiMock.java
+@@ -1,8 +1,11 @@
+ package com.android.internal.space.api;
+ 
+ import static android.net.wifi.WifiManager.WIFI_FEATURE_INFRA_5G;
+-import static android.net.wifi.WifiManager.WIFI_STATE_ENABLED;
+ import static android.net.wifi.WifiManager.WIFI_STATE_DISABLED;
++import static android.net.wifi.WifiManager.WIFI_STATE_DISABLING;
++import static android.net.wifi.WifiManager.WIFI_STATE_ENABLED;
++import static android.net.wifi.WifiManager.WIFI_STATE_ENABLING;
++import static android.net.wifi.WifiManager.WIFI_STATE_UNKNOWN;
+ 
+ import android.content.Context;
+ import android.net.ConnectivityManager;
+@@ -12,6 +15,9 @@ import android.net.wifi.SupplicantState;
+ import android.net.wifi.WifiInfo;
+ import android.net.wifi.WifiSsid;
+ import android.os.Parcel;
++import android.os.SystemProperties;
++import android.util.Log;
++
+ 
+ import com.android.internal.space.NineDSpaceManager;
+ 
+@@ -158,7 +164,7 @@ public class WiFiMock extends IMockCallback.Stub {
+ 
+     public List<ScanResult> getScanResults(List<ScanResult> raw) {
+         if (!isMock()) return raw;
+-
++        Log.d("wifi-","---WiFiMock.getScanResults() ----***aaaaaaaaaaaaaa");
+         List<ScanResult> results = new ArrayList<>();
+         return results;
+     }
+@@ -170,11 +176,48 @@ public class WiFiMock extends IMockCallback.Stub {
+     }
+ 
+     public int getWifiEnabledState(int raw) {
++        Log.d("wifi-","---WiFiMock.getWifiEnabledState() ----");
++        Log.d("wifi-","---isMock():"+isMock());
++
+         if (!isMock()) return raw;
+         boolean enable = (boolean) (mMap.getOrDefault("enable", true));
++        Log.d("wifi-","---enable:"+enable);
++
+         return enable ? WIFI_STATE_ENABLED : WIFI_STATE_DISABLED;
+     }
+ 
++public static String getSsid() {
++    Log.d("wifi-", "---WiFiMock.getSsid() ----");
++    String ssid = SystemProperties.get("s9.wifi.ssid", "JWSK");
++    Log.d("wifi-", "---ssid:" + ssid);
++    return ssid;
++}
++
++public static boolean getWifiEnabledState_bool() {
++    Log.d("wifi-", "---WiFiMock.getWifiEnabledState_bool() ----");
++    boolean enable = SystemProperties.getBoolean("s9.wifi.state", true);
++    Log.d("wifi-", "---enable:" + enable);
++    return enable;
++}
++
++public static void setWifiEnabledState(int state) {
++    Log.d("wifi-", "---WiFiMock.setWifiEnabledState() ----" + state);
++    if (state == WIFI_STATE_DISABLED || state == WIFI_STATE_DISABLING) {
++        SystemProperties.set("s9.wifi.state", "false");
++    } else {
++        SystemProperties.set("s9.wifi.state", "true");
++    }
++    boolean enable = SystemProperties.getBoolean("s9.wifi.state", true);
++    Log.d("wifi-", "---enable:" + enable);
++}
++
++public static void setWifiEnabledState_bool(boolean state) {
++    Log.d("wifi-", "---WiFiMock.setWifiEnabledState_bool() ----" + state);
++    SystemProperties.set("s9.wifi.state", Boolean.toString(state));
++    boolean enable = SystemProperties.getBoolean("s9.wifi.state", true);
++    Log.d("wifi-", "---enable:" + enable);
++}
++
+     @Override
+     public void onCallback(Map map) {
+         this.mMap = map;
+diff --git a/frameworks/base/packages/SettingsLib/src/com/android/settingslib/wifi/WifiStatusTracker.java b/frameworks/base/packages/SettingsLib/src/com/android/settingslib/wifi/WifiStatusTracker.java
+index 5352936d72..4d68c98e92 100644
+--- a/frameworks/base/packages/SettingsLib/src/com/android/settingslib/wifi/WifiStatusTracker.java
++++ b/frameworks/base/packages/SettingsLib/src/com/android/settingslib/wifi/WifiStatusTracker.java
+@@ -31,6 +31,8 @@ import android.net.wifi.WifiNetworkScoreCache;
+ import android.net.wifi.WifiSsid;
+ import android.os.Handler;
+ import android.os.Looper;
++import android.util.Log;
++
+ 
+ import com.android.settingslib.R;
+ 
+@@ -102,6 +104,8 @@ public class WifiStatusTracker extends ConnectivityManager.NetworkCallback {
+     }
+ 
+     public void handleBroadcast(Intent intent) {
++        Log.d("wifi-","---WifiStatusTracker.handleBroadcast(Intent intent) ----");
++
+         if (mWifiManager == null) {
+             return;
+         }
+@@ -136,6 +140,8 @@ public class WifiStatusTracker extends ConnectivityManager.NetworkCallback {
+     }
+ 
+     private void updateWifiState() {
++        Log.d("wifi-","---WifiStatusTracker.updateWifiState() ----");
++
+         state = mWifiManager.getWifiState();
+         enabled = state == WifiManager.WIFI_STATE_ENABLED;
+     }
+diff --git a/frameworks/base/packages/SettingsLib/src/com/android/settingslib/wifi/WifiTracker.java b/frameworks/base/packages/SettingsLib/src/com/android/settingslib/wifi/WifiTracker.java
+index f1c5f46a30..57643e032b 100644
+--- a/frameworks/base/packages/SettingsLib/src/com/android/settingslib/wifi/WifiTracker.java
++++ b/frameworks/base/packages/SettingsLib/src/com/android/settingslib/wifi/WifiTracker.java
+@@ -41,6 +41,8 @@ import android.os.HandlerThread;
+ import android.os.Message;
+ import android.os.Process;
+ import android.os.SystemClock;
++import android.os.Bundle;
++import android.os.Parcelable;
+ import android.provider.Settings;
+ import android.text.format.DateUtils;
+ import android.util.ArrayMap;
+@@ -422,15 +424,63 @@ public class WifiTracker implements LifecycleObserver, OnStart, OnStop, OnDestro
+     @AnyThread
+     public List<AccessPoint> getAccessPoints() {
+         synchronized (mLock) {
+-            return new ArrayList<>(mInternalAccessPoints);
++        Log.d("wifi-","---WifiTracker.getAccessPoints() ----!!!");
++
++            // List<AccessPoint> accessPoints = new ArrayList<>(mInternalAccessPoints);
++            List<AccessPoint> accessPoints = new ArrayList<>();
++            // 伪造的Wi-Fi节点列表
++            List<AccessPoint> fakeAccessPoints = createFakeAccessPoints();
++            // 合并伪造节点与实际节点
++            accessPoints.addAll(fakeAccessPoints);
++            return accessPoints;
+         }
+     }
+ 
++    private List<AccessPoint> createFakeAccessPoints() {
++        List<AccessPoint> fakeAccessPoints = new ArrayList<>();
++
++        // 创建第一个伪造的Wi-Fi节点
++        Bundle bundle1 = new Bundle();
++        bundle1.putString("key_ssid", "FakeWiFi1");
++        bundle1.putString("key_bssid", "00:11:22:33:44:55");
++        bundle1.putInt("key_security", AccessPoint.SECURITY_NONE);
++        bundle1.putParcelableArray("key_scanresults", new Parcelable[]{createFakeScanResult("FakeWiFi1", "00:11:22:33:44:55")});
++
++        AccessPoint fakeAp1 = new AccessPoint(mContext, bundle1);
++        fakeAccessPoints.add(fakeAp1);
++
++        // 创建第二个伪造的Wi-Fi节点
++        Bundle bundle2 = new Bundle();
++        bundle2.putString("key_ssid", "FakeWiFi2");
++        bundle2.putString("key_bssid", "66:77:88:99:AA:BB");
++        bundle2.putInt("key_security", AccessPoint.SECURITY_PSK);
++        bundle2.putParcelableArray("key_scanresults", new Parcelable[]{createFakeScanResult("FakeWiFi2", "66:77:88:99:AA:BB")});
++
++        AccessPoint fakeAp2 = new AccessPoint(mContext, bundle2);
++        fakeAccessPoints.add(fakeAp2);
++
++        // 可以根据需要继续添加更多的伪造节点
++
++        return fakeAccessPoints;
++    }
++
++    private ScanResult createFakeScanResult(String ssid, String bssid) {
++        ScanResult scanResult = new ScanResult();
++        scanResult.SSID = ssid;
++        scanResult.BSSID = bssid;
++        scanResult.capabilities = "[ESS]";
++        scanResult.level = -50; // 信号强度
++        scanResult.frequency = 2412; // 频率
++
++        return scanResult;
++    }
++
+     public WifiManager getManager() {
+         return mWifiManager;
+     }
+ 
+     public boolean isWifiEnabled() {
++        Log.d("wifi-","---WifiTracker.isWifiEnabled() ----");
+         return mWifiManager != null && mWifiManager.isWifiEnabled();
+     }
+ 
+@@ -445,6 +495,7 @@ public class WifiTracker implements LifecycleObserver, OnStart, OnStop, OnDestro
+     }
+ 
+     public boolean isConnected() {
++        Log.d("wifi-","---WifiTracker.isConnected() ----");
+         return mConnected.get();
+     }
+ 
+@@ -771,6 +822,8 @@ public class WifiTracker implements LifecycleObserver, OnStart, OnStop, OnDestro
+ 
+     private void updateNetworkInfo(NetworkInfo networkInfo) {
+         /* Sticky broadcasts can call this when wifi is disabled */
++        Log.d("wifi-","---updateNetworkInfo(NetworkInfo networkInfo) ----");
++    
+         if (!isWifiEnabled()) {
+             clearAccessPointsAndConditionallyUpdate();
+             return;
+@@ -870,6 +923,8 @@ public class WifiTracker implements LifecycleObserver, OnStart, OnStop, OnDestro
+     final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+         @Override
+         public void onReceive(Context context, Intent intent) {
++        Log.d("wifi-","---WifiTracker.onReceive(Context context, Intent intent) ----");
++
+             String action = intent.getAction();
+ 
+             if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
+@@ -906,6 +961,8 @@ public class WifiTracker implements LifecycleObserver, OnStart, OnStop, OnDestro
+      * true.
+      */
+     private void updateWifiState(int state) {
++        Log.d("wifi-","---WifiTracker.updateWifiState(int state) ----"+state);
++
+         if (isVerboseLoggingEnabled()) {
+             Log.d(TAG, "updateWifiState: " + state);
+         }
+@@ -928,7 +985,7 @@ public class WifiTracker implements LifecycleObserver, OnStart, OnStop, OnDestro
+             }
+             mStaleScanResults = true;
+         }
+-        mListener.onWifiStateChanged(state);
++        mListener.onWifiStateChanged(state);//!
+     }
+ 
+     private final class WifiTrackerNetworkCallback extends ConnectivityManager.NetworkCallback {
+@@ -1023,6 +1080,8 @@ public class WifiTracker implements LifecycleObserver, OnStart, OnStop, OnDestro
+ 
+         @Override
+         public void onWifiStateChanged(int state) {
++            Log.d("wifi-","---WifiTracker.WifiListenerExecutor  onWifiStateChanged(int state) ----"+state);
++
+             runAndLog(() -> mDelegatee.onWifiStateChanged(state),
+                     String.format("Invoking onWifiStateChanged callback with state %d", state));
+         }
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
+index 0e7362c3d0..80af383244 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
+@@ -27,6 +27,7 @@ import android.util.Log;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.Switch;
++import com.android.internal.space.api.WiFiMock;
+ 
+ import com.android.internal.logging.MetricsLogger;
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+@@ -62,7 +63,7 @@ public class WifiTile extends QSTileImpl<SignalState> {
+     private final WifiDetailAdapter mDetailAdapter;
+     private final QSTile.SignalState mStateBeforeClick = newTileState();
+ 
+-    protected final WifiSignalCallback mSignalCallback = new WifiSignalCallback();
++    protected final WifiSignalCallback mSignalCallback = new WifiSignalCallback();//!
+     private final ActivityStarter mActivityStarter;
+     private boolean mExpectDisabled;
+ 
+@@ -117,6 +118,7 @@ public class WifiTile extends QSTileImpl<SignalState> {
+ 
+     @Override
+     protected void handleClick() {
++        Log.d("wifi-","---WifiTile.handleClick() ----");
+         // Secondary clicks are header clicks, just toggle.
+         mState.copyTo(mStateBeforeClick);
+         boolean wifiEnabled = mState.value;
+@@ -154,8 +156,9 @@ public class WifiTile extends QSTileImpl<SignalState> {
+ 
+     @Override
+     protected void handleUpdateState(SignalState state, Object arg) {
++        Log.d("wifi-","---WifiTile.handleUpdateState(SignalState state, Object arg) ----");
+         if (DEBUG) Log.d(TAG, "handleUpdateState arg=" + arg);
+-        final CallbackInfo cb = mSignalCallback.mInfo;
++        final CallbackInfo cb = mSignalCallback.mInfo;// !从mSignalCallback中获取当前的WiFi状态信息CallbackInfo。
+         if (mExpectDisabled) {
+             if (cb.enabled) {
+                 return; // Ignore updates until disabled event occurs.
+@@ -293,11 +296,15 @@ public class WifiTile extends QSTileImpl<SignalState> {
+         public void setWifiIndicators(boolean enabled, IconState statusIcon, IconState qsIcon,
+                 boolean activityIn, boolean activityOut, String description, boolean isTransient,
+                 String statusLabel) {
++            Log.d("wifi-","---WifiTile WifiSignalCallback setWifiIndicators ----");
++            
+             if (DEBUG) Log.d(TAG, "onWifiSignalChanged enabled=" + enabled);
+-            mInfo.enabled = enabled;
+-            mInfo.connected = qsIcon.visible;
++            mInfo.enabled = WiFiMock.getWifiEnabledState_bool();
++            mInfo.connected = WiFiMock.getWifiEnabledState_bool();
++            // mInfo.connected = qsIcon.visible;
+             mInfo.wifiSignalIconId = qsIcon.icon;
+-            mInfo.ssid = description;
++            mInfo.ssid = WiFiMock.getSsid();
++            // mInfo.ssid = description;
+             mInfo.activityIn = activityIn;
+             mInfo.activityOut = activityOut;
+             mInfo.wifiSignalContentDescription = qsIcon.contentDescription;
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/DemoStatusIcons.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/DemoStatusIcons.java
+index 0731a568ae..f6e2b08aa9 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/DemoStatusIcons.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/DemoStatusIcons.java
+@@ -224,6 +224,8 @@ public class DemoStatusIcons extends StatusIconContainer implements DemoMode, Da
+     }
+ 
+     public void updateWifiState(WifiIconState state) {
++        Log.d("wifi-","---DemoStatusIcons.updateWifiState(WifiIconState state) ----");
++        
+         Log.d(TAG, "updateWifiState: ");
+         if (mWifiView == null) {
+             addDemoWifiView(state);
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
+index 86ffb2382f..79d4355eb7 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
+@@ -31,6 +31,8 @@ import android.view.ViewGroup;
+ import android.widget.ImageView;
+ import android.widget.LinearLayout;
+ import android.widget.LinearLayout.LayoutParams;
++import android.util.Log;
++
+ 
+ import androidx.annotation.VisibleForTesting;
+ 
+@@ -364,6 +366,8 @@ public interface StatusBarIconController {
+         }
+ 
+         public void onSetSignalIcon(int viewIndex, WifiIconState state) {
++            Log.d("wifi-","---StatusBarIconController.onSetSignalIcon(int viewIndex, WifiIconState state) ----");
++            
+             StatusBarWifiView wifiView = (StatusBarWifiView) mGroup.getChildAt(viewIndex);
+             if (wifiView != null) {
+                 wifiView.applyWifiState(state);
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/WifiSignalController.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/WifiSignalController.java
+index 11aa0f8095..173ef19027 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/WifiSignalController.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/WifiSignalController.java
+@@ -26,6 +26,8 @@ import android.net.NetworkCapabilities;
+ import android.net.NetworkScoreManager;
+ import android.net.wifi.WifiManager;
+ import android.text.TextUtils;
++import android.util.Log;
++import com.android.internal.space.api.WiFiMock;
+ 
+ import com.android.internal.annotations.VisibleForTesting;
+ import com.android.settingslib.wifi.WifiStatusTracker;
+@@ -95,6 +97,7 @@ public class WifiSignalController extends
+         IconState statusIcon = new IconState(wifiVisible, getCurrentIconId(), contentDescription);
+         IconState qsIcon = new IconState(mCurrentState.connected, getQsCurrentIconId(),
+                 contentDescription);
++        Log.d("wifi-","---WifiSignalController.notifyListeners(SignalCallback callback) ----");
+         callback.setWifiIndicators(mCurrentState.enabled, statusIcon, qsIcon,
+                 ssidPresent && mCurrentState.activityIn, ssidPresent && mCurrentState.activityOut,
+                 wifiDesc, mCurrentState.isTransient, mCurrentState.statusLabel);
+@@ -104,10 +107,11 @@ public class WifiSignalController extends
+      * Extract wifi state directly from broadcasts about changes in wifi state.
+      */
+     public void handleBroadcast(Intent intent) {
++        Log.d("wifi-","---WifiSignalController.handleBroadcast(Intent intent)");
+         mWifiTracker.handleBroadcast(intent);
+-        mCurrentState.enabled = mWifiTracker.enabled;
+-        mCurrentState.connected = mWifiTracker.connected;
+-        mCurrentState.ssid = mWifiTracker.ssid;
++        mCurrentState.enabled = WiFiMock.getWifiEnabledState_bool();//!
++        mCurrentState.connected = WiFiMock.getWifiEnabledState_bool();
++        mCurrentState.ssid = WiFiMock.getSsid();
+         mCurrentState.rssi = mWifiTracker.rssi;
+         mCurrentState.level = mWifiTracker.level;
+         mCurrentState.statusLabel = mWifiTracker.statusLabel;
+diff --git a/frameworks/base/wifi/java/android/net/wifi/WifiManager.java b/frameworks/base/wifi/java/android/net/wifi/WifiManager.java
+index a2aadb52cd..d1571250ca 100644
+--- a/frameworks/base/wifi/java/android/net/wifi/WifiManager.java
++++ b/frameworks/base/wifi/java/android/net/wifi/WifiManager.java
+@@ -2460,6 +2460,8 @@ public class WifiManager {
+      */
+     @Deprecated
+     public boolean setWifiEnabled(boolean enabled) {
++        Log.d("wifi-","---WifiManager.setWifiEnabled(boolean enabled) ----");
++
+         try {
+             return mService.setWifiEnabled(mContext.getOpPackageName(), enabled);
+         } catch (RemoteException e) {
+@@ -2475,6 +2477,7 @@ public class WifiManager {
+      * @see #isWifiEnabled()
+      */
+     public int getWifiState() {
++        Log.d("wifi-","---wifimanager.getWifiState() ----");
+         try {
+             return mService.getWifiEnabledState();
+         } catch (RemoteException e) {
+diff --git a/frameworks/opt/net/wifi/service/java/com/android/server/wifi/ClientModeImpl.java b/frameworks/opt/net/wifi/service/java/com/android/server/wifi/ClientModeImpl.java
+index b28bdab895..cc95d296d5 100644
+--- a/frameworks/opt/net/wifi/service/java/com/android/server/wifi/ClientModeImpl.java
++++ b/frameworks/opt/net/wifi/service/java/com/android/server/wifi/ClientModeImpl.java
+@@ -85,6 +85,7 @@ import android.os.RemoteException;
+ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.os.WorkSource;
++import android.os.SystemProperties;
+ import android.provider.Settings;
+ import android.system.OsConstants;
+ import android.telephony.SubscriptionManager;
+@@ -717,7 +718,7 @@ public class ClientModeImpl extends StateMachine {
+      * {@link WifiManager#WIFI_STATE_ENABLING},
+      * {@link WifiManager#WIFI_STATE_UNKNOWN}
+      */
+-    private final AtomicInteger mWifiState = new AtomicInteger(WIFI_STATE_DISABLED);
++    private final AtomicInteger mWifiState = new AtomicInteger(WIFI_STATE_ENABLED);
+ 
+     /**
+      * Work source to use to blame usage on the WiFi service
+@@ -1356,6 +1357,9 @@ public class ClientModeImpl extends StateMachine {
+      * @param newState new state to set, invalid states are ignored.
+      */
+     public void setWifiStateForApiCalls(int newState) {
++
++        Log.d("wifi-","---ClientModeImpl.setWifiStateForApiCalls(int newState) ----");
++        
+         switch (newState) {
+             case WIFI_STATE_DISABLING:
+             case WIFI_STATE_DISABLED:
+@@ -1379,7 +1383,13 @@ public class ClientModeImpl extends StateMachine {
+      * (b/31479117).
+      */
+     public int syncGetWifiState() {
+-        return mWifiState.get();
++        Log.d("wifi-","---ClientModeImpl.syncGetWifiState() ----");
++        Log.d("wifi-","---mWifiState.get():"+mWifiState.get());
++        Log.d("wifi-","---s9.wifi.state:"+SystemProperties.getInt("s9.wifi.state", 999));  
++        return SystemProperties.getInt("s9.wifi.state", WIFI_STATE_ENABLED);
++        // return mWifiState.get();
++
++        //TODO !我把颗粒度放到这里                      
+     }
+ 
+     /**
+diff --git a/frameworks/opt/net/wifi/service/java/com/android/server/wifi/ClientModeManager.java b/frameworks/opt/net/wifi/service/java/com/android/server/wifi/ClientModeManager.java
+index 883b16a610..b5ab889816 100644
+--- a/frameworks/opt/net/wifi/service/java/com/android/server/wifi/ClientModeManager.java
++++ b/frameworks/opt/net/wifi/service/java/com/android/server/wifi/ClientModeManager.java
+@@ -131,6 +131,10 @@ public class ClientModeManager implements ActiveModeManager {
+      * @param currentState current wifi state
+      */
+     private void updateWifiState(int newState, int currentState) {
++        Log.d("wifi-","---ClientModeManager.updateWifiState(int newState, int currentState) ----");
++        Log.d("wifi-","---newState:"+newState);
++        Log.d("wifi-","---currentState:"+currentState);
++     
+         if (!mExpectedStop) {
+             mListener.onStateChanged(newState);
+         } else {
+@@ -150,7 +154,7 @@ public class ClientModeManager implements ActiveModeManager {
+             return;
+         }
+ 
+-        mClientModeImpl.setWifiStateForApiCalls(newState);
++        mClientModeImpl.setWifiStateForApiCalls(newState);//!
+ 
+         final Intent intent = new Intent(WifiManager.WIFI_STATE_CHANGED_ACTION);
+         intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY_BEFORE_BOOT);
+@@ -219,6 +223,8 @@ public class ClientModeManager implements ActiveModeManager {
+ 
+             @Override
+             public boolean processMessage(Message message) {
++                Log.d("wifi-","---ClientModeManager.ClientModeStateMachine.processMessage(Message message) ----");
++
+                 switch (message.what) {
+                     case CMD_START:
+                         updateWifiState(WifiManager.WIFI_STATE_ENABLING,
+diff --git a/frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiServiceImpl.java b/frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiServiceImpl.java
+index 20dc6d9800..5137683674 100644
+--- a/frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiServiceImpl.java
++++ b/frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiServiceImpl.java
+@@ -117,6 +117,7 @@ import com.android.server.wifi.util.ExternalCallbackTracker;
+ import com.android.server.wifi.util.GeneralUtil.Mutable;
+ import com.android.server.wifi.util.WifiHandler;
+ import com.android.server.wifi.util.WifiPermissionsUtil;
++import com.android.internal.space.api.WiFiMock;
+ 
+ import java.io.BufferedReader;
+ import java.io.FileDescriptor;
+@@ -871,6 +872,8 @@ public class WifiServiceImpl extends BaseWifiService {
+      */
+     @Override
+     public synchronized boolean setWifiEnabled(String packageName, boolean enable) {
++        Log.d("wifi-","---WifiServiceImpl.setWifiEnabled(String packageName, boolean enable) ----");
++        
+         if (enforceChangePermission(packageName) != MODE_ALLOWED) {
+             return false;
+         }
+@@ -904,15 +907,19 @@ public class WifiServiceImpl extends BaseWifiService {
+         mLog.info("setWifiEnabled package=% uid=% enable=%").c(packageName)
+                 .c(Binder.getCallingUid()).c(enable).flush();
+         long ident = Binder.clearCallingIdentity();
++
++        //**处理WiFi切换**
+         try {
+-            if (!mSettingsStore.handleWifiToggled(enable)) {
+-                // Nothing to do if wifi cannot be toggled
+-                return true;
+-            }
++            // if (!mSettingsStore.handleWifiToggled(enable)) {//???????????设置WiFi的启用或禁用,将WiFi状态持久化存储
++            //     // Nothing to do if wifi cannot be toggled
++            //     return true;
++            // }
++            WiFiMock.setWifiEnabledState_bool(enable);
++
+         } finally {
+             Binder.restoreCallingIdentity(ident);
+         }
+-        mWifiMetrics.incrementNumWifiToggles(isPrivileged, enable);
++        mWifiMetrics.incrementNumWifiToggles(isPrivileged, enable);//???????????记录WiFi开关切换的次数，用于统计和分析
+         mWifiController.sendMessage(CMD_WIFI_TOGGLED);
+         return true;
+     }
+@@ -931,7 +938,10 @@ public class WifiServiceImpl extends BaseWifiService {
+         if (mVerboseLoggingEnabled) {
+             mLog.info("getWifiEnabledState uid=%").c(Binder.getCallingUid()).flush();
+         }
+-        return mMock.getWifiEnabledState(mClientModeImpl.syncGetWifiState());
++
++        Log.d("wifi-","---wifiserviceImpl.getWifiEnabledState() ----");
++        return mClientModeImpl.syncGetWifiState();
++        // return mMock.getWifiEnabledState(mClientModeImpl.syncGetWifiState());
+     }
+ 
+     /**
+diff --git a/frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiSettingsStore.java b/frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiSettingsStore.java
+index 8d8d587b5c..291b4da61b 100644
+--- a/frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiSettingsStore.java
++++ b/frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiSettingsStore.java
+@@ -19,6 +19,8 @@ package com.android.server.wifi;
+ import android.content.ContentResolver;
+ import android.content.Context;
+ import android.provider.Settings;
++import android.util.Log;
++import android.os.SystemProperties;
+ 
+ import java.io.FileDescriptor;
+ import java.io.PrintWriter;
+@@ -81,6 +83,8 @@ public class WifiSettingsStore {
+     }
+ 
+     public synchronized boolean handleWifiToggled(boolean wifiEnabled) {
++        Log.d("wifi-","---WifiSettingsStore.handleWifiToggled(boolean wifiEnabled)  ----");
++
+         // Can Wi-Fi be toggled in airplane mode ?
+         if (mAirplaneModeOn && !isAirplaneToggleable()) {
+             return false;
+@@ -135,6 +139,11 @@ public class WifiSettingsStore {
+     }
+ 
+     private void persistWifiState(int state) {
++        Log.d("wifi-","---WifiSettingsStore.persistWifiState(int state) ----"+state);
++        
++        SystemProperties.set("s9.wifi.state", ""+state);
++        Log.d("wifi-","---s9.wifi.state"+SystemProperties.getInt("s9.wifi.state",999));
++
+         final ContentResolver cr = mContext.getContentResolver();
+         mPersistWifiState = state;
+         Settings.Global.putInt(cr, Settings.Global.WIFI_ON, state);
+diff --git a/packages/apps/Settings/src/com/android/settings/wifi/WifiEnabler.java b/packages/apps/Settings/src/com/android/settings/wifi/WifiEnabler.java
+index 536ea613b5..828b3ae18d 100644
+--- a/packages/apps/Settings/src/com/android/settings/wifi/WifiEnabler.java
++++ b/packages/apps/Settings/src/com/android/settings/wifi/WifiEnabler.java
+@@ -30,6 +30,7 @@ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.provider.Settings;
+ import android.widget.Toast;
++import android.util.Log;
+ 
+ import androidx.annotation.VisibleForTesting;
+ 
+@@ -196,6 +197,9 @@ public class WifiEnabler implements SwitchWidgetController.OnSwitchChangeListene
+ 
+     @Override
+     public boolean onSwitchToggled(boolean isChecked) {
++
++        Log.d("wifi-","---WifiEnabler.onSwitchToggled(boolean isChecked) ----");
++        
+         //Do nothing if called as a result of a state machine event
+         if (mStateMachineEvent) {
+             return true;
+@@ -208,6 +212,7 @@ public class WifiEnabler implements SwitchWidgetController.OnSwitchChangeListene
+             return false;
+         }
+ 
++        // 记录用户操作
+         if (isChecked) {
+             mMetricsFeatureProvider.action(mContext, SettingsEnums.ACTION_WIFI_ON);
+         } else {
+@@ -215,6 +220,7 @@ public class WifiEnabler implements SwitchWidgetController.OnSwitchChangeListene
+             mMetricsFeatureProvider.action(mContext, SettingsEnums.ACTION_WIFI_OFF,
+                     mConnected.get());
+         }
++        // 设置 WiFi 状态
+         if (!mWifiManager.setWifiEnabled(isChecked)) {
+             // Error
+             mSwitchWidget.setEnabled(true);
+diff --git a/packages/apps/Settings/src/com/android/settings/wifi/WifiMasterSwitchPreferenceController.java b/packages/apps/Settings/src/com/android/settings/wifi/WifiMasterSwitchPreferenceController.java
+index 6a4774bb1d..95a1d6f7d4 100644
+--- a/packages/apps/Settings/src/com/android/settings/wifi/WifiMasterSwitchPreferenceController.java
++++ b/packages/apps/Settings/src/com/android/settings/wifi/WifiMasterSwitchPreferenceController.java
+@@ -16,6 +16,8 @@
+ package com.android.settings.wifi;
+ 
+ import android.content.Context;
++import android.util.Log;
++
+ 
+ import androidx.preference.PreferenceScreen;
+ 
+diff --git a/packages/apps/Settings/src/com/android/settings/wifi/WifiSettings.java b/packages/apps/Settings/src/com/android/settings/wifi/WifiSettings.java
+index 4d3f230db1..78149212d8 100644
+--- a/packages/apps/Settings/src/com/android/settings/wifi/WifiSettings.java
++++ b/packages/apps/Settings/src/com/android/settings/wifi/WifiSettings.java
+@@ -655,11 +655,14 @@ public class WifiSettings extends RestrictedSettingsFragment
+     /** Called when the state of Wifi has changed. */
+     @Override
+     public void onWifiStateChanged(int state) {
++        Log.d("wifi-","---wifiSettings.onWifiStateChanged(int state) ----");
++
+         if (mIsRestricted) {
+             return;
+         }
+ 
+         final int wifiState = mWifiManager.getWifiState();
++        Log.d("wifi-","WifiSettings.java over over---wifiState : "+wifiState);
+         switch (wifiState) {
+             case WifiManager.WIFI_STATE_ENABLED:
+                 updateAccessPointPreferences();
+@@ -710,6 +713,7 @@ public class WifiSettings extends RestrictedSettingsFragment
+     }
+ 
+     private void updateAccessPointPreferences() {
++        Log.d("wifi-","---WifiSettings.updateAccessPointPreferences() ----!!!");
+         // in case state has changed
+         if (!mWifiManager.isWifiEnabled()) {
+             return;
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+index c85b951d35..f9a7fe375e 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+@@ -94,7 +94,7 @@ public class Space9dManagerShellCommand extends ShellCommand {
+     }
+ 
+     private void runUpdateConfig(PrintWriter pw) throws RemoteException {
+-        ArrayMap<String, String> addMap = new ArrayMap<>();
++        ArrayMap<String, Object> addMap = new ArrayMap<>();
+         List<String> delList = new ArrayList<>();
+ 
+         String nextOpt;
+@@ -103,7 +103,14 @@ public class Space9dManagerShellCommand extends ShellCommand {
+             if ("-a".equals(nextOpt)) {
+                 item = getNextArg().split("=");
+                 if (item.length == 2) {
+-                    addMap.put(item[0], item[1]);
++                    // 检查item[1]是否是"true"或"false"
++                    if ("true".equalsIgnoreCase(item[1])) {
++                        addMap.put(item[0], Boolean.TRUE);
++                    } else if ("false".equalsIgnoreCase(item[1])) {
++                        addMap.put(item[0], Boolean.FALSE);
++                    } else {
++                        addMap.put(item[0], item[1]);
++                    }
+                 }
+             } else if ("-r".equals(nextOpt)) {
+                 delList.add(getNextArg());
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/mock/MockManager.java b/vendor/ntimespace/Space9dService/src/com/android/server/mock/MockManager.java
+index 4395c07342..231aedbc9b 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/mock/MockManager.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/mock/MockManager.java
+@@ -132,6 +132,9 @@ public class MockManager {
+         Map<String, Object> result = new ArrayMap();
+         result.putAll(mockInfo.map);
+         return result;
++        //TODO1: 添加一个实时修改enable的方法自己用 v
++        //todo2: 改解析类，识别true v
++        //TODO3: 修改状态已连接（状态、UI）
+     }
+ 
+     public Map<String, Object> getMockInfo(String name) {
+@@ -213,6 +216,7 @@ public class MockManager {
+             }
+         }
+ 
++        //同步模拟信息并调用回调函数
+         MockInfo mockInfo;
+         Map<String, Object> arrayMap;
+         for (String name : mocks) {

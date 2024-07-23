@@ -1,0 +1,34 @@
+From 39bc25f4b90e780db85acd8c302e5c874c67f91e Mon Sep 17 00:00:00 2001
+From: "tony.xu" <tony.xu@rock-chips.com>
+Date: Mon, 27 May 2024 16:47:25 +0800
+Subject: [PATCH] StorageManagerService: fix open file in sdcard fail
+
+when sdcard use fuse file system(ported from android8.0) which has no directory: /mnt/runtime/full
+
+log:
+05-27 07:08:00.618  7981  7981 W VideoDisplayView: Unable to open content: file:///storage/emulated/0/Download/test.avi
+05-27 07:08:00.618  7981  7981 W VideoDisplayView: java.io.FileNotFoundException: /storage/emulated/0/Download/test.avi:
+open failed: ENOENT (No such file or directory)
+
+Signed-off-by: tony.xu <tony.xu@rock-chips.com>
+Change-Id: Ic05d99d92ba3b5023a12f3817ba15790311dd4dc
+---
+ .../core/java/com/android/server/StorageManagerService.java     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/StorageManagerService.java b/services/core/java/com/android/server/StorageManagerService.java
+index 3e7851af4f7..adeaf0f1378 100644
+--- a/services/core/java/com/android/server/StorageManagerService.java
++++ b/services/core/java/com/android/server/StorageManagerService.java
+@@ -3643,7 +3643,7 @@ class StorageManagerService extends IStorageManager.Stub
+             final boolean hasFull = mIPackageManager.checkUidPermission(WRITE_MEDIA_STORAGE,
+                     uid) == PERMISSION_GRANTED;
+             if (hasFull && hasWrite) {
+-                return Zygote.MOUNT_EXTERNAL_FULL;
++                return Zygote.MOUNT_EXTERNAL_WRITE;
+             }
+ 
+             // We're only willing to give out installer access if they also hold
+-- 
+2.25.1
+

@@ -165,6 +165,7 @@ if [ -n "$msg" ]; then
 	echo ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
 	echo ssh root@$ip rm -rf /userdata/snow/$filename
 	echo ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num --image=latest
+	ssh root@$ip docker exec -it android_$num start adbd
 	echo ssh root@$ip docker ps
 
 	scp $filepath root@$ip:/userdata/snow/
