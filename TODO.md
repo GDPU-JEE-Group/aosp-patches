@@ -1,7 +1,9 @@
 
 
 - wiki 可空、取值范围
-- bluetooth
-packages/apps/Settings/src/com/android/settings/bluetooth/BluetoothEnabler.java
-packages/apps/Settings/src/com/android/settings/bluetooth/BluetoothSwitchPreferenceController.java
-packages/apps/Settings/src/com/android/settings/bluetooth/BluetoothDeviceDetailsFragment.java
+- U盘
+- 给测试测rk
+
+
+
+- 所有30号的提测

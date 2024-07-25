@@ -172,7 +172,6 @@ if [ -n "$msg" ]; then
 	ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
 	ssh root@$ip rm -rf /userdata/snow/$filename
 	ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num --image=latest
-	ssh root@$ip docker exec -it android_$num start adbd
 	ssh root@$ip docker ps
 
 else
@@ -189,3 +188,6 @@ echo ssh root@$ip docker exec -it android_$num
 # ssh root@$ip_ build_image.sh /data/snow/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz 
 # ssh root@$ip_ android_ctl.sh restart $id_ --image=latest 
 # echo  $STUB_PATH/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz  root@$ip_:/userdata/snow/
+	sleep 1
+	ssh root@$ip docker exec  android_$num start adbd
+	echo ssh root@$ip docker exec  android_$num start adbd
