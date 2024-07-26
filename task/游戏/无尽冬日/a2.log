@@ -1,0 +1,1861 @@
+
+07-25 06:15:00.962   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:00.962   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:00.962   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:00.962   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:00.962   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:00.962   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:00.962   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:00.962   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:00.962   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:00.962   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:00.962   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:00.962   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:01.102  2308  2332 W CrashLoopRemedyLog: unable to delete remedy log, instaCrash: true
+07-25 06:15:01.738    93  1027 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+07-25 06:15:01.906   812   812 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.udc.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+07-25 06:15:02.705  2308  2370 E AndroidSerialExecutorImpl.cpp: AndroidSerialExecutorImpl(RequestStreamClient) Exception Running Function, Message: couldn't find key requestId in dynamic object
+07-25 06:15:04.606   100   123 E JWSensorsHal: connect to /data/misc/sensor/sensor_ctrl error:2 No such file or directory
+07-25 06:15:04.743    89   193 E JWAudioHAL: connect to /data/misc/audioserver/audio_out error:2 No such file or directory
+07-25 06:15:06.738    93  1027 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+07-25 06:15:08.079  1781  1801 I Finsky:background: [164] nft.run(519): Stats for Executor: bgExecutor pyz@ad788d0[Running, pool size = 2, active threads = 0, queued tasks = 0, completed tasks = 2]
+07-25 06:15:08.080  1781  1801 I Finsky:background: [164] nft.run(519): Stats for Executor: LightweightExecutor pyz@a54d0c9[Running, pool size = 3, active threads = 0, queued tasks = 0, completed tasks = 3]
+07-25 06:15:08.154  1781  1801 I Finsky:background: [164] nft.run(519): Stats for Executor: BlockingExecutor pyz@23053ce[Running, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0]
+07-25 06:15:09.607   100   123 E JWSensorsHal: connect to /data/misc/sensor/sensor_ctrl error:2 No such file or directory
+07-25 06:15:09.743    89   193 E JWAudioHAL: connect to /data/misc/audioserver/audio_out error:2 No such file or directory
+07-25 06:15:11.575   812   812 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.account.workaccount.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+07-25 06:15:11.738    93  1027 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+07-25 06:15:12.321   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:12.431   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:12.450   105   414 W AudioFlinger: createTrack_l(): mismatch between requested flags (00000004) and output flags (00000002)
+07-25 06:15:12.456   287  1065 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.gof.china/.DDUnityLaunchActivity bnds=[194,307][360,550]} from uid 1000
+07-25 06:15:12.473   105   414 D AF::TrackHandle: OpPlayAudio: track:55 usage:13 not muted
+07-25 06:15:12.475   287  1065 I ActivityTaskManager: getPackageFerformanceMode--ComponentInfo{com.gof.china/com.gof.china.DDUnityLaunchActivity}----com.gof.china
+07-25 06:15:12.476   287   412 W AudioTrack: createTrack_l(0): AUDIO_OUTPUT_FLAG_FAST denied by server; frameCount 0 -> 4512
+07-25 06:15:12.483   287   320 E system_server: Invalid ID 0x00000000.
+07-25 06:15:12.484   287   320 W System  : ClassLoader referenced unknown path: 
+07-25 06:15:12.484   595   595 I Launcher3: Launcher onPause.
+07-25 06:15:12.485   287  1055 I ActivityTaskManager: getPackageFerformanceMode--ComponentInfo{com.gof.china/com.gof.china.DDUnityLaunchActivity}----com.gof.china
+07-25 06:15:12.489   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:12.489   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:12.502  1071  1315 V Space   : Received message: prop:0
+07-25 06:15:12.502  1071  1315 W Space   : send warn: remove ? android.net.LocalSocket@8d9058 impl:android.net.LocalSocketImpl@a5175b1 fd:java.io.FileDescriptor@e713a96
+07-25 06:15:12.503    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x933, consumer_usage : 0x933, , stride : 720, alloc_format : 0x1, size : 3686400, layer_count : 1, backing_store_size : 3686400, backing_store_id : 403726925865, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:12.503    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:12.503    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:12.504   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:12.504   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:12.507   287   320 E ion     : ioctl c0044901 failed with code -1: Not a typewriter
+07-25 06:15:12.519   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320009
+07-25 06:15:12.519   168  2706 I mpp_enc : send header for codec/prep cfg change
+07-25 06:15:12.519   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:12.519   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:12.519   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:12.519   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:12.519   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:12.519   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:12.519   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:12.519   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:12.519   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:12.519   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:12.519   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:12.519   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:12.519   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:12.519   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:12.519   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:12.519   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:12.519   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:12.519   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:12.519   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:12.519   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:12.519   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:12.519   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:12.519   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:12.519   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:12.519   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:12.519   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:12.519   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:12.520   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:12.599   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320009
+07-25 06:15:12.599   168  2706 I mpp_enc : send header for codec/prep cfg change
+07-25 06:15:12.599   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:12.599   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:12.599   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:12.599   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:12.599   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:12.599   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:12.599   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:12.599   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:12.599   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:12.599   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:12.599   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:12.599   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:12.599   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:12.599   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:12.599   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:12.599   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:12.599   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:12.599   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:12.599   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:12.601   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:12.601   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:12.601   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:12.601   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:12.601   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:12.601   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:12.601   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:12.601   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:12.601   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:12.768   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320009
+07-25 06:15:12.768   168  2706 I mpp_enc : send header for codec/prep cfg change
+07-25 06:15:12.768   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:12.768   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:12.768   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:12.768   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:12.768   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:12.768   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:12.769   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:12.769   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:12.769   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:12.769   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:12.769   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:12.769   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:12.769   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:12.769   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:12.769   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:12.769   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:12.769   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:12.769   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:12.769   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:12.769   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:12.769   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:12.769   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:12.769   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:12.769   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:12.769   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:12.769   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:12.769   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:12.770   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:13.197  1781  1798 W bebs    : ignoring non-oneway transaction. flags=16
+07-25 06:15:13.271   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:13.272   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:13.273   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:13.274   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:13.274   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:13.274   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:13.274   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:13.274   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:13.274   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:13.274   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:13.274   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:13.274   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:13.274   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:13.275   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:13.275   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:13.275   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:13.275   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:13.275   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:13.275   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:13.275   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:13.275   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:13.275   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:13.275   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:13.275   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:13.275   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:13.275   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:13.275   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:13.276   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:13.503    84    84 W         : Read socket err: Try again
+07-25 06:15:13.503  1071  1315 V Space   : closeClient: android.net.LocalSocket@8d9058 impl:android.net.LocalSocketImpl@a5175b1 fd:java.io.FileDescriptor@e713a96, reason: reached the end
+07-25 06:15:13.513    84    84 D Zygote  : Forked child process 2942
+07-25 06:15:13.521   287   326 W ActivityManager: Slow operation: 1029ms so far, now at startProcess: returned from zygote!
+07-25 06:15:13.521   287   326 W ActivityManager: Slow operation: 1030ms so far, now at startProcess: done updating battery stats
+07-25 06:15:13.521   287   326 W ActivityManager: Slow operation: 1030ms so far, now at startProcess: building log message
+07-25 06:15:13.521   287   326 I ActivityManager: Start proc 2942:com.gof.china/u0a108 for activity {com.gof.china/com.gof.china.DDUnityLaunchActivity}
+07-25 06:15:13.521   287   326 W ActivityManager: Slow operation: 1030ms so far, now at startProcess: starting to update pids map
+07-25 06:15:13.521   287   326 W ActivityManager: Slow operation: 1030ms so far, now at startProcess: done updating pids map
+07-25 06:15:13.529  2942  2942 W         : Access socket err: No such file or directory
+07-25 06:15:13.530  2942  2942 I Zygote  : seccomp disabled by setenforce 0
+07-25 06:15:13.534  2942  2942 E com.gof.china: Not starting debugger since process cannot load the jdwp agent.
+07-25 06:15:13.548   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:13.548   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:13.558  1071  1099 V Space   : sendTracking: resume_activity ({"opType":"resume_activity","resultCode":0,"component":"com.gof.china\/.DDUnityLaunchActivity","package":"com.gof.china"})
+07-25 06:15:13.560   287   320 W WindowManager: Unable to find process with pid=595 uid=1000
+07-25 06:15:13.566   168  2706 I rc_model_v2: fps chg from 60 -> 17
+07-25 06:15:13.580  2942  2942 I com.gof.china: The ClassLoaderContext is a special shared library.
+07-25 06:15:13.596  2942  2942 I MultiDex: VM with version 2.1.0 has multidex support
+07-25 06:15:13.596  2942  2942 I MultiDex: Installing application
+07-25 06:15:13.596  2942  2942 I MultiDex: VM has multidex support, MultiDex support library is disabled.
+07-25 06:15:13.612  2942  2963 D ActivityThread: Loading provider com.gof.china.XG_SETTINGS_PROVIDER: com.tencent.tpns.baseapi.base.SettingsContentProvider
+07-25 06:15:13.634  2942  2962 I TPush-Native: JNI_OnLoad
+07-25 06:15:13.638  2942  2942 D AndroidAutoSize: designWidthInDp = 360, designHeightInDp = 640, screenWidth = 720, screenHeight = 1280
+07-25 06:15:13.639  2942  2942 D AndroidAutoSize: initDensity = 2.0, initScaledDensity = 2.0
+07-25 06:15:13.664  1071  1145 V Space   : Received message: prop:0
+07-25 06:15:13.664  1071  1145 W Space   : send warn: remove ? android.net.LocalSocket@c13d617 impl:android.net.LocalSocketImpl@c775a04 fd:java.io.FileDescriptor@f56bbed
+07-25 06:15:13.668  2942  2942 E suiyi digest:: PǙK���|�����
+07-25 06:15:13.672  2942  2942 E 🍺[centuryGame]🍺-CGSdk: preInitInApplication
+07-25 06:15:13.672  2942  2942 E suiyi digest:: PǙK���|�����
+07-25 06:15:13.675  2942  2942 E DeviceUtils: VERSION_NAME:1.2.6
+07-25 06:15:13.675  2942  2942 E DeviceUtils: VERSION_CODE:17
+07-25 06:15:13.676  2942  2942 E CGSdk   : registerReceiver
+07-25 06:15:13.684  2942  2942 E 🍺[centuryGame]🍺-CGSdk: start initBugly: true
+07-25 06:15:13.685  2942  2942 W System.err: java.io.FileNotFoundException: cztchannel.txt
+07-25 06:15:13.685  2942  2942 W System.err:    at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.content.res.AssetManager.open(AssetManager.java:824)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.content.res.AssetManager.open(AssetManager.java:801)
+07-25 06:15:13.685  2942  2942 W System.err:    at com.centurygame.sdk.utils.ChannelUtil.getFromAssets(ChannelUtil.java:78)
+07-25 06:15:13.685  2942  2942 W System.err:    at com.centurygame.sdk.utils.ChannelUtil.getChannelFromApkChina(ChannelUtil.java:69)
+07-25 06:15:13.685  2942  2942 W System.err:    at com.centurygame.sdk.utils.ChannelUtil.getChannel(ChannelUtil.java:46)
+07-25 06:15:13.685  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk.initBugly(Unknown Source:60)
+07-25 06:15:13.685  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk.preInit(Unknown Source:57)
+07-25 06:15:13.685  2942  2942 W System.err:    at com.centurygame.sdk.CGSDKChinaApplication.onCreate(CGSDKChinaApplication.java:46)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1189)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6542)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.app.ActivityThread.access$1300(ActivityThread.java:229)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1869)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:107)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:13.685  2942  2942 W System.err:    at android.app.ActivityThread.main(ActivityThread.java:7438)
+07-25 06:15:13.685  2942  2942 W System.err:    at java.lang.reflect.Method.invoke(Native Method)
+07-25 06:15:13.685  2942  2942 W System.err:    at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+07-25 06:15:13.685  2942  2942 W System.err:    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+07-25 06:15:13.696    83  2994 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:13.705  2942  2942 I eup     : register native abi method success
+07-25 06:15:13.707  2942  2942 E CGBuglyHelper: bugly init success
+07-25 06:15:13.708  2942  2942 E 🍺[centuryGame]🍺-CGSdk: rumConfig is rumString:{"rum_version":"1.0","debug":false,"rum_app_tag":"devops.rum.us","sampling":{"event_white_list":[],"user_white_list":[],"service_name_white_list":[],"user_black_list":[],"sample_rate":1},"log_server_url":"https:\/\/logagent.campfiregames.cn\/log","rum_app_key":"d3b7c2e58b97b29faa637dc31af8feb6","rum_app_id":"gof.cn.prod","cache_threshold":1,"mobile_domain_list":["https:\/\/logagent.campfiregames.cn"]}
+07-25 06:15:13.709   287   325 W BroadcastQueue: Permission Denial: broadcasting Intent { act=android.net.conn.CONNECTIVITY_CHANGE flg=0x4200010 (has extras) } from null (pid=-1, uid=-1) requires com.tencent.bugly.BuglyBroadcastReceiver.permission due to registered receiver BroadcastFilter{6e48f16 10108/u0 ReceiverList{ee34c31 2942 com.gof.china/10108/u0 remote:7eb0d8}}
+07-25 06:15:13.711  2942  2942 E com.gof.china: Invalid ID 0x00000000.
+07-25 06:15:13.712  2942  2942 I chatty  : uid=10108(com.gof.china) identical 1 line
+07-25 06:15:13.712  2942  2942 E com.gof.china: Invalid ID 0x00000000.
+07-25 06:15:13.726    83  3007 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:13.736   287   303 D ConnectivityService: requestNetwork for uid/pid:10108/2942 NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ]
+07-25 06:15:13.737   287   429 D Ethernet: got request NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:13.737   614   614 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:13.737   287   399 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:13.737   287   399 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:13.741   435   435 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+07-25 06:15:13.742   435   435 V KeyguardUpdateMonitor: SubInfo:{id=1, iccId=890124019[****] simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=0 iconTint=-16746133 mNumber=[****] dataRoaming=0 iconBitmap=android.graphics.Bitmap@14f90fc mcc 310 mnc 260mCountryIso=us isEmbedded false nativeAccessRules null cardString=890124019[****] cardId=-1 isOpportunistic false mGroupUUID=null mIsGroupDisabled=false profileClass=-1 ehplmns = null hplmns = null subscriptionType=0 mGroupOwner=null carrierConfigAccessRules=null}
+07-25 06:15:13.753  2942  2942 E com.gof.china: Invalid ID 0x00000000.
+07-25 06:15:13.757  2942  2942 E 🍺[centuryGame]🍺-CGHelpshiftHelper: [Helpshift DEBUG] helpshiftConfig isForChina:true
+07-25 06:15:13.759   614   636 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 phoneId=0
+07-25 06:15:13.759   614   636 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 retVal=true
+07-25 06:15:13.762  2942  3034 D Helpshift_Migrator: Migration not required, skipping
+07-25 06:15:13.764  2942  3006 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+07-25 06:15:13.766  2942  2942 E 🍺[centuryGame]🍺-CGSdk: adjustString is null
+07-25 06:15:13.766  2942  2942 W System.err: java.lang.ClassNotFoundException: com.google.firebase.FirebaseApp
+07-25 06:15:13.767  2942  2942 W System.err:    at java.lang.Class.classForName(Native Method)
+07-25 06:15:13.767  2942  2942 W System.err:    at java.lang.Class.forName(Class.java:454)
+07-25 06:15:13.767  2942  2942 W System.err:    at java.lang.Class.forName(Class.java:379)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.utils.ReflectionUtils.invokeStaticMethod(ReflectionUtils.java:139)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk.b(Unknown Source:16)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk.c(Unknown Source:26)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk.preInit(Unknown Source:60)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.CGSDKChinaApplication.onCreate(CGSDKChinaApplication.java:46)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1189)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6542)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.ActivityThread.access$1300(ActivityThread.java:229)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1869)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:107)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.ActivityThread.main(ActivityThread.java:7438)
+07-25 06:15:13.767  2942  2942 W System.err:    at java.lang.reflect.Method.invoke(Native Method)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+07-25 06:15:13.767  2942  2942 W System.err: Caused by: java.lang.ClassNotFoundException: com.google.firebase.FirebaseApp
+07-25 06:15:13.767  2942  2942 W System.err:    ... 18 more
+07-25 06:15:13.767  2942  2942 W System.err: java.lang.ClassNotFoundException: com.centurygame.sdk.marketing.googleanalytics.CGGoogleanalyticsHelper
+07-25 06:15:13.767  2942  2942 W System.err:    at java.lang.Class.classForName(Native Method)
+07-25 06:15:13.767  2942  2942 W System.err:    at java.lang.Class.forName(Class.java:454)
+07-25 06:15:13.767  2942  2942 W System.err:    at java.lang.Class.forName(Class.java:379)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.utils.ReflectionUtils.invokeInstanceMethod(ReflectionUtils.java:183)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk.b(Unknown Source:33)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk.c(Unknown Source:26)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk.preInit(Unknown Source:60)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.centurygame.sdk.CGSDKChinaApplication.onCreate(CGSDKChinaApplication.java:46)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1189)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6542)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.ActivityThread.access$1300(ActivityThread.java:229)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1869)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:107)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:13.767  2942  2942 W System.err:    at android.app.ActivityThread.main(ActivityThread.java:7438)
+07-25 06:15:13.767  2942  2942 W System.err:    at java.lang.reflect.Method.invoke(Native Method)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+07-25 06:15:13.767  2942  2942 W System.err:    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+07-25 06:15:13.767  2942  2942 W System.err: Caused by: java.lang.ClassNotFoundException: com.centurygame.sdk.marketing.googleanalytics.CGGoogleanalyticsHelper
+07-25 06:15:13.767  2942  2942 W System.err:    ... 18 more
+07-25 06:15:13.767  2942  2942 E 🍺[centuryGame]🍺-CGSDKChinaApplication: invoke loadOsLibrary start
+07-25 06:15:13.774    83  3035 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:13.787    83  3041 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:13.836   168  2706 I rc_model_v2: fps chg from 17 -> 59
+07-25 06:15:13.844  2942  2942 E 🍺[centuryGame]🍺-CGOaidMge: initOaid: manufacturer not supported
+07-25 06:15:13.844  2942  2942 E 🍺[centuryGame]🍺-CGOaidMge: onSupport: supplier is null
+07-25 06:15:13.844  2942  2942 E 🍺[centuryGame]🍺-CGSDKChinaApplication: invoke loadOsLibrary end
+07-25 06:15:13.853  2942  2942 D AndroidAutoSize: com.gof.china.DDUnityLaunchActivity implemented by me.jessyan.autosize.internal.CustomAdapt!
+07-25 06:15:13.853  2942  2942 D getSizeInDp-->:: return 667
+07-25 06:15:13.854  2942  2942 D AndroidAutoSize: The com.gof.china.DDUnityLaunchActivity has been adapted! 
+07-25 06:15:13.854  2942  2942 D AndroidAutoSize: DDUnityLaunchActivity Info: isBaseOnWidth = false, designHeightInDp = 667.000000, designHeightInSubunits = 667.000000, targetDensity = 1.847076, targetScaledDensity = 1.847076, targetDensityDpi = 295, targetXdpi = 1.847076, targetScreenWidthDp = 389, targetScreenHeightDp = 667
+07-25 06:15:13.881    83  3046 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:13.917  2942  2983 E CGSdk   : network_change:true
+07-25 06:15:13.919  2942  2983 E 🍺[centuryGame]🍺-CGRum: Rum DomainConnectivityCheck error:{"errorCode":1226,"extra":"ModuleName：rum Under time limit"}
+07-25 06:15:13.955    83  3036 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:13.966    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:14.035   287  1065 W WindowManager: Unable to find process with pid=595 uid=1000
+07-25 06:15:13.966    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:14.035   435   435 D ImageWallpaper: wallpaper visibility changes to: false
+07-25 06:15:14.047    48    48 E Layer   : [Surface(name=AppWindowToken{648b0de token=Token{5ef3819 ActivityRecord{a874d92 u0 com.gof.china/.DDUnityLaunchActivity t3}}})/@0x6bd0545 - animation-leash#0] No local sync point found
+07-25 06:15:14.047    48    48 E Layer   : [Surface(name=AppWindowToken{4de01e8 token=Token{4765f0b ActivityRecord{15d3eda u0 com.android.launcher3/.Launcher t2}}})/@0x1576d4b - animation-leash#0] No local sync point found
+07-25 06:15:14.202  2942  2942 D SystemUtil: Manifest launchActivityName:com.gof.china.DDUnityLaunchActivity
+07-25 06:15:14.202  2942  2942 E 🍺[centuryGame]🍺-CGSdk: datastr:null
+07-25 06:15:14.202  2942  2942 E 🍺[centuryGame]🍺-CGSdk: not google push
+07-25 06:15:14.204  2942  2942 W [CrashSightReport]: appContext: not null, appId: 6849c8affa, isDebug: false, crashSightStrategy: not null
+07-25 06:15:14.210  2942  2942 I [CrashSightReport]: sdk uuid deviceId: 
+07-25 06:15:14.210  2942  2942 I [CrashSightReport]: cachedUuid: 8409bf10-1417-4366-b2fc-32128bbd116e
+07-25 06:15:14.210  2942  2942 I [CrashSightReport]: currentVersionUuid: 
+07-25 06:15:14.210  2942  2942 I [CrashSightReport]: redisKeyUuid: 8409bf10-1417-4366-b2fc-32128bbd116e
+07-25 06:15:14.222  2942  2942 D AndroidAutoSize: com.gof.china.DDUnityLaunchActivity implemented by me.jessyan.autosize.internal.CustomAdapt!
+07-25 06:15:14.222  2942  2942 D getSizeInDp-->:: return 667
+07-25 06:15:14.222  2942  2942 D AndroidAutoSize: The com.gof.china.DDUnityLaunchActivity has been adapted! 
+07-25 06:15:14.222  2942  2942 D AndroidAutoSize: DDUnityLaunchActivity Info: isBaseOnWidth = false, designHeightInDp = 667.000000, designHeightInSubunits = 667.000000, targetDensity = 1.847076, targetScaledDensity = 1.847076, targetDensityDpi = 295, targetXdpi = 1.847076, targetScreenWidthDp = 389, targetScreenHeightDp = 667
+07-25 06:15:14.233  2942  2942 I WebViewFactory: Loading com.android.webview version 74.0.3729.186 (code 373018655)
+07-25 06:15:14.234  2942  2942 I com.gof.china: The ClassLoaderContext is a special shared library.
+07-25 06:15:14.244  2942  2942 I cr_LibraryLoader: Time to load native libraries: 0 ms (timestamps 3251-3251)
+07-25 06:15:14.254    83  3078 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:14.257  2942  2942 W chromium: [0725/061514.257091:WARNING:library_prefetcher.cc(328)] Code not ordered, madvise optimization skipped
+07-25 06:15:14.257  2942  2942 I chromium: [INFO:library_loader_hooks.cc(50)] Chromium logging enabled: level = 0, default verbosity = 0
+07-25 06:15:14.257  2942  2942 I cr_LibraryLoader: Expected native library version number "74.0.3729.186", actual native library version number "74.0.3729.186"
+07-25 06:15:14.261  2942  3081 W cr_ChildProcLH: Create a new ChildConnectionAllocator with package name = com.android.webview, sandboxed = true
+07-25 06:15:14.262  2942  2942 I cr_BrowserStartup: Initializing chromium process, singleProcess=false
+07-25 06:15:14.290   287   511 D ConnectivityService: requestNetwork for uid/pid:10108/2942 NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ]
+07-25 06:15:14.290   287   429 D Ethernet: got request NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.290   287   399 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.290   287   399 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.290   614   614 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.298   435   435 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+07-25 06:15:14.298   435   435 V KeyguardUpdateMonitor: SubInfo:{id=1, iccId=890124019[****] simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=0 iconTint=-16746133 mNumber=[****] dataRoaming=0 iconBitmap=android.graphics.Bitmap@bf5b385 mcc 310 mnc 260mCountryIso=us isEmbedded false nativeAccessRules null cardString=890124019[****] cardId=-1 isOpportunistic false mGroupUUID=null mIsGroupDisabled=false profileClass=-1 ehplmns = null hplmns = null subscriptionType=0 mGroupOwner=null carrierConfigAccessRules=null}
+07-25 06:15:14.303   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 phoneId=0
+07-25 06:15:14.303   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 retVal=true
+07-25 06:15:14.306    83  3091 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:14.314   287   303 D ConnectivityService: requestNetwork for uid/pid:10108/2942 NetworkRequest [ TRACK_DEFAULT id=37, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ]
+07-25 06:15:14.314   287   429 D Ethernet: got request NetworkRequest [ TRACK_DEFAULT id=37, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.314   287   399 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=37, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.314   287   399 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=37, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.314   614   614 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=37, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.315   435   435 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+07-25 06:15:14.316   435   435 V KeyguardUpdateMonitor: SubInfo:{id=1, iccId=890124019[****] simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=0 iconTint=-16746133 mNumber=[****] dataRoaming=0 iconBitmap=android.graphics.Bitmap@22e25da mcc 310 mnc 260mCountryIso=us isEmbedded false nativeAccessRules null cardString=890124019[****] cardId=-1 isOpportunistic false mGroupUUID=null mIsGroupDisabled=false profileClass=-1 ehplmns = null hplmns = null subscriptionType=0 mGroupOwner=null carrierConfigAccessRules=null}
+07-25 06:15:14.316   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 phoneId=0
+07-25 06:15:14.316   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 retVal=true
+07-25 06:15:14.340    48    56 W ServiceManager: Permission failure: android.permission.ACCESS_SURFACE_FLINGER from uid=10108 pid=2942
+07-25 06:15:14.340    48    56 D PermissionCache: checking android.permission.ACCESS_SURFACE_FLINGER for uid=10108 => denied (88 us)
+07-25 06:15:14.341    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x933, consumer_usage : 0x933, , stride : 720, alloc_format : 0x1, size : 3686400, layer_count : 1, backing_store_size : 3686400, backing_store_id : 403726925866, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:14.341    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:14.341    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:14.379  2942  2942 E ion     : ioctl c0044901 failed with code -1: Not a typewriter
+07-25 06:15:14.384   287   324 I ActivityTaskManager: Displayed com.gof.china/.DDUnityLaunchActivity: +1s927ms
+07-25 06:15:14.389  1071  1099 V Space   : sendTracking: show_keyboard ({"opType":"show_keyboard","resultCode":0,"status":0})
+07-25 06:15:14.393   736   736 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3126 
+07-25 06:15:14.394   736   736 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2216 repeatCheckTimes = 0, locked = false
+07-25 06:15:14.394   736   736 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1954 onStartInput(EditorInfo{EditorInfo{packageName=com.gof.china, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=2131296820, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+07-25 06:15:14.394   736   736 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2216 repeatCheckTimes = 1, locked = false
+07-25 06:15:14.395   736   736 I AndroidIME: InputBundleManager.loadActiveInputBundleId():450 loadActiveInputBundleId: und-Latn-x-password, password
+07-25 06:15:14.400   595   595 I Launcher3: Launcher onStop.
+07-25 06:15:14.418  2942  3068 I Unity   : SystemInfo CPU = ARM64 FP ASIMD AES, Cores = 8, Memory = 15930mb
+07-25 06:15:14.418  2942  3068 I Unity   : SystemInfo ARM big.LITTLE configuration: 4 big (mask: 0xf0), 4 little (mask: 0xf)
+07-25 06:15:14.418  2942  3068 I Unity   : ApplicationInfo com.gof.china version 1.2.6 build 949f1516-8803-4b74-8ed2-4986cc52ac27
+07-25 06:15:14.418  2942  3074 E CGSdk   : network_change:true
+07-25 06:15:14.418  2942  3068 I Unity   : Built from '2018.4/staging' branch, Version '2018.4.36f1 (6cd387d23174)', Build type 'Release', Scripting Backend 'il2cpp', CPU 'arm64-v8a'
+07-25 06:15:14.419  2942  3074 E 🍺[centuryGame]🍺-CGRum: Rum DomainConnectivityCheck error:{"errorCode":1226,"extra":"ModuleName：rum Under time limit"}
+07-25 06:15:14.435   168  2706 I rc_model_v2: fps chg from 59 -> 14
+07-25 06:15:14.435    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:14.435    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:14.444  2942  3088 I [CrashSightReport]: setHandleAnrSigQuit: true
+07-25 06:15:14.597   909   909 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.safetynet.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+07-25 06:15:14.597   812   812 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.trustagent.StateApi.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+07-25 06:15:14.607   100   123 E JWSensorsHal: connect to /data/misc/sensor/sensor_ctrl error:2 No such file or directory
+07-25 06:15:14.676    84    84 W         : Read socket err: Try again
+07-25 06:15:14.676  1071  1145 V Space   : closeClient: android.net.LocalSocket@c13d617 impl:android.net.LocalSocketImpl@c775a04 fd:java.io.FileDescriptor@f56bbed, reason: reached the end
+07-25 06:15:14.682    84    84 D Zygote  : Forked child process 3095
+07-25 06:15:14.683   287   326 W ActivityManager: Slow operation: 1023ms so far, now at startProcess: returned from zygote!
+07-25 06:15:14.683   287   326 W ActivityManager: Slow operation: 1023ms so far, now at startProcess: done updating battery stats
+07-25 06:15:14.683   287   326 W ActivityManager: Slow operation: 1023ms so far, now at startProcess: building log message
+07-25 06:15:14.683   287   326 I ActivityManager: Start proc 3095:com.gof.china:xg_vip_service/u0a108 for service {com.gof.china/com.tencent.android.tpush.service.XGVipPushService}
+07-25 06:15:14.683   287   326 W ActivityManager: Slow operation: 1023ms so far, now at startProcess: starting to update pids map
+07-25 06:15:14.683   287   326 W ActivityManager: Slow operation: 1023ms so far, now at startProcess: done updating pids map
+07-25 06:15:14.683   287   326 W ActivityManager: Slow operation: 421ms so far, now at startProcess: asking zygote to start proc
+07-25 06:15:14.685   572   572 W         : Connect socket err: Permission denied
+07-25 06:15:14.686  3095  3095 W         : Access socket err: No such file or directory
+07-25 06:15:14.686  3095  3095 I Zygote  : seccomp disabled by setenforce 0
+07-25 06:15:14.690  3095  3095 E :xg_vip_servic: Not starting debugger since process cannot load the jdwp agent.
+07-25 06:15:14.691   572   572 D Zygote  : Forked child process 3111
+07-25 06:15:14.694   287   326 W ActivityManager: Slow operation: 431ms so far, now at startProcess: returned from zygote!
+07-25 06:15:14.694   287   326 W ActivityManager: Slow operation: 432ms so far, now at startProcess: done updating battery stats
+07-25 06:15:14.694   287   326 W ActivityManager: Slow operation: 432ms so far, now at startProcess: building log message
+07-25 06:15:14.694   287   326 I ActivityManager: Start proc 3111:com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0/u0ai9000 for  {com.gof.china/org.chromium.content.app.SandboxedProcessService0}
+07-25 06:15:14.694   287   326 W ActivityManager: Slow operation: 432ms so far, now at startProcess: starting to update pids map
+07-25 06:15:14.694   287   326 W ActivityManager: Slow operation: 432ms so far, now at startProcess: done updating pids map
+07-25 06:15:14.698  3111  3111 W         : Access socket err: No such file or directory
+07-25 06:15:14.698  3111  3111 I Zygote  : seccomp disabled by setenforce 0
+07-25 06:15:14.701   168  2706 I rc_model_v2: fps chg from 14 -> 22
+07-25 06:15:14.703  3111  3111 E ProcessService: Not starting debugger since process cannot load the jdwp agent.
+07-25 06:15:14.710  3095  3095 I :xg_vip_servic: The ClassLoaderContext is a special shared library.
+07-25 06:15:14.715  3111  3111 I LoadedApk: No resource references to update in package com.android.webview
+07-25 06:15:14.715  3111  3111 I cr_ChildProcessService: Creating new ChildProcessService pid=3111
+07-25 06:15:14.725  3095  3095 I MultiDex: VM with version 2.1.0 has multidex support
+07-25 06:15:14.725  3095  3095 I MultiDex: Installing application
+07-25 06:15:14.725  3095  3095 I MultiDex: VM has multidex support, MultiDex support library is disabled.
+07-25 06:15:14.732  3095  3095 E suiyi digest:: PǙK���|�����
+07-25 06:15:14.742  3095  3095 E 🍺[centuryGame]🍺-CGSdk: preInitInApplication
+07-25 06:15:14.743  3095  3095 E suiyi digest:: PǙK���|�����
+07-25 06:15:14.743    89   193 E JWAudioHAL: connect to /data/misc/audioserver/audio_out error:2 No such file or directory
+07-25 06:15:14.748  3095  3095 E DeviceUtils: VERSION_NAME:1.2.6
+07-25 06:15:14.748  3095  3095 E DeviceUtils: VERSION_CODE:17
+07-25 06:15:14.749  3095  3095 E CGSdk   : registerReceiver
+07-25 06:15:14.755  3095  3095 E 🍺[centuryGame]🍺-CGSdk: start initBugly: true
+07-25 06:15:14.755  3095  3095 W System.err: java.io.FileNotFoundException: cztchannel.txt
+07-25 06:15:14.755  3095  3095 W System.err:    at android.content.res.AssetManager.nativeOpenAsset(Native Method)
+07-25 06:15:14.755  3095  3095 W System.err:    at android.content.res.AssetManager.open(AssetManager.java:824)
+07-25 06:15:14.755  3095  3095 W System.err:    at android.content.res.AssetManager.open(AssetManager.java:801)
+07-25 06:15:14.756  3095  3095 W System.err:    at com.centurygame.sdk.utils.ChannelUtil.getFromAssets(ChannelUtil.java:78)
+07-25 06:15:14.756  3095  3095 W System.err:    at com.centurygame.sdk.utils.ChannelUtil.getChannelFromApkChina(ChannelUtil.java:69)
+07-25 06:15:14.756  3095  3095 W System.err:    at com.centurygame.sdk.utils.ChannelUtil.getChannel(ChannelUtil.java:46)
+07-25 06:15:14.756  3095  3095 W System.err:    at com.centurygame.sdk.CGSdk.initBugly(Unknown Source:60)
+07-25 06:15:14.756  3095  3095 W System.err:    at com.centurygame.sdk.CGSdk.preInit(Unknown Source:57)
+07-25 06:15:14.756  3095  3095 W System.err:    at com.centurygame.sdk.CGSDKChinaApplication.onCreate(CGSDKChinaApplication.java:46)
+07-25 06:15:14.756  3095  3095 W System.err:    at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1189)
+07-25 06:15:14.756  3095  3095 W System.err:    at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6542)
+07-25 06:15:14.756  3095  3095 W System.err:    at android.app.ActivityThread.access$1300(ActivityThread.java:229)
+07-25 06:15:14.756  3095  3095 W System.err:    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1869)
+07-25 06:15:14.756  3095  3095 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:107)
+07-25 06:15:14.756  3095  3095 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:14.756  3095  3095 W System.err:    at android.app.ActivityThread.main(ActivityThread.java:7438)
+07-25 06:15:14.756  3095  3095 W System.err:    at java.lang.reflect.Method.invoke(Native Method)
+07-25 06:15:14.756  3095  3095 W System.err:    at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+07-25 06:15:14.756  3095  3095 W System.err:    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+07-25 06:15:14.774  3095  3095 I eup     : register native abi method success
+07-25 06:15:14.782  3095  3095 E CGBuglyHelper: bugly init success
+07-25 06:15:14.784  3095  3095 E 🍺[centuryGame]🍺-CGSdk: rumConfig is rumString:{"rum_version":"1.0","debug":false,"rum_app_tag":"devops.rum.us","sampling":{"event_white_list":[],"user_white_list":[],"service_name_white_list":[],"user_black_list":[],"sample_rate":1},"log_server_url":"https:\/\/logagent.campfiregames.cn\/log","rum_app_key":"d3b7c2e58b97b29faa637dc31af8feb6","rum_app_id":"gof.cn.prod","cache_threshold":1,"mobile_domain_list":["https:\/\/logagent.campfiregames.cn"]}
+07-25 06:15:14.787  3095  3095 E :xg_vip_servic: Invalid ID 0x00000000.
+07-25 06:15:14.788  3095  3095 I chatty  : uid=10108 com.gof.china:xg_vip_service identical 1 line
+07-25 06:15:14.788  3095  3095 E :xg_vip_servic: Invalid ID 0x00000000.
+07-25 06:15:14.788    83  3164 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:14.798   287   325 W BroadcastQueue: Permission Denial: broadcasting Intent { act=android.net.conn.CONNECTIVITY_CHANGE flg=0x4200010 (has extras) } from null (pid=-1, uid=-1) requires com.tencent.bugly.BuglyBroadcastReceiver.permission due to registered receiver BroadcastFilter{6ef3f0a 10108/u0 ReceiverList{1f3b375 3095 com.gof.china:xg_vip_service/10108/u0 remote:ce6daac}}
+07-25 06:15:14.804  3095  3166 D NetworkSecurityConfig: No Network Security Config specified, using platform default
+07-25 06:15:14.804    83  3169 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:14.812   287   303 D ConnectivityService: requestNetwork for uid/pid:10108/3095 NetworkRequest [ TRACK_DEFAULT id=39, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ]
+07-25 06:15:14.813    83  3174 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:14.813   287   429 D Ethernet: got request NetworkRequest [ TRACK_DEFAULT id=39, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.813   287   399 D WifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=39, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.813   287   399 D UntrustedWifiNetworkFactory: got request NetworkRequest [ TRACK_DEFAULT id=39, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.813   614   614 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ TRACK_DEFAULT id=39, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] with score 70 and serial -1
+07-25 06:15:14.814   435   435 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+07-25 06:15:14.815   435   435 V KeyguardUpdateMonitor: SubInfo:{id=1, iccId=890124019[****] simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=0 iconTint=-16746133 mNumber=[****] dataRoaming=0 iconBitmap=android.graphics.Bitmap@dcaba0b mcc 310 mnc 260mCountryIso=us isEmbedded false nativeAccessRules null cardString=890124019[****] cardId=-1 isOpportunistic false mGroupUUID=null mIsGroupDisabled=false profileClass=-1 ehplmns = null hplmns = null subscriptionType=0 mGroupOwner=null carrierConfigAccessRules=null}
+07-25 06:15:14.815   614   970 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 phoneId=0
+07-25 06:15:14.815   614   970 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 retVal=true
+07-25 06:15:14.818  3095  3095 E :xg_vip_servic: Invalid ID 0x00000000.
+07-25 06:15:14.823  3095  3095 E 🍺[centuryGame]🍺-CGHelpshiftHelper: [Helpshift DEBUG] helpshiftConfig isForChina:true
+07-25 06:15:14.828  3095  3195 D Helpshift_Migrator: Migration not required, skipping
+07-25 06:15:14.831  3095  3095 E 🍺[centuryGame]🍺-CGSdk: adjustString is null
+07-25 06:15:14.832  3095  3095 W System.err: java.lang.ClassNotFoundException: com.google.firebase.FirebaseApp
+07-25 06:15:14.832  3095  3095 W System.err:    at java.lang.Class.classForName(Native Method)
+07-25 06:15:14.832  3095  3095 W System.err:    at java.lang.Class.forName(Class.java:454)
+07-25 06:15:14.832  3095  3095 W System.err:    at java.lang.Class.forName(Class.java:379)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.utils.ReflectionUtils.invokeStaticMethod(ReflectionUtils.java:139)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.CGSdk.b(Unknown Source:16)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.CGSdk.c(Unknown Source:26)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.CGSdk.preInit(Unknown Source:60)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.CGSDKChinaApplication.onCreate(CGSDKChinaApplication.java:46)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1189)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6542)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.ActivityThread.access$1300(ActivityThread.java:229)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1869)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:107)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.ActivityThread.main(ActivityThread.java:7438)
+07-25 06:15:14.832  3095  3095 W System.err:    at java.lang.reflect.Method.invoke(Native Method)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+07-25 06:15:14.832  3095  3095 W System.err: Caused by: java.lang.ClassNotFoundException: com.google.firebase.FirebaseApp
+07-25 06:15:14.832  3095  3095 W System.err:    ... 18 more
+07-25 06:15:14.832  3095  3095 W System.err: java.lang.ClassNotFoundException: com.centurygame.sdk.marketing.googleanalytics.CGGoogleanalyticsHelper
+07-25 06:15:14.832  3095  3095 W System.err:    at java.lang.Class.classForName(Native Method)
+07-25 06:15:14.832  3095  3095 W System.err:    at java.lang.Class.forName(Class.java:454)
+07-25 06:15:14.832  3095  3095 W System.err:    at java.lang.Class.forName(Class.java:379)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.utils.ReflectionUtils.invokeInstanceMethod(ReflectionUtils.java:183)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.CGSdk.b(Unknown Source:33)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.CGSdk.c(Unknown Source:26)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.CGSdk.preInit(Unknown Source:60)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.centurygame.sdk.CGSDKChinaApplication.onCreate(CGSDKChinaApplication.java:46)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1189)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6542)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.ActivityThread.access$1300(ActivityThread.java:229)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1869)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:107)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:14.832  3095  3095 W System.err:    at android.app.ActivityThread.main(ActivityThread.java:7438)
+07-25 06:15:14.832  3095  3095 W System.err:    at java.lang.reflect.Method.invoke(Native Method)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+07-25 06:15:14.832  3095  3095 W System.err:    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+07-25 06:15:14.832  3095  3095 W System.err: Caused by: java.lang.ClassNotFoundException: com.centurygame.sdk.marketing.googleanalytics.CGGoogleanalyticsHelper
+07-25 06:15:14.832  3095  3095 W System.err:    ... 18 more
+07-25 06:15:14.832  3095  3095 E 🍺[centuryGame]🍺-CGSDKChinaApplication: invoke loadOsLibrary start
+07-25 06:15:14.871  3095  3095 E 🍺[centuryGame]🍺-CGOaidMge: initOaid: manufacturer not supported
+07-25 06:15:14.871  3095  3095 E 🍺[centuryGame]🍺-CGOaidMge: onSupport: supplier is null
+07-25 06:15:14.871  3095  3095 E 🍺[centuryGame]🍺-CGSDKChinaApplication: invoke loadOsLibrary end
+07-25 06:15:14.872  3095  3095 I TPush-Native: JNI_OnLoad
+07-25 06:15:14.882  3095  3095 I TPush   : [Mqtt-TPush - IMqttServiceImpl] init IMqttServiceImpl encryptLevel: 0, compressLevel: 0
+07-25 06:15:14.887  3095  3095 I TPush   : [XGVipPushService] Service onBind()
+07-25 06:15:14.888  3095  3095 I TPush   : [XGVipPushService] Service onStartCommand() : com.gof.china
+07-25 06:15:14.897    83  3219 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:14.927  3095  3208 I TPush   : [Mqtt-TPush - IMqttServiceImpl] update encryptLevel: 0, compressLevel: 1
+07-25 06:15:14.930  3095  3248 D TPush   : [ClientComms] ConnectBG mqtt thread
+07-25 06:15:14.941    83  3249 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:14.988  3095  3095 D TPush   : [PushServiceManager] Service's running at com.gof.china,version : 1.4.0.1
+07-25 06:15:14.989  3095  3095 I TPush   : [PushServiceBroadcastHandler] handleServiceInited, beforeInitedIntents size:0
+07-25 06:15:15.002   168  2706 I rc_model_v2: fps chg from 22 -> 10
+07-25 06:15:15.004  3095  3251 I TPush   : [IMqttClientManager - StateImpl] onConnectComplete isReconnect:false
+07-25 06:15:15.084    83  3153 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:15.100  3095  3218 E CGSdk   : network_change:true
+07-25 06:15:15.109  3095  3218 E 🍺[centuryGame]🍺-CGRum: Rum DomainConnectivityCheck error:{"errorCode":1226,"extra":"ModuleName：rum Under time limit"}
+07-25 06:15:15.269  3095  3142 E CGSdk   : network_change:true
+07-25 06:15:15.270  3095  3142 E 🍺[centuryGame]🍺-CGRum: Rum DomainConnectivityCheck error:{"errorCode":1226,"extra":"ModuleName：rum Under time limit"}
+07-25 06:15:15.489  2942  3068 E libprocessgroup: set_timerslack_ns write failed: Operation not permitted
+07-25 06:15:15.490  2942  3068 I chatty  : uid=10108(com.gof.china) UnityMain identical 14 lines
+07-25 06:15:15.490  2942  3068 E libprocessgroup: set_timerslack_ns write failed: Operation not permitted
+07-25 06:15:15.497  2942  3068 I mali_so : [File] : hardware/arm/maliT760/driver/product/base/src/mali_base_kbase.c; [Line] : 1292; [Func] : base_context_deal_with_version_affairs_rk_ext;
+07-25 06:15:15.497  2942  3068 I mali_so : arm_release_ver of this mali_so is 'g12p0-01eac0', rk_so_ver is '9'.
+07-25 06:15:15.497  2942  3068 I mali_so : [File] : hardware/arm/maliT760/driver/product/base/src/mali_base_kbase.c; [Line] : 1308; [Func] : base_context_deal_with_version_affairs_rk_ext;
+07-25 06:15:15.497  2942  3068 I mali_so : arm_release_vers are match. to set the full mali_ver 'g12p0-01eac0-9' as value of 'sys.gmali.version'.
+07-25 06:15:15.499    34    34 I hwservicemanager: getTransport: Cannot find entry android.hardware.configstore@1.0::ISurfaceFlingerConfigs/default in either framework or device manifest.
+07-25 06:15:15.515  2942  3068 D Unity   :  GL_EXT_debug_marker GL_ARM_rgba8 GL_ARM_mali_shader_binary GL_OES_depth24 GL_OES_depth_texture GL_OES_depth_texture_cube_map GL_OES_packed_depth_stencil GL_OES_rgb8_rgba8 GL_EXT_read_format_bgra GL_OES_compressed_paletted_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_standard_derivatives GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_EGL_sync GL_OES_texture_npot GL_OES_vertex_half_float GL_OES_required_internalformat GL_OES_vertex_array_object GL_OES_mapbuffer GL_EXT_texture_format_BGRA8888 GL_EXT_texture_rg GL_EXT_texture_type_2_10_10_10_REV GL_OES_fbo_render_mipmap GL_OES_element_index_uint GL_EXT_shadow_samplers GL_OES_texture_compression_astc GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_sliced_3d GL_EXT_texture_compression_astc_decode_mode GL_EXT_texture_compression_astc_decode_mode_rgb9e5 GL_KHR_debug GL_EXT_occlusion_query_boolean GL_EXT_disjoint_timer_query GL_EXT_blend_minmax GL_EXT_discard_framebuffer
+07-25 06:15:15.515  2942  3068 D Unity   :  GL_OES_get_program_binary GL_OES_texture_3D GL_EXT_texture_storage GL_EXT_multisampled_render_to_texture GL_EXT_multisampled_render_to_texture2 GL_OES_surfaceless_context GL_OES_texture_stencil8 GL_EXT_shader_pixel_local_storage GL_ARM_shader_framebuffer_fetch GL_ARM_shader_framebuffer_fetch_depth_stencil GL_ARM_mali_program_binary GL_EXT_sRGB GL_EXT_sRGB_write_control GL_EXT_texture_sRGB_decode GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_OES_texture_storage_multisample_2d_array GL_OES_shader_image_atomic GL_EXT_robustness GL_EXT_draw_buffers_indexed GL_OES_draw_buffers_indexed GL_EXT_texture_border_clamp GL_OES_texture_border_clamp GL_EXT_texture_cube_map_array GL_OES_texture_cube_map_array GL_OES_sample_variables GL_OES_sample_shading GL_OES_shader_multisample_interpolation GL_EXT_shader_io_blocks GL_OES_shader_io_blocks GL_EXT_tessellation_shader GL_OES_tessellation_shader GL_EXT_primitive_bounding_box GL_OES_primitive_bounding_
+07-25 06:15:15.515  2942  3068 D Unity   : box GL_EXT_geometry_shader GL_OES_geometry_shader GL_ANDROID_extension_pack_es31a GL_EXT_gpu_shader5 GL_OES_gpu_shader5 GL_EXT_texture_buffer GL_OES_texture_buffer GL_EXT_copy_image GL_OES_copy_image GL_EXT_shader_non_constant_global_initializers GL_EXT_color_buffer_half_float GL_EXT_unpack_subimage GL_EXT_color_buffer_float GL_EXT_float_blend GL_EXT_YUV_target GL_OVR_multiview GL_OVR_multiview2 GL_OVR_multiview_multisampled_render_to_texture GL_KHR_robustness GL_KHR_robust_buffer_access_behavior GL_EXT_draw_elements_base_vertex GL_OES_draw_elements_base_vertex GL_EXT_protected_textures GL_EXT_buffer_storage GL_EXT_external_buffer GL_EXT_EGL_image_array GL_EXT_texture_filter_anisotropic GL_OES_texture_float_linear GL_ARM_texture_unnormalized_coordinates GL_EXT_shader_framebuffer_fetch GL_EXT_clip_control
+07-25 06:15:15.549   287   402 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] (release request)
+07-25 06:15:15.550   435   435 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+07-25 06:15:15.551   435   435 V KeyguardUpdateMonitor: SubInfo:{id=1, iccId=890124019[****] simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=0 iconTint=-16746133 mNumber=[****] dataRoaming=0 iconBitmap=android.graphics.Bitmap@382c0e8 mcc 310 mnc 260mCountryIso=us isEmbedded false nativeAccessRules null cardString=890124019[****] cardId=-1 isOpportunistic false mGroupUUID=null mIsGroupDisabled=false profileClass=-1 ehplmns = null hplmns = null subscriptionType=0 mGroupOwner=null carrierConfigAccessRules=null}
+07-25 06:15:15.552   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 phoneId=0
+07-25 06:15:15.552   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 retVal=true
+07-25 06:15:15.608   909   909 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+07-25 06:15:15.609   100   129 V JWSensorsHal: sending type:0xfff20000 to /data/misc/sensor/sensor_ctrl
+07-25 06:15:15.609   287  1065 E SensorService: Error activating sensor 0 (Operation not permitted)
+07-25 06:15:15.612  2942  3068 V MediaRouter: Selecting route: RouteInfo{ name=Phone, description=null, status=null, category=RouteCategory{ name=System types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=Display id 1: DisplayInfo{"HDMI Screen, displayId 1", uniqueId "local:1", app 1024 x 768, real 1024 x 768, largest app 1024 x 1024, smallest app 768 x 768, mode 2, defaultMode 2, modes [{id=2, width=1024, height=768, fps=60.000004}], colorMode 0, supportedColorModes [0], hdrCapabilities android.view.Display$HdrCapabilities@40f16308, rotation 0, density 227 (227.0 x 227.0) dpi, layerStack 1, appVsyncOff 1000000, presDeadline 16666666, type HDMI, address {port=1}, state ON, FLAG_SECURE, FLAG_SUPPORTS_PROTECTED_BUFFERS, FLAG_PRESENTATION, removeMode 0}, DisplayMetrics{density=1.41875, width=1024, height=768, scaledDensity=1.41875, xdpi=227.0, ydpi=227.0}, isValid=true }
+07-25 06:15:15.680  2942  3068 E Unity   : [CRIWARE] Error:E2022062722:Cannot set sampling rate exceeds max value.
+07-25 06:15:15.680  2942  3068 E Unity   : CriWare.CriWareErrorHandler:HandleMessage(String)
+07-25 06:15:15.680  2942  3068 E Unity   :  
+07-25 06:15:15.680  2942  3068 E Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:15.680  2942  3068 E Unity   : 
+07-25 06:15:15.680  2942  3294 D         : PlayerBase::PlayerBase()
+07-25 06:15:15.680  2942  3294 D         : TrackPlayerBase::TrackPlayerBase()
+07-25 06:15:15.680  2942  3294 I libOpenSLES: Emulating old channel mask behavior (ignoring positional mask 0x3, using default mask 0x3 based on channel count of 2)
+07-25 06:15:15.681   105   414 W AudioFlinger: createTrack_l(): mismatch between requested flags (00000104) and output flags (00000002)
+07-25 06:15:15.681   105   414 D AudioFlinger: Client defaulted notificationFrames to 882 for frameCount 4104
+07-25 06:15:15.682   105   414 D AF::TrackHandle: OpPlayAudio: track:56 usage:1 not muted
+07-25 06:15:15.682  2942  3294 W AudioTrack: createTrack_l(0): AUDIO_OUTPUT_FLAG_FAST denied by server; frameCount 0 -> 4104
+07-25 06:15:15.683  2942  3294 D         : PlayerBase::PlayerBase()
+07-25 06:15:15.683  2942  2942 V MediaRouter: Selecting route: RouteInfo{ name=Phone, description=null, status=null, category=RouteCategory{ name=System types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=Display id 1: DisplayInfo{"HDMI Screen, displayId 1", uniqueId "local:1", app 1024 x 768, real 1024 x 768, largest app 1024 x 1024, smallest app 768 x 768, mode 2, defaultMode 2, modes [{id=2, width=1024, height=768, fps=60.000004}], colorMode 0, supportedColorModes [0], hdrCapabilities android.view.Display$HdrCapabilities@40f16308, rotation 0, density 227 (227.0 x 227.0) dpi, layerStack 1, appVsyncOff 1000000, presDeadline 16666666, type HDMI, address {port=1}, state ON, FLAG_SECURE, FLAG_SUPPORTS_PROTECTED_BUFFERS, FLAG_PRESENTATION, removeMode 0}, DisplayMetrics{density=1.41875, width=1024, height=768, scaledDensity=1.41875, xdpi=227.0, ydpi=227.0}, isValid=true }
+07-25 06:15:15.683  2942  3294 D         : TrackPlayerBase::TrackPlayerBase()
+07-25 06:15:15.683  2942  3294 I libOpenSLES: Emulating old channel mask behavior (ignoring positional mask 0x3, using default mask 0x3 based on channel count of 2)
+07-25 06:15:15.684   105   414 W AudioFlinger: createTrack_l(): mismatch between requested flags (00000104) and output flags (00000002)
+07-25 06:15:15.684   105   414 D AudioFlinger: Client defaulted notificationFrames to 882 for frameCount 4104
+07-25 06:15:15.684   105   414 D AF::TrackHandle: OpPlayAudio: track:57 usage:1 not muted
+07-25 06:15:15.685  2942  3294 W AudioTrack: createTrack_l(0): AUDIO_OUTPUT_FLAG_FAST denied by server; frameCount 0 -> 4104
+07-25 06:15:15.686  2942  2942 V MediaRouter: Selecting route: RouteInfo{ name=Phone, description=null, status=null, category=RouteCategory{ name=System types=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO  groupable=false }, supportedTypes=ROUTE_TYPE_LIVE_AUDIO ROUTE_TYPE_LIVE_VIDEO , presentationDisplay=Display id 1: DisplayInfo{"HDMI Screen, displayId 1", uniqueId "local:1", app 1024 x 768, real 1024 x 768, largest app 1024 x 1024, smallest app 768 x 768, mode 2, defaultMode 2, modes [{id=2, width=1024, height=768, fps=60.000004}], colorMode 0, supportedColorModes [0], hdrCapabilities android.view.Display$HdrCapabilities@40f16308, rotation 0, density 227 (227.0 x 227.0) dpi, layerStack 1, appVsyncOff 1000000, presDeadline 16666666, type HDMI, address {port=1}, state ON, FLAG_SECURE, FLAG_SUPPORTS_PROTECTED_BUFFERS, FLAG_PRESENTATION, removeMode 0}, DisplayMetrics{density=1.41875, width=1024, height=768, scaledDensity=1.41875, xdpi=227.0, ydpi=227.0}, isValid=true }
+07-25 06:15:15.707  2942  3068 I Unity   : ---------------MarkFilePath---------------
+07-25 06:15:15.707  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:Init()
+07-25 06:15:15.707  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:get_Instance()
+07-25 06:15:15.707  2942  3068 I Unity   : GameConfig:Init(GameData)
+07-25 06:15:15.707  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:Start()
+07-25 06:15:15.707  2942  3068 I Unity   :  
+07-25 06:15:15.707  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:15.707  2942  3068 I Unity   : 
+07-25 06:15:15.708  2942  3068 I Unity   : jar:file:///data/app/com.gof.china-A9FhHaRsaGzEYXfPQfCr3Q==/base.apk!/assets/e0f9b20c9030892aa874ad78a90c0d45
+07-25 06:15:15.708  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:Init()
+07-25 06:15:15.708  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:get_Instance()
+07-25 06:15:15.708  2942  3068 I Unity   : GameConfig:Init(GameData)
+07-25 06:15:15.708  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:Start()
+07-25 06:15:15.708  2942  3068 I Unity   :  
+07-25 06:15:15.708  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:15.708  2942  3068 I Unity   : 
+07-25 06:15:15.710  2942  3068 I Unity   : Whiteout Survival cn
+07-25 06:15:15.710  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:Init()
+07-25 06:15:15.710  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:get_Instance()
+07-25 06:15:15.710  2942  3068 I Unity   : GameConfig:Init(GameData)
+07-25 06:15:15.710  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:Start()
+07-25 06:15:15.710  2942  3068 I Unity   :  
+07-25 06:15:15.710  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:15.710  2942  3068 I Unity   : 
+07-25 06:15:15.712  2942  3068 I Unity   : 1.2.6
+07-25 06:15:15.712  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:Init()
+07-25 06:15:15.712  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:get_Instance()
+07-25 06:15:15.712  2942  3068 I Unity   : GameConfig:Init(GameData)
+07-25 06:15:15.712  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:Start()
+07-25 06:15:15.712  2942  3068 I Unity   :  
+07-25 06:15:15.712  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:15.712  2942  3068 I Unity   : 
+07-25 06:15:15.714  2942  3068 I Unity   : 17
+07-25 06:15:15.714  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:Init()
+07-25 06:15:15.714  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:get_Instance()
+07-25 06:15:15.714  2942  3068 I Unity   : GameConfig:Init(GameData)
+07-25 06:15:15.714  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:Start()
+07-25 06:15:15.714  2942  3068 I Unity   :  
+07-25 06:15:15.714  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:15.714  2942  3068 I Unity   : 
+07-25 06:15:15.716  2942  3068 I Unity   : ---------------MarkFilePath---------------
+07-25 06:15:15.716  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:Init()
+07-25 06:15:15.716  2942  3068 I Unity   : CenturyGame.GameFramework.ConfigData:get_Instance()
+07-25 06:15:15.716  2942  3068 I Unity   : GameConfig:Init(GameData)
+07-25 06:15:15.716  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:Start()
+07-25 06:15:15.716  2942  3068 I Unity   :  
+07-25 06:15:15.716  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:15.716  2942  3068 I Unity   : 
+07-25 06:15:15.821   287   433 W SyncManager: Detected sync making no progress for startTime 198934727, mTimeoutStartTime 198934727, mHistoryRowId 4, syncOperation JobId=104849 ***/com.google u0 [subscribedfeeds] OTHER ExpectedIn=-1m00s STANDBY-EXEMPTED Reason=10043. cancelling.
+07-25 06:15:16.061   287  1033 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+07-25 06:15:16.189    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 3744768, layer_count : 1, backing_store_size : 3744768, backing_store_id : 403726925867, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:16.189    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:16.189    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:16.195  2942  3068 I Unity   : [CG] BuglyAgent install. appid = 1ea45351f9
+07-25 06:15:16.195  2942  3068 I Unity   : centurygame.CGBugly:intBugly(String)
+07-25 06:15:16.195  2942  3068 I Unity   : System.Reflection.MonoMethod:Invoke(Object, BindingFlags, Binder, Object[], CultureInfo)
+07-25 06:15:16.195  2942  3068 I Unity   : centurygame.Internal.ReflectionUtils:InvokeMethod(String, String, String, Object, Object[])
+07-25 06:15:16.195  2942  3068 I Unity   : centurygame.CGSdk:SetDelegate(IDelegate)
+07-25 06:15:16.195  2942  3068 I Unity   : CenturyGame.GameFramework.SDKModule:Init()
+07-25 06:15:16.195  2942  3068 I Unity   : CenturyGame.GameFramework.ModuleManager:Init()
+07-25 06:15:16.195  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:<Start>b__8_0()
+07-25 06:15:16.195  2942  3068 I Unity   : CenturyGame.GameFramework.LaunchManager:OnLoadSceneCompleted(Scene, LoadSceneMode)
+07-25 06:15:16.195  2942  3068 I Unity   :  
+07-25 06:15:16.195  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:16.195  2942  3068 I Unity   : 
+07-25 06:15:16.199  2942  3068 I Unity   : [CG] BuglyAgent install success.
+07-25 06:15:16.199  2942  3068 I Unity   : centurygame.CGBugly:intBugly(String)
+07-25 06:15:16.199  2942  3068 I Unity   : System.Reflection.MonoMethod:Invoke(Object, BindingFlags, Binder, Object[], CultureInfo)
+07-25 06:15:16.199  2942  3068 I Unity   : centurygame.Internal.ReflectionUtils:InvokeMethod(String, String, String, Object, Object[])
+07-25 06:15:16.199  2942  3068 I Unity   : centurygame.CGSdk:SetDelegate(IDelegate)
+07-25 06:15:16.199  2942  3068 I Unity   : CenturyGame.GameFramework.SDKModule:Init()
+07-25 06:15:16.199  2942  3068 I Unity   : CenturyGame.GameFramework.ModuleManager:Init()
+07-25 06:15:16.199  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:<Start>b__8_0()
+07-25 06:15:16.199  2942  3068 I Unity   : CenturyGame.GameFramework.LaunchManager:OnLoadSceneCompleted(Scene, LoadSceneMode)
+07-25 06:15:16.199  2942  3068 I Unity   :  
+07-25 06:15:16.199  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:16.199  2942  3068 I Unity   : 
+07-25 06:15:16.202   168  2706 I rc_model_v2: fps chg from 10 -> 3
+07-25 06:15:16.202    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:16.202    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:16.207  2942  3068 I Unity   : [CGWechatAndroid SetDelegate] callback = centurygame.CGWechat+InternalDelegate
+07-25 06:15:16.207  2942  3068 I Unity   : centurygame.Android.CGWechatAndroid:SetDelegate(IDelegate)
+07-25 06:15:16.207  2942  3068 I Unity   : centurygame.<>c:<.cctor>b__29_0()
+07-25 06:15:16.207  2942  3068 I Unity   : System.Lazy`1:CreateValue()
+07-25 06:15:16.207  2942  3068 I Unity   : System.Lazy`1:LazyInitValue()
+07-25 06:15:16.207  2942  3068 I Unity   : CenturyGame.GameFramework.SDKModule:Init()
+07-25 06:15:16.207  2942  3068 I Unity   : CenturyGame.GameFramework.ModuleManager:Init()
+07-25 06:15:16.207  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:<Start>b__8_0()
+07-25 06:15:16.207  2942  3068 I Unity   : CenturyGame.GameFramework.LaunchManager:OnLoadSceneCompleted(Scene, LoadSceneMode)
+07-25 06:15:16.207  2942  3068 I Unity   :  
+07-25 06:15:16.207  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:16.207  2942  3068 I Unity   : 
+07-25 06:15:16.209  2942  3068 D DeviceUtils: ANDROID_ID get from SP:ceb48b4e6dd12b28
+07-25 06:15:16.211  2942  3068 E suiyi digest:: PǙK���|�����
+07-25 06:15:16.211  2942  3068 E suiyi digest:: PǙK���|�����
+07-25 06:15:16.211  2942  3068 E 🍺[centuryGame]🍺-CGSdk: gameType:online
+07-25 06:15:16.212  2942  3068 D CGSdk   : netWorkChange isOffLineMode()falseSystemUtil.isNetWorkAvailable in：true
+07-25 06:15:16.212  2942  3068 D CGSdk   : netWorkChange out
+07-25 06:15:16.213    83  3310 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:16.214  2942  3068 W System.err: java.lang.ClassNotFoundException: com.centurygame.sdk.advertising.CGAdvertising
+07-25 06:15:16.214  2942  3068 W System.err:    at java.lang.Class.classForName(Native Method)
+07-25 06:15:16.214  2942  3068 W System.err:    at java.lang.Class.forName(Class.java:454)
+07-25 06:15:16.214  2942  3068 W System.err:    at java.lang.Class.forName(Class.java:379)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.utils.ReflectionUtils.invokeStaticMethod(ReflectionUtils.java:139)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.CGDataControl.getModuleByName(CGDataControl.java:231)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.CGSdk.b(Unknown Source:387)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.CGSdk.a(Unknown Source:0)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.CGSdk$c.onSuccess(Unknown Source:3)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.utils.ConfigUtils.loadConfig(Unknown Source:78)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.CGSdk.a(Unknown Source:183)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.CGSdk.install(Unknown Source:293)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.centurygame.sdk.unity3d.core.CGSdkWrapper.install(Unknown Source:42)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.unity3d.player.UnityPlayer.nativeRender(Native Method)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.unity3d.player.UnityPlayer.c(Unknown Source:0)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.unity3d.player.UnityPlayer$e$1.handleMessage(Unknown Source:95)
+07-25 06:15:16.214  2942  3068 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:103)
+07-25 06:15:16.214  2942  3068 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:16.214  2942  3068 W System.err:    at com.unity3d.player.UnityPlayer$e.run(Unknown Source:20)
+07-25 06:15:16.214  2942  3068 W System.err: Caused by: java.lang.ClassNotFoundException: com.centurygame.sdk.advertising.CGAdvertising
+07-25 06:15:16.214  2942  3068 W System.err:    ... 18 more
+07-25 06:15:16.218  2942  2942 D MicroMsg.PaySdk.WXFactory: createWXAPI, appId = null, checkSignature = true
+07-25 06:15:16.218  2942  2942 D MicroMsg.PaySdk.WXFactory: createWXAPI, appId = null, checkSignature = true, launchMode = 2
+07-25 06:15:16.218  2942  2942 D MicroMsg.SDK.WXApiImplV10: <init>, appId = null, checkSignature = true, launchMode = 2
+07-25 06:15:16.219  2942  3068 D LibStringUtil: isMoreDigitVersion length:3
+07-25 06:15:16.219  2942  3068 D LibStringUtil: isMoreDigitVersion:^\d+\.\d+\.\d+$
+07-25 06:15:16.219  2942  3068 D LibStringUtil: isMoreDigitVersion test:^\d+\.\d+\.\d+$
+07-25 06:15:16.219  2942  2942 E MicroMsg.SDK.WXApiImplV10: register app failed for wechat app signature check failed
+07-25 06:15:16.227  2942  2942 D MicroMsg.PaySdk.WXFactory: createWXAPI, appId = null, checkSignature = true
+07-25 06:15:16.227  2942  2942 D MicroMsg.PaySdk.WXFactory: createWXAPI, appId = null, checkSignature = true, launchMode = 2
+07-25 06:15:16.227  2942  2942 D MicroMsg.SDK.WXApiImplV10: <init>, appId = null, checkSignature = true, launchMode = 2
+07-25 06:15:16.227  2942  2942 E MicroMsg.SDK.WXApiImplV10: register app failed for wechat app signature check failed
+07-25 06:15:16.227  2942  2942 E MicroMsg.SDK.WXApiImplV10: open wx app failed, not installed or signature check failed
+07-25 06:15:16.228  2942  2942 E 🍺[centuryGame]🍺-CGRum: Rum DomainConnectivityCheck error:{"errorCode":1226,"extra":"ModuleName：rum Already exists"}
+07-25 06:15:16.230    83  3315 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:16.231  2942  2942 I TPush   : [XGPushManager] CreateNotificationChannel channelId: cg_notification_ch_id success
+07-25 06:15:16.232  2942  2942 I TPush   : [XGPushManager] enableService=1
+07-25 06:15:16.234  2942  2962 E Parcel  : Reading a NULL string not supported here.
+07-25 06:15:16.235  2942  2962 E Parcel  : Reading a NULL string not supported here.
+07-25 06:15:16.237  2942  2942 W System.err: java.lang.ClassNotFoundException: com.centurygame.sdk.marketing.tencent.CGTencentHelper
+07-25 06:15:16.237  2942  2942 W System.err:    at java.lang.Class.classForName(Native Method)
+07-25 06:15:16.237  2942  2942 W System.err:    at java.lang.Class.forName(Class.java:454)
+07-25 06:15:16.237  2942  2942 W System.err:    at java.lang.Class.forName(Class.java:379)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.centurygame.sdk.utils.ReflectionUtils.invokeStaticMethod(ReflectionUtils.java:139)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.centurygame.sdk.marketing.CGMarketing.getHelper(CGMarketing.java:96)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.centurygame.sdk.marketing.CGMarketing.initialize(CGMarketing.java:65)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk$d.run(Unknown Source:4)
+07-25 06:15:16.237  2942  2942 W System.err:    at android.os.Handler.handleCallback(Handler.java:883)
+07-25 06:15:16.237  2942  2942 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:100)
+07-25 06:15:16.237  2942  2942 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:16.237  2942  2942 W System.err:    at android.app.ActivityThread.main(ActivityThread.java:7438)
+07-25 06:15:16.237  2942  2942 W System.err:    at java.lang.reflect.Method.invoke(Native Method)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+07-25 06:15:16.237  2942  2942 W System.err: Caused by: java.lang.ClassNotFoundException: com.centurygame.sdk.marketing.tencent.CGTencentHelper
+07-25 06:15:16.237  2942  2962 E Parcel  : Reading a NULL string not supported here.
+07-25 06:15:16.237  2942  2942 W System.err:    ... 14 more
+07-25 06:15:16.237  2942  2942 W System.err: java.lang.ClassNotFoundException: com.centurygame.sdk.marketing.bytedance.CGBytedanceHelper
+07-25 06:15:16.237  2942  2942 W System.err:    at java.lang.Class.classForName(Native Method)
+07-25 06:15:16.237  2942  2942 W System.err:    at java.lang.Class.forName(Class.java:454)
+07-25 06:15:16.237  2942  2942 W System.err:    at java.lang.Class.forName(Class.java:379)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.centurygame.sdk.utils.ReflectionUtils.invokeStaticMethod(ReflectionUtils.java:139)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.centurygame.sdk.marketing.CGMarketing.getHelper(CGMarketing.java:96)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.centurygame.sdk.marketing.CGMarketing.initialize(CGMarketing.java:65)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.centurygame.sdk.CGSdk$d.run(Unknown Source:4)
+07-25 06:15:16.237  2942  2942 W System.err:    at android.os.Handler.handleCallback(Handler.java:883)
+07-25 06:15:16.237  2942  2942 W System.err:    at android.os.Handler.dispatchMessage(Handler.java:100)
+07-25 06:15:16.237  2942  2942 W System.err:    at android.os.Looper.loop(Looper.java:214)
+07-25 06:15:16.237  2942  2942 W System.err:    at android.app.ActivityThread.main(ActivityThread.java:7438)
+07-25 06:15:16.237  2942  2942 W System.err:    at java.lang.reflect.Method.invoke(Native Method)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+07-25 06:15:16.237  2942  2942 W System.err:    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+07-25 06:15:16.237  2942  2942 W System.err: Caused by: java.lang.ClassNotFoundException: com.centurygame.sdk.marketing.bytedance.CGBytedanceHelper
+07-25 06:15:16.237  2942  2942 W System.err:    ... 14 more
+07-25 06:15:16.238  2942  2962 E Parcel  : Reading a NULL string not supported here.
+07-25 06:15:16.238    83  3318 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:16.240  2942  2962 E Parcel  : Reading a NULL string not supported here.
+07-25 06:15:16.243  2942  2942 W Adjust  : PRODUCTION: Adjust is running in Production mode. Use this setting only for the build that you want to publish. Set the environment to `sandbox` if you want to test your app!
+07-25 06:15:16.243  2942  2942 W Adjust  : PRODUCTION: Adjust is running in Production mode. Use this setting only for the build that you want to publish. Set the environment to `sandbox` if you want to test your app!
+07-25 06:15:16.243  2942  2962 E Parcel  : Reading a NULL string not supported here.
+07-25 06:15:16.244  2942  2962 I chatty  : uid=10108(com.gof.china) .baseapi.thread identical 1 line
+07-25 06:15:16.246  2942  2962 E Parcel  : Reading a NULL string not supported here.
+07-25 06:15:16.248  2942  2962 I TPush   : [OtherPushManager] deviceType: rockchip
+07-25 06:15:16.254  2942  2962 I TPush   : [XGPushManager] start other push channel register !
+07-25 06:15:16.255  2942  2962 I TPush   : [XGPushManager] start other push channel register !
+07-25 06:15:16.256  2942  2962 E 🍺[centuryGame]🍺-DDPushManager: get tencent push register success. token：097dbfa179a614bb03a4880c35c91e49c2f8
+07-25 06:15:16.257  2942  2962 E 🍺[centuryGame]🍺-CGTpushHelper: sendRegistrationToken start
+07-25 06:15:16.257  2942  2962 E 🍺[centuryGame]🍺-CGTpushHelper: sendRegistrationToken push token register fail, not login
+07-25 06:15:16.257  2942  2962 I TPush   : [XGPushManager] Action -> Register to TPNS server
+07-25 06:15:16.262   909   909 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.appset.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsApiService }
+07-25 06:15:16.262   909   909 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.appset.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsApiService }
+07-25 06:15:16.266  2942  2942 E 🍺[centuryGame]🍺-CGBi [BI_FUN_TAG]:  eventName:self_attribution_event
+07-25 06:15:16.275  3095  3209 V TPush   : [RegReq] Register(1580019064,0f993f99f2a6d9a586cf17a73896611f,,-1),payload:  channel id-1
+07-25 06:15:16.279    83  3331 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:16.285  2942  3337 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:16.285  2942  3337 I chatty  : uid=10108(com.gof.china) identical 1 line
+07-25 06:15:16.286  2942  3337 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:16.287  2942  3338 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:16.287  2942  3338 I chatty  : uid=10108(com.gof.china) identical 1 line
+07-25 06:15:16.287  2942  3338 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:16.296    83  3341 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:16.297  2942  3342 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:16.297  2942  3342 I chatty  : uid=10108(com.gof.china) identical 1 line
+07-25 06:15:16.298  2942  3342 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:16.298  2942  3343 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:16.298  2942  3343 I chatty  : uid=10108(com.gof.china) identical 1 line
+07-25 06:15:16.299  2942  3343 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:16.310  2942  2942 D LibStringUtil: isMoreDigitVersion length:3
+07-25 06:15:16.310  2942  2942 D LibStringUtil: isMoreDigitVersion:^\d+\.\d+\.\d+$
+07-25 06:15:16.310  2942  2942 D LibStringUtil: isMoreDigitVersion test:^\d+\.\d+\.\d+$
+07-25 06:15:16.318  3095  3209 D TPush   : [PushServiceBroadcastHandler] >> Register onResponse [accId = 1580019064, token:097dbfa179a614bb03a4880c35c91e49c2f8, otherPushType:0, otherToken: , packName = com.gof.china]
+07-25 06:15:16.320    83  3348 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:16.322  2942  2942 I TPush   : [XGPushManager] Register call back to com.gof.china
+07-25 06:15:16.324   287  1065 W Binder  : Outgoing transactions from this process must be FLAG_ONEWAY
+07-25 06:15:16.324   287  1065 W Binder  : java.lang.Throwable
+07-25 06:15:16.324   287  1065 W Binder  :      at android.os.BinderProxy.transact(BinderProxy.java:481)
+07-25 06:15:16.324   287  1065 W Binder  :      at android.content.ContentProviderProxy.getType(ContentProviderNative.java:456)
+07-25 06:15:16.324   287  1065 W Binder  :      at com.android.server.am.ActivityManagerService.getProviderMimeType(ActivityManagerService.java:7784)
+07-25 06:15:16.324   287  1065 W Binder  :      at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:3207)
+07-25 06:15:16.324   287  1065 W Binder  :      at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:2832)
+07-25 06:15:16.324   287  1065 W Binder  :      at android.os.Binder.execTransactInternal(Binder.java:1021)
+07-25 06:15:16.324   287  1065 W Binder  :      at android.os.Binder.execTransact(Binder.java:994)
+07-25 06:15:16.325  2942  2962 E 🍺[centuryGame]🍺-CGTpushHelper: sendRegistrationToken start
+07-25 06:15:16.325  2942  2962 E 🍺[centuryGame]🍺-CGTpushHelper: sendRegistrationToken push token register fail, not login
+07-25 06:15:16.365  2942  2942 D LibStringUtil: isMoreDigitVersion length:3
+07-25 06:15:16.365  2942  2942 D LibStringUtil: isMoreDigitVersion:^\d+\.\d+\.\d+$
+07-25 06:15:16.365  2942  2942 D LibStringUtil: isMoreDigitVersion test:^\d+\.\d+\.\d+$
+07-25 06:15:16.368  2942  2942 D LibStringUtil: isMoreDigitVersion length:3
+07-25 06:15:16.368  2942  2942 D LibStringUtil: isMoreDigitVersion:^\d+\.\d+\.\d+$
+07-25 06:15:16.368  2942  2942 D LibStringUtil: isMoreDigitVersion test:^\d+\.\d+\.\d+$
+07-25 06:15:16.378  2942  3068 I Unity   : 06:15:16.375-2: Init lua state cost: 0.01242274
+07-25 06:15:16.378  2942  3068 I Unity   : LuaInterface.Debugger:Log(String)
+07-25 06:15:16.378  2942  3068 I Unity   : LuaInterface.LuaState:.ctor()
+07-25 06:15:16.378  2942  3068 I Unity   : CenturyGame.GameFramework.LuaModule:Init()
+07-25 06:15:16.378  2942  3068 I Unity   : CenturyGame.GameFramework.ModuleManager:Init()
+07-25 06:15:16.378  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:<Start>b__8_0()
+07-25 06:15:16.378  2942  3068 I Unity   : CenturyGame.GameFramework.LaunchManager:OnLoadSceneCompleted(Scene, LoadSceneMode)
+07-25 06:15:16.378  2942  3068 I Unity   :  
+07-25 06:15:16.378  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:16.378  2942  3068 I Unity   : 
+07-25 06:15:16.411  2942  3068 I Unity   : 06:15:16.407-2: Register lua type cost time: 0.02621317
+07-25 06:15:16.411  2942  3068 I Unity   : LuaInterface.Debugger:Log(String)
+07-25 06:15:16.411  2942  3068 I Unity   : LuaBinder:Bind(LuaState)
+07-25 06:15:16.411  2942  3068 I Unity   : CenturyGame.GameFramework.LuaModule:Bind()
+07-25 06:15:16.411  2942  3068 I Unity   : CenturyGame.GameFramework.LuaModule:Init()
+07-25 06:15:16.411  2942  3068 I Unity   : CenturyGame.GameFramework.ModuleManager:Init()
+07-25 06:15:16.411  2942  3068 I Unity   : CenturyGame.GameFramework.GameMain:<Start>b__8_0()
+07-25 06:15:16.411  2942  3068 I Unity   : CenturyGame.GameFramework.LaunchManager:OnLoadSceneCompleted(Scene, LoadSceneMode)
+07-25 06:15:16.411  2942  3068 I Unity   :  
+07-25 06:15:16.411  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:16.411  2942  3068 I Unity   : 
+07-25 06:15:16.464    83  3347 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:16.503   168  2706 I rc_model_v2: fps chg from 3 -> 10
+07-25 06:15:16.639  2942  2942 E suiyi digest:: �{�<%�����h�
+07-25 06:15:16.738    93  1027 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+07-25 06:15:16.770  2308  2369 E AndroidSerialExecutorImpl.cpp: AndroidSerialExecutorImpl(RequestStreamClient) Exception Running Function, Message: couldn't find key requestId in dynamic object
+07-25 06:15:16.873    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 3744768, layer_count : 1, backing_store_size : 3744768, backing_store_id : 403726925868, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:16.873    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:16.873    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:16.877    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 3744768, layer_count : 1, backing_store_size : 3744768, backing_store_id : 403726925869, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:16.877    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:16.877    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:16.879    83  3369 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:16.883    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x933, consumer_usage : 0x933, , stride : 720, alloc_format : 0x1, size : 3686400, layer_count : 1, backing_store_size : 3686400, backing_store_id : 403726925870, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:16.883    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:16.883    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:16.900    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:16.900    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:16.915   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:16.915   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:16.915   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:16.915   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:16.915   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:16.915   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:16.915    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:16.915    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:16.915   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:16.915   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:16.915   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:16.915   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:16.915   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:16.915   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:16.916   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:16.916   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:16.916   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:16.916   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:16.916   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:16.916   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:16.916   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:16.916   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:16.916   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:16.916   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:16.916   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:16.916   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:16.916   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:16.916   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:16.916   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:16.916   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:17.011  2308  2393 E HQSession.cpp: Peer closed with error err=Connect failed msg=connect timeout proto=, client CID=, server CID=00000000, local=<uninitialized address>, <uninitialized address>=upstream, drain=none
+07-25 06:15:17.011  2308  2393 E HQSession.cpp: Peer closed with error err=Connect failed msg=connect timeout proto=, client CID=, server CID=00000000, local=<uninitialized address>, <uninitialized address>=upstream, drain=none
+07-25 06:15:17.017    83  3370 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:17.022    83  3371 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:17.105  2942  3068 I Unity   : 06:15:17.97-17: HTTP GET状态码：200
+07-25 06:15:17.105  2942  3068 I Unity   : LuaInterface.Debugger:Log(String)
+07-25 06:15:17.105  2942  3068 I Unity   : CenturyGame.GameFramework.HttpGetAppVersion:CheckReq(UnityWebRequest, String)
+07-25 06:15:17.105  2942  3068 I Unity   : CenturyGame.GameFramework.<Working>d__19:MoveNext()
+07-25 06:15:17.105  2942  3068 I Unity   : <CallWrapper>d__18:MoveNext()
+07-25 06:15:17.105  2942  3068 I Unity   : UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr)
+07-25 06:15:17.105  2942  3068 I Unity   :  
+07-25 06:15:17.105  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:17.105  2942  3068 I Unity   : 
+07-25 06:15:17.156  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:17.156  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:17.261   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:17.261   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:17.274    83  3378 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:17.414  2942  3068 W System.err: SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+07-25 06:15:17.414  2942  3068 W System.err: SLF4J: Defaulting to no-operation (NOP) logger implementation
+07-25 06:15:17.414  2942  3068 W System.err: SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+07-25 06:15:17.549  2308  2393 E HQSession.cpp: Peer closed with error err=Connect failed msg=connect timeout proto=, client CID=, server CID=00000000, local=<uninitialized address>, <uninitialized address>=upstream, drain=none
+07-25 06:15:17.552    83  3384 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:17.564    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 640, height : 1138, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 2995200, layer_count : 1, backing_store_size : 2995200, backing_store_id : 403726925871, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:17.564    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2560, alloc_width : 640, alloc_height : 1152
+07-25 06:15:17.564    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:17.582    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:17.582    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:17.598    83  3385 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:17.599  2942  3068 I Unity   : 06:15:17.596-36: LuaState start
+07-25 06:15:17.599  2942  3068 I Unity   : LuaInterface.Debugger:Log(String)
+07-25 06:15:17.599  2942  3068 I Unity   : LuaInterface.LuaState:Start()
+07-25 06:15:17.599  2942  3068 I Unity   : CenturyGame.GameFramework.LuaModule:StartLua()
+07-25 06:15:17.599  2942  3068 I Unity   : CenturyGame.GameFramework.LoaderGroup:CheckFinish()
+07-25 06:15:17.599  2942  3068 I Unity   : CenturyGame.GameFramework.LoaderGroup:AssetBundleFirstLoadCompleted(Loader, Object, Object)
+07-25 06:15:17.599  2942  3068 I Unity   : CenturyGame.GameFramework.Loader:OnLoadCompleted(Object)
+07-25 06:15:17.599  2942  3068 I Unity   : UnityEngine.AsyncOperation:InvokeCompletionEvent()
+07-25 06:15:17.599  2942  3068 I Unity   :  
+07-25 06:15:17.599  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:17.599  2942  3068 I Unity   : 
+07-25 06:15:17.602  2942  3068 I Unity   : 06:15:17.601-36: ver20100 jit:     false    fold    cse    dce    fwd    dse    narrow    loop    abc    sink    fuse
+07-25 06:15:17.602  2942  3068 I Unity   : LuaInterface.Debugger:Log(String)
+07-25 06:15:17.602  2942  3068 I Unity   : LuaInterface.ToLua:Print(IntPtr)
+07-25 06:15:17.602  2942  3068 I Unity   :  
+07-25 06:15:17.602  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:17.602  2942  3068 I Unity   : 
+07-25 06:15:17.602  2942  3068 I Unity   : 06:15:17.602-36: os: Linux, arch: arm64
+07-25 06:15:17.602  2942  3068 I Unity   : LuaInterface.Debugger:Log(String)
+07-25 06:15:17.602  2942  3068 I Unity   : LuaInterface.ToLua:Print(IntPtr)
+07-25 06:15:17.602  2942  3068 I Unity   :  
+07-25 06:15:17.602  2942  3068 I Unity   : (Filename: ./Runtime/Export/Debug.bindings.h Line: 45)
+07-25 06:15:17.602  2942  3068 I Unity   : 
+07-25 06:15:17.782   168  2706 I rc_model_v2: fps chg from 60 -> 10
+07-25 06:15:17.852    83  3388 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:17.997  2942  3052 W PackageParser: Unknown element under <manifest>: queries at /data/app/com.gof.china-A9FhHaRsaGzEYXfPQfCr3Q==/base.apk Binary XML file line #20
+07-25 06:15:17.997  2942  3052 W PackageParser: Unknown element under <manifest>: meta-data at /data/app/com.gof.china-A9FhHaRsaGzEYXfPQfCr3Q==/base.apk Binary XML file line #43
+07-25 06:15:17.997  2942  3052 W PackageParser: Unknown element under <manifest>: queries at /data/app/com.gof.china-A9FhHaRsaGzEYXfPQfCr3Q==/base.apk Binary XML file line #49
+07-25 06:15:17.997  2942  3052 W PackageParser: Unknown element under <manifest>: supports-gl-texture at /data/app/com.gof.china-A9FhHaRsaGzEYXfPQfCr3Q==/base.apk Binary XML file line #69
+07-25 06:15:18.095    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 640, height : 1138, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 2995200, layer_count : 1, backing_store_size : 2995200, backing_store_id : 403726925872, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:18.095    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2560, alloc_width : 640, alloc_height : 1152
+07-25 06:15:18.095    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:18.097    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 640, height : 1138, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 2995200, layer_count : 1, backing_store_size : 2995200, backing_store_id : 403726925873, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:18.097    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2560, alloc_width : 640, alloc_height : 1152
+07-25 06:15:18.097    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:18.114    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:18.131    95    95 I chatty  : uid=1000(system) composer@2.1-se identical 2 lines
+07-25 06:15:18.131    95    95 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:18.264  2942  2942 E 🍺[centuryGame]🍺-CGSessionCNContainer: account open
+07-25 06:15:18.264  2942  2942 E 🍺[centuryGame]🍺-CGSessionCNContainer: account check session
+07-25 06:15:18.265  2942  2942 E 🍺[centuryGame]🍺-CGDataControl: start reportUserId: 89952022
+07-25 06:15:18.265  2942  2942 E CGBuglyHelper: bugly reportUserId success89952022
+07-25 06:15:18.267  2942  2942 E 🍺[centuryGame]🍺-CGTpushHelper: sendRegistrationToken start
+07-25 06:15:18.270  2942  2942 E 🍺[centuryGame]🍺-CGBi [BI_FUN_TAG]:  eventName:self_attribution_event
+07-25 06:15:18.272    83  3396 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:18.285    83  3397 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:18.300   287  1065 W DevicePolicyManager: Package com.gof.china (uid=10108, pid=2942) cannot access Device IDs
+07-25 06:15:18.300   614   743 W TelephonyPermissions: reportAccessDeniedToReadIdentifiers:com.gof.china:getDeviceId:isPreinstalled=false:isPrivApp=false
+07-25 06:15:18.300  2942  2942 D DeviceUtils: java.lang.SecurityException: getDeviceId: current process has android.permission.READ_PHONE_STATE.
+07-25 06:15:18.301  2942  2942 D DeviceUtils: macAddr :02:00:00:00:00:00
+07-25 06:15:18.301  2942  2942 D LibStringUtil: isMoreDigitVersion length:3
+07-25 06:15:18.301  2942  2942 D LibStringUtil: isMoreDigitVersion:^\d+\.\d+\.\d+$
+07-25 06:15:18.301  2942  2942 D LibStringUtil: isMoreDigitVersion test:^\d+\.\d+\.\d+$
+07-25 06:15:18.302  2942  2942 E 🍺[centuryGame]🍺-UserOnlineReportHelper: heartBeatHandler 66
+07-25 06:15:18.302  2942  2942 E 🍺[centuryGame]🍺-UserOnlineReportHelper: heartBeatHandler USER_ONLINE_REPORT_RUN
+07-25 06:15:18.302  2942  2942 D LibStringUtil: isMoreDigitVersion length:3
+07-25 06:15:18.302  2942  2942 D LibStringUtil: isMoreDigitVersion:^\d+\.\d+\.\d+$
+07-25 06:15:18.302  2942  2942 D LibStringUtil: isMoreDigitVersion test:^\d+\.\d+\.\d+$
+07-25 06:15:18.313    83  3398 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:18.336   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isUserDataEnabled: subId=1 phoneId=0
+07-25 06:15:18.337   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isUserDataEnabled: subId=1 retVal=true
+07-25 06:15:18.364   168  2706 I rc_model_v2: fps chg from 10 -> 21
+07-25 06:15:18.500   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isUserDataEnabled: subId=1 phoneId=0
+07-25 06:15:18.501   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isUserDataEnabled: subId=1 retVal=true
+07-25 06:15:18.598  2942  2961 I com.gof.china: Waiting for a blocking GC ProfileSaver
+07-25 06:15:18.635   168  2706 I rc_model_v2: fps chg from 21 -> 44
+07-25 06:15:18.747  2942  2954 I com.gof.china: Background concurrent copying GC freed 123607(4983KB) AllocSpace objects, 15(1440KB) LOS objects, 46% free, 27MB/51MB, paused 6.962ms total 156.980ms
+07-25 06:15:18.747  2942  2961 I com.gof.china: WaitForGcToComplete blocked ProfileSaver on ClassLinker for 149.805ms
+07-25 06:15:18.897   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:18.897   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:18.897   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:18.897   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:18.897   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:18.897   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:18.897   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:18.898   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:18.898   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:18.898   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:18.898   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:18.898   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:18.898   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:18.898   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:18.898   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:18.898   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:18.898   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:18.898   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:18.898   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:18.898   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:18.898   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:18.898   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:18.898   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:18.898   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:18.898   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:18.898   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:18.898   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:18.898   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:18.902    83  3406 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:18.905  2942  3068 E 🍺[centuryGame]🍺-CGThinkinggameHelper: [century game] thinking game onSessionStart
+07-25 06:15:19.148   168  2706 I rc_model_v2: fps chg from 60 -> 76
+07-25 06:15:19.465   168  2706 I rc_model_v2: fps chg from 76 -> 44
+07-25 06:15:19.607   100   123 E JWSensorsHal: connect to /data/misc/sensor/sensor_ctrl error:2 No such file or directory
+07-25 06:15:19.701   287  1065 W DevicePolicyManager: Package com.gof.china (uid=10108, pid=2942) cannot access Device IDs
+07-25 06:15:19.702   614   743 W TelephonyPermissions: reportAccessDeniedToReadIdentifiers:com.gof.china:getDeviceId:isPreinstalled=false:isPrivApp=false
+07-25 06:15:19.702  2942  3068 D DeviceUtils: java.lang.SecurityException: getDeviceId: current process has android.permission.READ_PHONE_STATE.
+07-25 06:15:19.702  2942  3068 D DeviceUtils: macAddr :02:00:00:00:00:00
+07-25 06:15:19.702  2942  3068 D LibStringUtil: isMoreDigitVersion length:3
+07-25 06:15:19.702  2942  3068 D LibStringUtil: isMoreDigitVersion:^\d+\.\d+\.\d+$
+07-25 06:15:19.702  2942  3068 D LibStringUtil: isMoreDigitVersion test:^\d+\.\d+\.\d+$
+07-25 06:15:19.744    89   193 E JWAudioHAL: connect to /data/misc/audioserver/audio_out error:2 No such file or directory
+07-25 06:15:19.848    83  3420 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:19.893  3095  3209 D TPush   : [PushServiceBroadcastHandler] Internl network connected, restart
+07-25 06:15:20.132   168  2706 I rc_model_v2: fps chg from 44 -> 29
+07-25 06:15:20.433   168  2706 I rc_model_v2: fps chg from 29 -> 10
+07-25 06:15:20.680   812  2204 E chromium: [0725/061520.680699:ERROR:ssl_client_socket_impl.cc(883)] handshake failed; returned -1, SSL error code 1, net_error -101
+07-25 06:15:20.824   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isUserDataEnabled: subId=1 phoneId=0
+07-25 06:15:20.825   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isUserDataEnabled: subId=1 retVal=true
+07-25 06:15:20.855    83  3429 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:21.739    93  1027 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+07-25 06:15:22.280   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:22.399   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:22.399   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:22.399   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:22.399   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:22.399   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:22.399   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:22.399   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:22.399   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:22.399   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:22.399   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:22.399   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:22.399   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:22.399   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:22.400   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:22.400   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:22.400   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:22.400   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:22.401   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:22.401   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:22.401   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:22.401   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:22.401   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:22.401   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:22.401   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:22.401   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:22.401   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:22.401   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:22.402   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:22.431   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:22.446  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.446  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.447  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.447  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.502    83  3443 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:22.564  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.564  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.583  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.583  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.606  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.606  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.637  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.637  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.664   168  2706 I rc_model_v2: fps chg from 60 -> 38
+07-25 06:15:22.672  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.672  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.683  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.683  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.760  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.760  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.771  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.771  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.817  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.817  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.832  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.832  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.866  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.866  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.883  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.883  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.915   168  2706 I rc_model_v2: fps chg from 38 -> 56
+07-25 06:15:22.915  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.915  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.983  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.983  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:22.999  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:22.999  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.009  3095  3209 D TPush   : [ServiceUtil]  Not pull up other XGService with cloud
+07-25 06:15:23.050  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.050  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.051  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.051  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.115  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.115  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.133  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.133  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.182  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.182  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.199  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.199  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.268  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.268  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.269  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.269  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.334  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.334  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.350  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.350  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.385  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.385  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.410  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.410  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.433  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.433  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.467  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.467  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.483  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.483  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.526  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.526  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.547   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:23.547   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:23.547   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:23.547   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:23.547   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:23.547   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:23.547   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:23.547   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:23.547   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:23.547   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:23.547   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:23.547   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:23.547   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:23.547   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:23.547   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:23.547   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:23.547   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:23.547   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:23.547   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:23.547   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:23.547   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:23.547   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:23.547   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:23.547   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:23.547   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:23.547   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:23.547   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:23.547   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:23.558  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.558  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.650  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.650  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.670  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.670  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.701  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.701  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.738  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.738  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.782  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.782  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.801  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.801  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.813   168  2706 I rc_model_v2: fps chg from 60 -> 82
+07-25 06:15:23.815  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.815  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.849  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.849  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.883  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.883  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.932  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.932  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.932  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.932  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:23.997    83  3448 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:23.999  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:23.999  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.000  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.000  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.009   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:24.009   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:24.027   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:24.027   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:24.047  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.047  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.065  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.065  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.080   168  2706 I rc_model_v2: fps chg from 82 -> 56
+07-25 06:15:24.081  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.081  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.099  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.099  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.131  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.131  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.165  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.165  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.199  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.199  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.223  2942  3449 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:24.223  2942  3449 I chatty  : uid=10108(com.gof.china) identical 1 line
+07-25 06:15:24.223  2942  3449 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:24.225  2942  3450 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:24.225  2942  3450 I chatty  : uid=10108(com.gof.china) identical 1 line
+07-25 06:15:24.225  2942  3450 W ApkUtil : getPackageInfo NameNotFoundException
+07-25 06:15:24.232    83  3452 E ResolverController: No valid NAT64 prefix (100, <unspecified>/0)
+07-25 06:15:24.252  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.252  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.282  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.282  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.298  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.298  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.337  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.337  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.381  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.381  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.398  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.398  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.457   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:24.486  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.486  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.487  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.487  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.548  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.548  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.570  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.570  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.582   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:24.582   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:24.582   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:24.582   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:24.582   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:24.582   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:24.582   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:24.582   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:24.582   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:24.582   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:24.582   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:24.583   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:24.583   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:24.583   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:24.583   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:24.583   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:24.583   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:24.583   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:24.583   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:24.583   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:24.583   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:24.583   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:24.583   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:24.583   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:24.583   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:24.583   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:24.583   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:24.584   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:24.591   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:24.607   100   123 E JWSensorsHal: connect to /data/misc/sensor/sensor_ctrl error:2 No such file or directory
+07-25 06:15:24.648  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.648  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.701  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.701  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.744    89   193 E JWAudioHAL: connect to /data/misc/audioserver/audio_out error:2 No such file or directory
+07-25 06:15:24.832  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.832  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.848   168  2706 I rc_model_v2: fps chg from 60 -> 117
+07-25 06:15:24.850  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.850  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.884  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.884  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.917  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.917  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.949  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.950  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:24.966  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:24.966  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.019  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.019  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.019  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.019  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.065  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.065  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.083  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.083  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.098   168  2706 I rc_model_v2: fps chg from 117 -> 60
+07-25 06:15:25.119  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.119  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.152  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.152  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.182  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.182  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.201  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.201  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.233  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.234  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.284  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.284  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.335  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.335  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.353  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.353  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.381  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.381  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.398  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.398  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.434  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.435  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.448  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.448  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.469  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.469  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.564  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.564  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.580   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:25.580   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:25.580   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:25.580   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:25.580   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:25.580   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:25.580   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:25.580   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:25.580   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:25.580   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:25.580   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:25.580   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:25.580   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:25.580   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:25.580   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:25.580   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:25.580   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:25.580   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:25.580   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:25.580   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:25.581   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:25.581   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:25.581   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:25.581   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:25.581   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:25.581   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:25.581   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:25.581   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:25.587  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.587  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.648  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.648  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.666  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.666  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.698  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.698  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.723  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.723  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.781  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.781  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.798  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.798  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.847   168  2706 I rc_model_v2: fps chg from 60 -> 109
+07-25 06:15:25.869  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.869  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.914  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.914  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:25.933  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:25.933  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.015  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.015  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.069  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.069  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.070  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.070  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.099   168  2706 I rc_model_v2: fps chg from 109 -> 59
+07-25 06:15:26.137  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.137  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.137  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.137  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.230  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.231  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.243   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:26.264  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.264  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.282  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.282  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.317  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.317  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.391   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:26.399  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.399  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.433  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.433  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.466  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.473  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.500  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.500  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.580   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:26.580   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:26.580   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:26.580   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:26.580   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:26.580   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:26.581   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:26.581   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:26.581   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:26.581   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:26.581   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:26.581   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:26.581   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:26.581   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:26.581   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:26.581   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:26.581   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:26.581   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:26.581   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:26.581   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:26.582   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:26.582   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:26.582   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:26.582   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:26.582   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:26.582   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:26.582   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:26.582   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:26.611  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.611  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.651  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.651  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.732  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.732  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.739    93  1027 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+07-25 06:15:26.749  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.750  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.833  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.833  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.846   168  2706 I rc_model_v2: fps chg from 60 -> 109
+07-25 06:15:26.923  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.923  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:26.923  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:26.923  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.049  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.049  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.097   168  2706 I rc_model_v2: fps chg from 109 -> 56
+07-25 06:15:27.183  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.183  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.248  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.248  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.299  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.299  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.366  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.366  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.504  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.504  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.597   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:27.597   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:27.597   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:27.597   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:27.597   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:27.597   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:27.597   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:27.597   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:27.597   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:27.597   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:27.597   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:27.597   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:27.597   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:27.597   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:27.597   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:27.597   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:27.597   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:27.597   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:27.597   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:27.597   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:27.597   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:27.597   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:27.597   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:27.597   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:27.597   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:27.597   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:27.597   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:27.597   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:27.600   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:27.600   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:27.616  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.616  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.616   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:27.616   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:27.630   287   324 E memtrack: Couldn't load memtrack module
+07-25 06:15:27.630   287   324 W android.os.Debug: failed to get memory consumption info: -1
+07-25 06:15:27.752  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.752  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.776   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:27.847  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.847  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.863   168  2706 I rc_model_v2: fps chg from 60 -> 116
+07-25 06:15:27.908   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:27.917  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.917  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:27.999  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:27.999  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:28.130   168  2706 I rc_model_v2: fps chg from 116 -> 60
+07-25 06:15:28.315  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:28.315  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:28.364  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:28.364  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:28.414  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:28.414  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:28.430  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:28.430  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:28.498  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:28.498  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:28.641   105   210 D AudioFlinger: mixer(0x7aa87a4c00) throttle end: throttle time(9)
+07-25 06:15:28.663   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:28.663   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:28.663   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:28.663   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:28.663   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:28.663   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:28.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:28.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:28.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:28.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:28.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:28.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:28.663   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:28.663   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:28.663   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:28.663   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:28.663   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:28.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:28.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:28.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:28.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:28.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:28.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:28.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:28.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:28.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:28.663   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:28.663   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:28.784   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:28.815  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:28.815  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:28.837  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:28.837  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:28.895   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:28.914   168  2706 I rc_model_v2: fps chg from 60 -> 108
+07-25 06:15:28.922  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:28.922  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.059  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.059  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.059  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.059  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.105  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.105  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.176   168  2706 I rc_model_v2: fps chg from 108 -> 57
+07-25 06:15:29.301  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.301  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.454  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.454  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.499  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.499  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.602  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.602  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.607   100   123 E JWSensorsHal: connect to /data/misc/sensor/sensor_ctrl error:2 No such file or directory
+07-25 06:15:29.610   909  2186 E WakeLock: CryptauthEnroller ** IS FORCE-RELEASED ON TIMEOUT **
+07-25 06:15:29.669   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:29.669   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:29.669   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:29.669   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:29.669   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:29.669   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:29.669   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:29.669   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:29.669   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:29.669   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:29.669   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:29.669   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:29.669   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:29.669   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:29.669   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:29.669   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:29.669   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:29.669   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:29.669   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:29.669   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:29.669   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:29.669   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:29.669   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:29.669   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:29.669   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:29.669   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:29.669   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:29.669   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:29.744    89   193 E JWAudioHAL: connect to /data/misc/audioserver/audio_out error:2 No such file or directory
+07-25 06:15:29.857  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.857  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.915  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.915  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.929   168  2706 I rc_model_v2: fps chg from 60 -> 115
+07-25 06:15:29.966  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.966  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:29.999  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:29.999  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.100  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.100  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.145   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:30.165  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.165  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.179   168  2706 I rc_model_v2: fps chg from 115 -> 60
+07-25 06:15:30.261   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:30.288  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.288  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.380  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.380  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.398  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.398  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.481  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.481  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.482  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.482  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.511   287   388 W InputDispatcher: Asynchronous input event injection failed.
+07-25 06:15:30.629   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:30.649  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.649  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.663   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:30.663   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:30.663   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:30.663   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:30.663   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:30.663   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:30.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:30.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:30.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:30.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:30.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:30.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:30.663   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:30.663   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:30.663   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:30.663   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:30.663   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:30.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:30.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:30.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:30.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:30.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:30.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:30.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:30.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:30.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:30.663   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:30.664   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:30.698  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.698  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.728   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:30.783  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.783  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.783  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.783  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.916  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:30.916  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:30.930   168  2706 I rc_model_v2: fps chg from 60 -> 112
+07-25 06:15:31.050  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:31.050  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:31.180   168  2706 I rc_model_v2: fps chg from 112 -> 60
+07-25 06:15:31.250  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:31.250  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:31.517   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:31.615  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:31.615  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:31.663   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:31.663   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:31.663   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:31.663   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:31.663   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:31.663   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:31.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:31.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:31.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:31.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:31.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:31.663   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:31.663   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:31.663   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:31.663   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:31.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:31.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:31.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:31.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:31.664   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:31.664   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:31.664   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:31.664   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:31.664   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:31.664   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:31.664   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:31.664   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:31.664   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:31.696   287   388 V InputDispatcher: Asynchronous input event injection succeeded.
+07-25 06:15:31.699  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:31.699  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:31.739    93  1027 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+07-25 06:15:31.764  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:31.764  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:31.784  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:31.784  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:31.847  2308  2388 E AndroidSerialExecutorImpl.cpp: AndroidSerialExecutorImpl(RequestStreamClient) Exception Running Function, Message: couldn't find key requestId in dynamic object
+07-25 06:15:31.912   287   388 W InputDispatcher: Asynchronous input event injection failed.
+07-25 06:15:31.930   168  2706 I rc_model_v2: fps chg from 60 -> 109
+07-25 06:15:31.930  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:31.930  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.015  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.015  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.015  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.015  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.131  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.131  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.180   168  2706 I rc_model_v2: fps chg from 109 -> 60
+07-25 06:15:32.197  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.197  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.316  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.316  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.430  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.430  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.497  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.497  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.515  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.515  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.663   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:32.663   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:32.663   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:32.663   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:32.663   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:32.663   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:32.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:32.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:32.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:32.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:32.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:32.663   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:32.663   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:32.663   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:32.663   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:32.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:32.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:32.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:32.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:32.663   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:32.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:32.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:32.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:32.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:32.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:32.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:32.663   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:32.663   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:32.682  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.682  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.782  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.782  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.798  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.798  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.929   168  2706 I rc_model_v2: fps chg from 60 -> 109
+07-25 06:15:32.930  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.930  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.965  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.965  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:32.983  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:32.983  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:33.080  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:33.080  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:33.179   168  2706 I rc_model_v2: fps chg from 109 -> 60
+07-25 06:15:33.183  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:33.183  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:33.231  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:33.231  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:33.249  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:33.249  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:33.332  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:33.332  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:33.464  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:33.464  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:33.634  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:33.634  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:33.663   168  2705 I vpu_api_legacy: setup encoder rate control config:
+07-25 06:15:33.663   168  2705 I vpu_api_legacy: width  608 height 1080 format 10:1000d
+07-25 06:15:33.663   168  2705 I vpu_api_legacy: rc_mode CBR qp 26 bps 4000000
+07-25 06:15:33.663   168  2705 I vpu_api_legacy: fps in 60 fps out 60 gop 599
+07-25 06:15:33.663   168  2705 I vpu_api_legacy: setup encoder stream feature config:
+07-25 06:15:33.663   168  2705 I vpu_api_legacy: profile 66 level 31 cabac 0
+07-25 06:15:33.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:33.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170025
+07-25 06:15:33.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_IN
+07-25 06:15:33.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [3750000 : 4250000] fps [60:60] gop 599
+07-25 06:15:33.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:33.663   168  2705 I vpu_api_legacy: vpu_api_set_enc_cfg out
+07-25 06:15:33.663   168  2705 I omx_vmpp: setupEncCfg
+07-25 06:15:33.663   168  2705 I omx_vmpp: setupFrameRate: framerate 60.00 
+07-25 06:15:33.663   168  2705 I omx_vmpp: setupQp: qpInit 26 i 10-51 p 10-49
+07-25 06:15:33.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:qp_max_step is invalid
+07-25 06:15:33.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cb_qp_offset is invalid
+07-25 06:15:33.663   168  2705 E mpp_cfg : mpp_enc_cfg_set_s32: cfg rc:cr_qp_offset is invalid
+07-25 06:15:33.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:33.663   168  2706 I mpp_enc : mode cbr bps [3750000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:33.663   168  2706 I mpp_enc : mpp_enc_proc_cfg cmd 0x320001
+07-25 06:15:33.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg change 170045
+07-25 06:15:33.663   168  2706 I mpp_enc : mpp_enc_proc_rc_cfg MPP_ENC_RC_CFG_CHANGE_FPS_OUT
+07-25 06:15:33.663   168  2706 I mpp_enc : MPP_ENC_SET_RC_CFG bps 4000000 [250000 : 4250000] fps [60:60] gop 599
+07-25 06:15:33.663   168  2706 I mpp_enc : send header for set cfg change rc_mode/fps/gop
+07-25 06:15:33.663   168  2706 I mpp_enc : set_rc_cfg rc->stats_time 0
+07-25 06:15:33.663   168  2706 I mpp_enc : mode vbr bps [250000:4000000:4250000] fps flex [60/1] -> flex [60/1] gop i [599] v [0]
+07-25 06:15:33.663   168  2706 I mpp_enc : xxxxmpp_packet_append
+07-25 06:15:33.918   168  2706 I rc_model_v2: fps chg from 60 -> 110
+07-25 06:15:34.072  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:34.072  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:34.132  2942  3068 I System.out: ProxyFinder.FindFor - proxy type : DIRECT
+07-25 06:15:34.132  2942  3068 I System.out: ProxyFinder.FindFor - No Proxy
+07-25 06:15:34.263   168  2706 I rc_model_v2: fps chg from 110 -> 46
+07-25 06:15:34.354   287   388 W InputDispatcher: channel 'eaea3a1 com.gof.china/com.gof.china.DDUnityLaunchActivity (server)' ~ Consumer closed input channel or an error occurred.  events=0x9
+07-25 06:15:34.354   287   388 E InputDispatcher: channel 'eaea3a1 com.gof.china/com.gof.china.DDUnityLaunchActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
+07-25 06:15:34.355   287   511 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=38, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ], android.os.BinderProxy@e58a293)
+07-25 06:15:34.355   287   835 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=37, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ], android.os.BinderProxy@df832d0)
+07-25 06:15:34.355   287   511 D ConnectivityService: ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ], android.os.BinderProxy@f0932c9)
+07-25 06:15:34.355   287  1062 I ActivityManager: Process com.gof.china (pid 2942) has died: fore TOP 
+07-25 06:15:34.355   287   402 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=37, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] (release request)
+07-25 06:15:34.355   287   402 D ConnectivityService: releasing NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10108] ] (release request)
+07-25 06:15:34.355   287   835 I WindowManager: WIN DEATH: Window{eaea3a1 u0 com.gof.china/com.gof.china.DDUnityLaunchActivity}
+07-25 06:15:34.356   287   835 W InputDispatcher: Attempted to unregister already unregistered input channel 'eaea3a1 com.gof.china/com.gof.china.DDUnityLaunchActivity (server)'
+07-25 06:15:34.357    84    84 I Zygote  : Process 2942 exited cleanly (0)
+07-25 06:15:34.361  3111  3111 I cr_ChildProcessService: Destroying ChildProcessService pid=3111
+07-25 06:15:34.362   909   909 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.appset.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsApiService }
+07-25 06:15:34.362  3111  3111 I ProcessService: System.exit called, status: 0
+07-25 06:15:34.362  3111  3111 I AndroidRuntime: VM exiting with result code 0, cleanup skipped.
+07-25 06:15:34.363   435   435 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+07-25 06:15:34.364   287  1062 W ActivityTaskManager: Force removing ActivityRecord{a874d92 u0 com.gof.china/.DDUnityLaunchActivity t3}: app died, no saved state
+07-25 06:15:34.365   435   435 V KeyguardUpdateMonitor: SubInfo:{id=1, iccId=890124019[****] simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=0 iconTint=-16746133 mNumber=[****] dataRoaming=0 iconBitmap=android.graphics.Bitmap@e30301 mcc 310 mnc 260mCountryIso=us isEmbedded false nativeAccessRules null cardString=890124019[****] cardId=-1 isOpportunistic false mGroupUUID=null mIsGroupDisabled=false profileClass=-1 ehplmns = null hplmns = null subscriptionType=0 mGroupOwner=null carrierConfigAccessRules=null}
+07-25 06:15:34.366   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 phoneId=0
+07-25 06:15:34.366   614   743 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 retVal=true
+07-25 06:15:34.368   435   435 V KeyguardUpdateMonitor: onSubscriptionInfoChanged()
+07-25 06:15:34.369   287  1062 I ActivityTaskManager: getPackageFerformanceMode--ComponentInfo{com.android.launcher3/com.android.launcher3.Launcher}----com.android.launcher3
+07-25 06:15:34.370   435   435 V KeyguardUpdateMonitor: SubInfo:{id=1, iccId=890124019[****] simSlotIndex=0 carrierId=1 displayName=T-Mobile carrierName=T-Mobile nameSource=0 iconTint=-16746133 mNumber=[****] dataRoaming=0 iconBitmap=android.graphics.Bitmap@f58c5a6 mcc 310 mnc 260mCountryIso=us isEmbedded false nativeAccessRules null cardString=890124019[****] cardId=-1 isOpportunistic false mGroupUUID=null mIsGroupDisabled=false profileClass=-1 ehplmns = null hplmns = null subscriptionType=0 mGroupOwner=null carrierConfigAccessRules=null}
+07-25 06:15:34.373   614   970 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 phoneId=0
+07-25 06:15:34.373   614   970 D PhoneInterfaceManager: [PhoneIntfMgr] isDataEnabled: subId=1 retVal=true
+07-25 06:15:34.376  1071  1099 V Space   : sendTracking: resume_activity ({"opType":"resume_activity","resultCode":0,"component":"com.android.launcher3\/.Launcher","package":"com.android.launcher3","pid":2942,"uid":10108})
+07-25 06:15:34.377   572   572 I Zygote  : Process 3111 exited cleanly (0)
+07-25 06:15:34.380   287  1062 I ActivityManager: Killing 3111:com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0/u0a108i0 (adj 0): isolated not needed
+07-25 06:15:34.381   287   319 W ActivityManager: setHasOverlayUi called on unknown pid: 2942
+07-25 06:15:34.382   595   595 I Launcher3: Launcher onStart.
+07-25 06:15:34.383   595   595 I Launcher3: Launcher onResume.
+07-25 06:15:34.385   287   330 D KernelCpuUidUserSysTimeReader: Removing uids 90003-90003
+07-25 06:15:34.385   287   330 D BatteryStatsImpl: Got readings for an isolated uid with no mapping: 90003
+07-25 06:15:34.385   287   330 D KernelCpuUidUserSysTimeReader: Removing uids 90001-90001
+07-25 06:15:34.385   287   330 D BatteryStatsImpl: Got readings for an isolated uid with no mapping: 90001
+07-25 06:15:34.385   287   330 W KernelCpuProcStringReader: File not found. It's normal if not implemented: /proc/uid_time_in_state
+07-25 06:15:34.385   287   330 W KernelCpuProcStringReader: File not found. It's normal if not implemented: /proc/uid_concurrent_active_time
+07-25 06:15:34.385   287   330 W KernelCpuProcStringReader: File not found. It's normal if not implemented: /proc/uid_concurrent_policy_time
+07-25 06:15:34.389   287   327 I libprocessgroup: Successfully killed process cgroup uid 10108 pid 2942 in 33ms
+07-25 06:15:34.389   287   327 I libprocessgroup: Successfully killed process cgroup uid 99000 pid 3111 in 0ms
+07-25 06:15:34.398    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 3744768, layer_count : 1, backing_store_size : 3744768, backing_store_id : 403726925874, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:34.398    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:34.398    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:34.399    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 3744768, layer_count : 1, backing_store_size : 3744768, backing_store_id : 403726925875, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:34.399    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:34.399    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:34.400    94   132 D gralloc3: got new private_handle_t instance @0x7d87234280 for buffer 'Unnamed'. share_fd : 7, share_attr_fd : 8, flags : 0x0, width : 720, height : 1280, req_format : 0x1, producer_usage : 0x40000000000b00, consumer_usage : 0x40000000000b00, , stride : 0, alloc_format : 0x100000001, size : 3744768, layer_count : 1, backing_store_size : 3744768, backing_store_id : 403726925876, allocating_pid : 94, ref_count : 1, yuv_info : 0
+07-25 06:15:34.400    94   132 D gralloc3: plane_info[0]: offset : 0, byte_stride : 2880, alloc_width : 720, alloc_height : 1280
+07-25 06:15:34.400    94   132 D gralloc3: plane_info[1]: offset : 0, byte_stride : 0, alloc_width : 0, alloc_height : 0
+07-25 06:15:34.402   435   435 D ImageWallpaper: wallpaper visibility changes to: true
+07-25 06:15:34.406   736   736 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3126 
+07-25 06:15:34.407   736   736 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2216 repeatCheckTimes = 0, locked = false
+07-25 06:15:34.407   736   736 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1954 onStartInput(EditorInfo{EditorInfo{packageName=com.android.launcher3, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=-1, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+07-25 06:15:34.407   736   736 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2216 repeatCheckTimes = 1, locked = false
+07-25 06:15:34.408   736   736 I AndroidIME: InputBundleManager.loadActiveInputBundleId():450 loadActiveInputBundleId: und-Latn-x-password, password
+07-25 06:15:34.413    95   218 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:34.447    95   218 I chatty  : uid=1000(system) HwBinder:95_2 identical 6 lines
+07-25 06:15:34.447    95   218 E drm_hwc2_gralloc: hwc_get_handle_name:cann't get value from gralloc
+07-25 06:15:34.607   100   123 E JWSensorsHal: connect to /data/misc/sensor/sensor_ctrl error:2 No such file or directory
+07-25 06:15:34.744    89   193 E JWAudioHAL: connect to /data/misc/audioserver/audio_out error:2 No such file or directory
+07-25 06:15:34.782   168  2706 I rc_model_v2: fps chg from 46 -> 22
+07-25 06:15:35.083   168  2706 I rc_model_v2: fps chg from 22 -> 10
+07-25 06:15:36.739    93  1027 E jw_gps  : connect to /data/misc/gps/gps_ctrl error:2 No such file or directory
+^C
+130|de72dfcb07da:/ # 

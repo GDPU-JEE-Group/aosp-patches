@@ -1,7 +1,7 @@
 # rm -rf IMAGE
 
 product=$1
-msg=$2$product
+msg=$2-$product
 ip=$3
 num=$4
 
@@ -24,6 +24,6 @@ else
 fi
 
 
-./build_docker_android_snow.sh -A $msg $ip $num
+a_patches/sh/build_docker_android_snow.sh -A $msg $ip $num
 
 # 我 把 setType=0，logd all 打印了 
