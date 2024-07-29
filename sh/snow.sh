@@ -5,9 +5,9 @@ msg=$2-$product
 ip=$3
 num=$4
 
-if [ "$msg" = $1 ]; then
+if [ "$1" = "-h"  ]; then
     echo ./snow.sh {product} {msg} {ip} {num}
-    echo ./snow.sh out test 30.34 3
+    echo ./snow.sh out test 30.34 2
     exit 0
 else
     echo ""

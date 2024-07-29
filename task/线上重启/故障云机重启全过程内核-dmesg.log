@@ -1,0 +1,2459 @@
+
+
+
+
+
+
+
+
+[1016260.332942] init: Untracked pid 8187 exited with status 0
+[1016260.333591] init: Untracked pid 8189 exited with status 0
+[1016260.362660] init: Untracked pid 8192 exited with status 0
+[1016260.364282] init: Untracked pid 8194 exited with status 0
+[1016260.379875] init: Untracked pid 8197 exited with status 0
+[1016260.380430] init: Untracked pid 8199 exited with status 0
+[1016260.493474] init: Untracked pid 8202 exited with status 0
+[1016260.494485] init: Untracked pid 8204 exited with status 0
+[1016260.536735] init: Untracked pid 8207 exited with status 0
+[1016260.541075] init: Untracked pid 8209 exited with status 0
+[1016260.634629] init: Untracked pid 8212 exited with status 0
+[1016260.635408] init: Untracked pid 8214 exited with status 0
+[1016260.687460] init: Untracked pid 8217 exited with status 0
+[1016260.688681] init: Untracked pid 8219 exited with status 0
+[1016260.737547] init: Untracked pid 8222 exited with status 0
+[1016260.739337] init: Untracked pid 8224 exited with status 0
+[1016260.770337] init: Untracked pid 8227 exited with status 0
+[1016260.771388] init: Untracked pid 8229 exited with status 0
+[1016260.910861] init: Untracked pid 8232 exited with status 0
+[1016260.913556] init: Untracked pid 8234 exited with status 0
+[1016261.037362] init: Untracked pid 8239 exited with status 0
+[1016261.040568] init: Untracked pid 8241 exited with status 0
+[1016261.153382] init: Untracked pid 8245 exited with status 0
+[1016261.155961] init: Untracked pid 8247 exited with status 0
+[1016263.041649] binder: release 47755:47762 transaction -1440536516 in, still active
+[1016263.041660] binder: send failed reply for transaction -1440536516 to 47608:47764
+[1016263.085263] binder: undelivered TRANSACTION_ERROR: 29189
+[1016263.218941] veth9d2b96f: renamed from eth0
+[1016263.288865] init: Untracked pid 21881 exited with status 0
+[1016263.289298] init: Untracked pid 21883 exited with status 0
+[1016263.544750] init: Untracked pid 21886 exited with status 0
+[1016263.545676] init: Untracked pid 21888 exited with status 0
+[1016263.556337] init: Untracked pid 21891 exited with status 0
+[1016263.556594] init: Untracked pid 21893 exited with status 0
+[1016263.583344] init: Untracked pid 21896 exited with status 0
+[1016263.583899] init: Untracked pid 21898 exited with status 0
+[1016263.622934] init: Untracked pid 21901 exited with status 0
+[1016263.628286] init: Untracked pid 21903 exited with status 0
+[1016263.709363] init: Untracked pid 21906 exited with status 0
+[1016263.714918] init: Untracked pid 21908 exited with status 0
+[1016263.758631] init: Untracked pid 21911 exited with status 0
+[1016263.759642] init: Untracked pid 21913 exited with status 0
+[1016263.802659] init: Untracked pid 21916 exited with status 0
+[1016263.804254] init: Untracked pid 21918 exited with status 0
+[1016263.829638] init: Untracked pid 21921 exited with status 0
+[1016263.830041] init: Untracked pid 21923 exited with status 0
+[1016264.076539] init: Untracked pid 21926 exited with status 0
+[1016264.077140] init: Untracked pid 21928 exited with status 0
+[1016264.108202] init: Untracked pid 21931 exited with status 0
+[1016264.111193] init: Untracked pid 21933 exited with status 0
+[1016264.178796] eth0: renamed from vethccc7ba9
+[1016264.215572] 8021q: adding VLAN 0 to HW filter on device eth0
+[1016264.218320] init: Untracked pid 21937 exited with status 0
+[1016264.220513] init: Untracked pid 21939 exited with status 0
+[1016264.291948] init: mkdir("/dev/pts", 0755) failed File exists
+[1016264.291995] init: mount("sysfs", "/sys", "sysfs", 0, NULL) failed Device or resource busy
+[1016264.292008] init: mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL) failed No such file or directory
+[1016264.292020] init: mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)) failed File exists
+[1016264.292031] init: mknod("/dev/random", S_IFCHR | 0666, makedev(1, 8)) failed File exists
+[1016264.292042] init: mknod("/dev/urandom", S_IFCHR | 0666, makedev(1, 9)) failed File exists
+[1016264.292052] init: mknod("/dev/ptmx", S_IFCHR | 0666, makedev(5, 2)) failed File exists
+[1016264.292063] init: mknod("/dev/null", S_IFCHR | 0666, makedev(1, 3)) failed File exists
+[1016264.292073] init: init first stage started!
+[1016264.292287] init: [libfs_mgr]ReadFstabFromDt(): failed to read fstab from dt
+[1016264.292433] init: [libfs_mgr]ReadDefaultFstab(): failed to find device default fstab
+[1016264.292447] init: Failed to fstab for first stage mount
+[1016264.292512] init: Using Android DT directory /proc/device-tree/firmware/android/
+[1016264.292777] init: [libfs_mgr]ReadDefaultFstab(): failed to find device default fstab
+[1016264.292854] init: First stage mount skipped (missing/incompatible/empty fstab in device tree)
+[1016264.292899] init: Skipped setting INIT_AVB_VERSION (not in recovery mode)
+[1016264.311563] init: init second stage started!
+[1016264.315164] init: Using Android DT directory /proc/device-tree/firmware/android/
+[1016264.315226] init: read form:/vendor/etc/container/container_common.conf:# default config for all container
+[1016264.315230] init: # \xe8\xaf\xa5\xe9\x85\x8d\xe7\xbd\xae\xe4\xb8\xba\xe6\x89\x80\xe6\x9c\x89\xe5\xae\xb9\xe5\x99\xa8\xe7\x94\x9f\xe6\x95\x88\xe7\x9a\x84\xe9\xbb\x98\xe8\xae\xa4\xe9\x85\x8d\xe7\xbd\xae\xef\xbc\x8c
+[1016264.315232] init: # \xe5\xa6\x82\xe9\x9c\x80\xe4\xbf\xae\xe6\x94\xb9\xef\xbc\x8c\xe8\xaf\xb7\xe5\x9c\xa8\xe5\xaf\xb9\xe5\xba\x94\xe5\xae\xb9\xe5\x99\xa8\xe7\x9a\x84\xe9\x85\x8d\xe7\xbd\xae\xe6\x96\x87\xe4\xbb\xb6\xe4\xb8\xad\xe4\xbf\xae\xe6\x94\xb9
+[1016264.315235] init: # \xe9\x99\xa4\xe9\x9d\x9e\xe5\xb8\x8c\xe6\x9c\x9b\xe5\x9c\xa8\xe6\x89\x80\xe6\x9c\x89\xe5\xae\xb9\xe5\x99\xa8\xe4\xb8\xad\xe7\x94\x9f\xe6\x95\x88\xef\xbc\x8c\xe5\x90\xa6\xe5\x88\x99\xe4\xb8\x8d\xe8\xa6\x81\xe4\xbf\xae\xe6\x94\xb9\xe8\xaf\xa5\xe9\x85\x8d\xe7\xbd\xae\xe6\x96\x87\xe4\xbb\xb6
+[1016264.315237] init: 
+[1016264.315239] init: # \xe5\xbf\x85\xe9\xa1\xbb\xe6\x89\x93\xe5\xbc\x80\xef\xbc\x8cinit.redroid.rc\xe4\xb8\xad\xe4\xbd\xbf\xe7\x94\xa8
+[1016264.315241] init: ro.container.enable.container.config=true
+[1016264.315244] init: # \xe9\x85\x8d\xe7\xbd\xae\xe5\xae\xb9\xe5\x99\xa8id\xef\xbc\x8c\xe8\xaf\xa5\xe9\x85\x8d\xe7\xbd\xae\xe5\xbf\x85\xe9\xa1\xbb\xe5\x9c\xa8\xe5\xba\x94\xe5\xae\xb9\xe5\x99\xa8\xe7\x9a\x84\xe9\x85\x8d\xe7\xbd\xae\xe6\x96\x87\xe4\xbb\xb6\xe4\xb8\xad\xe4\xbf\xae\xe6\x94\xb9\xe4\xb8\xba\xe5\xaf\xb9\xe5\xba\x94\xe5\xae\xb9\xe5\x99\xa8id
+[1016264.315246] init: 
+[1016264.315248] init: ### network
+[1016264.315251] init: # \xe7\xbd\x91\xe7\xbb\x9c\xe7\xb1\xbb\xe5\x9e\x8b:docker0 / macvlan_static / macvlan_dhcp / host
+[1016264.315253] init: ro.container.network.type=macvlan_static
+[1016264.315255] init: 
+[1016264.315257] init: ### HWC
+[1016264.315259] init: # \xe9\x85\x8d\xe7\xbd\xae\xe9\xbb\x98\xe8\xae\xa4\xe5\x88\x86\xe8\xbe\xa8\xe7\x8e\x87
+[1016264.315262] init: persist.vendor.framebuffer.main=720x1280@60
+[1016264.315264] init: # \xe9\x9a\x90\xe8\x97\x8f\xe5\xaf\xbc\xe8\x88\xaa\xe6\xa0\x8f
+[1016264.315266] init: qemu.hw.mainkeys=1
+[1016264.315268] init: 
+[1016264.315271] init: # \xe8\xae\xbe\xe5\xa4\x87\xe6\x8c\x87\xe7\xba\xb9
+[1016264.315273] init: ro.build.fingerprint=samsung/GT-P7500/GT-P7500:3.2/HTJ85B/XWKL1:user/release-keys
+[1016264.315275] init: ro.bootimage.build.fingerprint=samsung/GT-P7500/GT-P7500:3.2/HTJ85B/XWKL1:user/release-keys
+[1016264.315278] init: ro.odm.build.fingerprint=samsung/GT-P7500/GT-P7500:3.2/HTJ85B/XWKL1:user/release-keys
+[1016264.315280] init: ro.product.build.fingerprint=samsung/GT-P7500/GT-P7500:3.2/HTJ85B/XWKL1:user/release-keys
+[1016264.315283] init: ro.system.build.fingerprint=samsung/GT-P7500/GT-P7500:3.2/HTJ85B/XWKL1:user/release-keys
+[1016264.315285] init: ro.vendor.build.fingerprint=samsung/GT-P7500/GT-P7500:3.2/HTJ85B/XWKL1:user/release-keys
+[1016264.315287] init: 
+[1016264.315289] init: # adb\xe9\xbb\x98\xe8\xae\xa4\xe5\x85\xb3\xe9\x97\xad
+[1016264.315292] init: s9.adbd.auto_start=0
+[1016264.315294] init: persist.sys.timezone=Asia/Shanghai
+[1016264.315296] init: ro.container.market.server.url=https://appstore.palmderive.com
+[1016264.315299] init: ro.container.launcher3.server.url=https://idc.palmderive.com
+[1016264.315301] init: ro.container.launcher3.locale=zh
+[1016264.315303] init: 
+[1016264.315371] init: read form:/vendor/etc/container/container.conf:# config for container 0
+[1016264.315373] init: ro.container.container_id=3
+[1016264.315376] init: ro.product.locale=zh-CN
+[1016264.315378] init: ro.product.locale.language=zh
+[1016264.315380] init: ro.product.brand=Nubia
+[1016264.315383] init: ro.product.odm.brand=Nubia
+[1016264.315385] init: ro.product.product.brand=Nubia
+[1016264.315387] init: ro.product.system.brand=Nubia
+[1016264.315390] init: ro.product.vendor.brand=Nubia
+[1016264.315392] init: ro.container.net_dns1=10.1.7.204
+[1016264.315394] init: ro.terminal.code=104120432440967169
+[1016264.315397] init: ro.product.locale.region=CN
+[1016264.315399] init: ro.settings.android_id=b322a7eafd4b8709
+[1016264.315401] init: ro.container.net_dns.num=1
+[1016264.315403] init: ro.serialno=01MM0Q99SW7I
+[1016264.315406] init: ro.boot.serialno=01MM0Q99SW7I
+[1016264.315408] init: ro.product.model=Z11
+[1016264.315410] init: ro.product.odm.model=Z11
+[1016264.315413] init: ro.product.product.model=Z11
+[1016264.315415] init: ro.product.system.model=Z11
+[1016264.315417] init: ro.product.vendor.model=Z11
+[1016264.315419] init: 
+[1016264.315491] init: Init cannot set 'ro.serialno' to '01MM0Q99SW7I': Read-only property was already set
+[1016264.315516] init: Running restorecon...
+[1016264.315869] init: Overriding previous 'ro.' property 'ro.target.product':'tablet' with new value 'nosdcard'
+[1016264.316000] init: Couldn't load property file '/product_services/build.prop': open() failed: No such file or directory: No such file or directory
+[1016264.316013] init: Couldn't load property file '/factory/factory.prop': open() failed: No such file or directory: No such file or directory
+[1016264.316115] init: Could not set 'ro.bootimage.build.fingerprint' to 'rockchip/rk3588_docker/rk3588_docker:10/QD4A.200805.003/dev07161705:user/release-keys' while loading .prop filesRead-only property was already set
+[1016264.316189] init: Could not set 'ro.odm.build.fingerprint' to 'rockchip/rk3588_docker/rk3588_docker:10/QD4A.200805.003/dev07161705:user/release-keys' while loading .prop filesRead-only property was already set
+[1016264.316214] init: Could not set 'ro.product.build.fingerprint' to 'rockchip/rk3588_docker/rk3588_docker:10/QD4A.200805.003/dev07161705:user/release-keys' while loading .prop filesRead-only property was already set
+[1016264.316236] init: Could not set 'ro.product.locale' to 'en-US' while loading .prop filesRead-only property was already set
+[1016264.316241] init: Could not set 'ro.product.odm.brand' to 'rockchip' while loading .prop filesRead-only property was already set
+[1016264.316248] init: Could not set 'ro.product.odm.model' to 'rk3588_docker' while loading .prop filesRead-only property was already set
+[1016264.316255] init: Could not set 'ro.product.product.brand' to 'rockchip' while loading .prop filesRead-only property was already set
+[1016264.316261] init: Could not set 'ro.product.product.model' to 'rk3588_docker' while loading .prop filesRead-only property was already set
+[1016264.316267] init: Could not set 'ro.product.system.brand' to 'rockchip' while loading .prop filesRead-only property was already set
+[1016264.316274] init: Could not set 'ro.product.system.model' to 'rk3588_docker' while loading .prop filesRead-only property was already set
+[1016264.316284] init: Could not set 'ro.product.vendor.brand' to 'rockchip' while loading .prop filesRead-only property was already set
+[1016264.316291] init: Could not set 'ro.product.vendor.model' to 'rk3588_docker' while loading .prop filesRead-only property was already set
+[1016264.316315] init: Could not set 'ro.system.build.fingerprint' to 'rockchip/rk3588_docker/rk3588_docker:10/QD4A.200805.003/dev07161705:user/release-keys' while loading .prop filesRead-only property was already set
+[1016264.316340] init: Could not set 'ro.vendor.build.fingerprint' to 'rockchip/rk3588_docker/rk3588_docker:10/QD4A.200805.003/dev07161705:user/release-keys' while loading .prop filesRead-only property was already set
+[1016264.316395] init: Setting product property ro.product.device to 'rk3588_docker' (from ro.product.product.device)
+[1016264.316403] init: Setting product property ro.product.manufacturer to 'rockchip' (from ro.product.product.manufacturer)
+[1016264.316410] init: Setting product property ro.product.name to 'rk3588_docker' (from ro.product.product.name)
+[1016264.316591] init: Created socket '/dev/socket/property_service', mode 666, user 0, group 0
+[1016264.316689] init: SetupMountNamespaces done
+[1016264.317214] init: Forked subcontext for 'u:r:vendor_init:s0' with pid 6
+[1016264.317697] init: Forked subcontext for 'u:r:vendor_init:s0' with pid 7
+[1016264.317744] init: Parsing file /init.rc...
+[1016264.317814] init: Added '/init.environ.rc' to import list
+[1016264.317818] init: Added '/init.usb.rc' to import list
+[1016264.317825] init: Added '/init.rk30board.rc' to import list
+[1016264.317832] init: Added '/vendor/etc/init/hw/init.rk30board.rc' to import list
+[1016264.317836] init: Added '/init.usb.configfs.rc' to import list
+[1016264.317844] init: Added '/init.zygote64_32.rc' to import list
+[1016264.318406] init: Parsing file /init.environ.rc...
+[1016264.318462] init: Parsing file /init.usb.rc...
+[1016264.318606] init: Parsing file /init.rk30board.rc...
+[1016264.318614] init: Unable to read config file '/init.rk30board.rc': open() failed: No such file or directory
+[1016264.318638] init: Parsing file /vendor/etc/init/hw/init.rk30board.rc...
+[1016264.318678] init: Added '/vendor/etc/init/hw/init.rockchip.rc' to import list
+[1016264.318683] init: Added '/vendor/etc/init/hw/init.connectivity.rc' to import list
+[1016264.318687] init: Added '/vendor/etc/init/hw/init.box.samba.rc' to import list
+[1016264.318694] init: Added '/vendor/etc/init/hw/init.rk3588.rc' to import list
+[1016264.318700] init: Added '/vendor/etc/init/hw/init.nosdcard.rc' to import list
+[1016264.318704] init: Added '/vendor/etc/init/hw/init.car.rc' to import list
+[1016264.318708] init: Added '/vendor/etc/init/hw/init.optee.rc' to import list
+[1016264.319005] init: Parsing file /vendor/etc/init/hw/init.rockchip.rc...
+[1016264.319026] init: Added '/vendor/etc/init/hw/init.rk30board.usb.rc' to import list
+[1016264.319032] init: Added '/vendor/etc/init/hw/init.rk30board.environment.rc' to import list
+[1016264.319035] init: Added '/vendor/etc/init/hw/init.debug.rc' to import list
+[1016264.319039] init: Added '/vendor/etc/init/hw/init.mount_all.rc' to import list
+[1016264.319301] init: Parsing file /vendor/etc/init/hw/init.rk30board.usb.rc...
+[1016264.319333] init: Added '/vendor/etc/init/hw/init.rk3588.usb.rc' to import list
+[1016264.319463] init: Parsing file /vendor/etc/init/hw/init.rk3588.usb.rc...
+[1016264.319471] init: Unable to read config file '/vendor/etc/init/hw/init.rk3588.usb.rc': open() failed: No such file or directory
+[1016264.319482] init: Parsing file /vendor/etc/init/hw/init.rk30board.environment.rc...
+[1016264.319498] init: Parsing file /vendor/etc/init/hw/init.debug.rc...
+[1016264.319504] init: Unable to read config file '/vendor/etc/init/hw/init.debug.rc': open() failed: No such file or directory
+[1016264.319513] init: Parsing file /vendor/etc/init/hw/init.mount_all.rc...
+[1016264.319534] init: Parsing file /vendor/etc/init/hw/init.connectivity.rc...
+[1016264.319694] init: Parsing file /vendor/etc/init/hw/init.box.samba.rc...
+[1016264.319702] init: Unable to read config file '/vendor/etc/init/hw/init.box.samba.rc': open() failed: No such file or directory
+[1016264.319713] init: Parsing file /vendor/etc/init/hw/init.rk3588.rc...
+[1016264.319777] init: Parsing file /vendor/etc/init/hw/init.nosdcard.rc...
+[1016264.319784] init: Unable to read config file '/vendor/etc/init/hw/init.nosdcard.rc': open() failed: No such file or directory
+[1016264.319790] init: Parsing file /vendor/etc/init/hw/init.car.rc...
+[1016264.319796] init: Unable to read config file '/vendor/etc/init/hw/init.car.rc': open() failed: No such file or directory
+[1016264.319803] init: Parsing file /vendor/etc/init/hw/init.optee.rc...
+[1016264.319809] init: Unable to read config file '/vendor/etc/init/hw/init.optee.rc': open() failed: No such file or directory
+[1016264.319826] init: Parsing file /init.usb.configfs.rc...
+[1016264.319980] init: Parsing file /init.zygote64_32.rc...
+[1016264.320062] init: Parsing directory /system/etc/init...
+[1016264.320133] init: Parsing file /system/etc/init/android.hidl.allocator@1.0-service.rc...
+[1016264.320163] init: Parsing file /system/etc/init/android.system.suspend@1.0-service.rc...
+[1016264.320196] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.320201] init: Parsing file /system/etc/init/apexd.rc...
+[1016264.320236] init: Parsing file /system/etc/init/art_apex_boot_integrity.rc...
+[1016264.320256] init: Parsing file /system/etc/init/ashmemd.rc...
+[1016264.320280] init: Parsing file /system/etc/init/atrace.rc...
+[1016264.320472] init: Parsing file /system/etc/init/audioserver.rc...
+[1016264.320507] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.320521] init: Parsing file /system/etc/init/blank_screen.rc...
+[1016264.320546] init: Parsing file /system/etc/init/bootanim.rc...
+[1016264.320572] init: Parsing file /system/etc/init/bootstat.rc...
+[1016264.320629] init: Parsing file /system/etc/init/bpfloader.rc...
+[1016264.320651] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.320668] init: Parsing file /system/etc/init/cameraserver.rc...
+[1016264.320699] init: Parsing file /system/etc/init/drmserver.rc...
+[1016264.320727] init: Parsing file /system/etc/init/dumpstate.rc...
+[1016264.320773] init: Parsing file /system/etc/init/flags_health_check.rc...
+[1016264.320794] init: Parsing file /system/etc/init/gatekeeperd.rc...
+[1016264.320818] init: Parsing file /system/etc/init/gpuservice.rc...
+[1016264.320845] init: Parsing file /system/etc/init/gsid.rc...
+[1016264.320878] init: Parsing file /system/etc/init/heapprofd.rc...
+[1016264.320914] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.320924] init: Parsing file /system/etc/init/hwservicemanager.rc...
+[1016264.320960] init: Parsing file /system/etc/init/idmap2d.rc...
+[1016264.320986] init: Parsing file /system/etc/init/incidentd.rc...
+[1016264.321012] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321018] init: Parsing file /system/etc/init/init.adbd.rc...
+[1016264.321035] init: Parsing file /system/etc/init/init.curl.rc...
+[1016264.321050] init: Parsing file /system/etc/init/init.s9su.rc...
+[1016264.321074] init: Parsing file /system/etc/init/init.scriptd.rc...
+[1016264.321096] init: Parsing file /system/etc/init/init.sshd.rc...
+[1016264.321122] init: Parsing file /system/etc/init/installd.rc...
+[1016264.321200] init: Parsing file /system/etc/init/iorapd.rc...
+[1016264.321234] init: Parsing file /system/etc/init/keystore.rc...
+[1016264.321262] init: Parsing file /system/etc/init/lmkd.rc...
+[1016264.321287] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321295] init: Parsing file /system/etc/init/logcatd.rc...
+[1016264.321357] init: Parsing file /system/etc/init/logd.rc...
+[1016264.321391] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321429] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321438] init: Parsing file /system/etc/init/lpdumpd.rc...
+[1016264.321477] init: Parsing file /system/etc/init/mdnsd.rc...
+[1016264.321504] init: Parsing file /system/etc/init/mediadrmserver.rc...
+[1016264.321530] init: Parsing file /system/etc/init/mediaextractor.rc...
+[1016264.321555] init: Parsing file /system/etc/init/mediametrics.rc...
+[1016264.321585] init: Parsing file /system/etc/init/mediaserver.rc...
+[1016264.321617] init: Parsing file /system/etc/init/mtpd.rc...
+[1016264.321645] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321650] init: Parsing file /system/etc/init/netd.rc...
+[1016264.321678] init: Parsing file /system/etc/init/perfetto.rc...
+[1016264.321724] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321744] init: Parsing file /system/etc/init/racoon.rc...
+[1016264.321774] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321790] init: Parsing file /system/etc/init/recovery-persist.rc...
+[1016264.321808] init: Parsing file /system/etc/init/rss_hwm_reset.rc...
+[1016264.321837] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321843] init: Parsing file /system/etc/init/s9.boot.rc...
+[1016264.321861] init: Parsing file /system/etc/init/servicemanager.rc...
+[1016264.321903] init: Parsing file /system/etc/init/statsd.rc...
+[1016264.321942] init: Parsing file /system/etc/init/storaged.rc...
+[1016264.321979] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.321988] init: Parsing file /system/etc/init/surfaceflinger.rc...
+[1016264.322029] init: Parsing file /system/etc/init/tombstoned.rc...
+[1016264.322061] init: Parsing file /system/etc/init/traceur.rc...
+[1016264.322081] init: Parsing file /system/etc/init/uncrypt.rc...
+[1016264.322129] init: Parsing file /system/etc/init/usbd.rc...
+[1016264.322155] init: Parsing file /system/etc/init/vdc.rc...
+[1016264.322175] init: Parsing file /system/etc/init/vold.rc...
+[1016264.322212] init: Parsing file /system/etc/init/wait_for_keymaster.rc...
+[1016264.322242] init: Parsing file /system/etc/init/wifi-events.rc...
+[1016264.322301] init: Parsing file /system/etc/init/wificond.rc...
+[1016264.322331] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.322364] init: Parsing file /product/etc/init...
+[1016264.322371] init: Unable to read config file '/product/etc/init': open() failed: No such file or directory
+[1016264.322381] init: Parsing file /product_services/etc/init...
+[1016264.322387] init: Unable to read config file '/product_services/etc/init': open() failed: No such file or directory
+[1016264.322396] init: Parsing file /odm/etc/init...
+[1016264.322404] init: Unable to read config file '/odm/etc/init': open() failed: No such file or directory
+[1016264.322413] init: Parsing directory /vendor/etc/init...
+[1016264.322459] init: Parsing file /vendor/etc/init/android.hardware.audio@2.0-service.rc...
+[1016264.322498] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.322562] init: Parsing file /vendor/etc/init/android.hardware.cas@1.1-service.rc...
+[1016264.322597] init: Parsing file /vendor/etc/init/android.hardware.drm@1.0-service.rc...
+[1016264.322664] init: Parsing file /vendor/etc/init/android.hardware.drm@1.2-service.clearkey.rc...
+[1016264.322775] init: Parsing file /vendor/etc/init/android.hardware.gnss@1.0-service.rc...
+[1016264.322805] init: Parsing file /vendor/etc/init/android.hardware.graphics.allocator@3.0-service.rc...
+[1016264.322857] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.322866] init: Parsing file /vendor/etc/init/android.hardware.graphics.composer@2.1-service.rc...
+[1016264.322897] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.322909] init: Parsing file /vendor/etc/init/android.hardware.health@2.0-service.rc...
+[1016264.322933] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.322939] init: Parsing file /vendor/etc/init/android.hardware.keymaster@3.0-service.rc...
+[1016264.322964] init: Parsing file /vendor/etc/init/android.hardware.light@2.0-service.rc...
+[1016264.323001] init: Parsing file /vendor/etc/init/android.hardware.media.omx@1.0-service.rc...
+[1016264.323029] init: Parsing file /vendor/etc/init/android.hardware.power@1.0-service.rc...
+[1016264.323053] init: Parsing file /vendor/etc/init/android.hardware.radio.config@1.0-service.rc...
+[1016264.323085] init: Parsing file /vendor/etc/init/android.hardware.sensors@1.0-service.rc...
+[1016264.323113] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.323120] init: Parsing file /vendor/etc/init/android.hardware.wifi@1.0-service.rc...
+[1016264.323145] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.323153] init: Parsing file /vendor/etc/init/hostapd.android.rc...
+[1016264.323223] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.323231] init: Parsing file /vendor/etc/init/init.redroid.rc...
+[1016264.323302] init: Parsing file /vendor/etc/init/init.rockchip.drmservice.rc...
+[1016264.323326] init: Parsing file /vendor/etc/init/rild.rc...
+[1016264.323355] init: last valid run-time capability is larger than CAP_LAST_CAP
+[1016264.323360] init: Parsing file /vendor/etc/init/rockchip.hardware.outputmanager@1.0-service.rc...
+[1016264.323388] init: Parsing file /vendor/etc/init/rockchip.hardware.rockit.hw@1.0-service.rc...
+[1016264.323420] init: Parsing file /vendor/etc/init/vndservicemanager.rc...
+[1016264.323715] init: processing action (SetupCgroups) from (<Builtin Action>:0)
+[1016264.324088] new mount options do not match the existing superblock, will be ignored
+[1016264.324124] cgroup: Unknown subsys name 'schedtune'
+[1016264.324132] libprocessgroup: Failed to mount schedtune cgroup: Invalid argument
+[1016264.324136] libprocessgroup: Failed to setup schedtune cgroup
+[1016264.324468] init: processing action (early-init) from (/init.rc:15)
+[1016264.324725] init: starting service 'ueventd'...
+[1016264.325539] init: starting service 'apexd-bootstrap'...
+[1016264.326150] init: SVC_EXEC service 'apexd-bootstrap' pid 9 (uid 0 gid 1000+0 context default) started; waiting...
+[1016264.338359] apexd: Bootstrap subcommand detected
+[1016264.338821] apexd: Scanning /system/apex for embedded keys
+[1016264.339014] apexd: Scanning /product/apex for embedded keys
+[1016264.339036] apexd: ... does not exist. Skipping
+[1016264.339057] apexd: Scanning /system/apex looking for APEX packages.
+[1016264.339094] apexd: Found /system/apex/com.android.media
+[1016264.339139] apexd: Skipped when bootstrapping
+[1016264.339160] apexd: Found /system/apex/com.android.conscrypt
+[1016264.339201] apexd: Skipped when bootstrapping
+[1016264.339220] apexd: Found /system/apex/com.android.runtime.release
+[1016264.339311] apexd: Successfully bind-mounted flattened package /system/apex/com.android.runtime.release on /apex/com.android.runtime@1
+[1016264.339347] apexd: Found /system/apex/com.android.tzdata
+[1016264.339463] apexd: Successfully bind-mounted flattened package /system/apex/com.android.tzdata on /apex/com.android.tzdata@299900000
+[1016264.339495] apexd: Found /system/apex/com.android.media.swcodec
+[1016264.339544] apexd: Skipped when bootstrapping
+[1016264.339565] apexd: Found /system/apex/com.android.resolv
+[1016264.339610] apexd: Skipped when bootstrapping
+[1016264.339639] apexd: Activated 6 packages. Skipped: 0
+[1016264.339659] apexd: Bootstrapping done
+[1016264.340592] init: Service 'apexd-bootstrap' (pid 9) exited with status 0 waiting took 0.014000 seconds
+[1016264.340614] init: Sending signal 9 to service 'apexd-bootstrap' (pid 9) process group...
+[1016264.340716] libprocessgroup: Successfully killed process cgroup uid 0 pid 9 in 0ms
+[1016264.340993] init: processing action (early-init) from (/init.environ.rc:2)
+[1016264.341089] init: processing action (early-init) from (/vendor/etc/init/hw/init.rk30board.rc:29)
+[1016264.341788] ueventd: ueventd started!
+[1016264.341812] ueventd: android container want to disable cold_boot, so creat /dev/.coldboot_done
+[1016264.341863] ueventd: Parsing file /ueventd.rc...
+[1016264.341992] ueventd: Parsing file /vendor/ueventd.rc...
+[1016264.342113] init: processing action (early-init) from (/vendor/etc/init/hw/init.rockchip.rc:6)
+[1016264.342266] ueventd: Parsing file /odm/ueventd.rc...
+[1016264.342276] ueventd: Unable to read config file '/odm/ueventd.rc': open() failed: No such file or directory
+[1016264.342287] ueventd: Parsing file /ueventd.rk30board.rc...
+[1016264.342293] ueventd: Unable to read config file '/ueventd.rk30board.rc': open() failed: No such file or directory
+[1016264.343083] init: starting service 'vendor.insmod_sh'...
+[1016264.343819] init: processing action (early-init) from (/vendor/etc/init/hw/init.rk3588.rc:79)
+[1016264.343963] init: processing action (early-init) from (/system/etc/init/init.curl.rc:1)
+[1016264.343974] init: processing action (early-init) from (/vendor/etc/init/init.redroid.rc:1)
+[1016264.344038] init: Command 'mount debugfs debugfs /sys/kernel/debug mode=755' action=early-init (/vendor/etc/init/init.redroid.rc:2) took 0ms and failed: mount() failed: Device or resource busy
+[1016264.344592] init: starting service 'exec 1 (/vendor/bin/binder_alloc /dev/binderfs/binder-control binder hwbinder vndbinder)'...
+[1016264.345214] init: SVC_EXEC service 'exec 1 (/vendor/bin/binder_alloc /dev/binderfs/binder-control binder hwbinder vndbinder)' pid 11 (uid 0 gid 0+0 context default) started; waiting...
+[1016264.355250] init: Untracked pid 21943 exited with status 0
+[1016264.356167] init: Untracked pid 21945 exited with status 0
+[1016264.360207] init: Service 'exec 1 (/vendor/bin/binder_alloc /dev/binderfs/binder-control binder hwbinder vndbinder)' (pid 11) exited with status 0 waiting took 0.015000 seconds
+[1016264.360216] init: Sending signal 9 to service 'exec 1 (/vendor/bin/binder_alloc /dev/binderfs/binder-control binder hwbinder vndbinder)' (pid 11) process group...
+[1016264.360276] libprocessgroup: Successfully killed process cgroup uid 0 pid 11 in 0ms
+[1016264.360747] init: starting service 'exec 2 (/vendor/bin/chmod.sh)'...
+[1016264.361483] init: SVC_EXEC service 'exec 2 (/vendor/bin/chmod.sh)' pid 13 (uid 0 gid 0+0 context default) started; waiting...
+[1016264.374318] init: Service 'vendor.insmod_sh' (pid 10) exited with status 0
+[1016264.374331] init: Sending signal 9 to service 'vendor.insmod_sh' (pid 10) process group...
+[1016264.374382] libprocessgroup: Successfully killed process cgroup uid 0 pid 10 in 0ms
+[1016264.501821] init: Service 'exec 2 (/vendor/bin/chmod.sh)' (pid 13) exited with status 0 waiting took 0.140000 seconds
+[1016264.501839] init: Sending signal 9 to service 'exec 2 (/vendor/bin/chmod.sh)' (pid 13) process group...
+[1016264.501913] libprocessgroup: Successfully killed process cgroup uid 0 pid 13 in 0ms
+[1016264.502199] init: processing action (ro.container.enable.container.config=true && early-init) from (/vendor/etc/init/init.redroid.rc:79)
+[1016264.502344] init: property 'ro.container.disable.audio.output' doesn't exist while expanding '${ro.container.disable.audio.output}'
+[1016264.502386] init: Command 'setprop persist.disable.audio.output ${ro.container.disable.audio.output}' action=ro.container.enable.container.config=true && early-init (/vendor/etc/init/init.redroid.rc:80) took 0ms and failed: cannot expand '${ro.container.disable.audio.output}'
+[1016264.502416] init: property 'ro.container.default.resolution' doesn't exist while expanding '${ro.container.default.resolution}'
+[1016264.502477] init: Command 'setprop persist.vendor.resolution.main ${ro.container.default.resolution}' action=ro.container.enable.container.config=true && early-init (/vendor/etc/init/init.redroid.rc:81) took 0ms and failed: cannot expand '${ro.container.default.resolution}'
+[1016264.502599] init: property 'ro.container.net_dns2' doesn't exist while expanding '${ro.container.net_dns2}'
+[1016264.502625] init: Command 'setprop ro.boot.redroid_net_dns2 ${ro.container.net_dns2}' action=ro.container.enable.container.config=true && early-init (/vendor/etc/init/init.redroid.rc:84) took 0ms and failed: cannot expand '${ro.container.net_dns2}'
+[1016264.502648] init: property 'ro.container.disable_cold_boot' doesn't exist while expanding '${ro.container.disable_cold_boot}'
+[1016264.502670] init: Command 'setprop ro.cold_boot_done ${ro.container.disable_cold_boot}' action=ro.container.enable.container.config=true && early-init (/vendor/etc/init/init.redroid.rc:85) took 0ms and failed: cannot expand '${ro.container.disable_cold_boot}'
+[1016264.502691] init: property 'ro.container.use.sdcardfs' doesn't exist while expanding '${ro.container.use.sdcardfs}'
+[1016264.502714] init: Command 'setprop persist.sys.sdcardfs ${ro.container.use.sdcardfs}' action=ro.container.enable.container.config=true && early-init (/vendor/etc/init/init.redroid.rc:86) took 0ms and failed: cannot expand '${ro.container.use.sdcardfs}'
+[1016264.502725] init: processing action (wait_for_coldboot_done) from (<Builtin Action>:0)
+[1016264.502736] init: wait for '/dev/.coldboot_done' took 0ms
+[1016264.502752] init: processing action (MixHwrngIntoLinuxRng) from (<Builtin Action>:0)
+[1016264.502763] init: /dev/hw_random not found
+[1016264.502771] init: processing action (SetMmapRndBits) from (<Builtin Action>:0)
+[1016264.502919] init: processing action (SetKptrRestrict) from (<Builtin Action>:0)
+[1016264.502959] init: processing action (KeychordInit) from (<Builtin Action>:0)
+[1016264.502999] init: EVIOCSMASK not supported: Invalid argument
+[1016264.503078] init: processing action (console_init) from (<Builtin Action>:0)
+[1016264.503091] init: processing action (init) from (/init.rc:43)
+[1016264.503373] init: Command 'write /dev/blkio/blkio.weight 1000' action=init (/init.rc:94) took 0ms and failed: Unable to write to file '/dev/blkio/blkio.weight': open() failed: Permission denied
+[1016264.503389] init: Command 'write /dev/blkio/background/blkio.weight 500' action=init (/init.rc:95) took 0ms and failed: Unable to write to file '/dev/blkio/background/blkio.weight': open() failed: Permission denied
+[1016264.503400] init: Command 'write /dev/blkio/blkio.group_idle 0' action=init (/init.rc:96) took 0ms and failed: Unable to write to file '/dev/blkio/blkio.group_idle': open() failed: Permission denied
+[1016264.503413] init: Command 'write /dev/blkio/background/blkio.group_idle 0' action=init (/init.rc:97) took 0ms and failed: Unable to write to file '/dev/blkio/background/blkio.group_idle': open() failed: Permission denied
+[1016264.504262] init: Command 'write /dev/cpuctl/cpu.rt_runtime_us 950000' action=init (/init.rc:176) took 0ms and failed: Unable to write to file '/dev/cpuctl/cpu.rt_runtime_us': Unable to write file contents: Invalid argument
+[1016264.511882] init: starting service 'logd'...
+[1016264.512668] init: starting service 'servicemanager'...
+[1016264.512816] init: Created socket '/dev/socket/logd', mode 666, user 1036, group 1036
+[1016264.512936] init: Created socket '/dev/socket/logdr', mode 666, user 1036, group 1036
+[1016264.513021] init: Created socket '/dev/socket/logdw', mode 222, user 1036, group 1036
+[1016264.513060] init: Opened file '/proc/kmsg', flags 0
+[1016264.513323] init: Opened file '/dev/kmsg', flags 1
+[1016264.513408] init: starting service 'hwservicemanager'...
+[1016264.514132] init: starting service 'vndservicemanager'...
+[1016264.514685] init: processing action (init) from (/vendor/etc/init/hw/init.rk30board.rc:33)
+[1016264.515000] init: processing action (init) from (/vendor/etc/init/hw/init.rockchip.rc:23)
+[1016264.515308] init: processing action (init) from (/vendor/etc/init/hw/init.rk30board.environment.rc:1)
+[1016264.515340] init: processing action (init) from (/vendor/etc/init/hw/init.rk3588.rc:68)
+[1016264.519023] logd.auditd: start
+[1016264.523856] init: Command 'write /sys/block/zram0/comp_algorithm lz4' action=init (/vendor/etc/init/hw/init.rk3588.rc:71) took 8ms and failed: Unable to write to file '/sys/block/zram0/comp_algorithm': Unable to write file contents: Invalid argument
+[1016264.524055] init: processing action (init) from (/system/etc/init/audioserver.rc:20)
+[1016264.524087] init: processing action (init) from (/vendor/etc/init/init.redroid.rc:61)
+[1016264.525138] init: processing action (StartBoringSslSelfTest) from (<Builtin Action>:0)
+[1016264.525733] init: processing action (MixHwrngIntoLinuxRng) from (<Builtin Action>:0)
+[1016264.525756] init: /dev/hw_random not found
+[1016264.525775] init: processing action (InitBinder) from (<Builtin Action>:0)
+[1016264.525860] init: processing action (late-init) from (/init.rc:316)
+[1016264.525876] init: processing action (late-init) from (/system/etc/init/atrace.rc:3)
+[1016264.526987] init: processing action (queue_property_triggers) from (<Builtin Action>:0)
+[1016264.527000] init: processing action (early-fs) from (/init.rc:349)
+[1016264.527031] init: starting service 'vold'...
+[1016264.527759] init: processing action (fs) from (/vendor/etc/init/hw/init.mount_all.rc:3)
+[1016264.528869] init: Parsing file /product/etc/init...
+[1016264.528882] init: Unable to read config file '/product/etc/init': open() failed: No such file or directory
+[1016264.528892] init: Parsing file /product_services/etc/init...
+[1016264.528900] init: Unable to read config file '/product_services/etc/init': open() failed: No such file or directory
+[1016264.528906] init: Parsing file /odm/etc/init...
+[1016264.528911] init: Unable to read config file '/odm/etc/init': open() failed: No such file or directory
+[1016264.528933] init: processing action (fs) from (/system/etc/init/logd.rc:27)
+[1016264.528984] init: processing action (fs) from (/system/etc/init/wifi-events.rc:17)
+[1016264.529005] init: processing action (post-fs) from (/init.rc:353)
+[1016264.529035] init: starting service 'exec 3 (/system/bin/vdc checkpoint markBootAttempt)'...
+[1016264.529564] init: SVC_EXEC service 'exec 3 (/system/bin/vdc checkpoint markBootAttempt)' pid 38 (uid 1000 gid 1000+0 context default) started; waiting...
+[1016264.530454] init: Untracked pid 35 exited with status 0
+[1016264.545182] init: Service 'exec 3 (/system/bin/vdc checkpoint markBootAttempt)' (pid 38) exited with status 0 waiting took 0.015000 seconds
+[1016264.545214] init: Sending signal 9 to service 'exec 3 (/system/bin/vdc checkpoint markBootAttempt)' (pid 38) process group...
+[1016264.545331] libprocessgroup: Successfully killed process cgroup uid 1000 pid 38 in 0ms
+[1016264.549611] init: processing action (post-fs) from (/vendor/etc/init/hw/init.rk30board.rc:9)
+[1016264.549882] init: processing action (post-fs) from (/vendor/etc/init/hw/init.rockchip.rc:40)
+[1016264.551222] init: processing action (post-fs) from (/system/etc/init/gsid.rc:6)
+[1016264.551568] init: processing action (late-fs) from (/init.rc:410)
+[1016264.551736] init: starting service 'vendor.keymaster-3-0'...
+[1016264.553799] init: processing action (late-fs) from (/vendor/etc/init/hw/init.mount_all.rc:6)
+[1016264.554105] init: Command 'start hwcomposer-2-1' action=late-fs (/vendor/etc/init/hw/init.mount_all.rc:9) took 0ms and failed: service hwcomposer-2-1 not found
+[1016264.554236] init: Command 'start gralloc-2-0' action=late-fs (/vendor/etc/init/hw/init.mount_all.rc:10) took 0ms and failed: service gralloc-2-0 not found
+[1016264.554412] init: starting service 'surfaceflinger'...
+[1016264.556957] init: Failed to bind socket 'pdx/system/vr/display/client': No such file or directory
+[1016264.557046] init: Failed to bind socket 'pdx/system/vr/display/manager': No such file or directory
+[1016264.557103] init: Failed to bind socket 'pdx/system/vr/display/vsync': No such file or directory
+[1016264.559106] init: starting service 'bootanim'...
+[1016264.568090] init: processing action (post-fs-data) from (/init.rc:418)
+[1016264.568134] init: starting service 'exec 4 (/system/bin/vdc checkpoint prepareCheckpoint)'...
+[1016264.568976] init: SVC_EXEC service 'exec 4 (/system/bin/vdc checkpoint prepareCheckpoint)' pid 46 (uid 1000 gid 1000+0 context default) started; waiting...
+[1016264.576036] init: Service 'exec 4 (/system/bin/vdc checkpoint prepareCheckpoint)' (pid 46) exited with status 0 waiting took 0.007000 seconds
+[1016264.576048] init: Sending signal 9 to service 'exec 4 (/system/bin/vdc checkpoint prepareCheckpoint)' (pid 46) process group...
+[1016264.576098] libprocessgroup: Successfully killed process cgroup uid 1000 pid 46 in 0ms
+[1016264.576292] init: starting service 'exec 5 (/system/bin/fsverity_init)'...
+[1016264.576985] init: SVC_EXEC service 'exec 5 (/system/bin/fsverity_init)' pid 47 (uid 0 gid 0+0 context default) started; waiting...
+[1016264.597207] init: Service 'exec 5 (/system/bin/fsverity_init)' (pid 47) exited with status 0 waiting took 0.020000 seconds
+[1016264.597220] init: Sending signal 9 to service 'exec 5 (/system/bin/fsverity_init)' (pid 47) process group...
+[1016264.597271] libprocessgroup: Successfully killed process cgroup uid 0 pid 47 in 0ms
+[1016264.597369] init: Switched to default mount namespace
+[1016264.597485] init: starting service 'apexd'...
+[1016264.608106] apexd: Marking APEXd as starting
+[1016264.608219] apexd: Scanning /system/apex for embedded keys
+[1016264.608613] apexd: Scanning /product/apex for embedded keys
+[1016264.608624] apexd: ... does not exist. Skipping
+[1016264.608631] apexd: Populating APEX database from mounts...
+[1016264.608690] apexd: Failed to walk /product/apex : Can't open /product/apex for reading : No such file or directory
+[1016264.608893] apexd: Found "/apex/com.android.runtime@1"
+[1016264.608938] apexd: Found "/apex/com.android.tzdata@299900000"
+[1016264.608965] apexd: 2 packages restored.
+[1016264.608978] apexd: Scanning /data/apex/sessions looking for sessions to be activated.
+[1016264.609011] apexd: Scanning /data/apex/active looking for APEX packages.
+[1016264.609097] apexd: Activated 0 packages. Skipped: 0
+[1016264.609104] apexd: Scanning /system/apex looking for APEX packages.
+[1016264.609179] apexd: Found /system/apex/com.android.media
+[1016264.609217] apexd: Creating mount point: /apex/com.android.media@290000000
+[1016264.609261] apexd: Successfully bind-mounted flattened package /system/apex/com.android.media on /apex/com.android.media@290000000
+[1016264.609271] apexd: Creating bind-mount for /apex/com.android.media for /apex/com.android.media@290000000
+[1016264.609279] apexd: Creating mountpoint /apex/com.android.media
+[1016264.609287] apexd: Bind-mounting /apex/com.android.media@290000000 to /apex/com.android.media
+[1016264.609334] apexd: Successfully activated /system/apex/com.android.media package_name: com.android.media version: 290000000
+[1016264.609339] apexd: Found /system/apex/com.android.conscrypt
+[1016264.609381] apexd: Creating mount point: /apex/com.android.conscrypt@299900000
+[1016264.609406] apexd: Successfully bind-mounted flattened package /system/apex/com.android.conscrypt on /apex/com.android.conscrypt@299900000
+[1016264.609416] apexd: Creating bind-mount for /apex/com.android.conscrypt for /apex/com.android.conscrypt@299900000
+[1016264.609424] apexd: Creating mountpoint /apex/com.android.conscrypt
+[1016264.609433] apexd: Bind-mounting /apex/com.android.conscrypt@299900000 to /apex/com.android.conscrypt
+[1016264.609443] apexd: Successfully activated /system/apex/com.android.conscrypt package_name: com.android.conscrypt version: 299900000
+[1016264.609448] apexd: Found /system/apex/com.android.runtime.release
+[1016264.609487] apexd: Skipping activation of /system/apex/com.android.runtime.release same package with higher version 1 is already active
+[1016264.609494] apexd: Found /system/apex/com.android.tzdata
+[1016264.609526] apexd: Skipping activation of /system/apex/com.android.tzdata same package with higher version 299900000 is already active
+[1016264.609532] apexd: Found /system/apex/com.android.media.swcodec
+[1016264.609568] apexd: Creating mount point: /apex/com.android.media.swcodec@290000000
+[1016264.609600] apexd: Successfully bind-mounted flattened package /system/apex/com.android.media.swcodec on /apex/com.android.media.swcodec@290000000
+[1016264.609610] apexd: Creating bind-mount for /apex/com.android.media.swcodec for /apex/com.android.media.swcodec@290000000
+[1016264.609618] apexd: Creating mountpoint /apex/com.android.media.swcodec
+[1016264.609626] apexd: Bind-mounting /apex/com.android.media.swcodec@290000000 to /apex/com.android.media.swcodec
+[1016264.609637] apexd: Successfully activated /system/apex/com.android.media.swcodec package_name: com.android.media.swcodec version: 290000000
+[1016264.609641] apexd: Found /system/apex/com.android.resolv
+[1016264.609677] apexd: Creating mount point: /apex/com.android.resolv@290000000
+[1016264.609701] apexd: Successfully bind-mounted flattened package /system/apex/com.android.resolv on /apex/com.android.resolv@290000000
+[1016264.609709] apexd: Creating bind-mount for /apex/com.android.resolv for /apex/com.android.resolv@290000000
+[1016264.609717] apexd: Creating mountpoint /apex/com.android.resolv
+[1016264.609726] apexd: Bind-mounting /apex/com.android.resolv@290000000 to /apex/com.android.resolv
+[1016264.609736] apexd: Successfully activated /system/apex/com.android.resolv package_name: com.android.resolv version: 290000000
+[1016264.609742] apexd: Activated 4 packages. Skipped: 2
+[1016264.609749] apexd: Scanning /product/apex looking for APEX packages.
+[1016264.609762] apexd: Failed to activate packages from /product/apex : Failed to scan /product/apex : Can't open /product/apex for reading : No such file or directory
+[1016264.609913] apexd: Marking APEXd as ready
+[1016264.610330] init: Wait for property 'apexd.status=ready' took 10ms
+[1016264.610489] init: Parsing file /apex/com.android.media.swcodec@290000000/etc/init.rc...
+[1016264.610560] init: starting service 'exec 6 (/system/bin/vdc --wait cryptfs init_user0)'...
+[1016264.611261] init: SVC_EXEC service 'exec 6 (/system/bin/vdc --wait cryptfs init_user0)' pid 53 (uid 0 gid 0+0 context default) started; waiting...
+[1016264.619513] vdc: Waited 0ms for vold
+[1016264.635389] init: Service 'exec 6 (/system/bin/vdc --wait cryptfs init_user0)' (pid 53) exited with status 0 waiting took 0.024000 seconds
+[1016264.635404] init: Sending signal 9 to service 'exec 6 (/system/bin/vdc --wait cryptfs init_user0)' (pid 53) process group...
+[1016264.635458] libprocessgroup: Successfully killed process cgroup uid 0 pid 53 in 0ms
+[1016264.635600] init: starting service 'exec 7 (/system/bin/tzdatacheck /apex/com.android.runtime/etc/tz /data/misc/zoneinfo)'...
+[1016264.636362] init: SVC_EXEC service 'exec 7 (/system/bin/tzdatacheck /apex/com.android.runtime/etc/tz /data/misc/zoneinfo)' pid 58 (uid 1000 gid 1000+0 context default) started; waiting...
+[1016264.647806] init: Service 'exec 7 (/system/bin/tzdatacheck /apex/com.android.runtime/etc/tz /data/misc/zoneinfo)' (pid 58) exited with status 0 waiting took 0.011000 seconds
+[1016264.647820] init: Sending signal 9 to service 'exec 7 (/system/bin/tzdatacheck /apex/com.android.runtime/etc/tz /data/misc/zoneinfo)' (pid 58) process group...
+[1016264.647871] libprocessgroup: Successfully killed process cgroup uid 1000 pid 58 in 0ms
+[1016264.648002] init: processing action (post-fs-data) from (/init.usb.rc:6)
+[1016264.648103] init: processing action (post-fs-data) from (/vendor/etc/init/hw/init.rk30board.rc:12)
+[1016264.648506] init: processing action (post-fs-data) from (/vendor/etc/init/hw/init.rockchip.rc:47)
+[1016264.648548] init: processing action (post-fs-data) from (/system/etc/init/art_apex_boot_integrity.rc:19)
+[1016264.648588] init: starting service 'exec 8 (/system/bin/art_apex_boot_integrity)'...
+[1016264.649356] init: SVC_EXEC service 'exec 8 (/system/bin/art_apex_boot_integrity)' pid 64 (uid 0 gid 0+0 context default) started; waiting...
+[1016264.654126] init: Received control message 'interface_start' for 'android.hardware.graphics.composer@2.1::IComposer/default' from pid: 28 (/system/bin/hwservicemanager)
+[1016264.654139] init: Could not find 'android.hardware.graphics.composer@2.1::IComposer/default' for ctl.interface_start
+[1016264.654296] init: Received control message 'interface_start' for 'android.hardware.graphics.composer@2.1::IComposer/default' from pid: 28 (/system/bin/hwservicemanager)
+[1016264.654303] init: Could not find 'android.hardware.graphics.composer@2.1::IComposer/default' for ctl.interface_start
+[1016264.702391] init: Service 'exec 8 (/system/bin/art_apex_boot_integrity)' (pid 64) exited with status 0 waiting took 0.053000 seconds
+[1016264.702406] init: Sending signal 9 to service 'exec 8 (/system/bin/art_apex_boot_integrity)' (pid 64) process group...
+[1016264.702462] libprocessgroup: Successfully killed process cgroup uid 0 pid 64 in 0ms
+[1016264.702537] init: processing action (post-fs-data) from (/system/etc/init/bootstat.rc:9)
+[1016264.702738] init: processing action (post-fs-data) from (/system/etc/init/gsid.rc:10)
+[1016264.702773] init: processing action (post-fs-data) from (/system/etc/init/incidentd.rc:21)
+[1016264.702791] init: processing action (post-fs-data) from (/system/etc/init/iorapd.rc:27)
+[1016264.702808] init: processing action (post-fs-data) from (/system/etc/init/perfetto.rc:67)
+[1016264.702817] init: processing action (post-fs-data) from (/system/etc/init/recovery-persist.rc:1)
+[1016264.702866] init: starting service 'exec 9 (/system/bin/recovery-persist)'...
+[1016264.703590] init: processing action (post-fs-data) from (/system/etc/init/statsd.rc:25)
+[1016264.703684] init: processing action (post-fs-data) from (/vendor/etc/init/hostapd.android.rc:9)
+[1016264.703907] init: processing action (post-fs-data) from (/vendor/etc/init/init.redroid.rc:73)
+[1016264.704002] init: starting service 'exec 10 (/vendor/bin/ipconfigstore)'...
+[1016264.704686] init: SVC_EXEC service 'exec 10 (/vendor/bin/ipconfigstore)' pid 74 (uid 1000 gid 1000+0 context default) started; waiting...
+[1016264.709039] init: Service 'exec 9 (/system/bin/recovery-persist)' (pid 73) exited with status 0
+[1016264.709048] init: Sending signal 9 to service 'exec 9 (/system/bin/recovery-persist)' (pid 73) process group...
+[1016264.709094] libprocessgroup: Successfully killed process cgroup uid 1000 pid 73 in 0ms
+[1016264.716295] init: Service 'exec 10 (/vendor/bin/ipconfigstore)' (pid 74) exited with status 0 waiting took 0.011000 seconds
+[1016264.716303] init: Sending signal 9 to service 'exec 10 (/vendor/bin/ipconfigstore)' (pid 74) process group...
+[1016264.716342] libprocessgroup: Successfully killed process cgroup uid 1000 pid 74 in 0ms
+[1016264.716478] init: processing action (load_persist_props_action) from (/init.rc:306)
+[1016264.716685] init: starting service 'logd-reinit'...
+[1016264.717340] init: processing action (load_persist_props_action) from (/system/etc/init/flags_health_check.rc:1)
+[1016264.717424] init: starting service 'exec 11 (/system/bin/flags_health_check BOOT_FAILURE)'...
+[1016264.718045] init: SVC_EXEC service 'exec 11 (/system/bin/flags_health_check BOOT_FAILURE)' pid 76 (uid 1000 gid 1000+0 context default) started; waiting...
+[1016264.723297] init: Service 'exec 11 (/system/bin/flags_health_check BOOT_FAILURE)' (pid 76) exited with status 0 waiting took 0.005000 seconds
+[1016264.723309] init: Sending signal 9 to service 'exec 11 (/system/bin/flags_health_check BOOT_FAILURE)' (pid 76) process group...
+[1016264.723356] libprocessgroup: Successfully killed process cgroup uid 1000 pid 76 in 0ms
+[1016264.723438] init: processing action (load_persist_props_action) from (/system/etc/init/logcatd.rc:31)
+[1016264.723479] init: processing action (ro.crypto.state=unsupported && zygote-start) from (/init.rc:637)
+[1016264.723490] init: Command 'exec_start update_verifier_nonencrypted' action=ro.crypto.state=unsupported && zygote-start (/init.rc:639) took 0ms and failed: Service not found
+[1016264.723518] init: starting service 'netd'...
+[1016264.724163] init: starting service 'zygote'...
+[1016264.724796] init: starting service 'zygote_secondary'...
+[1016264.725467] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016264.725482] init: processing action (zygote-start) from (/vendor/etc/init/hw/init.connectivity.rc:2)
+[1016264.725511] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016264.725515] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016264.725622] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016264.725672] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016264.725715] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016264.725720] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016264.726675] init: processing action (zygote-start) from (/system/etc/init/bootstat.rc:72)
+[1016264.726734] init: starting service 'exec 12 (/system/bin/bootstat --set_system_boot_reason)'...
+[1016264.727351] init: processing action (firmware_mounts_complete) from (/init.rc:312)
+[1016264.727372] init: processing action (early-boot) from (/system/etc/init/installd.rc:5)
+[1016264.727711] init: processing action (boot) from (/init.rc:651)
+[1016264.727928] init: property 'dev.mnt.blk.data' doesn't exist while expanding '/sys/fs/f2fs/${dev.mnt.blk.data}/cp_interval'
+[1016264.727942] init: Command 'write /sys/fs/f2fs/${dev.mnt.blk.data}/cp_interval 200' action=boot (/init.rc:684) took 0ms and failed: cannot expand '/sys/fs/f2fs/${dev.mnt.blk.data}/cp_interval'
+[1016264.727951] init: property 'dev.mnt.blk.data' doesn't exist while expanding '/sys/fs/f2fs/${dev.mnt.blk.data}/gc_urgent_sleep_time'
+[1016264.727960] init: Command 'write /sys/fs/f2fs/${dev.mnt.blk.data}/gc_urgent_sleep_time 50' action=boot (/init.rc:685) took 0ms and failed: cannot expand '/sys/fs/f2fs/${dev.mnt.blk.data}/gc_urgent_sleep_time'
+[1016264.727968] init: property 'dev.mnt.blk.data' doesn't exist while expanding '/sys/devices/virtual/block/${dev.mnt.blk.data}/queue/discard_max_bytes'
+[1016264.727979] init: Command 'write /sys/devices/virtual/block/${dev.mnt.blk.data}/queue/discard_max_bytes 134217728' action=boot (/init.rc:690) took 0ms and failed: cannot expand '/sys/devices/virtual/block/${dev.mnt.blk.data}/queue/discard_max_bytes'
+[1016264.728392] init: starting service 'hidl_memory'...
+[1016264.729114] init: starting service 'system_suspend'...
+[1016264.729797] init: starting service 'vendor.audio-hal-2-0'...
+[1016264.730482] init: starting service 'vendor.cas-hal-1-1'...
+[1016264.731199] init: starting service 'vendor.drm-hal-1-0'...
+[1016264.731847] init: starting service 'vendor.drm-clearkey-hal-1-2'...
+[1016264.731944] logd.daemon: reinit
+[1016264.732620] init: starting service 'vendor.gnss_service'...
+[1016264.733210] init: starting service 'vendor.gralloc-3-0'...
+[1016264.741216] init: starting service 'vendor.hwcomposer-2-1'...
+[1016264.742075] init: starting service 'health-hal-2-0'...
+[1016264.742867] init: starting service 'vendor.light-hal-2-0'...
+[1016264.743641] init: starting service 'vendor.power-hal-1-0'...
+[1016264.744270] init: starting service 'vendor.radio-config-hal-1-0'...
+[1016264.744900] init: starting service 'vendor.sensors-hal-1-0'...
+[1016264.749006] init: Opened file '/dev/kmsg', flags 1
+[1016264.749084] init: starting service 'vendor.wifi_hal_legacy'...
+[1016264.749938] init: starting service 'vendor.outputmanager-1-0'...
+[1016264.750769] init: starting service 'vendor.rockit-hal-1-0'...
+[1016264.751515] init: Service 'logd-reinit' (pid 75) exited with status 0
+[1016264.751527] init: Sending signal 9 to service 'logd-reinit' (pid 75) process group...
+[1016264.751574] libprocessgroup: Successfully killed process cgroup uid 1036 pid 75 in 0ms
+[1016264.751696] init: Could not start service 'displayd' as part of class 'core': Cannot find '/system/bin/displayd': No such file or directory
+[1016264.751722] init: starting service 'ashmemd'...
+[1016264.752603] init: starting service 'audioserver'...
+[1016264.753332] init: starting service 'gpu'...
+[1016264.754012] init: starting service 'lmkd'...
+[1016264.754787] init: processing action (boot) from (/init.usb.rc:21)
+[1016264.754811] init: processing action (persist.sys.usb.config=* && boot) from (/init.usb.rc:102)
+[1016264.754824] init: processing action (boot) from (/vendor/etc/init/hw/init.rk30board.rc:42)
+[1016264.756293] init: Created socket '/dev/socket/lmkd', mode 660, user 1000, group 1000
+[1016264.768751] init: Service 'exec 12 (/system/bin/bootstat --set_system_boot_reason)' (pid 80) exited with status 0
+[1016264.768766] init: Sending signal 9 to service 'exec 12 (/system/bin/bootstat --set_system_boot_reason)' (pid 80) process group...
+[1016264.768818] libprocessgroup: Successfully killed process cgroup uid 1000 pid 80 in 0ms
+[1016264.771447] init: processing action (boot) from (/vendor/etc/init/hw/init.rockchip.rc:54)
+[1016264.771491] init: processing action (boot) from (/vendor/etc/init/hw/init.rk3588.rc:47)
+[1016264.771678] init: Command 'write /dev/cpuset/foreground/cpuset.cpus 0-7' action=boot (/vendor/etc/init/hw/init.rk3588.rc:52) took 0ms and failed: Unable to write to file '/dev/cpuset/foreground/cpuset.cpus': Unable to write file contents: Permission denied
+[1016264.771739] init: Command 'write /dev/cpuset/background/cpuset.cpus 0-7' action=boot (/vendor/etc/init/hw/init.rk3588.rc:54) took 0ms and failed: Unable to write to file '/dev/cpuset/background/cpuset.cpus': Unable to write file contents: Permission denied
+[1016264.771773] init: Command 'write /dev/cpuset/system-background/cpuset.cpus 0-7' action=boot (/vendor/etc/init/hw/init.rk3588.rc:55) took 0ms and failed: Unable to write to file '/dev/cpuset/system-background/cpuset.cpus': Unable to write file contents: Permission denied
+[1016264.771857] init: Command 'write /dev/cpuset/top-app/cpuset.cpus 0-7' action=boot (/vendor/etc/init/hw/init.rk3588.rc:56) took 0ms and failed: Unable to write to file '/dev/cpuset/top-app/cpuset.cpus': Unable to write file contents: Permission denied
+[1016264.771902] init: Command 'write /sys/kernel/debug/sched_features NO_ENERGY_AWARE' action=boot (/vendor/etc/init/hw/init.rk3588.rc:59) took 0ms and failed: Unable to write to file '/sys/kernel/debug/sched_features': Unable to write file contents: Invalid argument
+[1016264.772112] init: processing action (boot) from (/system/etc/init/bootstat.rc:63)
+[1016264.772138] init: processing action (boot) from (/system/etc/init/dumpstate.rc:1)
+[1016264.772170] init: processing action (boot) from (/system/etc/init/gsid.rc:14)
+[1016264.772203] init: starting service 'exec 13 (/system/bin/gsid run-startup-tasks)'...
+[1016264.773078] init: processing action (boot) from (/system/etc/init/s9.boot.rc:1)
+[1016264.773110] init: starting service 'exec 14 (/system/bin/sh -c /system/bin/script.sh false)'...
+[1016264.773841] init: SVC_EXEC service 'exec 14 (/system/bin/sh -c /system/bin/script.sh false)' pid 107 (uid 0 gid 0+0 context root) started; waiting...
+[1016264.792122] init: Service 'exec 13 (/system/bin/gsid run-startup-tasks)' (pid 106) exited with status 0
+[1016264.792137] init: Sending signal 9 to service 'exec 13 (/system/bin/gsid run-startup-tasks)' (pid 106) process group...
+[1016264.792192] libprocessgroup: Successfully killed process cgroup uid 0 pid 106 in 0ms
+[1016264.844969] healthd: No battery devices found
+[1016264.845663] healthd: battery none chg=
+[1016264.975916] init: Service 'exec 14 (/system/bin/sh -c /system/bin/script.sh false)' (pid 107) exited with status 1 waiting took 0.202000 seconds
+[1016264.975933] init: Sending signal 9 to service 'exec 14 (/system/bin/sh -c /system/bin/script.sh false)' (pid 107) process group...
+[1016264.975993] libprocessgroup: Successfully killed process cgroup uid 0 pid 107 in 0ms
+[1016264.976085] init: processing action (enable_property_trigger) from (<Builtin Action>:0)
+[1016264.976183] init: processing action (security.perf_harden=1) from (/init.rc:828)
+[1016264.976221] init: processing action (sys.usb.config=none && sys.usb.configfs=0) from (/init.usb.rc:25)
+[1016264.976276] init: processing action (ro.iorapd.enable=false) from (/system/etc/init/iorapd.rc:24)
+[1016264.976293] init: processing action (logd.logpersistd=logcatd && logd.logpersistd.enable=true) from (/system/etc/init/logcatd.rc:34)
+[1016264.976370] init: starting service 'logcatd'...
+[1016264.977245] init: processing action (nonencrypted) from (/init.rc:766)
+[1016264.977279] init: Could not start service 'flash_recovery' as part of class 'main': Cannot find '/system/bin/install-recovery.sh': No such file or directory
+[1016264.977291] init: Could not start service 'bplus_helper' as part of class 'main': Cannot find '/system/bin/bplus_helper': No such file or directory
+[1016264.977313] init: starting service 'up_eth0'...
+[1016264.978145] init: Could not start service 'rk_store_keybox' as part of class 'main': Cannot find '/vendor/bin/rk_store_keybox': No such file or directory
+[1016264.978182] init: starting service 'bpfloader'...
+[1016264.978959] init: starting service 'cameraserver'...
+[1016264.979750] init: starting service 'drm'...
+[1016264.980460] init: starting service 'idmap2d'...
+[1016264.981140] init: starting service 'incidentd'...
+[1016264.981868] init: starting service 's9su'...
+[1016264.982166] init: couldn't write 181 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016264.982596] init: starting service 'script_guard'...
+[1016264.983356] init: starting service 'daemonssh'...
+[1016264.984046] init: starting service 'installd'...
+[1016264.984730] init: starting service 'keystore'...
+[1016264.995844] init: starting service 'mediadrm'...
+[1016264.996690] init: starting service 'mediaextractor'...
+[1016264.997487] init: starting service 'mediametrics'...
+[1016264.998189] init: starting service 'media'...
+[1016265.015738] init: starting service 'statsd'...
+[1016265.016566] init: starting service 'storaged'...
+[1016265.017344] init: starting service 'wificond'...
+[1016265.018097] init: starting service 'vendor.media.omx'...
+[1016265.018666] init: Created socket '/dev/socket/statsdw', mode 222, user 1066, group 1066
+[1016265.018867] init: Failed to open file '/d/mmc0/mmc0:0001/ext_csd': No such file or directory
+[1016265.025733] init: starting service 'rockchip.drmservice'...
+[1016265.026577] init: starting service 'vendor.ril-daemon'...
+[1016265.027471] init: starting service 'media.swcodec'...
+[1016265.028299] init: Command 'class_start main' action=nonencrypted (/init.rc:767) took 51ms and succeeded
+[1016265.028409] init: starting service 'gatekeeperd'...
+[1016265.036283] init: starting service 'tombstoned'...
+[1016265.037124] init: starting service 'usbd'...
+[1016265.037802] init: Service 'up_eth0' (pid 179) exited with status 0
+[1016265.037814] init: Sending signal 9 to service 'up_eth0' (pid 179) process group...
+[1016265.037880] libprocessgroup: Successfully killed process cgroup uid 0 pid 179 in 0ms
+[1016265.037961] init: processing action (nonencrypted) from (/init.rc:766)
+[1016265.038942] init: Created socket '/dev/socket/tombstoned_crash', mode 666, user 1000, group 1000
+[1016265.038983] init: Created socket '/dev/socket/tombstoned_intercept', mode 666, user 1000, group 1000
+[1016265.039009] init: Created socket '/dev/socket/tombstoned_java_trace', mode 666, user 1000, group 1000
+[1016265.039654] init: processing action (init.svc.adbd=stopped) from (/vendor/etc/init/hw/init.rk30board.usb.rc:97)
+[1016265.048626] init: Service 'bpfloader' (pid 180) exited with status 0
+[1016265.048641] init: Sending signal 9 to service 'bpfloader' (pid 180) process group...
+[1016265.048697] libprocessgroup: Successfully killed process cgroup uid 0 pid 180 in 0ms
+[1016265.048835] init: processing action (init.svc.adbd=stopped) from (/init.usb.configfs.rc:14)
+[1016265.108624] init: Service 'usbd' (pid 210) exited with status 0
+[1016265.108641] init: Sending signal 9 to service 'usbd' (pid 210) process group...
+[1016265.108699] libprocessgroup: Successfully killed process cgroup uid 0 pid 210 in 0ms
+[1016265.186021] init: processing action (vendor.serialno=*) from (/vendor/etc/init/hw/init.rk30board.rc:273)
+[1016265.186109] init: property 'vendor.serialno' doesn't exist while expanding '${vendor.serialno}'
+[1016265.186641] init: Command 'setprop ro.serialno ${vendor.serialno}' action=vendor.serialno=* (/vendor/etc/init/hw/init.rk30board.rc:274) took 0ms and failed: cannot expand '${vendor.serialno}'
+[1016265.186675] init: Service 'rockchip.drmservice' (pid 205) exited with status 0
+[1016265.186681] init: Sending signal 9 to service 'rockchip.drmservice' (pid 205) process group...
+[1016265.186731] libprocessgroup: Successfully killed process cgroup uid 0 pid 205 in 0ms
+[1016265.186970] init: starting service 'adbd'...
+[1016265.188999] init: Created socket '/dev/socket/adbd', mode 660, user 1000, group 1000
+[1016265.222277] init: Received control message 'start' for 'mdnsd' from pid: 262 (/system/bin/adbd --root_seclabel=u:r:su:s0)
+[1016265.222326] init: starting service 'mdnsd'...
+[1016265.228428] init: Created socket '/dev/socket/mdnsd', mode 660, user 1020, group 3003
+[1016265.405902] init: Received control message 'start' for 'bootanim' from pid: 43 (/system/bin/surfaceflinger)
+[1016265.467317] logd: logdr: UID=1036 GID=1007 PID=178 b tail=0 logMask=ff pid=0 start=1721984395450370000ns timeout=0ns
+[1016266.220944] init: Received control message 'start' for 'idmap2d' from pid: 284 (system_server)
+[1016266.240534] healthd: battery none chg=
+[1016266.240592] healthd: battery none chg=
+[1016266.251002] healthd: battery none chg=
+[1016266.297124] init: processing action (sys.sysctl.extra_free_kbytes=*) from (/init.rc:815)
+[1016267.681407] sysctl (53959): drop_caches: 3
+[1016269.355456] sysrq: Show Blocked State
+[1016269.355521] task:kconsole        state:D stack:    0 pid:  113 ppid:     2 flags:0x00000008
+[1016269.355531] Call trace:
+[1016269.355542]  __switch_to+0xe4/0x140
+[1016269.355549]  __schedule+0x328/0x890
+[1016269.355554]  schedule+0x4c/0xd0
+[1016269.355560]  schedule_hrtimeout_range_clock+0x98/0x134
+[1016269.355566]  schedule_hrtimeout_range+0x18/0x20
+[1016269.355571]  usleep_range+0x7c/0xb0
+[1016269.355578]  console_thread+0x254/0x310
+[1016269.355584]  kthread+0x128/0x130
+[1016269.355590]  ret_from_fork+0x10/0x20
+[1016269.357310] sysrq: Show backtrace of all active CPUs
+[1016269.357318] sysrq: CPU3:
+[1016269.357322] Call trace:
+[1016269.357330]  dump_backtrace+0x0/0x1f0
+[1016269.357336]  show_stack+0x1c/0x24
+[1016269.357342]  sysrq_handle_showallcpus+0x78/0xa0
+[1016269.357350]  __handle_sysrq+0x8c/0x194
+[1016269.357355]  write_sysrq_trigger+0x94/0xd0
+[1016269.357362]  proc_reg_write+0xa8/0x100
+[1016269.357369]  vfs_write+0xf0/0x2cc
+[1016269.357374]  ksys_write+0x6c/0xf4
+[1016269.357380]  __arm64_sys_write+0x20/0x2c
+[1016269.357386]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016269.357391]  do_el0_svc+0x28/0xa0
+[1016269.357398]  el0_svc+0x1c/0x2c
+[1016269.357403]  el0_sync_handler+0xa8/0xac
+[1016269.357408]  el0_sync+0x158/0x180
+[1016269.357432] sysrq: CPU4: backtrace skipped as idling
+[1016269.357434] sysrq: CPU6: backtrace skipped as idling
+[1016269.357435] sysrq: CPU7: backtrace skipped as idling
+[1016269.357436] sysrq: CPU5: backtrace skipped as idling
+[1016269.357439] sysrq: CPU0: backtrace skipped as idling
+[1016269.357443] sysrq: CPU2: backtrace skipped as idling
+[1016269.357445] sysrq: CPU1: backtrace skipped as idling
+[1016269.491889] binder: release 49199:49199 transaction -1440514537 out, still active
+[1016269.491900] binder: undelivered TRANSACTION_COMPLETE
+[1016269.502199] init: Service 'zygote' (pid 21515) received signal 9
+[1016269.502220] init: Sending signal 9 to service 'zygote' (pid 21515) process group...
+[1016269.502284] libprocessgroup: Successfully killed process cgroup uid 0 pid 21515 in 0ms
+[1016269.502372] init: Sending signal 9 to service 'audioserver' (pid 21517) process group...
+[1016269.512733] libprocessgroup: Successfully killed process cgroup uid 1041 pid 21517 in 10ms
+[1016269.512917] init: Sending signal 9 to service 'cameraserver' (pid 21518) process group...
+[1016269.518218] libprocessgroup: Successfully killed process cgroup uid 1047 pid 21518 in 5ms
+[1016269.518506] init: Sending signal 9 to service 'media' (pid 21519) process group...
+[1016269.523787] libprocessgroup: Successfully killed process cgroup uid 1013 pid 21519 in 5ms
+[1016269.523943] init: Sending signal 9 to service 'netd' (pid 21520) process group...
+[1016269.529322] libprocessgroup: Successfully killed process cgroup uid 0 pid 21520 in 5ms
+[1016269.529490] init: Sending signal 9 to service 'wificond' (pid 21521) process group...
+[1016269.534726] libprocessgroup: Successfully killed process cgroup uid 1010 pid 21521 in 5ms
+[1016269.534914] init: Service 'audioserver' (pid 21517) received signal 9
+[1016269.534938] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 21522) process group...
+[1016269.540229] libprocessgroup: Successfully killed process cgroup uid 1041 pid 21522 in 5ms
+[1016269.540440] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016269.540466] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016269.540536] init: Service 'cameraserver' (pid 21518) received signal 9
+[1016269.540581] init: Service 'media' (pid 21519) received signal 9
+[1016269.540605] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 21523) process group...
+[1016269.545938] libprocessgroup: Successfully killed process cgroup uid 1013 pid 21523 in 5ms
+[1016269.546009] init: Service 'netd' (pid 21520) received signal 9
+[1016269.546035] init: Sending signal 9 to service 'zygote_secondary' (pid 21516) process group...
+[1016269.561436] libprocessgroup: Successfully killed process cgroup uid 0 pid 21516 in 15ms
+[1016269.561663] init: Service 'zygote_secondary' (pid 21516) received signal 9
+[1016269.561746] init: Service 'wificond' (pid 21521) received signal 9
+[1016269.561875] init: Service 'vendor.audio-hal-2-0' (pid 21522) received signal 9
+[1016269.561927] init: Service 'vendor.rockit-hal-1-0' (pid 21523) received signal 9
+[1016269.561971] init: Untracked pid 21532 received signal 9
+[1016269.562005] init: Untracked pid 21533 received signal 9
+[1016269.564495] init: starting service 'zygote'...
+[1016269.566102] init: starting service 'zygote_secondary'...
+[1016269.567404] init: starting service 'audioserver'...
+[1016269.568824] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016269.568920] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016269.569575] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016269.569724] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016269.570244] init: starting service 'cameraserver'...
+[1016269.571438] init: couldn't write 21965 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016269.571783] init: starting service 'media'...
+[1016269.573212] init: starting service 'netd'...
+[1016269.574491] init: starting service 'wificond'...
+[1016269.578622] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016269.578705] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016269.578730] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016269.581276] init: starting service 'vendor.audio-hal-2-0'...
+[1016269.582743] init: starting service 'vendor.rockit-hal-1-0'...
+[1016275.818403] mali fb000000.gpu: kbase KCPU fence signal timeout callback triggered
+[1016276.142032] mali fb000000.gpu: ------------------------------------------------
+[1016276.142056] mali fb000000.gpu: KCPU Fence signal timeout detected for ctx:44_2488
+[1016276.142062] mali fb000000.gpu: ------------------------------------------------
+[1016276.142068] mali fb000000.gpu: Kcpu queue:3 still waiting for fence[0000000000000000] context#seqno:4661774#1
+[1016276.142073] mali fb000000.gpu: Fence metadata timeline name: 0-44_2488-4661774-kcpu
+[1016276.142079] mali fb000000.gpu: CSF active groups status (version: v0):
+[1016276.142083] mali fb000000.gpu: Ctx 49_1935
+[1016276.142089] mali fb000000.gpu: GroupID, CSG NR, CSG Prio, Run State, Priority, C_EP(Alloc/Req), F_EP(Alloc/Req), T_EP(Alloc/Req), Exclusive, Idle
+[1016276.142095] mali fb000000.gpu:       0,      0,       14,         1,        1,           0/  4,           0/  4,           0/  4,         0,    N
+[1016276.142100] mali fb000000.gpu: Bound queues:
+[1016276.142106] mali fb000000.gpu: Bind Idx,     Ringbuf addr,     Size, Prio,    Insert offset,   Extract offset, Active, Doorbell
+[1016276.142111] mali fb000000.gpu:        0,       5ffff73000,    10000,    8,              100,              100,      1,        1
+[1016276.142116] mali fb000000.gpu: CMD_PTR: 0x5ffff73100
+[1016276.142121] mali fb000000.gpu: REQ_RESOURCE [COMPUTE]: 1
+[1016276.142126] mali fb000000.gpu: REQ_RESOURCE [FRAGMENT]: 0
+[1016276.142131] mali fb000000.gpu: REQ_RESOURCE [TILER]: 0
+[1016276.142135] mali fb000000.gpu: REQ_RESOURCE [IDVS]: 0
+[1016276.142140] mali fb000000.gpu: SB_MASK: 0
+[1016276.142145] mali fb000000.gpu: PROGRESS_WAIT: Not waiting
+[1016276.142149] mali fb000000.gpu: PROTM_PEND: Not waiting
+[1016276.142154] mali fb000000.gpu: SYNC_WAIT: Not waiting
+[1016276.142159] mali fb000000.gpu: WAIT_CONDITION: less or equal
+[1016276.142163] mali fb000000.gpu: SYNC_POINTER: 0x0
+[1016276.142168] mali fb000000.gpu: SYNC_VALUE: 0
+[1016276.142173] mali fb000000.gpu: SYNC_LIVE_VALUE: 0xffffffffffffffff
+[1016276.142177] mali fb000000.gpu: SB_STATUS: 0
+[1016276.142182] mali fb000000.gpu: BLOCKED_REASON: UNBLOCKED
+[1016276.142186] mali fb000000.gpu: NO CS_TRACE
+[1016276.142191] mali fb000000.gpu: CMD_PTR region nr_pages: 16
+[1016276.142196] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73000 cmd_ptr:0x0000005ffff73100 dump_begin:0x0000005ffff73000 dump_end:0x0000005ffff73200
+[1016276.142202] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73000 cmd:0x2200000000000001
+[1016276.142207] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73008 cmd:0x1700000000000002
+[1016276.142212] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73040 cmd:0x015a005ffff23000
+[1016276.142217] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73048 cmd:0x11505a0000000000
+[1016276.142222] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73050 cmd:0x024a000000000001
+[1016276.142228] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73058 cmd:0x2500504a00000005
+[1016276.142233] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73060 cmd:0x11505a0000000008
+[1016276.142238] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73068 cmd:0x024a000000000001
+[1016276.142243] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73070 cmd:0x2500504a00000005
+[1016276.142248] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73078 cmd:0x11505a0000000010
+[1016276.142253] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73080 cmd:0x024a000000000001
+[1016276.142258] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73088 cmd:0x2500504a00000005
+[1016276.142263] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff730c0 cmd:0x0300000000020000
+[1016276.142268] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff730c8 cmd:0x0148005fffffffb8
+[1016276.142273] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff730d0 cmd:0x024a000000000001
+[1016276.142278] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff730d8 cmd:0x2501484a00040001
+[1016276.142283] mali fb000000.gpu: Bind Idx,     Ringbuf addr,     Size, Prio,    Insert offset,   Extract offset, Active, Doorbell
+[1016276.142289] mali fb000000.gpu:        1,       5ffff60000,    10000,    8,              180,              140,      1,        1
+[1016276.142294] mali fb000000.gpu: CMD_PTR: 0x5ffff60140
+[1016276.142298] mali fb000000.gpu: REQ_RESOURCE [COMPUTE]: 1
+[1016276.142303] mali fb000000.gpu: REQ_RESOURCE [FRAGMENT]: 0
+[1016276.142308] mali fb000000.gpu: REQ_RESOURCE [TILER]: 0
+[1016276.142312] mali fb000000.gpu: REQ_RESOURCE [IDVS]: 0
+[1016276.142317] mali fb000000.gpu: SB_MASK: 0
+[1016276.142321] mali fb000000.gpu: PROGRESS_WAIT: Not waiting
+[1016276.142326] mali fb000000.gpu: PROTM_PEND: Not waiting
+[1016276.142331] mali fb000000.gpu: SYNC_WAIT: Not waiting
+[1016276.142335] mali fb000000.gpu: WAIT_CONDITION: less or equal
+[1016276.142340] mali fb000000.gpu: SYNC_POINTER: 0x5fffffff40
+[1016276.142345] mali fb000000.gpu: SYNC_VALUE: 0
+[1016276.142349] mali fb000000.gpu: SYNC_LIVE_VALUE: 0x0000000100000001
+[1016276.142354] mali fb000000.gpu: SB_STATUS: 0
+[1016276.142359] mali fb000000.gpu: BLOCKED_REASON: UNBLOCKED
+[1016276.142363] mali fb000000.gpu: NO CS_TRACE
+[1016276.142368] mali fb000000.gpu: CMD_PTR region nr_pages: 16
+[1016276.142373] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60040 cmd_ptr:0x0000005ffff60140 dump_begin:0x0000005ffff60040 dump_end:0x0000005ffff60240
+[1016276.142378] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60040 cmd:0x015a005ffff23000
+[1016276.142383] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60048 cmd:0x0148005fffffffc8
+[1016276.142388] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60050 cmd:0x024a000000000000
+[1016276.142394] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60058 cmd:0x2700484a10000000
+[1016276.142398] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60080 cmd:0x0148005fffffffb0
+[1016276.142403] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60088 cmd:0x024a000000000000
+[1016276.142408] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60090 cmd:0x2700484a10000000
+[1016276.142413] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff600c0 cmd:0x0148005fffffff78
+[1016276.142418] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff600c8 cmd:0x024a000000000000
+[1016276.142423] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff600d0 cmd:0x2700484a10000000
+[1016276.142428] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60100 cmd:0x0148005fffffff40
+[1016276.142433] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60108 cmd:0x024a000000000000
+[1016276.142438] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60110 cmd:0x2700484a10000000
+[1016276.142443] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60140 cmd:0x0300000000020000
+[1016276.142448] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60148 cmd:0x0148005fffffffb8
+[1016276.142453] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60150 cmd:0x024a000000000001
+[1016276.142459] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60158 cmd:0x2501484a00fd0001
+[1016276.142464] mali fb000000.gpu: Bind Idx,     Ringbuf addr,     Size, Prio,    Insert offset,   Extract offset, Active, Doorbell
+[1016276.142469] mali fb000000.gpu:        2,       5ffff4d000,    10000,    8,              280,              280,      1,        1
+[1016276.142474] mali fb000000.gpu: CMD_PTR: 0x5ffff4d280
+[1016276.142479] mali fb000000.gpu: REQ_RESOURCE [COMPUTE]: 1
+[1016276.142484] mali fb000000.gpu: REQ_RESOURCE [FRAGMENT]: 0
+[1016276.142488] mali fb000000.gpu: REQ_RESOURCE [TILER]: 1
+[1016276.142493] mali fb000000.gpu: REQ_RESOURCE [IDVS]: 1
+[1016276.142498] mali fb000000.gpu: SB_MASK: 0
+[1016276.142503] mali fb000000.gpu: PROGRESS_WAIT: Not waiting
+[1016276.142507] mali fb000000.gpu: PROTM_PEND: Not waiting
+[1016276.142512] mali fb000000.gpu: SYNC_WAIT: Not waiting
+[1016276.142516] mali fb000000.gpu: WAIT_CONDITION: less or equal
+[1016276.142521] mali fb000000.gpu: SYNC_POINTER: 0x5fffffff40
+[1016276.142526] mali fb000000.gpu: SYNC_VALUE: 0
+[1016276.142531] mali fb000000.gpu: SYNC_LIVE_VALUE: 0x0000000100000001
+[1016276.142535] mali fb000000.gpu: SB_STATUS: 0
+[1016276.142540] mali fb000000.gpu: BLOCKED_REASON: UNBLOCKED
+[1016276.142545] mali fb000000.gpu: NO CS_TRACE
+[1016276.142549] mali fb000000.gpu: CMD_PTR region nr_pages: 16
+[1016276.142555] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d180 cmd_ptr:0x0000005ffff4d280 dump_begin:0x0000005ffff4d180 dump_end:0x0000005ffff4d380
+[1016276.142560] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d180 cmd:0x0148005fee200040
+[1016276.142565] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d188 cmd:0x024a0000000000c8
+[1016276.142570] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d190 cmd:0x2000484a00000000
+[1016276.142575] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1c0 cmd:0x0148005fffffff40
+[1016276.142580] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1c8 cmd:0x024a000000000000
+[1016276.142585] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1d0 cmd:0x2700484a10000000
+[1016276.142590] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1d8 cmd:0x0140005ffff23100
+[1016276.142595] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1e0 cmd:0x2f00000000000000
+[1016276.142600] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1e8 cmd:0x025400000000007b
+[1016276.142605] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1f0 cmd:0x2400540000000233
+[1016276.142610] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1f8 cmd:0x0300000000ff0000
+[1016276.142615] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d200 cmd:0x0148005ff4600040
+[1016276.142620] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d208 cmd:0x024a0000000000c8
+[1016276.142624] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d210 cmd:0x2000484a00000000
+[1016276.142629] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d240 cmd:0x0300000000020000
+[1016276.142634] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d248 cmd:0x0148005fffffffb8
+[1016276.142639] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d250 cmd:0x024a000000000001
+[1016276.142644] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d258 cmd:0x2501484a00fd0001
+[1016276.142650] mali fb000000.gpu: Bind Idx,     Ringbuf addr,     Size, Prio,    Insert offset,   Extract offset, Active, Doorbell
+[1016276.142655] mali fb000000.gpu:        3,       5ffff3a000,    10000,    8,              240,              240,      1,        1
+[1016276.142660] mali fb000000.gpu: CMD_PTR: 0x5ffff3a240
+[1016276.142665] mali fb000000.gpu: REQ_RESOURCE [COMPUTE]: 0
+[1016276.142670] mali fb000000.gpu: REQ_RESOURCE [FRAGMENT]: 1
+[1016276.142675] mali fb000000.gpu: REQ_RESOURCE [TILER]: 0
+[1016276.142679] mali fb000000.gpu: REQ_RESOURCE [IDVS]: 0
+[1016276.142684] mali fb000000.gpu: SB_MASK: 0
+[1016276.142689] mali fb000000.gpu: PROGRESS_WAIT: Not waiting
+[1016276.142693] mali fb000000.gpu: PROTM_PEND: Not waiting
+[1016276.142698] mali fb000000.gpu: SYNC_WAIT: Not waiting
+[1016276.142703] mali fb000000.gpu: WAIT_CONDITION: less or equal
+[1016276.142707] mali fb000000.gpu: SYNC_POINTER: 0x5ffff23100
+[1016276.142712] mali fb000000.gpu: SYNC_VALUE: 0
+[1016276.142717] mali fb000000.gpu: SYNC_LIVE_VALUE: 0x0000000000000001
+[1016276.142721] mali fb000000.gpu: SB_STATUS: 0
+[1016276.142726] mali fb000000.gpu: BLOCKED_REASON: UNBLOCKED
+[1016276.142730] mali fb000000.gpu: NO CS_TRACE
+[1016276.142735] mali fb000000.gpu: CMD_PTR region nr_pages: 16
+[1016276.142741] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a140 cmd_ptr:0x0000005ffff3a240 dump_begin:0x0000005ffff3a140 dump_end:0x0000005ffff3a340
+[1016276.142746] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a140 cmd:0x0140005ffff230c0
+[1016276.142751] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a148 cmd:0x2f00000000000000
+[1016276.142756] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a150 cmd:0x025400000000007b
+[1016276.142761] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a158 cmd:0x2400540000000233
+[1016276.142767] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a160 cmd:0x0300000000010000
+[1016276.142772] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a168 cmd:0x0148005fed200040
+[1016276.142776] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a170 cmd:0x024a0000000000c8
+[1016276.142781] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a178 cmd:0x2000484a00000000
+[1016276.142786] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a180 cmd:0x024a000000000000
+[1016276.142792] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a188 cmd:0x24024a0000f80211
+[1016276.142797] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a190 cmd:0x0300000000020000
+[1016276.142802] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a198 cmd:0x0148005fffffff88
+[1016276.142807] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1a0 cmd:0x024a000000000001
+[1016276.142812] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1a8 cmd:0x2601484a00040001
+[1016276.142816] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1c0 cmd:0x0140005ffff23100
+[1016276.142821] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1c8 cmd:0x2f00000000000000
+[1016276.142826] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1d0 cmd:0x025400000000007b
+[1016276.142831] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1d8 cmd:0x2400540000000233
+[1016276.142836] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1e0 cmd:0x0300000000010000
+[1016276.142841] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1e8 cmd:0x0148005ff3600040
+[1016276.142846] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1f0 cmd:0x024a0000000000c8
+[1016276.142851] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1f8 cmd:0x2000484a00000000
+[1016276.142856] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a200 cmd:0x024a000000000000
+[1016276.142861] mali fb000000.gpu: CMD_PTR: 0x5ffff270c0
+[1016276.142866] mali fb000000.gpu: SB_MASK: 0
+[1016276.142870] mali fb000000.gpu: 
+[1016276.142885] mali fb000000.gpu: kbase KCPU[0000000000000000] cmd2 fence[0000000000000000] force signaled
+[1016276.142911] mali fb000000.gpu: ctx:44_2488 kcpu queue[0000000000000000]:3 signal fence[0000000000000000] context#seqno:4661774#1
+[1016276.142918] mali fb000000.gpu: kbase KCPU[0000000000000000] cmd5 fence[0000000000000000] force signaled
+[1016276.142925] mali fb000000.gpu: ctx:44_2488 kcpu queue[0000000000000000]:3 signal fence[0000000000000000] context#seqno:4661774#2
+[1016276.142931] mali fb000000.gpu: kbase KCPU [0000000000000000] delete fence signal timeout timer ret: 1
+[1016276.244832] init: Received control message 'stop' for 'idmap2d' from pid: 284 (system_server)
+[1016276.244866] init: Sending signal 9 to service 'idmap2d' (pid 183) process group...
+[1016276.250173] libprocessgroup: Successfully killed process cgroup uid 1000 pid 183 in 5ms
+[1016276.250369] init: Service 'idmap2d' (pid 183) received signal 9
+[1016286.271694] mali fb000000.gpu: kbase KCPU fence signal timeout callback triggered
+[1016286.595273] mali fb000000.gpu: ------------------------------------------------
+[1016286.595301] mali fb000000.gpu: KCPU Fence signal timeout detected for ctx:44_2488
+[1016286.595307] mali fb000000.gpu: ------------------------------------------------
+[1016286.595313] mali fb000000.gpu: Kcpu queue:3 still waiting for fence[0000000000000000] context#seqno:4661774#3
+[1016286.595319] mali fb000000.gpu: Fence metadata timeline name: 0-44_2488-4661774-kcpu
+[1016286.595324] mali fb000000.gpu: CSF active groups status (version: v0):
+[1016286.595329] mali fb000000.gpu: Ctx 49_1935
+[1016286.595335] mali fb000000.gpu: GroupID, CSG NR, CSG Prio, Run State, Priority, C_EP(Alloc/Req), F_EP(Alloc/Req), T_EP(Alloc/Req), Exclusive, Idle
+[1016286.595340] mali fb000000.gpu:       0,      0,       15,         1,        1,           4/  4,           0/  4,           0/  4,         0,    N
+[1016286.595346] mali fb000000.gpu: Bound queues:
+[1016286.595351] mali fb000000.gpu: Bind Idx,     Ringbuf addr,     Size, Prio,    Insert offset,   Extract offset, Active, Doorbell
+[1016286.595356] mali fb000000.gpu:        0,       5ffff73000,    10000,    8,              100,              100,      1,        1
+[1016286.595361] mali fb000000.gpu: CMD_PTR: 0x5ffff73100
+[1016286.595366] mali fb000000.gpu: REQ_RESOURCE [COMPUTE]: 1
+[1016286.595371] mali fb000000.gpu: REQ_RESOURCE [FRAGMENT]: 0
+[1016286.595376] mali fb000000.gpu: REQ_RESOURCE [TILER]: 0
+[1016286.595381] mali fb000000.gpu: REQ_RESOURCE [IDVS]: 0
+[1016286.595385] mali fb000000.gpu: SB_MASK: 0
+[1016286.595390] mali fb000000.gpu: PROGRESS_WAIT: Not waiting
+[1016286.595394] mali fb000000.gpu: PROTM_PEND: Not waiting
+[1016286.595399] mali fb000000.gpu: SYNC_WAIT: Not waiting
+[1016286.595403] mali fb000000.gpu: WAIT_CONDITION: less or equal
+[1016286.595408] mali fb000000.gpu: SYNC_POINTER: 0x0
+[1016286.595413] mali fb000000.gpu: SYNC_VALUE: 0
+[1016286.595418] mali fb000000.gpu: SYNC_LIVE_VALUE: 0xffffffffffffffff
+[1016286.595422] mali fb000000.gpu: SB_STATUS: 0
+[1016286.595427] mali fb000000.gpu: BLOCKED_REASON: UNBLOCKED
+[1016286.595431] mali fb000000.gpu: NO CS_TRACE
+[1016286.595436] mali fb000000.gpu: CMD_PTR region nr_pages: 16
+[1016286.595441] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73000 cmd_ptr:0x0000005ffff73100 dump_begin:0x0000005ffff73000 dump_end:0x0000005ffff73200
+[1016286.595447] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73000 cmd:0x2200000000000001
+[1016286.595452] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73008 cmd:0x1700000000000002
+[1016286.595457] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73040 cmd:0x015a005ffff23000
+[1016286.595462] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73048 cmd:0x11505a0000000000
+[1016286.595467] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73050 cmd:0x024a000000000001
+[1016286.595472] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73058 cmd:0x2500504a00000005
+[1016286.595477] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73060 cmd:0x11505a0000000008
+[1016286.595482] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73068 cmd:0x024a000000000001
+[1016286.595487] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73070 cmd:0x2500504a00000005
+[1016286.595492] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73078 cmd:0x11505a0000000010
+[1016286.595497] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73080 cmd:0x024a000000000001
+[1016286.595502] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff73088 cmd:0x2500504a00000005
+[1016286.595507] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff730c0 cmd:0x0300000000020000
+[1016286.595512] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff730c8 cmd:0x0148005fffffffb8
+[1016286.595517] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff730d0 cmd:0x024a000000000001
+[1016286.595522] mali fb000000.gpu: queue:GPU-1935-0-0 at:0x0000005ffff730d8 cmd:0x2501484a00040001
+[1016286.595527] mali fb000000.gpu: Bind Idx,     Ringbuf addr,     Size, Prio,    Insert offset,   Extract offset, Active, Doorbell
+[1016286.595532] mali fb000000.gpu:        1,       5ffff60000,    10000,    8,              180,              140,      1,        1
+[1016286.595537] mali fb000000.gpu: CMD_PTR: 0x5ffff60140
+[1016286.595542] mali fb000000.gpu: REQ_RESOURCE [COMPUTE]: 1
+[1016286.595547] mali fb000000.gpu: REQ_RESOURCE [FRAGMENT]: 0
+[1016286.595552] mali fb000000.gpu: REQ_RESOURCE [TILER]: 0
+[1016286.595556] mali fb000000.gpu: REQ_RESOURCE [IDVS]: 0
+[1016286.595561] mali fb000000.gpu: SB_MASK: 0
+[1016286.595565] mali fb000000.gpu: PROGRESS_WAIT: Not waiting
+[1016286.595570] mali fb000000.gpu: PROTM_PEND: Not waiting
+[1016286.595574] mali fb000000.gpu: SYNC_WAIT: Not waiting
+[1016286.595579] mali fb000000.gpu: WAIT_CONDITION: less or equal
+[1016286.595584] mali fb000000.gpu: SYNC_POINTER: 0x5fffffff40
+[1016286.595588] mali fb000000.gpu: SYNC_VALUE: 0
+[1016286.595593] mali fb000000.gpu: SYNC_LIVE_VALUE: 0x0000000100000001
+[1016286.595597] mali fb000000.gpu: SB_STATUS: 0
+[1016286.595602] mali fb000000.gpu: BLOCKED_REASON: UNBLOCKED
+[1016286.595607] mali fb000000.gpu: NO CS_TRACE
+[1016286.595611] mali fb000000.gpu: CMD_PTR region nr_pages: 16
+[1016286.595617] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60040 cmd_ptr:0x0000005ffff60140 dump_begin:0x0000005ffff60040 dump_end:0x0000005ffff60240
+[1016286.595622] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60040 cmd:0x015a005ffff23000
+[1016286.595627] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60048 cmd:0x0148005fffffffc8
+[1016286.595632] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60050 cmd:0x024a000000000000
+[1016286.595637] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60058 cmd:0x2700484a10000000
+[1016286.595642] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60080 cmd:0x0148005fffffffb0
+[1016286.595647] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60088 cmd:0x024a000000000000
+[1016286.595652] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60090 cmd:0x2700484a10000000
+[1016286.595657] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff600c0 cmd:0x0148005fffffff78
+[1016286.595662] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff600c8 cmd:0x024a000000000000
+[1016286.595667] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff600d0 cmd:0x2700484a10000000
+[1016286.595672] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60100 cmd:0x0148005fffffff40
+[1016286.595677] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60108 cmd:0x024a000000000000
+[1016286.595682] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60110 cmd:0x2700484a10000000
+[1016286.595687] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60140 cmd:0x0300000000020000
+[1016286.595692] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60148 cmd:0x0148005fffffffb8
+[1016286.595698] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60150 cmd:0x024a000000000001
+[1016286.595703] mali fb000000.gpu: queue:GPU-1935-0-1 at:0x0000005ffff60158 cmd:0x2501484a00fd0001
+[1016286.595708] mali fb000000.gpu: Bind Idx,     Ringbuf addr,     Size, Prio,    Insert offset,   Extract offset, Active, Doorbell
+[1016286.595713] mali fb000000.gpu:        2,       5ffff4d000,    10000,    8,              280,              280,      1,        1
+[1016286.595718] mali fb000000.gpu: CMD_PTR: 0x5ffff4d280
+[1016286.595723] mali fb000000.gpu: REQ_RESOURCE [COMPUTE]: 1
+[1016286.595728] mali fb000000.gpu: REQ_RESOURCE [FRAGMENT]: 0
+[1016286.595733] mali fb000000.gpu: REQ_RESOURCE [TILER]: 1
+[1016286.595737] mali fb000000.gpu: REQ_RESOURCE [IDVS]: 1
+[1016286.595742] mali fb000000.gpu: SB_MASK: 0
+[1016286.595747] mali fb000000.gpu: PROGRESS_WAIT: Not waiting
+[1016286.595752] mali fb000000.gpu: PROTM_PEND: Not waiting
+[1016286.595757] mali fb000000.gpu: SYNC_WAIT: Not waiting
+[1016286.595761] mali fb000000.gpu: WAIT_CONDITION: less or equal
+[1016286.595766] mali fb000000.gpu: SYNC_POINTER: 0x5fffffff40
+[1016286.595771] mali fb000000.gpu: SYNC_VALUE: 0
+[1016286.595776] mali fb000000.gpu: SYNC_LIVE_VALUE: 0x0000000100000001
+[1016286.595781] mali fb000000.gpu: SB_STATUS: 0
+[1016286.595785] mali fb000000.gpu: BLOCKED_REASON: UNBLOCKED
+[1016286.595790] mali fb000000.gpu: NO CS_TRACE
+[1016286.595795] mali fb000000.gpu: CMD_PTR region nr_pages: 16
+[1016286.595800] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d180 cmd_ptr:0x0000005ffff4d280 dump_begin:0x0000005ffff4d180 dump_end:0x0000005ffff4d380
+[1016286.595806] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d180 cmd:0x0148005fee200040
+[1016286.595811] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d188 cmd:0x024a0000000000c8
+[1016286.595816] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d190 cmd:0x2000484a00000000
+[1016286.595821] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1c0 cmd:0x0148005fffffff40
+[1016286.595826] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1c8 cmd:0x024a000000000000
+[1016286.595831] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1d0 cmd:0x2700484a10000000
+[1016286.595836] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1d8 cmd:0x0140005ffff23100
+[1016286.595841] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1e0 cmd:0x2f00000000000000
+[1016286.595846] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1e8 cmd:0x025400000000007b
+[1016286.595852] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1f0 cmd:0x2400540000000233
+[1016286.595856] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d1f8 cmd:0x0300000000ff0000
+[1016286.595862] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d200 cmd:0x0148005ff4600040
+[1016286.595867] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d208 cmd:0x024a0000000000c8
+[1016286.595872] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d210 cmd:0x2000484a00000000
+[1016286.595876] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d240 cmd:0x0300000000020000
+[1016286.595881] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d248 cmd:0x0148005fffffffb8
+[1016286.595886] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d250 cmd:0x024a000000000001
+[1016286.595891] mali fb000000.gpu: queue:GPU-1935-0-2 at:0x0000005ffff4d258 cmd:0x2501484a00fd0001
+[1016286.595896] mali fb000000.gpu: Bind Idx,     Ringbuf addr,     Size, Prio,    Insert offset,   Extract offset, Active, Doorbell
+[1016286.595902] mali fb000000.gpu:        3,       5ffff3a000,    10000,    8,              240,              240,      1,        1
+[1016286.595907] mali fb000000.gpu: CMD_PTR: 0x5ffff3a240
+[1016286.595911] mali fb000000.gpu: REQ_RESOURCE [COMPUTE]: 0
+[1016286.595916] mali fb000000.gpu: REQ_RESOURCE [FRAGMENT]: 1
+[1016286.595921] mali fb000000.gpu: REQ_RESOURCE [TILER]: 0
+[1016286.595925] mali fb000000.gpu: REQ_RESOURCE [IDVS]: 0
+[1016286.595930] mali fb000000.gpu: SB_MASK: 0
+[1016286.595935] mali fb000000.gpu: PROGRESS_WAIT: Not waiting
+[1016286.595939] mali fb000000.gpu: PROTM_PEND: Not waiting
+[1016286.595944] mali fb000000.gpu: SYNC_WAIT: Not waiting
+[1016286.595948] mali fb000000.gpu: WAIT_CONDITION: less or equal
+[1016286.595953] mali fb000000.gpu: SYNC_POINTER: 0x5ffff23100
+[1016286.595958] mali fb000000.gpu: SYNC_VALUE: 0
+[1016286.595963] mali fb000000.gpu: SYNC_LIVE_VALUE: 0x0000000000000001
+[1016286.595967] mali fb000000.gpu: SB_STATUS: 0
+[1016286.595972] mali fb000000.gpu: BLOCKED_REASON: UNBLOCKED
+[1016286.595977] mali fb000000.gpu: NO CS_TRACE
+[1016286.595981] mali fb000000.gpu: CMD_PTR region nr_pages: 16
+[1016286.595986] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a140 cmd_ptr:0x0000005ffff3a240 dump_begin:0x0000005ffff3a140 dump_end:0x0000005ffff3a340
+[1016286.595992] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a140 cmd:0x0140005ffff230c0
+[1016286.595997] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a148 cmd:0x2f00000000000000
+[1016286.596002] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a150 cmd:0x025400000000007b
+[1016286.596007] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a158 cmd:0x2400540000000233
+[1016286.596012] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a160 cmd:0x0300000000010000
+[1016286.596016] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a168 cmd:0x0148005fed200040
+[1016286.596021] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a170 cmd:0x024a0000000000c8
+[1016286.596026] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a178 cmd:0x2000484a00000000
+[1016286.596032] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a180 cmd:0x024a000000000000
+[1016286.596037] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a188 cmd:0x24024a0000f80211
+[1016286.596042] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a190 cmd:0x0300000000020000
+[1016286.596047] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a198 cmd:0x0148005fffffff88
+[1016286.596052] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1a0 cmd:0x024a000000000001
+[1016286.596057] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1a8 cmd:0x2601484a00040001
+[1016286.596062] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1c0 cmd:0x0140005ffff23100
+[1016286.596067] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1c8 cmd:0x2f00000000000000
+[1016286.596072] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1d0 cmd:0x025400000000007b
+[1016286.596077] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1d8 cmd:0x2400540000000233
+[1016286.596083] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1e0 cmd:0x0300000000010000
+[1016286.596088] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1e8 cmd:0x0148005ff3600040
+[1016286.596093] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1f0 cmd:0x024a0000000000c8
+[1016286.596098] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a1f8 cmd:0x2000484a00000000
+[1016286.596103] mali fb000000.gpu: queue:GPU-1935-0-3 at:0x0000005ffff3a200 cmd:0x024a000000000000
+[1016286.596108] mali fb000000.gpu: CMD_PTR: 0x5ffff270c0
+[1016286.596112] mali fb000000.gpu: SB_MASK: 0
+[1016286.596117] mali fb000000.gpu: 
+[1016286.596133] mali fb000000.gpu: kbase KCPU[0000000000000000] cmd8 fence[0000000000000000] force signaled
+[1016286.596142] mali fb000000.gpu: ctx:44_2488 kcpu queue[0000000000000000]:3 signal fence[0000000000000000] context#seqno:4661774#3
+[1016286.596149] mali fb000000.gpu: kbase KCPU [0000000000000000] delete fence signal timeout timer ret: 0
+[1016300.367035] init: Untracked pid 22159 exited with status 0
+[1016300.367666] init: Untracked pid 22161 exited with status 0
+[1016300.669276] init: Untracked pid 22164 exited with status 0
+[1016300.672623] init: Untracked pid 22166 exited with status 0
+[1016300.680031] init: Untracked pid 22169 exited with status 0
+[1016300.680546] init: Untracked pid 22171 exited with status 0
+[1016300.712902] init: Untracked pid 22174 exited with status 0
+[1016300.713432] init: Untracked pid 22176 exited with status 0
+[1016300.780376] init: Untracked pid 22179 exited with status 0
+[1016300.782423] init: Untracked pid 22181 exited with status 0
+[1016300.871980] init: Untracked pid 22184 exited with status 0
+[1016300.872809] init: Untracked pid 22186 exited with status 0
+[1016300.915624] init: Untracked pid 22189 exited with status 0
+[1016300.917048] init: Untracked pid 22191 exited with status 0
+[1016300.965418] init: Untracked pid 22194 exited with status 0
+[1016300.967127] init: Untracked pid 22196 exited with status 0
+[1016301.008683] init: Untracked pid 22199 exited with status 0
+[1016301.009255] init: Untracked pid 22201 exited with status 0
+[1016301.285339] init: Untracked pid 22204 exited with status 0
+[1016301.285955] init: Untracked pid 22206 exited with status 0
+[1016301.317945] init: Untracked pid 22210 exited with status 0
+[1016301.322028] init: Untracked pid 22212 exited with status 0
+[1016301.435288] init: Untracked pid 22216 exited with status 0
+[1016301.436170] init: Untracked pid 22218 exited with status 0
+[1016301.557200] init: Untracked pid 22222 exited with status 0
+[1016301.558172] init: Untracked pid 22224 exited with status 0
+[1016325.868013] init: Untracked pid 718 exited with status 0
+[1016325.868706] init: Untracked pid 720 exited with status 0
+[1016325.896074] init: Untracked pid 723 exited with status 0
+[1016325.896698] init: Untracked pid 725 exited with status 0
+[1016326.018289] init: Untracked pid 728 exited with status 0
+[1016326.019085] init: Untracked pid 730 exited with status 0
+[1016326.069445] init: Untracked pid 733 exited with status 0
+[1016326.070448] init: Untracked pid 735 exited with status 0
+[1016326.124981] init: Untracked pid 738 exited with status 0
+[1016326.129006] init: Untracked pid 740 exited with status 0
+[1016326.164998] init: Untracked pid 743 exited with status 0
+[1016326.168513] init: Untracked pid 745 exited with status 0
+[1016326.283778] init: Untracked pid 749 exited with status 0
+[1016326.284691] init: Untracked pid 751 exited with status 0
+[1016326.372606] init: Untracked pid 755 exited with status 0
+[1016326.373271] init: Untracked pid 757 exited with status 0
+[1016326.423637] init: Untracked pid 761 exited with status 0
+[1016326.423962] init: Untracked pid 763 exited with status 0
+[1016326.454765] init: Untracked pid 767 exited with status 0
+[1016326.456383] init: Untracked pid 769 exited with status 0
+[1016326.579074] init: Untracked pid 773 exited with status 0
+[1016326.579967] init: Untracked pid 775 exited with status 0
+[1016326.612133] init: Untracked pid 779 exited with status 0
+[1016326.613154] init: Untracked pid 781 exited with status 0
+[1016331.625279] init: Untracked pid 22323 exited with status 0
+[1016331.625609] init: Untracked pid 22325 exited with status 0
+[1016331.924292] init: Untracked pid 22328 exited with status 0
+[1016331.926422] init: Untracked pid 22330 exited with status 0
+[1016331.943790] init: Untracked pid 22333 exited with status 0
+[1016331.944242] init: Untracked pid 22335 exited with status 0
+[1016331.975382] init: Untracked pid 22338 exited with status 0
+[1016331.976427] init: Untracked pid 22340 exited with status 0
+[1016332.027514] init: Untracked pid 22343 exited with status 0
+[1016332.032095] init: Untracked pid 22345 exited with status 0
+[1016332.127632] init: Untracked pid 22348 exited with status 0
+[1016332.129360] init: Untracked pid 22350 exited with status 0
+[1016332.187332] init: Untracked pid 22353 exited with status 0
+[1016332.188988] init: Untracked pid 22355 exited with status 0
+[1016332.225130] init: Untracked pid 22358 exited with status 0
+[1016332.226875] init: Untracked pid 22360 exited with status 0
+[1016332.250509] init: Untracked pid 22363 exited with status 0
+[1016332.250539] init: Untracked pid 22365 exited with status 0
+[1016332.510693] init: Untracked pid 22368 exited with status 0
+[1016332.510836] init: Untracked pid 22370 exited with status 0
+[1016332.557966] init: Untracked pid 22375 exited with status 0
+[1016332.559094] init: Untracked pid 22377 exited with status 0
+[1016332.696155] init: Untracked pid 22380 exited with status 0
+[1016332.699109] init: Untracked pid 22382 exited with status 0
+[1016332.818118] init: Untracked pid 22386 exited with status 0
+[1016332.820262] init: Untracked pid 22388 exited with status 0
+[1016337.835472] sysrq: Show Blocked State
+[1016337.835538] task:kconsole        state:D stack:    0 pid:  113 ppid:     2 flags:0x00000008
+[1016337.835547] Call trace:
+[1016337.835558]  __switch_to+0xe4/0x140
+[1016337.835565]  __schedule+0x328/0x890
+[1016337.835570]  schedule+0x4c/0xd0
+[1016337.835576]  schedule_hrtimeout_range_clock+0x98/0x134
+[1016337.835581]  schedule_hrtimeout_range+0x18/0x20
+[1016337.835587]  usleep_range+0x7c/0xb0
+[1016337.835594]  console_thread+0x254/0x310
+[1016337.835600]  kthread+0x128/0x130
+[1016337.835606]  ret_from_fork+0x10/0x20
+[1016337.837417] sysrq: Show backtrace of all active CPUs
+[1016337.837425] sysrq: CPU3:
+[1016337.837430] Call trace:
+[1016337.837437]  dump_backtrace+0x0/0x1f0
+[1016337.837443]  show_stack+0x1c/0x24
+[1016337.837451]  sysrq_handle_showallcpus+0x78/0xa0
+[1016337.837458]  __handle_sysrq+0x8c/0x194
+[1016337.837463]  write_sysrq_trigger+0x94/0xd0
+[1016337.837470]  proc_reg_write+0xa8/0x100
+[1016337.837477]  vfs_write+0xf0/0x2cc
+[1016337.837482]  ksys_write+0x6c/0xf4
+[1016337.837488]  __arm64_sys_write+0x20/0x2c
+[1016337.837494]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016337.837499]  do_el0_svc+0x28/0xa0
+[1016337.837506]  el0_svc+0x1c/0x2c
+[1016337.837511]  el0_sync_handler+0xa8/0xac
+[1016337.837516]  el0_sync+0x158/0x180
+[1016337.837541] sysrq: CPU5: backtrace skipped as idling
+[1016337.837543] sysrq: CPU7: backtrace skipped as idling
+[1016337.837545] sysrq: CPU4: backtrace skipped as idling
+[1016337.837547] sysrq: CPU2: backtrace skipped as idling
+[1016337.837549] sysrq: CPU6: backtrace skipped as idling
+[1016337.837552] sysrq: CPU0: backtrace skipped as idling
+[1016337.837555] sysrq: CPU1: backtrace skipped as idling
+[1016337.934907] binder: release 54187:54187 transaction -1440468108 out, still active
+[1016337.934916] binder: undelivered TRANSACTION_COMPLETE
+[1016337.944797] init: Service 'zygote' (pid 21962) received signal 9
+[1016337.944862] init: Sending signal 9 to service 'zygote' (pid 21962) process group...
+[1016337.944986] libprocessgroup: Successfully killed process cgroup uid 0 pid 21962 in 0ms
+[1016337.945201] init: Sending signal 9 to service 'audioserver' (pid 21964) process group...
+[1016337.950537] libprocessgroup: Successfully killed process cgroup uid 1041 pid 21964 in 5ms
+[1016337.950709] init: Sending signal 9 to service 'cameraserver' (pid 21965) process group...
+[1016337.955950] libprocessgroup: Successfully killed process cgroup uid 1047 pid 21965 in 5ms
+[1016337.956156] init: Sending signal 9 to service 'media' (pid 21966) process group...
+[1016337.961398] libprocessgroup: Successfully killed process cgroup uid 1013 pid 21966 in 5ms
+[1016337.961604] init: Sending signal 9 to service 'netd' (pid 21967) process group...
+[1016337.966971] libprocessgroup: Successfully killed process cgroup uid 0 pid 21967 in 5ms
+[1016337.967129] init: Sending signal 9 to service 'wificond' (pid 21968) process group...
+[1016337.972336] libprocessgroup: Successfully killed process cgroup uid 1010 pid 21968 in 5ms
+[1016337.973081] init: Service 'audioserver' (pid 21964) received signal 9
+[1016337.973104] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 21969) process group...
+[1016337.978374] libprocessgroup: Successfully killed process cgroup uid 1041 pid 21969 in 5ms
+[1016337.978580] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016337.978607] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016337.979172] init: Service 'cameraserver' (pid 21965) received signal 9
+[1016337.979650] init: Service 'media' (pid 21966) received signal 9
+[1016337.979676] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 21970) process group...
+[1016337.985047] libprocessgroup: Successfully killed process cgroup uid 1013 pid 21970 in 5ms
+[1016337.985704] init: Service 'netd' (pid 21967) received signal 9
+[1016337.985769] init: Sending signal 9 to service 'zygote_secondary' (pid 21963) process group...
+[1016337.991099] libprocessgroup: Successfully killed process cgroup uid 0 pid 21963 in 5ms
+[1016337.991574] init: Service 'zygote_secondary' (pid 21963) received signal 9
+[1016337.992190] init: Service 'wificond' (pid 21968) received signal 9
+[1016337.992351] init: Service 'vendor.audio-hal-2-0' (pid 21969) received signal 9
+[1016337.992563] init: Service 'vendor.rockit-hal-1-0' (pid 21970) received signal 9
+[1016337.992739] init: Untracked pid 21974 received signal 9
+[1016337.992829] init: Untracked pid 21975 received signal 9
+[1016337.995581] init: starting service 'zygote'...
+[1016337.997148] init: starting service 'zygote_secondary'...
+[1016337.998591] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016337.998762] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016338.005479] init: starting service 'audioserver'...
+[1016338.007006] init: starting service 'cameraserver'...
+[1016338.008040] init: couldn't write 22408 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016338.008428] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016338.008501] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016338.011638] init: starting service 'media'...
+[1016338.012397] init: starting service 'netd'...
+[1016338.013084] init: starting service 'wificond'...
+[1016338.013777] init: starting service 'vendor.audio-hal-2-0'...
+[1016338.021700] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016338.021782] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016338.021808] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016338.022884] init: starting service 'vendor.rockit-hal-1-0'...
+[1016356.822565] init: Untracked pid 882 exited with status 0
+[1016356.824158] init: Untracked pid 884 exited with status 0
+[1016356.839558] init: Untracked pid 887 exited with status 0
+[1016356.840208] init: Untracked pid 889 exited with status 0
+[1016356.953227] init: Untracked pid 892 exited with status 0
+[1016356.954055] init: Untracked pid 894 exited with status 0
+[1016356.991888] init: Untracked pid 897 exited with status 0
+[1016356.992274] init: Untracked pid 899 exited with status 0
+[1016357.028860] init: Untracked pid 902 exited with status 0
+[1016357.036290] init: Untracked pid 904 exited with status 0
+[1016357.052302] init: Untracked pid 909 exited with status 0
+[1016357.055193] init: Untracked pid 911 exited with status 0
+[1016357.171310] init: Untracked pid 916 exited with status 0
+[1016357.172260] init: Untracked pid 918 exited with status 0
+[1016357.260659] init: Untracked pid 921 exited with status 0
+[1016357.267045] init: Untracked pid 923 exited with status 0
+[1016357.306717] init: Untracked pid 926 exited with status 0
+[1016357.307732] init: Untracked pid 928 exited with status 0
+[1016357.343832] init: Untracked pid 932 exited with status 0
+[1016357.345619] init: Untracked pid 934 exited with status 0
+[1016357.465041] init: Untracked pid 938 exited with status 0
+[1016357.468993] init: Untracked pid 940 exited with status 0
+[1016357.490261] init: Untracked pid 945 exited with status 0
+[1016357.491426] init: Untracked pid 947 exited with status 0
+[1016362.620386] sysrq: Show Blocked State
+[1016362.620452] task:kconsole        state:D stack:    0 pid:  113 ppid:     2 flags:0x00000008
+[1016362.620461] Call trace:
+[1016362.620472]  __switch_to+0xe4/0x140
+[1016362.620479]  __schedule+0x328/0x890
+[1016362.620485]  schedule+0x4c/0xd0
+[1016362.620491]  schedule_hrtimeout_range_clock+0x98/0x134
+[1016362.620496]  schedule_hrtimeout_range+0x18/0x20
+[1016362.620501]  usleep_range+0x7c/0xb0
+[1016362.620509]  console_thread+0x254/0x310
+[1016362.620515]  kthread+0x128/0x130
+[1016362.620520]  ret_from_fork+0x10/0x20
+[1016362.622399] sysrq: Show backtrace of all active CPUs
+[1016362.622408] sysrq: CPU3:
+[1016362.622413] Call trace:
+[1016362.622421]  dump_backtrace+0x0/0x1f0
+[1016362.622428]  show_stack+0x1c/0x24
+[1016362.622435]  sysrq_handle_showallcpus+0x78/0xa0
+[1016362.622442]  __handle_sysrq+0x8c/0x194
+[1016362.622447]  write_sysrq_trigger+0x94/0xd0
+[1016362.622454]  proc_reg_write+0xa8/0x100
+[1016362.622461]  vfs_write+0xf0/0x2cc
+[1016362.622466]  ksys_write+0x6c/0xf4
+[1016362.622472]  __arm64_sys_write+0x20/0x2c
+[1016362.622478]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016362.622483]  do_el0_svc+0x28/0xa0
+[1016362.622489]  el0_svc+0x1c/0x2c
+[1016362.622495]  el0_sync_handler+0xa8/0xac
+[1016362.622500]  el0_sync+0x158/0x180
+[1016362.622524] sysrq: CPU4: backtrace skipped as idling
+[1016362.622526] sysrq: CPU5: backtrace skipped as idling
+[1016362.622527] sysrq: CPU6: backtrace skipped as idling
+[1016362.622528] sysrq: CPU7: backtrace skipped as idling
+[1016362.622531] sysrq: CPU2: backtrace skipped as idling
+[1016362.622534] sysrq: CPU0: backtrace skipped as idling
+[1016362.622538] sysrq: CPU1: backtrace skipped as idling
+[1016362.715301] binder: release 53697:53865 transaction -1440475166 out, still active
+[1016362.821669] init: Service 'zygote' (pid 78) received signal 9
+[1016362.821686] init: Sending signal 9 to service 'zygote' (pid 78) process group...
+[1016362.821774] libprocessgroup: Successfully killed process cgroup uid 0 pid 78 in 0ms
+[1016362.821870] init: Sending signal 9 to service 'audioserver' (pid 99) process group...
+[1016362.832190] libprocessgroup: Successfully killed process cgroup uid 1041 pid 99 in 10ms
+[1016362.832305] init: Sending signal 9 to service 'cameraserver' (pid 181) process group...
+[1016362.837487] libprocessgroup: Successfully killed process cgroup uid 1047 pid 181 in 5ms
+[1016362.837593] init: Sending signal 9 to service 'media' (pid 200) process group...
+[1016362.842771] libprocessgroup: Successfully killed process cgroup uid 1013 pid 200 in 5ms
+[1016362.842862] init: Sending signal 9 to service 'netd' (pid 77) process group...
+[1016362.848086] libprocessgroup: Successfully killed process cgroup uid 0 pid 77 in 5ms
+[1016362.848176] init: Sending signal 9 to service 'wificond' (pid 203) process group...
+[1016362.853333] libprocessgroup: Successfully killed process cgroup uid 1010 pid 203 in 5ms
+[1016362.853499] init: Service 'netd' (pid 77) received signal 9
+[1016362.853526] init: Sending signal 9 to service 'zygote_secondary' (pid 79) process group...
+[1016362.863889] libprocessgroup: Successfully killed process cgroup uid 0 pid 79 in 10ms
+[1016362.864157] init: Service 'zygote_secondary' (pid 79) received signal 9
+[1016362.864284] init: Service 'audioserver' (pid 99) received signal 9
+[1016362.864307] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 83) process group...
+[1016362.869577] libprocessgroup: Successfully killed process cgroup uid 1041 pid 83 in 5ms
+[1016362.869680] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016362.869688] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016362.869753] init: Service 'vendor.audio-hal-2-0' (pid 83) received signal 9
+[1016362.869787] init: Service 'cameraserver' (pid 181) received signal 9
+[1016362.869835] init: Service 'media' (pid 200) received signal 9
+[1016362.869842] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 97) process group...
+[1016362.874998] libprocessgroup: Successfully killed process cgroup uid 1013 pid 97 in 5ms
+[1016362.875138] init: Service 'vendor.rockit-hal-1-0' (pid 97) received signal 9
+[1016362.875176] init: Service 'wificond' (pid 203) received signal 9
+[1016362.875211] init: Untracked pid 602 received signal 9
+[1016362.875249] init: Untracked pid 213 received signal 9
+[1016362.875273] init: Untracked pid 215 received signal 9
+[1016362.875999] init: starting service 'zygote'...
+[1016362.876743] init: starting service 'zygote_secondary'...
+[1016362.877457] init: starting service 'audioserver'...
+[1016362.878229] init: starting service 'cameraserver'...
+[1016362.878353] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016362.878391] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016362.879004] init: starting service 'media'...
+[1016362.879661] init: starting service 'netd'...
+[1016362.880262] init: starting service 'wificond'...
+[1016362.880905] init: starting service 'vendor.audio-hal-2-0'...
+[1016362.881568] init: starting service 'vendor.rockit-hal-1-0'...
+[1016362.881822] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016362.881936] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016362.882998] init: couldn't write 983 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016362.887290] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016362.887455] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016362.887546] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016363.892183] init: Received control message 'start' for 'idmap2d' from pid: 1029 (system_server)
+[1016363.892217] init: starting service 'idmap2d'...
+[1016364.018384] healthd: battery none chg=
+[1016364.018562] healthd: battery none chg=
+[1016364.019336] binder: release 53384:53384 transaction -1440475166 in, still active
+[1016364.019343] binder: send failed reply for transaction -1440475166, target dead
+[1016364.019346] binder: release 53384:53439 transaction -1440412411 in, still active
+[1016364.019349] binder: send failed reply for transaction -1440412411 to 58408:58499
+[1016364.019453] init: Service 'vendor.sensors-hal-1-0' (pid 94) exited with status 255
+[1016364.019462] init: Sending signal 9 to service 'vendor.sensors-hal-1-0' (pid 94) process group...
+[1016364.019526] libprocessgroup: Successfully killed process cgroup uid 1000 pid 94 in 0ms
+[1016364.019759] init: starting service 'vendor.sensors-hal-1-0'...
+[1016364.108948] init: processing action (sys.sysctl.extra_free_kbytes=*) from (/init.rc:815)
+[1016368.642314] init: Untracked pid 22610 exited with status 0
+[1016368.642595] init: Untracked pid 22612 exited with status 0
+[1016368.904083] init: Untracked pid 22616 exited with status 0
+[1016368.908412] init: Untracked pid 22618 exited with status 0
+[1016368.920536] init: Untracked pid 22621 exited with status 0
+[1016368.920706] init: Untracked pid 22623 exited with status 0
+[1016368.944911] init: Untracked pid 22626 exited with status 0
+[1016368.946130] init: Untracked pid 22628 exited with status 0
+[1016368.992995] init: Untracked pid 22631 exited with status 0
+[1016368.996832] init: Untracked pid 22633 exited with status 0
+[1016369.078174] init: Untracked pid 22636 exited with status 0
+[1016369.082086] init: Untracked pid 22638 exited with status 0
+[1016369.127398] init: Untracked pid 22641 exited with status 0
+[1016369.128501] init: Untracked pid 22643 exited with status 0
+[1016369.168956] init: Untracked pid 22646 exited with status 0
+[1016369.170571] init: Untracked pid 22648 exited with status 0
+[1016369.198904] init: Untracked pid 22651 exited with status 0
+[1016369.200251] init: Untracked pid 22653 exited with status 0
+[1016369.447523] init: Untracked pid 22669 exited with status 0
+[1016369.447942] init: Untracked pid 22671 exited with status 0
+[1016369.471193] init: Untracked pid 22675 exited with status 0
+[1016369.476457] init: Untracked pid 22677 exited with status 0
+[1016369.580173] init: Untracked pid 22680 exited with status 0
+[1016369.582115] init: Untracked pid 22682 exited with status 0
+[1016369.722352] init: Untracked pid 22686 exited with status 0
+[1016369.724537] init: Untracked pid 22688 exited with status 0
+[1016374.023494] init: Received control message 'stop' for 'idmap2d' from pid: 1029 (system_server)
+[1016374.023550] init: Sending signal 9 to service 'idmap2d' (pid 1109) process group...
+[1016374.028899] libprocessgroup: Successfully killed process cgroup uid 1000 pid 1109 in 5ms
+[1016374.029331] init: Service 'idmap2d' (pid 1109) received signal 9
+[1016399.804364] init: Untracked pid 22774 exited with status 0
+[1016399.805224] init: Untracked pid 22776 exited with status 0
+[1016400.053842] init: Untracked pid 22792 exited with status 0
+[1016400.056025] init: Untracked pid 22794 exited with status 0
+[1016400.070439] init: Untracked pid 22797 exited with status 0
+[1016400.070617] init: Untracked pid 22799 exited with status 0
+[1016400.094073] init: Untracked pid 22802 exited with status 0
+[1016400.095442] init: Untracked pid 22804 exited with status 0
+[1016400.139878] init: Untracked pid 22807 exited with status 0
+[1016400.146026] init: Untracked pid 22809 exited with status 0
+[1016400.233489] init: Untracked pid 22812 exited with status 0
+[1016400.235388] init: Untracked pid 22814 exited with status 0
+[1016400.284546] init: Untracked pid 22817 exited with status 0
+[1016400.285744] init: Untracked pid 22819 exited with status 0
+[1016400.339714] init: Untracked pid 22822 exited with status 0
+[1016400.341407] init: Untracked pid 22824 exited with status 0
+[1016400.369689] init: Untracked pid 22827 exited with status 0
+[1016400.370754] init: Untracked pid 22829 exited with status 0
+[1016400.618505] init: Untracked pid 22832 exited with status 0
+[1016400.619098] init: Untracked pid 22834 exited with status 0
+[1016400.650274] init: Untracked pid 22838 exited with status 0
+[1016400.655162] init: Untracked pid 22840 exited with status 0
+[1016400.760653] init: Untracked pid 22844 exited with status 0
+[1016400.768996] init: Untracked pid 22846 exited with status 0
+[1016400.880240] init: Untracked pid 22850 exited with status 0
+[1016400.882317] init: Untracked pid 22852 exited with status 0
+[1016405.881173] sysrq: Show Blocked State
+[1016405.881297] task:kconsole        state:D stack:    0 pid:  113 ppid:     2 flags:0x00000008
+[1016405.881307] Call trace:
+[1016405.881318]  __switch_to+0xe4/0x140
+[1016405.881328]  __schedule+0x328/0x890
+[1016405.881333]  schedule+0x4c/0xd0
+[1016405.881339]  schedule_hrtimeout_range_clock+0x98/0x134
+[1016405.881345]  schedule_hrtimeout_range+0x18/0x20
+[1016405.881350]  usleep_range+0x7c/0xb0
+[1016405.881357]  console_thread+0x254/0x310
+[1016405.881366]  kthread+0x128/0x130
+[1016405.881371]  ret_from_fork+0x10/0x20
+[1016405.883152] sysrq: Show backtrace of all active CPUs
+[1016405.883160] sysrq: CPU3:
+[1016405.883164] Call trace:
+[1016405.883172]  dump_backtrace+0x0/0x1f0
+[1016405.883178]  show_stack+0x1c/0x24
+[1016405.883185]  sysrq_handle_showallcpus+0x78/0xa0
+[1016405.883192]  __handle_sysrq+0x8c/0x194
+[1016405.883197]  write_sysrq_trigger+0x94/0xd0
+[1016405.883204]  proc_reg_write+0xa8/0x100
+[1016405.883211]  vfs_write+0xf0/0x2cc
+[1016405.883216]  ksys_write+0x6c/0xf4
+[1016405.883222]  __arm64_sys_write+0x20/0x2c
+[1016405.883228]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016405.883233]  do_el0_svc+0x28/0xa0
+[1016405.883239]  el0_svc+0x1c/0x2c
+[1016405.883245]  el0_sync_handler+0xa8/0xac
+[1016405.883250]  el0_sync+0x158/0x180
+[1016405.883274] sysrq: CPU4: backtrace skipped as idling
+[1016405.883275] sysrq: CPU5:
+[1016405.883277] sysrq: CPU6: backtrace skipped as idling
+[1016405.883279] sysrq: CPU1: backtrace skipped as idling
+[1016405.883282] sysrq: CPU2: backtrace skipped as idling
+[1016405.883283] sysrq: CPU7: backtrace skipped as idling
+[1016405.883286] sysrq: CPU0: backtrace skipped as idling
+[1016405.883288] Call trace:
+[1016405.883302]  dump_backtrace+0x0/0x1f0
+[1016405.883306]  show_stack+0x1c/0x24
+[1016405.883308]  showacpu+0x6c/0xa0
+[1016405.883313]  flush_smp_call_function_queue+0xd4/0x264
+[1016405.883318]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016405.883320]  ipi_handler+0x88/0x2a4
+[1016405.883324]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016405.883327]  __handle_domain_irq+0x78/0xe0
+[1016405.883329]  gic_handle_irq+0xe0/0x2e0
+[1016405.883331]  el0_irq_naked+0x4c/0x54
+[1016405.975444] binder: release 57391:57391 transaction -1440428846 out, still active
+[1016405.975453] binder: undelivered TRANSACTION_COMPLETE
+[1016406.000047] init: Service 'zygote' (pid 22405) received signal 9
+[1016406.000070] init: Sending signal 9 to service 'zygote' (pid 22405) process group...
+[1016406.000131] libprocessgroup: Successfully killed process cgroup uid 0 pid 22405 in 0ms
+[1016406.000227] init: Sending signal 9 to service 'audioserver' (pid 22407) process group...
+[1016406.010672] libprocessgroup: Successfully killed process cgroup uid 1041 pid 22407 in 10ms
+[1016406.010849] init: Sending signal 9 to service 'cameraserver' (pid 22408) process group...
+[1016406.016134] libprocessgroup: Successfully killed process cgroup uid 1047 pid 22408 in 5ms
+[1016406.016355] init: Sending signal 9 to service 'media' (pid 22409) process group...
+[1016406.021631] libprocessgroup: Successfully killed process cgroup uid 1013 pid 22409 in 5ms
+[1016406.021795] init: Sending signal 9 to service 'netd' (pid 22410) process group...
+[1016406.027156] libprocessgroup: Successfully killed process cgroup uid 0 pid 22410 in 5ms
+[1016406.027325] init: Sending signal 9 to service 'wificond' (pid 22411) process group...
+[1016406.032539] libprocessgroup: Successfully killed process cgroup uid 1010 pid 22411 in 5ms
+[1016406.032814] init: Service 'audioserver' (pid 22407) received signal 9
+[1016406.032822] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 22412) process group...
+[1016406.038010] libprocessgroup: Successfully killed process cgroup uid 1041 pid 22412 in 5ms
+[1016406.038223] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016406.038249] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016406.038808] init: Service 'cameraserver' (pid 22408) received signal 9
+[1016406.039260] init: Service 'media' (pid 22409) received signal 9
+[1016406.039285] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 22413) process group...
+[1016406.044667] libprocessgroup: Successfully killed process cgroup uid 1013 pid 22413 in 5ms
+[1016406.045280] init: Service 'netd' (pid 22410) received signal 9
+[1016406.045343] init: Sending signal 9 to service 'zygote_secondary' (pid 22406) process group...
+[1016406.050668] libprocessgroup: Successfully killed process cgroup uid 0 pid 22406 in 5ms
+[1016406.051056] init: Service 'zygote_secondary' (pid 22406) received signal 9
+[1016406.051709] init: Service 'wificond' (pid 22411) received signal 9
+[1016406.051869] init: Service 'vendor.audio-hal-2-0' (pid 22412) received signal 9
+[1016406.052079] init: Service 'vendor.rockit-hal-1-0' (pid 22413) received signal 9
+[1016406.052256] init: Untracked pid 22414 received signal 9
+[1016406.052345] init: Untracked pid 22418 received signal 9
+[1016406.054948] init: starting service 'zygote'...
+[1016406.056533] init: starting service 'zygote_secondary'...
+[1016406.057827] init: starting service 'audioserver'...
+[1016406.058275] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016406.058432] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016406.058971] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016406.059111] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016406.060755] init: starting service 'cameraserver'...
+[1016406.062235] init: starting service 'media'...
+[1016406.063654] init: starting service 'netd'...
+[1016406.064916] init: couldn't write 22872 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016406.066162] init: starting service 'wificond'...
+[1016406.067587] init: starting service 'vendor.audio-hal-2-0'...
+[1016406.069750] init: starting service 'vendor.rockit-hal-1-0'...
+[1016406.071452] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016406.071531] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016406.071556] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016423.528041] init: Untracked pid 1380 exited with status 0
+[1016423.529616] init: Untracked pid 1382 exited with status 0
+[1016423.544770] init: Untracked pid 1385 exited with status 0
+[1016423.545230] init: Untracked pid 1387 exited with status 0
+[1016423.565299] init: Untracked pid 1390 exited with status 0
+[1016423.565972] init: Untracked pid 1392 exited with status 0
+[1016423.696908] init: Untracked pid 1396 exited with status 0
+[1016423.697823] init: Untracked pid 1398 exited with status 0
+[1016423.739123] init: Untracked pid 1401 exited with status 0
+[1016423.744153] init: Untracked pid 1403 exited with status 0
+[1016423.824370] init: Untracked pid 1406 exited with status 0
+[1016423.828595] init: Untracked pid 1408 exited with status 0
+[1016423.870255] init: Untracked pid 1411 exited with status 0
+[1016423.871114] init: Untracked pid 1413 exited with status 0
+[1016423.908152] init: Untracked pid 1417 exited with status 0
+[1016423.908963] init: Untracked pid 1419 exited with status 0
+[1016423.938295] init: Untracked pid 1427 exited with status 0
+[1016423.938735] init: Untracked pid 1429 exited with status 0
+[1016424.074731] init: Untracked pid 1441 exited with status 0
+[1016424.078233] init: Untracked pid 1443 exited with status 0
+[1016424.187634] init: Untracked pid 1447 exited with status 0
+[1016424.187658] init: Untracked pid 1449 exited with status 0
+[1016424.308490] init: Untracked pid 1453 exited with status 0
+[1016424.310662] init: Untracked pid 1455 exited with status 0
+[1016436.718246] init: Untracked pid 23065 exited with status 0
+[1016436.718633] init: Untracked pid 23067 exited with status 0
+[1016436.969299] init: Untracked pid 23070 exited with status 0
+[1016436.972288] init: Untracked pid 23072 exited with status 0
+[1016436.979681] init: Untracked pid 23075 exited with status 0
+[1016436.980173] init: Untracked pid 23077 exited with status 0
+[1016437.002545] init: Untracked pid 23080 exited with status 0
+[1016437.003493] init: Untracked pid 23082 exited with status 0
+[1016437.041934] init: Untracked pid 23085 exited with status 0
+[1016437.048524] init: Untracked pid 23087 exited with status 0
+[1016437.125919] init: Untracked pid 23090 exited with status 0
+[1016437.128966] init: Untracked pid 23092 exited with status 0
+[1016437.166973] init: Untracked pid 23095 exited with status 0
+[1016437.167917] init: Untracked pid 23097 exited with status 0
+[1016437.209883] init: Untracked pid 23100 exited with status 0
+[1016437.211377] init: Untracked pid 23102 exited with status 0
+[1016437.230986] init: Untracked pid 23105 exited with status 0
+[1016437.232135] init: Untracked pid 23107 exited with status 0
+[1016437.469255] init: Untracked pid 23110 exited with status 0
+[1016437.469676] init: Untracked pid 23112 exited with status 0
+[1016437.499794] init: Untracked pid 23116 exited with status 0
+[1016437.504775] init: Untracked pid 23118 exited with status 0
+[1016437.616873] init: Untracked pid 23122 exited with status 0
+[1016437.619784] init: Untracked pid 23124 exited with status 0
+[1016437.730294] init: Untracked pid 23128 exited with status 0
+[1016437.731443] init: Untracked pid 23130 exited with status 0
+[1016454.399536] init: Untracked pid 1542 exited with status 0
+[1016454.401087] init: Untracked pid 1544 exited with status 0
+[1016454.416128] init: Untracked pid 1547 exited with status 0
+[1016454.416622] init: Untracked pid 1549 exited with status 0
+[1016454.436897] init: Untracked pid 1552 exited with status 0
+[1016454.437853] init: Untracked pid 1554 exited with status 0
+[1016454.554983] init: Untracked pid 1569 exited with status 0
+[1016454.555962] init: Untracked pid 1571 exited with status 0
+[1016454.596302] init: Untracked pid 1574 exited with status 0
+[1016454.601939] init: Untracked pid 1576 exited with status 0
+[1016454.686408] init: Untracked pid 1580 exited with status 0
+[1016454.688339] init: Untracked pid 1582 exited with status 0
+[1016454.732391] init: Untracked pid 1586 exited with status 0
+[1016454.733259] init: Untracked pid 1588 exited with status 0
+[1016454.761283] init: Untracked pid 1591 exited with status 0
+[1016454.762659] init: Untracked pid 1593 exited with status 0
+[1016454.784973] init: Untracked pid 1596 exited with status 0
+[1016454.785413] init: Untracked pid 1598 exited with status 0
+[1016454.908073] init: Untracked pid 1603 exited with status 0
+[1016454.909277] init: Untracked pid 1605 exited with status 0
+[1016455.027256] init: Untracked pid 1609 exited with status 0
+[1016455.028169] init: Untracked pid 1611 exited with status 0
+[1016455.146522] init: Untracked pid 1614 exited with status 0
+[1016455.148688] init: Untracked pid 1616 exited with status 0
+[1016460.147069] sysrq: Show Blocked State
+[1016460.147981] sysrq: Show backtrace of all active CPUs
+[1016460.147987] sysrq: CPU7:
+[1016460.147989] Call trace:
+[1016460.147996]  dump_backtrace+0x0/0x1f0
+[1016460.147999]  show_stack+0x1c/0x24
+[1016460.148004]  sysrq_handle_showallcpus+0x78/0xa0
+[1016460.148008]  __handle_sysrq+0x8c/0x194
+[1016460.148011]  write_sysrq_trigger+0x94/0xd0
+[1016460.148015]  proc_reg_write+0xa8/0x100
+[1016460.148018]  vfs_write+0xf0/0x2cc
+[1016460.148021]  ksys_write+0x6c/0xf4
+[1016460.148023]  __arm64_sys_write+0x20/0x2c
+[1016460.148027]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016460.148029]  do_el0_svc+0x28/0xa0
+[1016460.148032]  el0_svc+0x1c/0x2c
+[1016460.148035]  el0_sync_handler+0xa8/0xac
+[1016460.148037]  el0_sync+0x158/0x180
+[1016460.148050] sysrq: CPU4:
+[1016460.148053] sysrq: CPU0: backtrace skipped as idling
+[1016460.148055] sysrq: CPU5: backtrace skipped as idling
+[1016460.148056] sysrq: CPU6: backtrace skipped as idling
+[1016460.148059] sysrq: CPU2: backtrace skipped as idling
+[1016460.148063] sysrq: CPU1: backtrace skipped as idling
+[1016460.148070] Call trace:
+[1016460.148074]  dump_backtrace+0x0/0x1f0
+[1016460.148077]  show_stack+0x1c/0x24
+[1016460.148081]  showacpu+0x6c/0xa0
+[1016460.148086]  flush_smp_call_function_queue+0xd4/0x264
+[1016460.148091]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016460.148094]  ipi_handler+0x88/0x2a4
+[1016460.148098]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016460.148102]  __handle_domain_irq+0x78/0xe0
+[1016460.148104]  gic_handle_irq+0xe0/0x2e0
+[1016460.148107]  el0_irq_naked+0x4c/0x54
+[1016460.148111] sysrq: CPU3:
+[1016460.148119] Call trace:
+[1016460.148126]  dump_backtrace+0x0/0x1f0
+[1016460.148133]  show_stack+0x1c/0x24
+[1016460.148139]  showacpu+0x6c/0xa0
+[1016460.148146]  flush_smp_call_function_queue+0xd4/0x264
+[1016460.148152]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016460.148158]  ipi_handler+0x88/0x2a4
+[1016460.148164]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016460.148171]  __handle_domain_irq+0x78/0xe0
+[1016460.148177]  gic_handle_irq+0xe0/0x2e0
+[1016460.148182]  el1_irq+0xc8/0x180
+[1016460.148189]  lookup_fast+0xbc/0x19c
+[1016460.148195]  walk_component+0x44/0x1d0
+[1016460.148202]  link_path_walk.part.0+0x23c/0x340
+[1016460.148211]  path_openat+0xa8/0xea0
+[1016460.148217]  do_filp_open+0x7c/0x12c
+[1016460.148223]  do_sys_openat2+0xb4/0x160
+[1016460.148230]  __arm64_sys_openat+0x68/0xb0
+[1016460.148236]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016460.148241]  do_el0_svc+0x28/0xa0
+[1016460.148248]  el0_svc+0x1c/0x2c
+[1016460.148254]  el0_sync_handler+0xa8/0xac
+[1016460.148260]  el0_sync+0x158/0x180
+[1016460.244938] binder: release 58408:58511 transaction -1440412165 out, still active
+[1016460.353766] init: Service 'zygote' (pid 980) received signal 9
+[1016460.353800] init: Sending signal 9 to service 'zygote' (pid 980) process group...
+[1016460.354011] libprocessgroup: Successfully killed process cgroup uid 0 pid 980 in 0ms
+[1016460.354235] init: Sending signal 9 to service 'audioserver' (pid 982) process group...
+[1016460.359610] libprocessgroup: Successfully killed process cgroup uid 1041 pid 982 in 5ms
+[1016460.359790] init: Sending signal 9 to service 'cameraserver' (pid 983) process group...
+[1016460.365092] libprocessgroup: Successfully killed process cgroup uid 1047 pid 983 in 5ms
+[1016460.365318] init: Sending signal 9 to service 'media' (pid 984) process group...
+[1016460.370540] libprocessgroup: Successfully killed process cgroup uid 1013 pid 984 in 5ms
+[1016460.370685] init: Sending signal 9 to service 'netd' (pid 985) process group...
+[1016460.376031] libprocessgroup: Successfully killed process cgroup uid 0 pid 985 in 5ms
+[1016460.376195] init: Sending signal 9 to service 'wificond' (pid 986) process group...
+[1016460.381373] libprocessgroup: Successfully killed process cgroup uid 1010 pid 986 in 5ms
+[1016460.381656] init: Service 'audioserver' (pid 982) received signal 9
+[1016460.381682] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 987) process group...
+[1016460.386824] libprocessgroup: Successfully killed process cgroup uid 1041 pid 987 in 5ms
+[1016460.386921] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016460.386930] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016460.387143] init: Service 'cameraserver' (pid 983) received signal 9
+[1016460.387310] init: Service 'media' (pid 984) received signal 9
+[1016460.387317] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 988) process group...
+[1016460.392449] libprocessgroup: Successfully killed process cgroup uid 1013 pid 988 in 5ms
+[1016460.392698] init: Service 'netd' (pid 985) received signal 9
+[1016460.392723] init: Sending signal 9 to service 'zygote_secondary' (pid 981) process group...
+[1016460.403222] libprocessgroup: Successfully killed process cgroup uid 0 pid 981 in 10ms
+[1016460.403413] init: Service 'zygote_secondary' (pid 981) received signal 9
+[1016460.403618] init: Service 'wificond' (pid 986) received signal 9
+[1016460.403685] init: Service 'vendor.audio-hal-2-0' (pid 987) received signal 9
+[1016460.403764] init: Service 'vendor.rockit-hal-1-0' (pid 988) received signal 9
+[1016460.403834] init: Untracked pid 1275 received signal 9
+[1016460.403868] init: Untracked pid 992 received signal 9
+[1016460.403897] init: Untracked pid 993 received signal 9
+[1016460.404657] init: starting service 'zygote'...
+[1016460.405412] init: starting service 'zygote_secondary'...
+[1016460.405600] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016460.405778] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016460.406249] init: starting service 'audioserver'...
+[1016460.406961] init: starting service 'cameraserver'...
+[1016460.407446] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016460.407500] init: couldn't write 1645 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016460.407585] init: starting service 'media'...
+[1016460.407596] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016460.408191] init: starting service 'netd'...
+[1016460.408775] init: starting service 'wificond'...
+[1016460.409401] init: starting service 'vendor.audio-hal-2-0'...
+[1016460.410019] init: starting service 'vendor.rockit-hal-1-0'...
+[1016460.421517] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016460.421698] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016460.421782] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016460.495259] init: Received control message 'interface_start' for 'android.hardware.audio@5.0::IDevicesFactory/default' from pid: 28 (/system/bin/hwservicemanager)
+[1016460.495311] init: Could not find 'android.hardware.audio@5.0::IDevicesFactory/default' for ctl.interface_start
+[1016460.495608] init: Received control message 'interface_start' for 'android.hardware.audio@5.0::IDevicesFactory/default' from pid: 28 (/system/bin/hwservicemanager)
+[1016460.495638] init: Could not find 'android.hardware.audio@5.0::IDevicesFactory/default' for ctl.interface_start
+[1016461.686550] init: Received control message 'start' for 'idmap2d' from pid: 1695 (system_server)
+[1016461.686579] init: starting service 'idmap2d'...
+[1016461.811746] healthd: battery none chg=
+[1016461.811873] healthd: battery none chg=
+[1016461.812605] binder: release 58501:58501 transaction -1440349545 in, still active
+[1016461.812612] binder: send failed reply for transaction -1440349545 to 63616:63792
+[1016461.812616] binder: release 58501:58508 transaction -1440412165 in, still active
+[1016461.812619] binder: send failed reply for transaction -1440412165, target dead
+[1016461.812788] init: Service 'vendor.sensors-hal-1-0' (pid 1114) exited with status 255
+[1016461.812796] init: Sending signal 9 to service 'vendor.sensors-hal-1-0' (pid 1114) process group...
+[1016461.812851] libprocessgroup: Successfully killed process cgroup uid 1000 pid 1114 in 0ms
+[1016461.813092] init: starting service 'vendor.sensors-hal-1-0'...
+[1016462.289494] init: processing action (sys.sysctl.extra_free_kbytes=*) from (/init.rc:815)
+[1016467.783676] init: Untracked pid 23227 exited with status 0
+[1016467.784555] init: Untracked pid 23229 exited with status 0
+[1016468.047859] init: Untracked pid 23233 exited with status 0
+[1016468.051265] init: Untracked pid 23235 exited with status 0
+[1016468.058955] init: Untracked pid 23238 exited with status 0
+[1016468.059445] init: Untracked pid 23240 exited with status 0
+[1016468.075392] init: Untracked pid 23243 exited with status 0
+[1016468.076449] init: Untracked pid 23245 exited with status 0
+[1016468.116743] init: Untracked pid 23248 exited with status 0
+[1016468.126638] init: Untracked pid 23250 exited with status 0
+[1016468.208743] init: Untracked pid 23253 exited with status 0
+[1016468.211665] init: Untracked pid 23255 exited with status 0
+[1016468.257155] init: Untracked pid 23258 exited with status 0
+[1016468.258181] init: Untracked pid 23260 exited with status 0
+[1016468.304105] init: Untracked pid 23263 exited with status 0
+[1016468.305871] init: Untracked pid 23265 exited with status 0
+[1016468.324800] init: Untracked pid 23268 exited with status 0
+[1016468.325912] init: Untracked pid 23270 exited with status 0
+[1016468.558549] init: Untracked pid 23273 exited with status 0
+[1016468.558722] init: Untracked pid 23275 exited with status 0
+[1016468.582822] init: Untracked pid 23280 exited with status 0
+[1016468.584035] init: Untracked pid 23282 exited with status 0
+[1016468.702196] init: Untracked pid 23285 exited with status 0
+[1016468.706871] init: Untracked pid 23287 exited with status 0
+[1016468.817528] init: Untracked pid 23291 exited with status 0
+[1016468.819765] init: Untracked pid 23293 exited with status 0
+[1016471.815012] init: Received control message 'stop' for 'idmap2d' from pid: 1695 (system_server)
+[1016471.815029] init: Sending signal 9 to service 'idmap2d' (pid 1777) process group...
+[1016471.820220] libprocessgroup: Successfully killed process cgroup uid 1000 pid 1777 in 5ms
+[1016471.820418] init: Service 'idmap2d' (pid 1777) received signal 9
+[1016473.818357] sysrq: Show Blocked State
+[1016473.818414] task:kconsole        state:D stack:    0 pid:  113 ppid:     2 flags:0x00000008
+[1016473.818424] Call trace:
+[1016473.818434]  __switch_to+0xe4/0x140
+[1016473.818441]  __schedule+0x328/0x890
+[1016473.818447]  schedule+0x4c/0xd0
+[1016473.818453]  schedule_hrtimeout_range_clock+0x98/0x134
+[1016473.818458]  schedule_hrtimeout_range+0x18/0x20
+[1016473.818463]  usleep_range+0x7c/0xb0
+[1016473.818471]  console_thread+0x254/0x310
+[1016473.818477]  kthread+0x128/0x130
+[1016473.818482]  ret_from_fork+0x10/0x20
+[1016473.820274] sysrq: Show backtrace of all active CPUs
+[1016473.820284] sysrq: CPU3:
+[1016473.820289] Call trace:
+[1016473.820297]  dump_backtrace+0x0/0x1f0
+[1016473.820303]  show_stack+0x1c/0x24
+[1016473.820311]  sysrq_handle_showallcpus+0x78/0xa0
+[1016473.820318]  __handle_sysrq+0x8c/0x194
+[1016473.820324]  write_sysrq_trigger+0x94/0xd0
+[1016473.820331]  proc_reg_write+0xa8/0x100
+[1016473.820337]  vfs_write+0xf0/0x2cc
+[1016473.820343]  ksys_write+0x6c/0xf4
+[1016473.820348]  __arm64_sys_write+0x20/0x2c
+[1016473.820354]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016473.820360]  do_el0_svc+0x28/0xa0
+[1016473.820366]  el0_svc+0x1c/0x2c
+[1016473.820371]  el0_sync_handler+0xa8/0xac
+[1016473.820377]  el0_sync+0x158/0x180
+[1016473.820406] sysrq: CPU4:
+[1016473.820408] sysrq: CPU7: backtrace skipped as idling
+[1016473.820410] sysrq: CPU0: backtrace skipped as idling
+[1016473.820413] sysrq: CPU1: backtrace skipped as idling
+[1016473.820416] sysrq: CPU2: backtrace skipped as idling
+[1016473.820424] Call trace:
+[1016473.820429]  dump_backtrace+0x0/0x1f0
+[1016473.820435]  show_stack+0x1c/0x24
+[1016473.820439]  showacpu+0x6c/0xa0
+[1016473.820443]  flush_smp_call_function_queue+0xd4/0x264
+[1016473.820446]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016473.820449]  ipi_handler+0x88/0x2a4
+[1016473.820452]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016473.820455]  __handle_domain_irq+0x78/0xe0
+[1016473.820458]  gic_handle_irq+0xe0/0x2e0
+[1016473.820460]  el0_irq_naked+0x4c/0x54
+[1016473.820462] sysrq: CPU6:
+[1016473.820465] Call trace:
+[1016473.820469]  dump_backtrace+0x0/0x1f0
+[1016473.820472]  show_stack+0x1c/0x24
+[1016473.820475]  showacpu+0x6c/0xa0
+[1016473.820478]  flush_smp_call_function_queue+0xd4/0x264
+[1016473.820481]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016473.820483]  ipi_handler+0x88/0x2a4
+[1016473.820486]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016473.820492]  __handle_domain_irq+0x78/0xe0
+[1016473.820494]  gic_handle_irq+0xe0/0x2e0
+[1016473.820497]  el1_irq+0xc8/0x180
+[1016473.820499]  _raw_spin_unlock_irqrestore+0x20/0x40
+[1016473.820503]  do_task_stat+0x2c0/0xa2c
+[1016473.820505]  proc_tgid_stat+0x18/0x20
+[1016473.820507]  proc_single_show+0x64/0x120
+[1016473.820511]  seq_read_iter+0x1b4/0x4a0
+[1016473.820513]  seq_read+0xe0/0x134
+[1016473.820516]  vfs_read+0xb0/0x1d4
+[1016473.820518]  ksys_read+0x6c/0xf4
+[1016473.820521]  __arm64_sys_read+0x20/0x2c
+[1016473.820526]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016473.820528]  do_el0_svc+0x28/0xa0
+[1016473.820531]  el0_svc+0x1c/0x2c
+[1016473.820534]  el0_sync_handler+0xa8/0xac
+[1016473.820537]  el0_sync+0x158/0x180
+[1016473.820542] sysrq: CPU5:
+[1016473.820545] Call trace:
+[1016473.820549]  dump_backtrace+0x0/0x1f0
+[1016473.820552]  show_stack+0x1c/0x24
+[1016473.820555]  showacpu+0x6c/0xa0
+[1016473.820560]  flush_smp_call_function_queue+0xd4/0x264
+[1016473.820563]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016473.820566]  ipi_handler+0x88/0x2a4
+[1016473.820569]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016473.820571]  __handle_domain_irq+0x78/0xe0
+[1016473.820573]  gic_handle_irq+0xe0/0x2e0
+[1016473.820575]  el1_irq+0xc8/0x180
+[1016473.820578]  arch_cpu_idle+0x14/0x3c
+[1016473.820583]  default_idle_call+0x40/0x184
+[1016473.820588]  do_idle+0x234/0x2d0
+[1016473.820590]  cpu_startup_entry+0x28/0x60
+[1016473.820592]  secondary_start_kernel+0x13c/0x1d0
+[1016473.921426] binder: release 60869:60869 transaction -1440383297 out, still active
+[1016473.921434] binder: undelivered TRANSACTION_COMPLETE
+[1016473.930980] init: Service 'zygote' (pid 22869) received signal 9
+[1016473.930997] init: Sending signal 9 to service 'zygote' (pid 22869) process group...
+[1016473.931055] libprocessgroup: Successfully killed process cgroup uid 0 pid 22869 in 0ms
+[1016473.931150] init: Sending signal 9 to service 'audioserver' (pid 22871) process group...
+[1016473.936319] libprocessgroup: Successfully killed process cgroup uid 1041 pid 22871 in 5ms
+[1016473.936393] init: Sending signal 9 to service 'cameraserver' (pid 22872) process group...
+[1016473.941543] libprocessgroup: Successfully killed process cgroup uid 1047 pid 22872 in 5ms
+[1016473.941639] init: Sending signal 9 to service 'media' (pid 22873) process group...
+[1016473.946794] libprocessgroup: Successfully killed process cgroup uid 1013 pid 22873 in 5ms
+[1016473.946863] init: Sending signal 9 to service 'netd' (pid 22874) process group...
+[1016473.952099] libprocessgroup: Successfully killed process cgroup uid 0 pid 22874 in 5ms
+[1016473.952258] init: Sending signal 9 to service 'wificond' (pid 22875) process group...
+[1016473.957465] libprocessgroup: Successfully killed process cgroup uid 1010 pid 22875 in 5ms
+[1016473.958222] init: Service 'audioserver' (pid 22871) received signal 9
+[1016473.958249] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 22876) process group...
+[1016473.963507] libprocessgroup: Successfully killed process cgroup uid 1041 pid 22876 in 5ms
+[1016473.963720] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016473.963746] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016473.964335] init: Service 'cameraserver' (pid 22872) received signal 9
+[1016473.964805] init: Service 'media' (pid 22873) received signal 9
+[1016473.964832] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 22877) process group...
+[1016473.970057] libprocessgroup: Successfully killed process cgroup uid 1013 pid 22877 in 5ms
+[1016473.970684] init: Service 'netd' (pid 22874) received signal 9
+[1016473.970748] init: Sending signal 9 to service 'zygote_secondary' (pid 22870) process group...
+[1016473.986156] libprocessgroup: Successfully killed process cgroup uid 0 pid 22870 in 15ms
+[1016473.986332] init: Service 'zygote_secondary' (pid 22870) received signal 9
+[1016473.986537] init: Service 'wificond' (pid 22875) received signal 9
+[1016473.986593] init: Service 'vendor.audio-hal-2-0' (pid 22876) received signal 9
+[1016473.986666] init: Service 'vendor.rockit-hal-1-0' (pid 22877) received signal 9
+[1016473.986727] init: Untracked pid 22881 received signal 9
+[1016473.986757] init: Untracked pid 22882 received signal 9
+[1016473.987518] init: starting service 'zygote'...
+[1016473.988426] init: starting service 'zygote_secondary'...
+[1016473.988618] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016473.988770] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016473.989074] init: starting service 'audioserver'...
+[1016473.989682] init: starting service 'cameraserver'...
+[1016473.990235] init: starting service 'media'...
+[1016473.990750] init: starting service 'netd'...
+[1016473.991301] init: starting service 'wificond'...
+[1016473.991364] init: couldn't write 23319 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016473.991870] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016473.997729] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016473.997765] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016473.998003] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016473.998145] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016474.010981] init: starting service 'vendor.audio-hal-2-0'...
+[1016474.011797] init: starting service 'vendor.rockit-hal-1-0'...
+[1016474.685039] init: Received control message 'start' for 'setup-bcb' from pid: 23364 (system_server)
+[1016474.685092] init: starting service 'setup-bcb'...
+[1016474.688045] init: Created socket '/dev/socket/uncrypt', mode 600, user 1000, group 1000
+[1016475.697374] init: Service 'setup-bcb' (pid 23413) exited with status 1
+[1016475.697388] init: Sending signal 9 to service 'setup-bcb' (pid 23413) process group...
+[1016475.697441] libprocessgroup: Successfully killed process cgroup uid 0 pid 23413 in 0ms
+[1016504.661183] init: Untracked pid 23512 exited with status 0
+[1016504.661846] init: Untracked pid 23514 exited with status 0
+[1016504.913501] init: Untracked pid 23517 exited with status 0
+[1016504.915504] init: Untracked pid 23519 exited with status 0
+[1016504.929959] init: Untracked pid 23522 exited with status 0
+[1016504.930424] init: Untracked pid 23524 exited with status 0
+[1016504.952677] init: Untracked pid 23527 exited with status 0
+[1016504.953728] init: Untracked pid 23529 exited with status 0
+[1016504.994913] init: Untracked pid 23532 exited with status 0
+[1016504.998796] init: Untracked pid 23534 exited with status 0
+[1016505.086611] init: Untracked pid 23537 exited with status 0
+[1016505.089647] init: Untracked pid 23539 exited with status 0
+[1016505.127674] init: Untracked pid 23542 exited with status 0
+[1016505.128613] init: Untracked pid 23544 exited with status 0
+[1016505.169021] init: Untracked pid 23547 exited with status 0
+[1016505.170637] init: Untracked pid 23549 exited with status 0
+[1016505.196154] init: Untracked pid 23552 exited with status 0
+[1016505.197238] init: Untracked pid 23554 exited with status 0
+[1016505.449236] init: Untracked pid 23557 exited with status 0
+[1016505.449459] init: Untracked pid 23559 exited with status 0
+[1016505.480785] init: Untracked pid 23562 exited with status 0
+[1016505.484444] init: Untracked pid 23564 exited with status 0
+[1016505.597227] init: Untracked pid 23568 exited with status 0
+[1016505.601558] init: Untracked pid 23570 exited with status 0
+[1016505.719296] init: Untracked pid 23574 exited with status 0
+[1016505.721504] init: Untracked pid 23576 exited with status 0
+[1016521.136126] init: Untracked pid 2061 exited with status 0
+[1016521.136749] init: Untracked pid 2063 exited with status 0
+[1016521.163602] init: Untracked pid 2066 exited with status 0
+[1016521.165093] init: Untracked pid 2068 exited with status 0
+[1016521.180033] init: Untracked pid 2071 exited with status 0
+[1016521.180543] init: Untracked pid 2073 exited with status 0
+[1016521.318051] init: Untracked pid 2077 exited with status 0
+[1016521.318995] init: Untracked pid 2079 exited with status 0
+[1016521.356479] init: Untracked pid 2082 exited with status 0
+[1016521.361735] init: Untracked pid 2084 exited with status 0
+[1016521.447117] init: Untracked pid 2087 exited with status 0
+[1016521.450160] init: Untracked pid 2089 exited with status 0
+[1016521.486322] init: Untracked pid 2093 exited with status 0
+[1016521.487152] init: Untracked pid 2095 exited with status 0
+[1016521.516511] init: Untracked pid 2098 exited with status 0
+[1016521.517925] init: Untracked pid 2100 exited with status 0
+[1016521.543315] init: Untracked pid 2104 exited with status 0
+[1016521.544307] init: Untracked pid 2106 exited with status 0
+[1016521.692181] init: Untracked pid 2111 exited with status 0
+[1016521.695801] init: Untracked pid 2113 exited with status 0
+[1016521.810983] init: Untracked pid 2117 exited with status 0
+[1016521.815490] init: Untracked pid 2119 exited with status 0
+[1016521.924590] init: Untracked pid 2123 exited with status 0
+[1016521.926674] init: Untracked pid 2125 exited with status 0
+[1016535.773361] init: Untracked pid 23674 exited with status 0
+[1016535.773631] init: Untracked pid 23676 exited with status 0
+[1016536.013463] init: Untracked pid 23679 exited with status 0
+[1016536.015478] init: Untracked pid 23681 exited with status 0
+[1016536.030080] init: Untracked pid 23684 exited with status 0
+[1016536.030558] init: Untracked pid 23686 exited with status 0
+[1016536.052384] init: Untracked pid 23689 exited with status 0
+[1016536.053403] init: Untracked pid 23691 exited with status 0
+[1016536.097014] init: Untracked pid 23694 exited with status 0
+[1016536.101756] init: Untracked pid 23696 exited with status 0
+[1016536.181619] init: Untracked pid 23699 exited with status 0
+[1016536.182302] init: Untracked pid 23701 exited with status 0
+[1016536.222225] init: Untracked pid 23704 exited with status 0
+[1016536.223188] init: Untracked pid 23706 exited with status 0
+[1016536.264745] init: Untracked pid 23709 exited with status 0
+[1016536.266181] init: Untracked pid 23711 exited with status 0
+[1016536.292384] init: Untracked pid 23714 exited with status 0
+[1016536.293448] init: Untracked pid 23716 exited with status 0
+[1016536.536206] init: Untracked pid 23719 exited with status 0
+[1016536.536644] init: Untracked pid 23721 exited with status 0
+[1016536.558998] init: Untracked pid 23725 exited with status 0
+[1016536.561455] init: Untracked pid 23727 exited with status 0
+[1016536.674939] init: Untracked pid 23730 exited with status 0
+[1016536.678208] init: Untracked pid 23732 exited with status 0
+[1016536.796374] init: Untracked pid 23736 exited with status 0
+[1016536.798535] init: Untracked pid 23738 exited with status 0
+[1016541.797214] sysrq: Show Blocked State
+[1016541.797268] task:kconsole        state:D stack:    0 pid:  113 ppid:     2 flags:0x00000008
+[1016541.797277] Call trace:
+[1016541.797288]  __switch_to+0xe4/0x140
+[1016541.797295]  __schedule+0x328/0x890
+[1016541.797300]  schedule+0x4c/0xd0
+[1016541.797306]  schedule_hrtimeout_range_clock+0x98/0x134
+[1016541.797312]  schedule_hrtimeout_range+0x18/0x20
+[1016541.797317]  usleep_range+0x7c/0xb0
+[1016541.797324]  console_thread+0x254/0x310
+[1016541.797330]  kthread+0x128/0x130
+[1016541.797378]  ret_from_fork+0x10/0x20
+[1016541.799179] sysrq: Show backtrace of all active CPUs
+[1016541.799187] sysrq: CPU3:
+[1016541.799192] Call trace:
+[1016541.799199]  dump_backtrace+0x0/0x1f0
+[1016541.799205]  show_stack+0x1c/0x24
+[1016541.799212]  sysrq_handle_showallcpus+0x78/0xa0
+[1016541.799219]  __handle_sysrq+0x8c/0x194
+[1016541.799225]  write_sysrq_trigger+0x94/0xd0
+[1016541.799232]  proc_reg_write+0xa8/0x100
+[1016541.799238]  vfs_write+0xf0/0x2cc
+[1016541.799244]  ksys_write+0x6c/0xf4
+[1016541.799249]  __arm64_sys_write+0x20/0x2c
+[1016541.799256]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016541.799261]  do_el0_svc+0x28/0xa0
+[1016541.799267]  el0_svc+0x1c/0x2c
+[1016541.799272]  el0_sync_handler+0xa8/0xac
+[1016541.799277]  el0_sync+0x158/0x180
+[1016541.799301] sysrq: CPU4: backtrace skipped as idling
+[1016541.799303] sysrq: CPU6: backtrace skipped as idling
+[1016541.799303] sysrq: CPU7:
+[1016541.799305] sysrq: CPU5: backtrace skipped as idling
+[1016541.799307] sysrq: CPU1: backtrace skipped as idling
+[1016541.799310] sysrq: CPU0: backtrace skipped as idling
+[1016541.799313] sysrq: CPU2: backtrace skipped as idling
+[1016541.799315] Call trace:
+[1016541.799327]  dump_backtrace+0x0/0x1f0
+[1016541.799332]  show_stack+0x1c/0x24
+[1016541.799335]  showacpu+0x6c/0xa0
+[1016541.799339]  flush_smp_call_function_queue+0xd4/0x264
+[1016541.799342]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016541.799345]  ipi_handler+0x88/0x2a4
+[1016541.799349]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016541.799352]  __handle_domain_irq+0x78/0xe0
+[1016541.799354]  gic_handle_irq+0xe0/0x2e0
+[1016541.799358]  el0_irq_naked+0x4c/0x54
+[1016541.910771] binder: release 65120:65120 transaction -1440336824 out, still active
+[1016541.910779] binder: undelivered TRANSACTION_COMPLETE
+[1016541.920423] init: Service 'zygote' (pid 23316) received signal 9
+[1016541.920439] init: Sending signal 9 to service 'zygote' (pid 23316) process group...
+[1016541.920496] libprocessgroup: Successfully killed process cgroup uid 0 pid 23316 in 0ms
+[1016541.920594] init: Sending signal 9 to service 'audioserver' (pid 23318) process group...
+[1016541.925748] libprocessgroup: Successfully killed process cgroup uid 1041 pid 23318 in 5ms
+[1016541.925817] init: Sending signal 9 to service 'cameraserver' (pid 23319) process group...
+[1016541.930935] libprocessgroup: Successfully killed process cgroup uid 1047 pid 23319 in 5ms
+[1016541.931017] init: Sending signal 9 to service 'media' (pid 23320) process group...
+[1016541.936181] libprocessgroup: Successfully killed process cgroup uid 1013 pid 23320 in 5ms
+[1016541.936335] init: Sending signal 9 to service 'netd' (pid 23321) process group...
+[1016541.941680] libprocessgroup: Successfully killed process cgroup uid 0 pid 23321 in 5ms
+[1016541.941838] init: Sending signal 9 to service 'wificond' (pid 23322) process group...
+[1016541.947036] libprocessgroup: Successfully killed process cgroup uid 1010 pid 23322 in 5ms
+[1016541.947809] init: Service 'audioserver' (pid 23318) received signal 9
+[1016541.947835] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 23323) process group...
+[1016541.954695] libprocessgroup: Successfully killed process cgroup uid 1041 pid 23323 in 6ms
+[1016541.954910] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016541.954941] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016541.955504] init: Service 'cameraserver' (pid 23319) received signal 9
+[1016541.955972] init: Service 'media' (pid 23320) received signal 9
+[1016541.955998] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 23324) process group...
+[1016541.961216] libprocessgroup: Successfully killed process cgroup uid 1013 pid 23324 in 5ms
+[1016541.961823] init: Service 'netd' (pid 23321) received signal 9
+[1016541.961887] init: Sending signal 9 to service 'zygote_secondary' (pid 23317) process group...
+[1016541.967359] libprocessgroup: Successfully killed process cgroup uid 0 pid 23317 in 5ms
+[1016541.967769] init: Service 'zygote_secondary' (pid 23317) received signal 9
+[1016541.968353] init: Service 'wificond' (pid 23322) received signal 9
+[1016541.968511] init: Service 'vendor.audio-hal-2-0' (pid 23323) received signal 9
+[1016541.968724] init: Service 'vendor.rockit-hal-1-0' (pid 23324) received signal 9
+[1016541.968903] init: Untracked pid 23328 received signal 9
+[1016541.968991] init: Untracked pid 23329 received signal 9
+[1016541.972003] init: starting service 'zygote'...
+[1016541.973580] init: starting service 'zygote_secondary'...
+[1016541.974240] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016541.974314] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016541.974738] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016541.974800] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016541.974959] init: starting service 'audioserver'...
+[1016541.976305] init: starting service 'cameraserver'...
+[1016541.977681] init: starting service 'media'...
+[1016541.979091] init: starting service 'netd'...
+[1016541.980455] init: starting service 'wificond'...
+[1016541.980862] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016541.980933] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016541.980958] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016541.980982] init: couldn't write 23757 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016541.982402] init: starting service 'vendor.audio-hal-2-0'...
+[1016541.991789] init: starting service 'vendor.rockit-hal-1-0'...
+[1016552.010871] init: Untracked pid 2225 exited with status 0
+[1016552.011493] init: Untracked pid 2227 exited with status 0
+[1016552.038620] init: Untracked pid 2230 exited with status 0
+[1016552.040192] init: Untracked pid 2232 exited with status 0
+[1016552.055391] init: Untracked pid 2235 exited with status 0
+[1016552.055840] init: Untracked pid 2237 exited with status 0
+[1016552.195057] init: Untracked pid 2240 exited with status 0
+[1016552.195975] init: Untracked pid 2242 exited with status 0
+[1016552.232360] init: Untracked pid 2245 exited with status 0
+[1016552.236993] init: Untracked pid 2247 exited with status 0
+[1016552.315701] init: Untracked pid 2250 exited with status 0
+[1016552.318691] init: Untracked pid 2252 exited with status 0
+[1016552.354631] init: Untracked pid 2255 exited with status 0
+[1016552.355460] init: Untracked pid 2257 exited with status 0
+[1016552.388780] init: Untracked pid 2260 exited with status 0
+[1016552.390199] init: Untracked pid 2262 exited with status 0
+[1016552.415211] init: Untracked pid 2265 exited with status 0
+[1016552.416118] init: Untracked pid 2267 exited with status 0
+[1016552.560622] init: Untracked pid 2271 exited with status 0
+[1016552.564278] init: Untracked pid 2273 exited with status 0
+[1016552.679824] init: Untracked pid 2277 exited with status 0
+[1016552.680813] init: Untracked pid 2279 exited with status 0
+[1016552.804754] init: Untracked pid 2282 exited with status 0
+[1016552.806812] init: Untracked pid 2284 exited with status 0
+[1016557.805471] sysrq: Show Blocked State
+[1016557.806346] sysrq: Show backtrace of all active CPUs
+[1016557.806352] sysrq: CPU4:
+[1016557.806354] Call trace:
+[1016557.806361]  dump_backtrace+0x0/0x1f0
+[1016557.806364]  show_stack+0x1c/0x24
+[1016557.806369]  sysrq_handle_showallcpus+0x78/0xa0
+[1016557.806373]  __handle_sysrq+0x8c/0x194
+[1016557.806375]  write_sysrq_trigger+0x94/0xd0
+[1016557.806379]  proc_reg_write+0xa8/0x100
+[1016557.806383]  vfs_write+0xf0/0x2cc
+[1016557.806385]  ksys_write+0x6c/0xf4
+[1016557.806388]  __arm64_sys_write+0x20/0x2c
+[1016557.806391]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016557.806393]  do_el0_svc+0x28/0xa0
+[1016557.806397]  el0_svc+0x1c/0x2c
+[1016557.806399]  el0_sync_handler+0xa8/0xac
+[1016557.806402]  el0_sync+0x158/0x180
+[1016557.806415] sysrq: CPU5:
+[1016557.806417] sysrq: CPU7: backtrace skipped as idling
+[1016557.806418] sysrq: CPU6: backtrace skipped as idling
+[1016557.806421] sysrq: CPU0: backtrace skipped as idling
+[1016557.806423] sysrq: CPU2: backtrace skipped as idling
+[1016557.806427] sysrq: CPU3: backtrace skipped as idling
+[1016557.806434] Call trace:
+[1016557.806438]  dump_backtrace+0x0/0x1f0
+[1016557.806441]  show_stack+0x1c/0x24
+[1016557.806448]  showacpu+0x6c/0xa0
+[1016557.806452]  flush_smp_call_function_queue+0xd4/0x264
+[1016557.806455]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016557.806457]  ipi_handler+0x88/0x2a4
+[1016557.806460]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016557.806464]  __handle_domain_irq+0x78/0xe0
+[1016557.806466]  gic_handle_irq+0xe0/0x2e0
+[1016557.806471]  el1_irq+0xc8/0x180
+[1016557.806474]  __kmalloc+0x70/0x3c0
+[1016557.806478]  sync_file_ioctl+0xe4/0x8d0
+[1016557.806481]  __arm64_sys_ioctl+0xa8/0xf0
+[1016557.806484]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016557.806486]  do_el0_svc+0x28/0xa0
+[1016557.806489]  el0_svc+0x1c/0x2c
+[1016557.806492]  el0_sync_handler+0xa8/0xac
+[1016557.806493]  el0_sync+0x158/0x180
+[1016557.806498] sysrq: CPU1:
+[1016557.806504] Call trace:
+[1016557.806511]  dump_backtrace+0x0/0x1f0
+[1016557.806520]  show_stack+0x1c/0x24
+[1016557.806526]  showacpu+0x6c/0xa0
+[1016557.806532]  flush_smp_call_function_queue+0xd4/0x264
+[1016557.806539]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016557.806545]  ipi_handler+0x88/0x2a4
+[1016557.806552]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016557.806558]  __handle_domain_irq+0x78/0xe0
+[1016557.806563]  gic_handle_irq+0xe0/0x2e0
+[1016557.806569]  el1_irq+0xc8/0x180
+[1016557.806575]  _raw_spin_unlock_irqrestore+0x20/0x40
+[1016557.806582]  schedule_actions+0xb88/0x1974
+[1016557.806590]  kbase_csf_scheduler_kthread+0x210/0x574
+[1016557.806597]  kthread+0x128/0x130
+[1016557.806604]  ret_from_fork+0x10/0x20
+[1016557.907322] binder: release 63616:63805 transaction -1440349293 out, still active
+[1016558.007026] init: Service 'zygote' (pid 1642) received signal 9
+[1016558.007041] init: Sending signal 9 to service 'zygote' (pid 1642) process group...
+[1016558.007120] libprocessgroup: Successfully killed process cgroup uid 0 pid 1642 in 0ms
+[1016558.007225] init: Sending signal 9 to service 'audioserver' (pid 1644) process group...
+[1016558.012509] libprocessgroup: Successfully killed process cgroup uid 1041 pid 1644 in 5ms
+[1016558.012695] init: Sending signal 9 to service 'cameraserver' (pid 1645) process group...
+[1016558.017955] libprocessgroup: Successfully killed process cgroup uid 1047 pid 1645 in 5ms
+[1016558.018411] init: Sending signal 9 to service 'media' (pid 1646) process group...
+[1016558.023565] libprocessgroup: Successfully killed process cgroup uid 1013 pid 1646 in 5ms
+[1016558.023640] init: Sending signal 9 to service 'netd' (pid 1647) process group...
+[1016558.028810] libprocessgroup: Successfully killed process cgroup uid 0 pid 1647 in 5ms
+[1016558.028883] init: Sending signal 9 to service 'wificond' (pid 1648) process group...
+[1016558.034235] libprocessgroup: Successfully killed process cgroup uid 1010 pid 1648 in 5ms
+[1016558.034533] init: Service 'audioserver' (pid 1644) received signal 9
+[1016558.034543] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 1649) process group...
+[1016558.039676] libprocessgroup: Successfully killed process cgroup uid 1041 pid 1649 in 5ms
+[1016558.039769] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016558.039777] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016558.039978] init: Service 'cameraserver' (pid 1645) received signal 9
+[1016558.040136] init: Service 'media' (pid 1646) received signal 9
+[1016558.040143] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 1650) process group...
+[1016558.045267] libprocessgroup: Successfully killed process cgroup uid 1013 pid 1650 in 5ms
+[1016558.045501] init: Service 'netd' (pid 1647) received signal 9
+[1016558.045526] init: Sending signal 9 to service 'zygote_secondary' (pid 1643) process group...
+[1016558.055787] libprocessgroup: Successfully killed process cgroup uid 0 pid 1643 in 10ms
+[1016558.055966] init: Service 'zygote_secondary' (pid 1643) received signal 9
+[1016558.056183] init: Service 'wificond' (pid 1648) received signal 9
+[1016558.056243] init: Service 'vendor.audio-hal-2-0' (pid 1649) received signal 9
+[1016558.056320] init: Service 'vendor.rockit-hal-1-0' (pid 1650) received signal 9
+[1016558.056386] init: Untracked pid 1943 received signal 9
+[1016558.056423] init: Untracked pid 1654 received signal 9
+[1016558.056451] init: Untracked pid 1655 received signal 9
+[1016558.057178] init: starting service 'zygote'...
+[1016558.057948] init: starting service 'zygote_secondary'...
+[1016558.058140] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016558.058289] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016558.058510] init: starting service 'audioserver'...
+[1016558.059054] init: starting service 'cameraserver'...
+[1016558.059576] init: starting service 'media'...
+[1016558.060099] init: starting service 'netd'...
+[1016558.060657] init: starting service 'wificond'...
+[1016558.061147] init: couldn't write 2305 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016558.061211] init: starting service 'vendor.audio-hal-2-0'...
+[1016558.066418] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016558.066586] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016558.067219] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016558.067473] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016558.067556] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016558.074951] init: starting service 'vendor.rockit-hal-1-0'...
+[1016559.672427] init: Received control message 'start' for 'idmap2d' from pid: 2349 (system_server)
+[1016559.672455] init: starting service 'idmap2d'...
+[1016559.792129] healthd: battery none chg=
+[1016559.792460] healthd: battery none chg=
+[1016559.794057] binder: release 63794:63794 transaction -1440349293 in, still active
+[1016559.794066] binder: send failed reply for transaction -1440349293, target dead
+[1016559.794070] binder: release 63794:63802 transaction -1440286283 in, still active
+[1016559.794073] binder: send failed reply for transaction -1440286283 to 4242:4371
+[1016559.794191] init: Service 'vendor.sensors-hal-1-0' (pid 1781) exited with status 255
+[1016559.794200] init: Sending signal 9 to service 'vendor.sensors-hal-1-0' (pid 1781) process group...
+[1016559.794256] libprocessgroup: Successfully killed process cgroup uid 1000 pid 1781 in 0ms
+[1016559.794519] init: starting service 'vendor.sensors-hal-1-0'...
+[1016561.633635] init: processing action (sys.sysctl.extra_free_kbytes=*) from (/init.rc:815)
+[1016569.793551] init: Received control message 'stop' for 'idmap2d' from pid: 2349 (system_server)
+[1016569.793593] init: Sending signal 9 to service 'idmap2d' (pid 2429) process group...
+[1016569.798880] libprocessgroup: Successfully killed process cgroup uid 1000 pid 2429 in 5ms
+[1016569.799291] init: Service 'idmap2d' (pid 2429) received signal 9
+[1016572.667165] init: Untracked pid 23950 exited with status 0
+[1016572.667837] init: Untracked pid 23952 exited with status 0
+[1016572.888180] init: Untracked pid 23955 exited with status 0
+[1016572.891357] init: Untracked pid 23957 exited with status 0
+[1016572.898342] init: Untracked pid 23960 exited with status 0
+[1016572.898887] init: Untracked pid 23962 exited with status 0
+[1016572.920991] init: Untracked pid 23965 exited with status 0
+[1016572.921974] init: Untracked pid 23967 exited with status 0
+[1016572.962806] init: Untracked pid 23970 exited with status 0
+[1016572.969784] init: Untracked pid 23972 exited with status 0
+[1016573.047665] init: Untracked pid 23975 exited with status 0
+[1016573.048452] init: Untracked pid 23977 exited with status 0
+[1016573.089929] init: Untracked pid 23991 exited with status 0
+[1016573.091144] init: Untracked pid 23993 exited with status 0
+[1016573.132273] init: Untracked pid 23998 exited with status 0
+[1016573.133812] init: Untracked pid 24000 exited with status 0
+[1016573.159999] init: Untracked pid 24003 exited with status 0
+[1016573.161141] init: Untracked pid 24005 exited with status 0
+[1016573.408236] init: Untracked pid 24008 exited with status 0
+[1016573.408633] init: Untracked pid 24010 exited with status 0
+[1016573.431850] init: Untracked pid 24014 exited with status 0
+[1016573.437181] init: Untracked pid 24016 exited with status 0
+[1016573.541052] init: Untracked pid 24020 exited with status 0
+[1016573.544775] init: Untracked pid 24022 exited with status 0
+[1016573.655196] init: Untracked pid 24026 exited with status 0
+[1016573.657574] init: Untracked pid 24028 exited with status 0
+[1016603.707572] init: Untracked pid 24127 exited with status 0
+[1016603.708189] init: Untracked pid 24129 exited with status 0
+[1016603.974831] init: Untracked pid 24132 exited with status 0
+[1016603.976802] init: Untracked pid 24134 exited with status 0
+[1016603.991470] init: Untracked pid 24137 exited with status 0
+[1016603.991660] init: Untracked pid 24139 exited with status 0
+[1016604.013431] init: Untracked pid 24142 exited with status 0
+[1016604.014621] init: Untracked pid 24144 exited with status 0
+[1016604.058228] init: Untracked pid 24147 exited with status 0
+[1016604.062972] init: Untracked pid 24149 exited with status 0
+[1016604.142661] init: Untracked pid 24152 exited with status 0
+[1016604.145841] init: Untracked pid 24154 exited with status 0
+[1016604.184229] init: Untracked pid 24157 exited with status 0
+[1016604.185212] init: Untracked pid 24159 exited with status 0
+[1016604.226495] init: Untracked pid 24162 exited with status 0
+[1016604.228011] init: Untracked pid 24164 exited with status 0
+[1016604.254418] init: Untracked pid 24167 exited with status 0
+[1016604.255470] init: Untracked pid 24169 exited with status 0
+[1016604.482716] init: Untracked pid 24172 exited with status 0
+[1016604.483106] init: Untracked pid 24174 exited with status 0
+[1016604.515176] init: Untracked pid 24178 exited with status 0
+[1016604.516369] init: Untracked pid 24180 exited with status 0
+[1016604.632431] init: Untracked pid 24183 exited with status 0
+[1016604.634474] init: Untracked pid 24185 exited with status 0
+[1016604.754003] init: Untracked pid 24188 exited with status 0
+[1016604.756137] init: Untracked pid 24190 exited with status 0
+[1016609.754341] sysrq: Show Blocked State
+[1016609.755188] sysrq: Show backtrace of all active CPUs
+[1016609.755194] sysrq: CPU5:
+[1016609.755196] Call trace:
+[1016609.755203]  dump_backtrace+0x0/0x1f0
+[1016609.755206]  show_stack+0x1c/0x24
+[1016609.755211]  sysrq_handle_showallcpus+0x78/0xa0
+[1016609.755215]  __handle_sysrq+0x8c/0x194
+[1016609.755218]  write_sysrq_trigger+0x94/0xd0
+[1016609.755222]  proc_reg_write+0xa8/0x100
+[1016609.755225]  vfs_write+0xf0/0x2cc
+[1016609.755228]  ksys_write+0x6c/0xf4
+[1016609.755230]  __arm64_sys_write+0x20/0x2c
+[1016609.755234]  el0_svc_common.constprop.0+0x6c/0x1c0
+[1016609.755236]  do_el0_svc+0x28/0xa0
+[1016609.755240]  el0_svc+0x1c/0x2c
+[1016609.755242]  el0_sync_handler+0xa8/0xac
+[1016609.755244]  el0_sync+0x158/0x180
+[1016609.755259] sysrq: CPU7:
+[1016609.755262] sysrq: CPU0: backtrace skipped as idling
+[1016609.755265] sysrq: CPU1: backtrace skipped as idling
+[1016609.755266] sysrq: CPU4: backtrace skipped as idling
+[1016609.755268] sysrq: CPU6: backtrace skipped as idling
+[1016609.755270] sysrq: CPU3: backtrace skipped as idling
+[1016609.755274] sysrq: CPU2: backtrace skipped as idling
+[1016609.755283] Call trace:
+[1016609.755287]  dump_backtrace+0x0/0x1f0
+[1016609.755290]  show_stack+0x1c/0x24
+[1016609.755294]  showacpu+0x6c/0xa0
+[1016609.755297]  flush_smp_call_function_queue+0xd4/0x264
+[1016609.755300]  generic_smp_call_function_single_interrupt+0x18/0x20
+[1016609.755306]  ipi_handler+0x88/0x2a4
+[1016609.755309]  handle_percpu_devid_fasteoi_ipi+0x80/0x160
+[1016609.755312]  __handle_domain_irq+0x78/0xe0
+[1016609.755315]  gic_handle_irq+0xe0/0x2e0
+[1016609.755317]  el0_irq_naked+0x4c/0x54
+[1016609.923954] binder: release 2963:2963 transaction -1440298278 out, still active
+[1016609.923970] binder: undelivered TRANSACTION_COMPLETE
+[1016609.933824] init: Service 'zygote' (pid 23754) received signal 9
+[1016609.933842] init: Sending signal 9 to service 'zygote' (pid 23754) process group...
+[1016609.933906] libprocessgroup: Successfully killed process cgroup uid 0 pid 23754 in 0ms
+[1016609.934001] init: Sending signal 9 to service 'audioserver' (pid 23756) process group...
+[1016609.939161] libprocessgroup: Successfully killed process cgroup uid 1041 pid 23756 in 5ms
+[1016609.939232] init: Sending signal 9 to service 'cameraserver' (pid 23757) process group...
+[1016609.944363] libprocessgroup: Successfully killed process cgroup uid 1047 pid 23757 in 5ms
+[1016609.944450] init: Sending signal 9 to service 'media' (pid 23758) process group...
+[1016609.949584] libprocessgroup: Successfully killed process cgroup uid 1013 pid 23758 in 5ms
+[1016609.949649] init: Sending signal 9 to service 'netd' (pid 23759) process group...
+[1016609.954796] libprocessgroup: Successfully killed process cgroup uid 0 pid 23759 in 5ms
+[1016609.954856] init: Sending signal 9 to service 'wificond' (pid 23760) process group...
+[1016609.959966] libprocessgroup: Successfully killed process cgroup uid 1010 pid 23760 in 5ms
+[1016609.960242] init: Service 'audioserver' (pid 23756) received signal 9
+[1016609.960250] init: Sending signal 9 to service 'vendor.audio-hal-2-0' (pid 23761) process group...
+[1016609.965385] libprocessgroup: Successfully killed process cgroup uid 1041 pid 23761 in 5ms
+[1016609.965478] init: Command 'restart vendor.audio-hal-4-0-msd' action=onrestart (<Service 'audioserver' onrestart>:2) took 0ms and failed: service vendor.audio-hal-4-0-msd not found
+[1016609.965485] init: Command 'restart audio-hal-2-0' action=onrestart (<Service 'audioserver' onrestart>:3) took 0ms and failed: service audio-hal-2-0 not found
+[1016609.965692] init: Service 'cameraserver' (pid 23757) received signal 9
+[1016609.965858] init: Service 'media' (pid 23758) received signal 9
+[1016609.965867] init: Sending signal 9 to service 'vendor.rockit-hal-1-0' (pid 23762) process group...
+[1016609.971091] libprocessgroup: Successfully killed process cgroup uid 1013 pid 23762 in 5ms
+[1016609.971697] init: Service 'netd' (pid 23759) received signal 9
+[1016609.971759] init: Sending signal 9 to service 'zygote_secondary' (pid 23755) process group...
+[1016609.977109] libprocessgroup: Successfully killed process cgroup uid 0 pid 23755 in 5ms
+[1016609.977514] init: Service 'zygote_secondary' (pid 23755) received signal 9
+[1016609.978108] init: Service 'wificond' (pid 23760) received signal 9
+[1016609.978267] init: Service 'vendor.audio-hal-2-0' (pid 23761) received signal 9
+[1016609.978479] init: Service 'vendor.rockit-hal-1-0' (pid 23762) received signal 9
+[1016609.978659] init: Untracked pid 23771 received signal 9
+[1016609.978747] init: Untracked pid 23772 received signal 9
+[1016609.982036] init: starting service 'zygote'...
+[1016609.983371] init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+[1016609.983445] init: Created socket '/dev/socket/usap_pool_primary', mode 660, user 0, group 1000
+[1016609.983612] init: starting service 'zygote_secondary'...
+[1016609.984924] init: starting service 'audioserver'...
+[1016609.986281] init: starting service 'cameraserver'...
+[1016609.987432] init: Created socket '/dev/socket/zygote_secondary', mode 660, user 0, group 1000
+[1016609.987600] init: Created socket '/dev/socket/usap_pool_secondary', mode 660, user 0, group 1000
+[1016609.988449] init: starting service 'media'...
+[1016609.989806] init: starting service 'netd'...
+[1016609.991208] init: starting service 'wificond'...
+[1016609.992713] init: starting service 'vendor.audio-hal-2-0'...
+[1016609.993907] init: couldn't write 24217 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+[1016609.994850] init: starting service 'vendor.rockit-hal-1-0'...
+[1016609.995879] init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+[1016609.995960] init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+[1016609.995986] init: Created socket '/dev/socket/fwmarkd', mode 660, user 0, group 3003
+[1016618.741235] init: Untracked pid 2711 exited with status 0
+[1016618.742033] init: Untracked pid 2713 exited with status 0
+[1016618.769338] init: Untracked pid 2716 exited with status 0
+[1016618.771074] init: Untracked pid 2718 exited with status 0
+[1016618.786851] init: Untracked pid 2721 exited with status 0
+[1016618.787827] init: Untracked pid 2723 exited with status 0
+[1016618.925863] init: Untracked pid 2726 exited with status 0
+[1016618.926763] init: Untracked pid 2728 exited with status 0
+[1016618.967526] init: Untracked pid 2731 exited with status 0
+[1016618.986268] init: Untracked pid 2733 exited with status 0
+[1016619.058939] init: Untracked pid 2736 exited with status 0
+[1016619.060617] init: Untracked pid 2738 exited with status 0
+[1016619.105563] init: Untracked pid 2741 exited with status 0
+[1016619.106438] init: Untracked pid 2743 exited with status 0
+[1016619.140648] init: Untracked pid 2746 exited with status 0
+[1016619.142131] init: Untracked pid 2748 exited with status 0
+[1016619.167717] init: Untracked pid 2751 exited with status 0
+[1016619.168709] init: Untracked pid 2753 exited with status 0
+[1016619.314200] init: Untracked pid 2757 exited with status 0
+[1016619.318460] init: Untracked pid 2759 exited with status 0
+[1016619.425470] init: Untracked pid 2763 exited with status 0
+[1016619.427891] init: Untracked pid 2765 exited with status 0
+[1016619.546249] init: Untracked pid 2769 exit
