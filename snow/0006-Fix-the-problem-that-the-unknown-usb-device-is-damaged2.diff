@@ -1,0 +1,185 @@
+diff --git a/frameworks/base/services/core/java/com/android/server/StorageManagerService.java b/frameworks/base/services/core/java/com/android/server/StorageManagerService.java
+index adeaf0f137..410988de93 100644
+--- a/frameworks/base/services/core/java/com/android/server/StorageManagerService.java
++++ b/frameworks/base/services/core/java/com/android/server/StorageManagerService.java
+@@ -1805,19 +1805,32 @@ class StorageManagerService extends IStorageManager.Stub
+         enforcePermission(android.Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS);
+ 
+         final VolumeInfo vol = findVolumeByIdOrThrow(volId);
++        Slog.w("cx", "--vol.id: " + vol.id);
++        Slog.w("cx", "--vol.mountFlags: " + vol.mountFlags);
++        Slog.w("cx", "--vol.mountUserId: " + vol.mountUserId);
+         if (isMountDisallowed(vol)) {
+             throw new SecurityException("Mounting " + volId + " restricted by policy");
+         }
+         mount(vol);
+     }
+ 
+-    private void mount(VolumeInfo vol) {
+-        try {
+-            mVold.mount(vol.id, vol.mountFlags, vol.mountUserId);
+-        } catch (Exception e) {
+-            Slog.wtf(TAG, e);
+-        }
++private void mount(VolumeInfo vol) {
++    try {
++        Slog.w("cx", "vol.id: " + vol.id);
++        Slog.w("cx", "vol.mountFlags: " + vol.mountFlags);
++        Slog.w("cx", "vol.mountUserId: " + vol.mountUserId);
++        // if (vol.id.equals("emulated")) {
++        //     Slog.w("cx", "----------------vol.id: emulated--------------");
++        //     return;
++        // }
++        mVold.mount(vol.id, vol.mountFlags, vol.mountUserId);
++    } catch (Exception e) {
++        Slog.wtf(TAG, e);
++        Slog.w(TAG, "---vol.id: " + vol.id);
++        Slog.w(TAG, "---vol.mountFlags: " + vol.mountFlags);
++        Slog.w(TAG, "---vol.mountUserId: " + vol.mountUserId);
+     }
++}
+ 
+     @Override
+     public void unmount(String volId) {
+diff --git a/system/vold/VolumeManager.cpp b/system/vold/VolumeManager.cpp
+index 44bff5a978..aade7ca152 100644
+--- a/system/vold/VolumeManager.cpp
++++ b/system/vold/VolumeManager.cpp
+@@ -192,6 +192,18 @@ int VolumeManager::stop() {
+     return 0;
+ }
+ 
++// // 辅助函数：读取sysfs文件内容
++// std::string readSysfsFile(const std::string& path) {
++//     std::ifstream file(path);
++//     if (!file.is_open()) {
++//         return "";
++//     }
++//     std::stringstream buffer;
++//     buffer << file.rdbuf();
++//     file.close();
++//     return buffer.str();
++// }
++
+ void VolumeManager::handleBlockEvent(NetlinkEvent* evt) {
+     std::lock_guard<std::mutex> lock(mLock);
+ 
+@@ -200,6 +212,8 @@ void VolumeManager::handleBlockEvent(NetlinkEvent* evt) {
+         LOG(DEBUG) << "handleBlockEvent with action " << (int)evt->getAction();
+         evt->dump();
+     }
++        LOG(INFO) << "----------------";
++
+ 
+     std::string eventPath(evt->findParam("DEVPATH") ? evt->findParam("DEVPATH") : "");
+     std::string devType(evt->findParam("DEVTYPE") ? evt->findParam("DEVTYPE") : "");
+@@ -210,6 +224,29 @@ void VolumeManager::handleBlockEvent(NetlinkEvent* evt) {
+     int minor = std::stoi(evt->findParam("MINOR"));
+     dev_t device = makedev(major, minor);
+ 
++    // // 获取sysfs路径
++    // std::string sysfsPath = "/sys" + eventPath;
++
++    // // 读取vendorId和productId
++    // std::string vendorIdStr = readSysfsFile(sysfsPath + "/idVendor");
++    // std::string productIdStr = readSysfsFile(sysfsPath + "/idProduct");
++
++    // // 将字符串转换为int
++    // int vendorId = std::stoi(vendorIdStr, nullptr, 16);
++    // int productId = std::stoi(productIdStr, nullptr, 16);
++
++    // // 检查是否为要屏蔽的设备
++    // if (vendorId == 0x1987 && productId == 0x1987) {
++    //     LOG(INFO) << "Ignoring device with vendorId: 0x1987 and productId: 0x1987";
++    //     return;
++    // }
++
++    // 这里你可以根据需要添加对特定日志关键字的检查来屏蔽设备
++    if (major == 259 && minor == 1) {
++        LOG(INFO) << "Ignoring device public:259,1 due to unsupported filesystem";
++        return;
++    }
++
+     switch (evt->getAction()) {
+         case NetlinkEvent::Action::kAdd: {
+             for (const auto& source : mDiskSources) {
+@@ -224,10 +261,22 @@ void VolumeManager::handleBlockEvent(NetlinkEvent* evt) {
+                         flags |= android::vold::Disk::Flags::kSd;
+                     } else {
+                         flags |= android::vold::Disk::Flags::kUsb;
++                        return;
+                     }
+ 
++                    LOG(INFO) << "Adding disk with the following details:";
++                    LOG(INFO) << "Event Path: " << eventPath;
++                    LOG(INFO) << "Device: " << device;
++                    LOG(INFO) << "Flags: " << flags;
++                    LOG(INFO) << "Major: " << major;
++                    LOG(INFO) << "Minor: " << minor;
++
+                     auto disk =
+                         new android::vold::Disk(eventPath, device, source->getNickname(), flags);
++                    
++                    LOG(INFO) << "Disk object created with path: " << eventPath;
++                    LOG(INFO) << "Disk nickname: " << source->getNickname();
++
+                     handleDiskAdded(std::shared_ptr<android::vold::Disk>(disk));
+                     break;
+                 }
+@@ -240,6 +289,7 @@ void VolumeManager::handleBlockEvent(NetlinkEvent* evt) {
+             break;
+         }
+         case NetlinkEvent::Action::kRemove: {
++            LOG(DEBUG) << "Removing disk at " << major << ":" << minor;
+             handleDiskRemoved(device);
+             break;
+         }
+@@ -250,6 +300,8 @@ void VolumeManager::handleBlockEvent(NetlinkEvent* evt) {
+     }
+ }
+ 
++
++
+ void VolumeManager::handleDiskAdded(const std::shared_ptr<android::vold::Disk>& disk) {
+     // For security reasons, if secure keyguard is showing, wait
+     // until the user unlocks the device to actually touch it
+diff --git a/system/vold/model/Disk.cpp b/system/vold/model/Disk.cpp
+index 8f6fdd252c..d6ab41eebd 100644
+--- a/system/vold/model/Disk.cpp
++++ b/system/vold/model/Disk.cpp
+@@ -392,6 +392,9 @@ status_t Disk::readPartitions() {
+             }
+             dev_t partDevice = makedev(major(mDevice), minor(mDevice) + i);
+ 
++            // 打印分区信息
++            LOG(INFO) << "cx Found partition: number=" << i << ", device=" << partDevice;
++
+             if (table == Table::kMbr) {
+                 if (++it == split.end()) continue;
+                 int type = 0;
+@@ -400,13 +403,15 @@ status_t Disk::readPartitions() {
+                     continue;
+                 }
+ 
++                LOG(INFO) << "cx MBR partition type: " << type;
++
+                 switch (type) {
+                     case 0x06:  // FAT16
+                     case 0x07:  // HPFS/NTFS/exFAT
+                     case 0x0b:  // W95 FAT32 (LBA)
+                     case 0x0c:  // W95 FAT32 (LBA)
+                     case 0x0e:  // W95 FAT16 (LBA)
+-                    case 0x83:  // W95 FAT16 (LBA)
++                    case 0x83:  // Linux
+                         createPublicVolume(partDevice);
+                         break;
+                 }
+@@ -416,6 +421,8 @@ status_t Disk::readPartitions() {
+                 if (++it == split.end()) continue;
+                 auto partGuid = *it;
+ 
++                LOG(INFO) << "cx GPT partition type: " << typeGuid << ", partition GUID: " << partGuid;
++
+                 if (android::base::EqualsIgnoreCase(typeGuid, kGptBasicData)) {
+                     createPublicVolume(partDevice);
+                 } else if (android::base::EqualsIgnoreCase(typeGuid, kGptAndroidExpand)) {
