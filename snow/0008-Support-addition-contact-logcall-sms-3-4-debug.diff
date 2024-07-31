@@ -1,0 +1,439 @@
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+index da321a2c43..013f00abec 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+@@ -155,7 +155,7 @@ private void runContact(PrintWriter pw) {
+                 item = nextOpt.split("=");
+                 if (item.length == 2) {
+                     addMap.put(item[0], item[1]);
+-                    pw.println("=> " + item[0] + ": " + item[1]);
++                    // pw.println("=> " + item[0] + ": " + item[1]);
+                 } else {
+                     break; // 遇到非键值对参数，退出循环
+                 }
+@@ -172,10 +172,10 @@ private void runContact(PrintWriter pw) {
+     }
+ 
+     // 打印 delList
+-    pw.println("delList:");
+-    for (String delItem : delList) {
+-        pw.println(delItem);
+-    }
++        // pw.println("delList:");
++        // for (String delItem : delList) {
++        //     pw.println(delItem);
++        // }
+ 
+     String familyName = null;//姓
+     String givenName = null;//名
+@@ -184,17 +184,36 @@ private void runContact(PrintWriter pw) {
+ 
+     try {
+         familyName = addMap.get("familyName");
+-        pw.println("familyName: " + familyName);
+-
+         givenName = addMap.get("givenName");
+-        pw.println("givenName: " + givenName);
+-
+         phoneNumber = addMap.get("phoneNumber");
+-        pw.println("phoneNumber: " + phoneNumber);
+-
+         email = addMap.get("email");
+-        pw.println("email: " + email);
+ 
++        // 验证必填项是否为空
++        if (familyName == null || familyName.isEmpty()) {
++            pw.println("Warning: familyName is required.");
++            return;
++        }
++        if (givenName == null || givenName.isEmpty()) {
++            pw.println("Warning: givenName is required.");
++            return;
++        }
++        if (phoneNumber == null || phoneNumber.isEmpty()) {
++            pw.println("Warning: phoneNumber is required.");
++            return;
++        }
++
++        // 验证电话号码是否为有效的整数
++        try {
++            Integer.parseInt(phoneNumber);
++        } catch (NumberFormatException e) {
++            pw.println("Warning: phoneNumber must be an integer.");
++            return;
++        }
++
++        pw.println("familyName: " + familyName);
++        pw.println("givenName: " + givenName);
++        pw.println("phoneNumber: " + phoneNumber);
++        pw.println("email: " + email);
+ 
+     } catch (NumberFormatException e) {
+         pw.println("Failed to parse number: " + e.getMessage());
+@@ -202,39 +221,48 @@ private void runContact(PrintWriter pw) {
+         pw.println("Failed to get value: " + e.getMessage());
+     }
+ 
+-
++    Uri insertedUri;
+     ContentResolver resolver = mContext.getContentResolver();
+ 
+-        // 插入RawContact
+-        ContentValues values = new ContentValues();
+-        Uri rawContactUri = resolver.insert(ContactsContract.RawContacts.CONTENT_URI, values);
+-        long rawContactId = ContentUris.parseId(rawContactUri);
+-
+-        // 插入姓和名
+-        values.clear();
+-        values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
+-        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
+-        values.put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName);  // 添加姓
+-        values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName);    // 添加名
+-        resolver.insert(ContactsContract.Data.CONTENT_URI, values);
+-
+-        // 插入电话号码
+-        values.clear();
+-        values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
+-        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
+-        values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, phoneNumber);
+-        values.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
+-        resolver.insert(ContactsContract.Data.CONTENT_URI, values);
+-
+-        // 插入Email
+-        values.clear();
+-        values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
+-        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
+-        values.put(ContactsContract.CommonDataKinds.Email.DATA, email);
+-        values.put(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK);
+-        resolver.insert(ContactsContract.Data.CONTENT_URI, values);
++    // 插入RawContact
++    ContentValues values = new ContentValues();
++    Uri rawContactUri = resolver.insert(ContactsContract.RawContacts.CONTENT_URI, values);
++    long rawContactId = ContentUris.parseId(rawContactUri);
++
++    // 插入姓和名
++    values.clear();
++    values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
++    values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
++    values.put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName);  // 添加姓
++    values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName);    // 添加名
++    insertedUri = resolver.insert(ContactsContract.Data.CONTENT_URI, values);
++    if(insertedUri==null){
++        pw.println("Error inserting : ");
++    }
++    // 插入电话号码
++    values.clear();
++    values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
++    values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
++    values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, phoneNumber);
++    values.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
++    insertedUri = resolver.insert(ContactsContract.Data.CONTENT_URI, values);
++    if(insertedUri==null){
++        pw.println("Error inserting : ");
++    }
++    // 插入Email
++    values.clear();
++    values.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId);
++    values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
++    values.put(ContactsContract.CommonDataKinds.Email.DATA, email);
++    values.put(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK);
++    insertedUri = resolver.insert(ContactsContract.Data.CONTENT_URI, values);
++    if(insertedUri==null){
++        pw.println("Error inserting : ");
++    }
++    pw.println(" inserted successfully: " + insertedUri.toString());
+ }
+ 
++
+ private void runCallLog(PrintWriter pw) {
+     ArrayMap<String, String> addMap = new ArrayMap<>();
+     List<String> delList = new ArrayList<>();
+@@ -248,7 +276,7 @@ private void runCallLog(PrintWriter pw) {
+                 item = nextOpt.split("=");
+                 if (item.length == 2) {
+                     addMap.put(item[0], item[1]);
+-                    pw.println("=> " + item[0] + ": " + item[1]);
++                    // pw.println("=> " + item[0] + ": " + item[1]);
+                 } else {
+                     break; // 遇到非键值对参数，退出循环
+                 }
+@@ -264,38 +292,60 @@ private void runCallLog(PrintWriter pw) {
+         pw.println(entry.getKey() + "=" + entry.getValue());
+     }
+ 
+-    // 打印 delList
+-    pw.println("delList:");
+-    for (String delItem : delList) {
+-        pw.println(delItem);
+-    }
++    // // 打印 delList
++    // pw.println("delList:");
++    // for (String delItem : delList) {
++    //     pw.println(delItem);
++    // }
+ 
+     String phoneNumber = null;
+     int callType = 0;
+     long callDuration = 0;
+     long date = 0;
+ 
+-
+     try {
+         phoneNumber = addMap.get("phoneNumber");
+-        pw.println("phoneNumber: " + phoneNumber);
++        if (phoneNumber == null || phoneNumber.isEmpty()) {
++            pw.println("Warning: phoneNumber is required.");
++            return;
++        }
++
++        // 验证电话号码是否为有效的整数
++        try {
++            Long.parseLong(phoneNumber);
++        } catch (NumberFormatException e) {
++            pw.println("Warning: phoneNumber must be an integer.");
++            return;
++        }
+ 
+         callType = Integer.parseInt(addMap.get("callType"));
+-        pw.println("callType: " + callType);
++        if (callType < 1 || callType > 3) {
++            pw.println("Warning: callType must be 1, 2, or 3.");
++            return;
++        }
+ 
+         if (addMap.get("callDuration") != null) {
+             callDuration = Long.parseLong(addMap.get("callDuration"));
+-            pw.println("callDuration: " + callDuration);
+         }
+ 
+-        if (addMap.get("date") != null) {
++        if (addMap.get("date") == null || addMap.get("date").isEmpty()) {
++            pw.println("Warning: date is required.");
++            return;
++        } else {
+             date = Long.parseLong(addMap.get("date"));
+-            pw.println("date: " + date);
+         }
++
++        pw.println("phoneNumber: " + phoneNumber);
++        pw.println("callType: " + callType);
++        pw.println("callDuration: " + callDuration);
++        pw.println("date: " + date);
++        
+     } catch (NumberFormatException e) {
+         pw.println("Failed to parse number: " + e.getMessage());
++        return;
+     } catch (NullPointerException e) {
+         pw.println("Failed to get value: " + e.getMessage());
++        return;
+     }
+ 
+     ContentResolver resolver = mContext.getContentResolver();
+@@ -317,10 +367,16 @@ private void runCallLog(PrintWriter pw) {
+     values.put(CallLog.Calls.NEW, 1);
+ 
+     // 插入记录
+-    resolver.insert(CallLog.Calls.CONTENT_URI, values);
++    Uri insertedUri = resolver.insert(CallLog.Calls.CONTENT_URI, values);
++    if(insertedUri!=null){
++        pw.println(" inserted successfully: " + insertedUri.toString());
++    }else{
++        pw.println("Error inserting : 未知");
++    }
+ }
+ 
+ 
++
+ private void runSms(PrintWriter pw) {
+     ArrayMap<String, String> addMap = new ArrayMap<>();
+     List<String> delList = new ArrayList<>();
+@@ -334,7 +390,7 @@ private void runSms(PrintWriter pw) {
+                 item = nextOpt.split("=");
+                 if (item.length == 2) {
+                     addMap.put(item[0], item[1]);
+-                    pw.println("=> " + item[0] + ": " + item[1]);
++                    // pw.println("=> " + item[0] + ": " + item[1]);
+                 } else {
+                     break; // 遇到非键值对参数，退出循环
+                 }
+@@ -350,11 +406,11 @@ private void runSms(PrintWriter pw) {
+         pw.println(entry.getKey() + "=" + entry.getValue());
+     }
+ 
+-    // 打印 delList
+-    pw.println("delList:");
+-    for (String delItem : delList) {
+-        pw.println(delItem);
+-    }
++    // // 打印 delList
++    // pw.println("delList:");
++    // for (String delItem : delList) {
++    //     pw.println(delItem);
++    // }
+ 
+     String address = null;
+     String body = null;
+@@ -363,96 +419,101 @@ private void runSms(PrintWriter pw) {
+ 
+     try {
+         address = addMap.get("address");
+-        pw.println("address: " + address);
++        if (address == null || address.isEmpty()) {
++            pw.println("Warning: address is required.");
++            return;
++        }
++
++        // 验证电话号码是否为有效的整数
++        try {
++            Long.parseLong(address);
++        } catch (NumberFormatException e) {
++            pw.println("Warning: address must be an integer.");
++            return;
++        }
+ 
+         body = addMap.get("body");
+-        pw.println("body: " + body);
++        if (body == null || body.isEmpty()) {
++            pw.println("Warning: body is required.");
++            return;
++        }
+ 
+-        if (addMap.get("date") != null) {
++        if (addMap.get("date") == null || addMap.get("date").isEmpty()) {
++            pw.println("Warning: date is required.");
++            return;
++        } else {
+             date = Long.parseLong(addMap.get("date"));
+-            pw.println("date: " + date);
+         }
+ 
+         type = Integer.parseInt(addMap.get("type"));
++        if (type < 1 || type > 3) {
++            pw.println("Warning: type must be 1, 2, or 3.");
++            return;
++        }
++
++        pw.println("address: " + address);
++        pw.println("body: " + body);
++        pw.println("date: " + date);
+         pw.println("type: " + type);
++        
+     } catch (NumberFormatException e) {
+         pw.println("Failed to parse number: " + e.getMessage());
++        return;
+     } catch (NullPointerException e) {
+         pw.println("Failed to get value: " + e.getMessage());
++        return;
+     }
+ 
+     try {
+-        // ContentResolver resolver = mContext.getContentResolver();
+-        // ContentValues values = new ContentValues();
+-
+-        // // 短信地址（电话号码）
+-        // values.put(Telephony.Sms.ADDRESS, address);
+-
+-        // // 短信内容
+-        // values.put(Telephony.Sms.BODY, body);
+-
+-        // // 短信日期和时间（以毫秒为单位）
+-        // values.put(Telephony.Sms.DATE, date);
+-
+-        // // 短信类型（1: 收件箱, 2: 发件箱）
+-        // values.put(Telephony.Sms.TYPE, type);
+-
+-        // // 插入记录
+-        // Uri uri = (type == Telephony.Sms.MESSAGE_TYPE_INBOX) 
+-        //           ? Telephony.Sms.Inbox.CONTENT_URI 
+-        //           : Telephony.Sms.Sent.CONTENT_URI;
+-        // Uri insertedUri = resolver.insert(uri, values);
+-
+-        // if (insertedUri != null) {
+-        //     pw.println("SMS inserted successfully: " + insertedUri.toString());
+-
+-        //     // 查询数据库，确保记录存在
+-        //     Cursor cursor = resolver.query(insertedUri, null, null, null, null);
+-        //         pw.println("111111 " );
+-
+-        //     if (cursor != null) {
+-        //         pw.println("222222222 " );
+-
+-        //         while (cursor.moveToNext()) {
+-        //         pw.println("333333333333 " );
++        ContentResolver resolver = mContext.getContentResolver();
++        ContentValues values = new ContentValues();
+ 
+-        //             String addressInDb = cursor.getString(cursor.getColumnIndex(Telephony.Sms.ADDRESS));
+-        //             String bodyInDb = cursor.getString(cursor.getColumnIndex(Telephony.Sms.BODY));
+-        //             long dateInDb = cursor.getLong(cursor.getColumnIndex(Telephony.Sms.DATE));
+-        //             int typeInDb = cursor.getInt(cursor.getColumnIndex(Telephony.Sms.TYPE));
+-        //             pw.println("SMS: " + addressInDb + ", " + bodyInDb + ", " + dateInDb + ", " + typeInDb);
++        // 短信地址（电话号码）
++        values.put(Telephony.Sms.ADDRESS, address);
+ 
+-        //         pw.println("44444444444 " );
++        // 短信内容
++        values.put(Telephony.Sms.BODY, body);
+ 
+-        //         }
+-        //         cursor.close();
+-        //     }else{
+-        //         pw.println("cursor == null " );
+-        //     }
+-        // } else {
+-        //     pw.println("Failed to insert SMS.");
+-        // }
+-        //         pw.println("5555555555 " );
++        // 短信日期和时间（以毫秒为单位）
++        values.put(Telephony.Sms.DATE, date);
+ 
++        // 短信类型（1: 收件箱, 2: 发件箱）
++        values.put(Telephony.Sms.TYPE, type);
+ 
+-//---------------------
+-// 使用 SmsManager 发送短信
+-    SmsManager smsManager = SmsManager.getDefault();
+-    smsManager.sendTextMessage("1234567890", null, "smsManagerhelloworld你好世界！", null, null);
++        // 插入记录
++        Uri uri = (type == Telephony.Sms.MESSAGE_TYPE_INBOX) 
++                  ? Telephony.Sms.Inbox.CONTENT_URI 
++                  : Telephony.Sms.Sent.CONTENT_URI;
++        Uri insertedUri = resolver.insert(uri, values);
+ 
+- // 设置要插入的短信的日期（例如 2020 年的时间戳）
+-    Calendar calendar = Calendar.getInstance();
+-    calendar.set(2020, Calendar.JANUARY, 1); // 设置为 2020 年 1 月 1 日
+-    long customDate  = calendar.getTimeInMillis();
++        if (insertedUri != null) {
++            pw.println("SMS inserted successfully: " + insertedUri.toString());
+ 
+-    // 插入带有指定日期的短信
+-    insertSmsWithDate( "1234567890", "smsManagerhelloworld你好世界！", customDate, Telephony.Sms.MESSAGE_TYPE_INBOX);
++            // 查询数据库，确保记录存在
++            Cursor cursor = resolver.query(insertedUri, null, null, null, null);
+ 
++            if (cursor != null) {
++                while (cursor.moveToNext()) {
++                    String addressInDb = cursor.getString(cursor.getColumnIndex(Telephony.Sms.ADDRESS));
++                    String bodyInDb = cursor.getString(cursor.getColumnIndex(Telephony.Sms.BODY));
++                    long dateInDb = cursor.getLong(cursor.getColumnIndex(Telephony.Sms.DATE));
++                    int typeInDb = cursor.getInt(cursor.getColumnIndex(Telephony.Sms.TYPE));
++                    pw.println("SMS: " + addressInDb + ", " + bodyInDb + ", " + dateInDb + ", " + typeInDb);
++                }
++                cursor.close();
++            } else {
++                pw.println("Failed to query inserted SMS.");
++            }
++        } else {
++            pw.println("Failed to insert SMS.");
++        }
+     } catch (Exception e) {
+         pw.println("Error inserting SMS: " + e.getMessage());
+     }
+ }
+ 
++
++
+ private void insertSmsWithDate( String address, String body, long date, int type) {
+     ContentResolver resolver = mContext.getContentResolver();
+     ContentValues values = new ContentValues();

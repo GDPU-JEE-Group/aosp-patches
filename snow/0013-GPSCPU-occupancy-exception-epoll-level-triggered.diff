@@ -1,0 +1,32 @@
+diff --git a/hardware/rockchip/gps/gps_hw.cpp b/hardware/rockchip/gps/gps_hw.cpp
+index d8b2443ade..9545b3ef6d 100644
+--- a/hardware/rockchip/gps/gps_hw.cpp
++++ b/hardware/rockchip/gps/gps_hw.cpp
+@@ -160,7 +160,7 @@ static void gps_state_thread(void* arg) {
+     int         gps_fd     = -1;
+     int         control_fd = state->control[1];
+     //socklen_t   addr_len = sizeof(g_data_cli_addr);
+-    INF("gps thread running, gps_fd is %d, control_fd is :%d", gps_fd, control_fd);
++    INF("gps thread running, gps_fd is %d, control_fd is :%d , g_sockfd_data %d", gps_fd, control_fd,g_sockfd_data);
+ 
+     // register control file descriptors for polling
+     epoll_register(epoll_fd, control_fd);
+@@ -219,7 +219,8 @@ static void gps_state_thread(void* arg) {
+                         }
+                     }
+                 }else if(fd == g_sockfd_data){
+-                    if(started) {
++                    // if(started) {
++
+                         /*gps_fd = accept(g_sockfd_data, (struct sockaddr *)&g_data_cli_addr, &addr_len);
+                         if(gps_fd < 0) {
+                             ERR("gps accept data socket connect failed(ret<0) :%s", strerror(errno));
+@@ -250,7 +251,7 @@ static void gps_state_thread(void* arg) {
+                             reader.input(buff[n]);
+                         }
+                         reader.clear();
+-                    }
++                    // }
+                 }/*else if(fd == gps_fd) {
+                     char  buff[256] = {0};
+                     ssize_t len = read(fd, buff, sizeof(buff));
