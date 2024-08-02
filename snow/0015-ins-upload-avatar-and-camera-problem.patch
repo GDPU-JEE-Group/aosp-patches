@@ -1,0 +1,25 @@
+diff --git a/frameworks/base/services/core/java/com/android/server/pm/PackageManagerService.java b/frameworks/base/services/core/java/com/android/server/pm/PackageManagerService.java
+index 81d95d9c04..644472c962 100644
+--- a/frameworks/base/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/frameworks/base/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -5697,6 +5697,20 @@ public class PackageManagerService extends IPackageManager.Stub
+ 
+     @Override
+     public boolean hasSystemFeature(String name, int version) {
++        Slog.w("cx-cam", "hasSystemFeature(String name, int version)---"+ name);
++        
++        if(name.equals("android.hardware.camera.level.full")){
++            Slog.w("cx-cam", "name==android.hardware.camera.level.full)"+ name);
++            return true;
++        }
++        if(name.equals("android.hardware.camera")){
++            Slog.w("cx-cam", "name==android.hardware.camera)"+ name);
++            return true;
++        }
++        if(name.equals("android.hardware.camera.front")){
++            Slog.w("cx-cam", "name==android.hardware.camera.front)"+ name);
++            return true;
++        }
+         // allow instant applications
+         synchronized (mAvailableFeatures) {
+             // Support vulkan v1.1 when antutu is running in forceground.

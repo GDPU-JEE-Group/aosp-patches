@@ -1,0 +1,2429 @@
+diff --git a/device/rockchip/rk3588/AndroidProducts.mk b/device/rockchip/rk3588/AndroidProducts.mk
+index 3ba6513aa2..5e3c03b599 100644
+--- a/device/rockchip/rk3588/AndroidProducts.mk
++++ b/device/rockchip/rk3588/AndroidProducts.mk
+@@ -18,12 +18,16 @@ PRODUCT_MAKEFILES := \
+     $(LOCAL_DIR)/rk3588_qt/rk3588_qt.mk \
+     $(LOCAL_DIR)/rk3588_docker/rk3588_docker.mk \
+     $(LOCAL_DIR)/rk3588_docker_inland/rk3588_docker_inland.mk \
+-    $(LOCAL_DIR)/rk3588_docker_overseas/rk3588_docker_overseas.mk
++    $(LOCAL_DIR)/rk3588_docker_overseas/rk3588_docker_overseas.mk \
++    $(LOCAL_DIR)/GT_P7500/GT_P7500.mk 
+ 
+ COMMON_LUNCH_CHOICES := \
+     rk3588_qt-userdebug \
+     rk3588_qt-user \
+     rk3588_docker-userdebug \
+     rk3588_docker-user \
+-    rk3588_docker_inland-user\
+-    rk3588_docker_overseas-user
++    rk3588_docker_inland-user \
++    rk3588_docker_overseas-user \
++    GT_P7500-userdebug \
++    GT_P7500-user \
++    GT_P7500-eng
+diff --git a/device/rockchip/rk3588/GT_P7500/Android.mk b/device/rockchip/rk3588/GT_P7500/Android.mk
+new file mode 100644
+index 0000000000..7a16792d14
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/Android.mk
+@@ -0,0 +1,3 @@
++LOCAL_PATH := $(call my-dir)
++
++include $(call all-makefiles-under,$(LOCAL_PATH))
+diff --git a/device/rockchip/rk3588/GT_P7500/AndroidBoard.mk b/device/rockchip/rk3588/GT_P7500/AndroidBoard.mk
+new file mode 100644
+index 0000000000..92607df460
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/AndroidBoard.mk
+@@ -0,0 +1,7 @@
++# generate fstab file for device
++#-include device/rockchip/common/build/rockchip/RebuildFstab.mk
++
++# generate dtbo image for device
++-include device/rockchip/common/build/rockchip/RebuildDtboImg.mk
++# generate parameter.txt for device
++-include device/rockchip/common/build/rockchip/RebuildParameter.mk
+diff --git a/device/rockchip/rk3588/GT_P7500/BoardConfig.mk b/device/rockchip/rk3588/GT_P7500/BoardConfig.mk
+new file mode 100644
+index 0000000000..a61a45eb03
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/BoardConfig.mk
+@@ -0,0 +1,44 @@
++#
++# Copyright 2014 The Android Open-Source Project
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#      http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++#
++include device/rockchip/rk3588/BoardConfig.mk
++BUILD_WITH_GO_OPT := false
++
++PRODUCT_HAVE_OPTEE := false
++# AB image definition
++BOARD_USES_AB_IMAGE := false
++BOARD_ROCKCHIP_VIRTUAL_AB_ENABLE := false
++
++BOARD_RECORD_COMMIT_ID := false
++
++BOARD_GRAVITY_SENSOR_SUPPORT := false
++BOARD_COMPASS_SENSOR_SUPPORT := false
++BOARD_SENSOR_COMPASS_AK8963-64 := false
++BOARD_GYROSCOPE_SENSOR_SUPPORT := false
++BOARD_PROXIMITY_SENSOR_SUPPORT := false
++BOARD_LIGHT_SENSOR_SUPPORT := false
++
++ifeq ($(strip $(BOARD_USES_AB_IMAGE)), true)
++    include device/rockchip/common/BoardConfig_AB.mk
++    TARGET_RECOVERY_FSTAB := device/rockchip/rk3588/rk3588_qt/recovery.fstab_AB
++endif
++
++PRODUCT_UBOOT_CONFIG := rk3588
++#PRODUCT_KERNEL_DTS := rk3588-nvr-demo1-v21-android
++PRODUCT_KERNEL_DTS := rk3588-evb1-lp4-v10
++BOARD_GSENSOR_MXC6655XA_SUPPORT := false
++BOARD_CAMERA_SUPPORT_EXT := false
++BOARD_HS_ETHERNET := true
++BOARD_RECORD_COMMIT_ID := false
+diff --git a/device/rockchip/rk3588/GT_P7500/GT_P7500.mk b/device/rockchip/rk3588/GT_P7500/GT_P7500.mk
+new file mode 100755
+index 0000000000..a2703134cd
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/GT_P7500.mk
+@@ -0,0 +1,72 @@
++#
++# Copyright 2014 The Android Open-Source Project
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#      http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++#
++
++# First lunching is Q, api_level is 29
++PRODUCT_SHIPPING_API_LEVEL := 29
++PRODUCT_DTBO_TEMPLATE := $(LOCAL_PATH)/dt-overlay.in
++
++include device/rockchip/common/build/rockchip/DynamicPartitions.mk
++include device/rockchip/rk3588/rk3588_docker/BoardConfig.mk
++include device/rockchip/common/BoardConfig.mk
++$(call inherit-product, device/rockchip/rk3588/device.mk)
++$(call inherit-product, device/rockchip/common/device.mk)
++$(call inherit-product, device/rockchip/space-common/device_overseas.mk)
++$(call inherit-product, vendor/opengapps/build/opengapps-packages.mk)
++$(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
++
++DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/../overlay
++PRODUCT_PACKAGE_OVERLAYS += device/rockchip/rk3588/rk3588_docker/overlay
++
++PRODUCT_CHARACTERISTICS := nosdcard
++
++PRODUCT_NAME := GT_P7500
++PRODUCT_DEVICE := GT_P7500
++PRODUCT_BRAND := samsung
++PRODUCT_MODEL := GT-P7500
++PRODUCT_MANUFACTURER := samsung
++PRODUCT_AAPT_PREF_CONFIG := mdpi
++PRODUCT_ANDROID_VERSION := android10
++#
++## add Rockchip properties
++#
++PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=320
++PRODUCT_PROPERTY_OVERRIDES += ro.wifi.sleep.power.down=true
++PRODUCT_PROPERTY_OVERRIDES += persist.wifi.sleep.delay.ms=0
++PRODUCT_PROPERTY_OVERRIDES += persist.bt.power.down=true
++PRODUCT_PROPERTY_OVERRIDES += vendor.hwc.device.primary=DSI
++PRODUCT_PROPERTY_OVERRIDES += vendor.hwc.device.extend=HDMI-A,eDP
++#PRODUCT_PROPERTY_OVERRIDES += persist.vendor.framebuffer.main=1080x1920@60
++PRODUCT_PROPERTY_OVERRIDES += ro.vendor.rk_sdk=1
++
++# add for linux kernel for build zboot.img
++PRODUCT_LINUX_KERNEL_CONFIG := rockchip_linux_defconfig rk3588_linux.config rockchip_nft.config docker_android.config
++PRODUCT_LINUX_KERNEL_DTS := rk3588-evb1-lp4-v10-linux
++# redorid add
++PRODUCT_PACKAGES += \
++	binder_alloc \
++	ipconfigstore \
++
++PRODUCT_COPY_FILES += \
++	$(LOCAL_PATH)/init.redroid.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.redroid.rc \
++	$(LOCAL_PATH)/chmod.sh:$(TARGET_COPY_OUT_VENDOR)/bin/chmod.sh \
++	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.rk30board \
++	$(LOCAL_PATH)/host_network.sh:$(TARGET_COPY_OUT_VENDOR)/bin/host_network.sh \
++	$(LOCAL_PATH)/console:$(TARGET_COPY_OUT_SYSTEM)/bin/console \
++
++# redorid add end
++
++#PRODUCT_FSTAB_TEMPLATE := $(LOCAL_PATH)/fstab.in
++TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
+diff --git a/device/rockchip/rk3588/GT_P7500/bt_vendor.conf b/device/rockchip/rk3588/GT_P7500/bt_vendor.conf
+new file mode 100644
+index 0000000000..d98c62e94f
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/bt_vendor.conf
+@@ -0,0 +1,5 @@
++# UART device port where Bluetooth controller is attached
++UartPort = /dev/ttyS8
++
++# Firmware patch file location
++FwPatchFilePath = /vendor/etc/firmware/
+diff --git a/device/rockchip/rk3588/GT_P7500/build_docker_android.sh b/device/rockchip/rk3588/GT_P7500/build_docker_android.sh
+new file mode 100755
+index 0000000000..db43dda498
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/build_docker_android.sh
+@@ -0,0 +1,134 @@
++#!/bin/bash
++
++DATE=$(date  +%Y%m%d.%H%M)
++source build/envsetup.sh >/dev/null
++export PATH=$ANDROID_BUILD_TOP/prebuilts/clang/host/linux-x86/clang-r416183b/bin:$PATH
++export TARGET_PRODUCT=`get_build_var TARGET_PRODUCT`
++export BUILD_VARIANT=`get_build_var TARGET_BUILD_VARIANT`
++export ANDROID_VERSION=`get_build_var PRODUCT_ANDROID_VERSION`
++export BUILD_JOBS=80
++
++export PROJECT_TOP=`gettop`
++lunch $TARGET_PRODUCT-$BUILD_VARIANT
++
++STUB_PATH=Image/"$TARGET_PRODUCT"_"$ANDROID_VERSION"_"$BUILD_VARIANT"_"$DATE"
++STUB_PATH="$(echo $STUB_PATH | tr '[:lower:]' '[:upper:]')"
++
++export STUB_PATH=$PROJECT_TOP/$STUB_PATH
++export STUB_PATCH_PATH=$STUB_PATH/PATCHES
++
++if [ -n "$1" ]
++then
++    while getopts "KAP" arg
++    do
++         case $arg in
++	     K)
++	         echo "will build linux kernel with Clang"
++	         BUILD_KERNEL=true
++	         ;;
++	     A)
++	         echo "will build android"
++	         BUILD_ANDROID=true
++	         ;;
++	     P)
++		 echo "will generate patch"
++		 BUILD_PATCH=true
++		 ;;
++             ?)
++	         echo "will build kernel AND android"
++	         BUILD_KERNEL=true
++	         BUILD_ANDROID=true
++		 BUILD_PATCH=true
++	         ;;
++         esac
++    done
++else
++    echo "will build kernel AND android"
++    BUILD_KERNEL=true
++    BUILD_ANDROID=true
++    BUILD_PATCH=true
++fi
++
++if [ "$BUILD_ANDROID" = true ] ; then
++	# 判断是否存在lpunpack
++	type lpunpack
++	if [ $? -eq 0 ]; then
++		echo "lpunpack is exit"
++	else
++		make lpunpack
++	fi
++
++	echo "start build android"
++	make installclean
++	make -j$BUILD_JOBS
++	# check the result of Makefile
++	if [ $? -eq 0 ]; then
++		echo "Build android ok!"
++	else
++		echo "Build android failed!"
++		exit 1
++	fi
++	mkdir -p $STUB_PATH
++	mkdir -p $STUB_PATH/IMAGES/
++
++	cp $PROJECT_TOP/out/target/product/$TARGET_PRODUCT/super.img $STUB_PATH/IMAGES/
++	cp -rf $PROJECT_TOP/device/rockchip/rk3588/rk3588_docker/container $STUB_PATH/IMAGES/
++	#ANDROID_VERSION= `get_build_var PRODUCT_ANDROID_VERSION`
++
++	echo "pack docke android images: $TARGET_PRODUCT_$ANDROID_VERSION_$BUILD_VARIANT..."
++
++	cd $STUB_PATH/IMAGES/
++	mkdir super_img
++
++	simg2img super.img super.img.ext4
++	lpunpack super.img.ext4 super_img/
++
++	tar --use-compress-program=pigz -cvpf ./container/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz super_img/
++
++	rm -rf super_img
++	rm super.img
++	rm super.img.ext4
++
++	cd $PROJECT_TOP
++fi
++
++if [ "$BUILD_KERNEL" = true ] ; then
++	# build kernel
++	echo "Start build kernel"
++#	export PATH=$PROJECT_TOP/prebuilts/clang/host/linux-x86/clang-r416183b/bin:$PATH
++	export KERNEL_VERSION=`get_build_var PRODUCT_KERNEL_VERSION`
++	if [ "$ANDROID_VERSION"x == "android10"x ]; then
++		export LOCAL_KERNEL_PATH=kernel
++	else
++		export LOCAL_KERNEL_PATH=kernel-$KERNEL_VERSION
++	fi
++	echo "ANDROID_VERSION is: $ANDROID_VERSION"
++	export ADDON_ARGS="CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 LLVM_IAS=1"
++	export KERNEL_DTS=`get_build_var PRODUCT_LINUX_KERNEL_DTS`
++	export KERNEL_ARCH=`get_build_var PRODUCT_KERNEL_ARCH`
++	export KERNEL_DEFCONFIG=`get_build_var PRODUCT_LINUX_KERNEL_CONFIG`
++	echo "KERNEL_DEFCONFIG: $KERNEL_DEFCONFIG; dts: $KERNEL_DTS"
++	cd $LOCAL_KERNEL_PATH &&  make $ADDON_ARGS ARCH=$KERNEL_ARCH $KERNEL_DEFCONFIG && make $ADDON_ARGS ARCH=$KERNEL_ARCH $KERNEL_DTS.img -j$BUILD_JOBS && cd -
++	#cd $LOCAL_KERNEL_PATH && make clean && make $ADDON _ARGS ARCH=$KERNEL_ARCH $KERNEL_DTS.img -j$BUILD_JOBS && cd -
++	if [ $? -eq 0 ]; then
++		mv $LOCAL_KERNEL_PATH/zboot.img $LOCAL_KERNEL_PATH/zboot-linux-$KERNEL_DTS.img
++		if [ -d $STUB_PATH ];then
++			cp $LOCAL_KERNEL_PATH/zboot-linux-$KERNEL_DTS.img $STUB_PATH/IMAGES/
++		fi
++		echo "Build kernel ok!"
++	else
++		echo "Build kernel failed!"
++		exit 1
++	fi
++
++	cd $PROJECT_TOP
++fi
++
++if [ "$BUILD_PATCH" = true ] ; then
++	#Generate patches
++	mkdir -p $STUB_PATCH_PATH
++	.repo/repo/repo forall  -c "$PROJECT_TOP/device/rockchip/common/gen_patches_body.sh"
++	.repo/repo/repo manifest -r -o out/commit_id.xml
++	#Copy stubs
++	cp out/commit_id.xml $STUB_PATH/manifest_${DATE}.xml
++fi
+diff --git a/device/rockchip/rk3588/GT_P7500/chmod.sh b/device/rockchip/rk3588/GT_P7500/chmod.sh
+new file mode 100755
+index 0000000000..2fb61492ba
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/chmod.sh
+@@ -0,0 +1,18 @@
++#!/system/bin/sh
++
++chmod 755 /dev/cpuset -R
++chmod 666 /dev/dri/*
++chmod 666 /dev/snd/*
++
++chmod 666 /dev/ashmem
++chmod 666 /dev/ptmx
++chmod 666 /dev/pts/ptmx
++chmod 666 /dev/mali0
++
++chmod 444 /dev/dma_heap/*
++
++chmod 666 /dev/mpp_service
++chmod 666 /dev/rga
++chmod 666 /dev/ion
++
++chmod 666 /dev/input/event*
+diff --git a/device/rockchip/rk3588/GT_P7500/config.cfg b/device/rockchip/rk3588/GT_P7500/config.cfg
+new file mode 100755
+index 0000000000..a4864f46ea
+Binary files /dev/null and b/device/rockchip/rk3588/GT_P7500/config.cfg differ
+diff --git a/device/rockchip/rk3588/GT_P7500/console b/device/rockchip/rk3588/GT_P7500/console
+new file mode 100755
+index 0000000000..a1bb142d21
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/console
+@@ -0,0 +1,29 @@
++#!/system/bin/sh
++
++# export env and switch to shell user
++export ANDROID_DATA=/data
++export RK_ADEPT_ACTIVATION_FILE=/mnt/sdcard/.adobe-digital-editions/activation.xml
++export RK_ADOBE_DE_DOC_FOLDER=/mnt/sdcard/Digital Editions
++export ADOBE_FONTS_DIR=/system/fonts/adobefonts/
++export RK_ADEPT_DEVICE_TYPE=mobile
++export RK_ADEPT_DEVICE_SALT_FILE=/mnt/sdcard/.adobe-digital-editions/devicesalt
++export ANDROID_RUNTIME_ROOT=/apex/com.android.runtime
++export ANDROID_TZDATA_ROOT=/apex/com.android.tzdata
++export EBOOK_PAGE_VISIBLE_NUMBER=2　
++export ANDROID_ASSETS=/system/app
++export BOOTCLASSPATH=/apex/com.android.runtime/javalib/core-oj.jar:/apex/com.android.runtime/javalib/core-libart.jar:/apex/com.android.runtime/javalib/okhttp.jar:/apex/com.android.runtime/javalib/bouncycastle.jar:/apex/com.android.runtime/javalib/apache-xml.jar:/system/framework/framework.jar:/system/framework/ext.jar:/system/framework/telephony-common.jar:/system/framework/voip-common.jar:/system/framework/ims-common.jar:/system/framework/android.test.base.jar:/apex/com.android.conscrypt/javalib/conscrypt.jar:/apex/com.android.media/javalib/updatable-media.jar
++export ANDROID_SOCKET_adbd=14
++export ANDROID_BOOTLOGO=1
++export ANDROID_STORAGE=/storage
++export SYSTEMSERVERCLASSPATH=/system/framework/services.jar:/system/framework/ethernet-service.jar:/system/framework/wifi-service.jar:/system/framework/com.android.location.provider.jar
++export DEX2OATBOOTCLASSPATH=/apex/com.android.runtime/javalib/core-oj.jar:/apex/com.android.runtime/javalib/core-libart.jar:/apex/com.android.runtime/javalib/okhttp.jar:/apex/com.android.runtime/javalib/bouncycastle.jar:/apex/com.android.runtime/javalib/apache-xml.jar:/system/framework/framework.jar:/system/framework/ext.jar:/system/framework/telephony-common.jar:/system/framework/voip-common.jar:/system/framework/ims-common.jar:/system/framework/android.test.base.jar
++export EXTERNAL_STORAGE=/sdcard
++export RK_ADOBE_DE_MOBILE=1
++export RK_ADEPT_DEVICE_FILE=/mnt/sdcard/.adobe-digital-editions/device.xml
++export ASEC_MOUNTPOINT=/mnt/asec
++export TMPDIR=/data/local/tmp
++export PATH=/sbin:/system/sbin:/product/bin:/apex/com.android.runtime/bin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin
++export ANDROID_ROOT=/system
++export DOWNLOAD_CACHE=/data/cache
++
++/system/xbin/su shell
+diff --git a/device/rockchip/rk3588/GT_P7500/container/aic.sh b/device/rockchip/rk3588/GT_P7500/container/aic.sh
+new file mode 100755
+index 0000000000..54608c1e28
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/aic.sh
+@@ -0,0 +1,573 @@
++#!/bin/bash
++
++### 默认配置，可根据需求进行修改
++# Android容器配置文件地址
++CONTAINER_CONFIG_DIR=/userdata/container/android_config
++COMMON_CONFIG=$CONTAINER_CONFIG_DIR/container_common.conf
++# docker daemon.json文件地址
++DOCKER_DAEMON_FILE=/userdata/container/daemon.json
++# 默认容器数量
++CONTAINER_NUM=1
++# 默认网络类型: macvlan_dhcp/macvlan_static/docker0/host
++# 如需修改请修改android_config/container_common.conf或container_x.conf对应的network.type
++NETWORK_TYPE=docker0
++# macvlan网络名称
++MACVLAN_NAME=macvlan
++
++# 容器data地址
++ANDROID_DATA_DIR=/userdata/container/android_data
++# 容器data是否使用project quota： 默认没有配置，需要配置设置为true即可
++CONTAINER_DATA_PRJQUOTA=
++# 启用CONTAINER_DATA_PRJQUOTA后配置
++CONTAINER_DATA_PRJQUOTA_LIMIT=10G
++
++# 全局变量
++DOCKER_IMAGE="test"
++ANDROID_IP="192.168.12.2"
++MAC_ADDR=""
++CONTAINER_DATA_DIR="/userdata/android_data/data_0"
++
++
++run_cmd() {
++	cmd=$1
++	echo "$(date +"%Y-%m-%d %H:%M:%S") $cmd"
++	eval "$cmd"
++	if [ $? -ne 0 ]; then
++		echo "$(date +"%Y-%m-%d %H:%M:%S") $cmd error."
++		exit 1
++	fi
++}
++
++install_package() {
++	package_name=$1
++
++	if [ "$(dpkg -l | grep $package_name | awk '{print $2}')"x != "$package_name"x ]; then
++		run_cmd "apt-get install $package_name -y"
++	else
++		if [ "$(dpkg -l | grep $package_name | awk '{print $1}')"x != "ii"x ]; then
++			run_cmd "apt-get install $package_name -y"
++		fi
++	fi
++}
++
++# 解析配置文件，并将其中的键值对export为环境变量
++# 输入参数：配置文件路径
++parse_config() {
++	config_file=$1
++	# 检查配置文件是否存在
++	if [ ! -f "$config_file" ]; then
++		echo "配置文件 $config_file 不存在."
++		exit 1
++	fi
++
++	# 逐行读取配置文件并设置变量
++	while IFS= read -r line; do
++		# 忽略注释和空行
++		if [[ $line =~ ^\s*# || -z $line ]]; then
++			continue
++		fi
++
++		# 使用等号（=）分隔键值对
++		key=$(echo "$line" | cut -d= -f1)
++		value=$(echo "$line" | cut -d= -f2)
++
++		# 移除键和值中的空白字符,并将key的转换为大写
++		key=$(echo "$key" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')
++		value=$(echo "$value" | tr -d '[:space:]')
++		# 因为shell脚本环境变量不能包含“.”, 将key中的“.”转换为“_”
++		key=$(echo "$key" | sed 's/\./_/g')
++
++		# 将键值对设置为环境变量
++		export "$key=$value"
++	done < "$config_file"
++	# export
++}
++
++# 判断输入的IMAGE_TAG是否存在
++is_docker_image_exist(){
++	IMAGE_TAG=$1
++
++	ANDROID_IMAGE_TAG_LIST=$(docker images | grep -v REPOSITORY | awk -F" " '{print $2}')
++	for ANDROID_IMAGE in $ANDROID_IMAGE_TAG_LIST;do
++		if [ "$ANDROID_IMAGE"x == "$IMAGE_TAG"x ];then
++			echo "Android image is exist"
++			return 1
++		fi
++	done
++	return 0
++}
++
++# 创建DOCKER IMAGE
++# 需要输入一个参数：容器固件地址
++creat_docker_image() {
++	if [ $# -eq 1 ]; then
++		SUPER_IMG=$1
++	else
++		echo "error: you must specify the path to android firmware"
++		exit 1
++	fi
++
++	# 检查输入的容器固件地址是否存在
++	if test -e "$SUPER_IMG"; then
++	  echo "Found container firmware in: $SUPER_IMG"
++	else
++	  echo "ERROR: Container firmware is not exist"
++	  return
++	fi
++
++	# 删除所有没有使用的docke images / network / container
++	run_cmd "docker system prune -af"
++
++	# 解压容器固件：主要就是super.img
++	run_cmd "rm -rf super_img"
++	run_cmd "mkdir super_img"
++	run_cmd "tar -xvf $SUPER_IMG"
++
++	# 挂载分区
++	# mount system as root
++	run_cmd "mkdir super_img/root"
++	run_cmd "sudo mount super_img/system.img super_img/root -o rw"
++
++	MOUNT_LIST=$(ls super_img| grep img)
++
++	for i in $MOUNT_LIST; do
++		mount_point="${i%*${i:(-4)}}"
++		if [ "$mount_point"x == "system"x ]; then
++			echo "system has mounted as root already"
++		else
++			echo "mount_point: $mount_point"
++			run_cmd "sudo mount super_img/$i super_img/root/$mount_point -o rw"
++		fi
++	done
++
++	# Android 容器无需再挂载分区，所以删掉fstab.rk30board
++	# if [ -e "super_img/root/vendor/etc/fstab.rk30board" ]; then
++	# 	sudo rm super_img/root/vendor/etc/fstab.rk30board
++	# fi
++
++	# 准备版本信息
++	SOC_NAME=$(tr -d '\0' </sys/firmware/devicetree/base/compatible | awk -F, '{print $3}')
++	VERSION=$(cat super_img/root/vendor/build.prop | grep ro.rksdk.version |awk -F= '{print $2}')
++	BUILD_TIME=$(cat super_img/root/vendor/build.prop | grep ro.vendor.build.fingerprint | awk -F= '{print $2}'|awk -F/ '{print $5}' | awk -F: '{print $1}')
++
++	# 判断Android image是否已经存在
++	IMAGE_TAG="$VERSION-$BUILD_TIME"
++	is_docker_image_exist $IMAGE_TAG
++	IS_IMAGE_EXIST=$?
++
++	if [ "$IS_IMAGE_EXIST"x == "0"x ]; then
++		sudo tar --xattrs -c -C super_img/root . | sudo docker import -c 'ENTRYPOINT ["/init", "androidboot.hardware=rk30board"]' - $SOC_NAME:$VERSION-$BUILD_TIME
++		#sudo docker save -o $SOC_NAME-$VERSION.img $SOC_NAME:$VERSION
++		#sudo docker rmi $TARGET_PRODUCT:$VERSION
++	else
++		echo "Android image exit, do not load again!"
++	fi
++
++	# umount分区
++	DOCKER_IMAGE=$SOC_NAME:$VERSION-$BUILD_TIME
++	for i in $MOUNT_LIST; do
++		mount_point="${i%*${i:(-4)}}"
++		if [ "$mount_point"x == "system"x ]; then
++			echo "systen mount as root, umount late"
++		else
++			echo "unmount: $mount_point"
++			sudo umount super_img/root/$mount_point
++		fi
++	done
++	sudo umount super_img/root
++
++	sudo rm -rf super_img
++}
++
++# 准备Android容器的data目录
++# 根据容器编号区分
++# 输入参数： 容器编号
++prepare_android_data() {
++	CONTAINER_NO=$1
++	CONTAINER_DATA_DIR="$ANDROID_DATA_DIR/data_$CONTAINER_NO"
++
++	run_cmd "rm -rf $CONTAINER_DATA_DIR"
++	run_cmd "mkdir -p $CONTAINER_DATA_DIR"
++
++	# project quota 配额
++	if [ "$CONTAINER_DATA_PRJQUOTA"x == "true"x ]; then
++		echo "container data use project quota"
++		run_cmd "apt install quota"
++		PROJECT_ID="110$CONTAINER_NO"
++		run_cmd "chattr +P -p $PROJECT_ID $CONTAINER_DATA_DIR"
++		run_cmd "setquota -P $PROJECT_ID $CONTAINER_DATA_PRJQUOTA_LIMIT $CONTAINER_DATA_PRJQUOTA_LIMIT 0 0 /userdata"
++	fi
++}
++
++# 获取网段中一个空闲ip：
++# 注意，本机虚拟机的ip需要过滤掉
++# 需要安装fping（apt install fping）
++get_ip(){
++	install_package "fping"
++
++	IP_NETWORK_SEGMENT=$(ifconfig -a|grep inet|grep -v 127.0.0.1 | grep -v 172.17.0|grep -v inet6|awk '{print $2}' | awk -F"." '{print $1"."$2"."$3".0/24"}')
++	IDLE_IP_LIST=$(fping -ugq $IP_NETWORK_SEGMENT)
++	CONTAINER_ID_LIST=$(docker ps -a |grep -v "CONTAINER ID" | awk '{print $1}')
++	for IP in $IDLE_IP_LIST; do
++		for CONTAINER_ID in $CONTAINER_ID_LIST; do
++			CONTAIN_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $CONTAINER_ID)
++			if [ "$CONTAIN_IP"x == "$IP"x ]; then
++				IP=""
++				break
++			fi
++		done
++		if [ "$IP"x != ""x ]; then
++			break
++		fi
++	done
++	ANDROID_IP=$IP
++	echo "get a valid IP: $IP"
++}
++
++# 创建macvlan网络
++creat_macvlan_network(){
++	echo " creat macvlan network ..."
++	# 获取所有网络接口的名称,wifi不支持macvlan
++	all_interfaces=$(ip link show | awk -F': ' '{print $2}' | grep -v "lo" |  grep -v veth | grep -v docker | grep -v wlan)
++	# 遍历每个网络接口并尝试连接到互联网, 默认使用第一个能联网的网络接口
++	for interface in $all_interfaces; do
++		if ping -c 1 -W 1 www.baidu.com -I $interface &> /dev/null; then
++			PARENT=$interface
++			SUB_NET=$(ip addr show dev $interface | awk '/inet /{print $2}' | awk -F"." '{print $1"."$2"."$3".0/24"}')
++			break
++		fi
++	done
++
++	# 物理机网卡设置为混杂模式
++	run_cmd "ip link set $PARENT promisc on"
++	run_cmd "docker network create -d macvlan --subnet=$SUB_NET -o macvlan_mode=bridge -o parent=$PARENT $MACVLAN_NAME"
++}
++
++# 随机Mac地址
++random_mac_addr() {
++	# 生成一个随机的mac地址
++	# od -An -N6 -tx1 /dev/urandom：使用 /dev/urandom 从操作系统中生成6个随机字节
++	# sed -e 's/^ *//'：去掉输出中每行前面可能的空格
++	# sed -e 's/ */:/g'：将每个字节之间的空格替换为冒号，以匹配标准MAC地址格式
++	# sed -e 's/:$//'：删除MAC地址末尾的冒号（如果有的话）
++	# sed -e 's/^\(.\)[13579bdf]/\10/'：确保生成的MAC地址的最低有效位（LSB）的第二位是0，
++	# 以表示这是一个本地MAC地址，而不是全局唯一的MAC地址
++	MAC_ADDR=$(od -An -N6 -tx1 /dev/urandom | sed -e 's/^  *//' -e 's/  */:/g' -e 's/:$//' -e 's/^\(.\)[13579bdf]/\10/')
++}
++
++# 准备网络：是否使用macvlan， 使用静态or动态
++# 静态网络是否指定了ip，没有则先获取有效ip
++prepare_network() {
++	IS_MACVLAN=$(echo $NETWORK_TYPE | awk -F"_" '{print $1}')
++	echo "NETWORK_TYPE=$NETWORK_TYPE, IS_MACVLAN=$IS_MACVLAN"
++	if [ "$IS_MACVLAN"x == "macvlan"x ]; then
++		MACVLAN=$(docker network ls |awk '{print $3}' | grep macvlan)
++		if [ "$MACVLAN"x != "macvlan"x ]; then
++			creat_macvlan_network
++		fi
++	fi
++	# macvlan 使用静态ip
++	if [ "$NETWORK_TYPE"x == "macvlan_static"x ]; then
++		# 配置文件中没有指定ip，需要获取一个空闲ip
++		get_ip
++	fi
++	random_mac_addr
++}
++
++# 判断是否输入容器名是否已存在
++is_container_name_exist() {
++	CONTAINER_NAME=$1
++	CONTAINER_ID=$(docker ps -a|grep $CONTAINER_NAME | awk '{print $1}')
++	if [ "$CONTAINER_ID"x != ""x ]; then
++		echo "container name $CONTAINER_NAME is exist: $CONTAINER_ID!"
++		return 1
++	fi
++	return 0
++}
++
++# 执行docker run 命令运行容器
++run_docker_image() {
++	NAME=$1
++	DATA_DIR=$2
++	ANDROID_IMAGE=$3
++	CONTAINER_CONFIG=$4
++	CONTAINER_NO=$5
++
++	# 准备docker run 参数
++	CONTAINER_NAME="--name=$NAME"
++	HOST_NAME="--hostname=$NAME"
++	DATA_BIND="-v $DATA_DIR:/data"
++	CONFIG_COMMON="-v $CONTAINER_CONFIG_DIR/container_common.conf:/vendor/etc/container/container_common.conf"
++	CONFIG_PRIVATE="-v $CONTAINER_CONFIG_DIR/$CONTAINER_CONFIG:/vendor/etc/container/container.conf"
++	PORT_BIND="-p 110$CONTAINER_NO:5555"
++	CONTAINER_MAC="--mac-address=$MAC_ADDR"
++
++	if [ "$NETWORK_TYPE"x == "macvlan_static"x ]; then
++		CONTAINER_NETWORK="--network=$MACVLAN_NAME"
++		CONTAINER_IP="--ip=$ANDROID_IP"
++	elif [ "$NETWORK_TYPE"x == "macvlan_dhcp"x ]; then
++		CONTAINER_NETWORK="--network=$MACVLAN_NAME"
++		CONTAINER_IP=""
++		PORT_BIND=""
++	elif [ "$NETWORK_TYPE"x == "docker0"x ]; then
++		# docker0 网络
++		CONTAINER_NETWORK=""
++		CONTAINER_IP=""
++	elif [ "$NETWORK_TYPE"x == "host"x ]; then
++		CONTAINER_NETWORK="--network=host"
++		CONTAINER_IP=""
++		# 使用host网络，不支持指定mac地址
++		CONTAINER_MAC=""
++	fi
++
++	run_cmd "docker run -itd --restart=always --privileged $CONTAINER_NAME $HOST_NAME $DATA_BIND \
++		$CONFIG_COMMON $CONFIG_PRIVATE \
++		$CONTAINER_NETWORK $CONTAINER_MAC $CONTAINER_IP $PORT_BIND \
++		$ANDROID_IMAGE"
++}
++
++# 更新容器固件：仅更新固件，不改变网络、data数据等
++# 不支持Android跨版本升级
++# 输入参数：
++# 1、容器固件地址，必选；
++# 2、容器名称或者容器ID, 可选。未指定时，升级全部。
++update_container() {
++	if [ $# -eq 2 ]; then
++		NEW_IMAGE_PATH=$1
++		CONTAINER_NAME=$2
++	elif [ $# -eq 1 ]; then
++		NEW_IMAGE_PATH=$1
++		CONTAINER_NAME=""
++	fi
++
++	# 安装json解析器
++	install_package "jq"
++
++	# 1. 准备新的容器固件
++	if test -e "$NEW_IMAGE_PATH"; then
++		creat_docker_image $NEW_IMAGE_PATH
++	fi
++	# 2. 确定要升级的容器, 并停止容器
++	UPDATE_CONTAINER_LIST=()
++	if [ -n "$CONTAINER_NAME" ]; then
++		is_container_name_exist $CONTAINER_NAME
++		IS_CONTAINER_EXIST=$?
++		if [ "$IS_CONTAINER_EXIST" == "1" ]; then
++			run_cmd "docker stop $CONTAINER_NAME"
++			# 如果输入是container_id，需要进行转换成container_name,便于后面查找容器编号：android_x 中的x就是容器编号
++			UPDATE_CONTAINER_NAME=$(docker ps -a | grep $CONTAINER_NAME | awk '{print $NF}')
++			UPDATE_CONTAINER_LIST+=($UPDATE_CONTAINER_NAME)
++		else
++			echo "FATAL: Not found $CONTAINER_NAME"
++			exit 1
++		fi
++	else
++		CONTAINER_LIST=$(docker ps -a | awk '{print $NF}' | sed 1d)
++		for CONTAINER in $CONTAINER_LIST; do
++			run_cmd "docker stop $CONTAINER"
++			UPDATE_CONTAINER_LIST+=($CONTAINER)
++		done
++	fi
++
++	# 3. 删除原来的容器并升级容器固件
++	CONTAINER_NUM=${#UPDATE_CONTAINER_LIST[@]}
++	echo "CONTAINER_NUM=$CONTAINER_NUM"
++	for UPDATE_CONTAINER_NAME in ${UPDATE_CONTAINER_LIST[@]}; do
++		ANDROID_IP=$(docker inspect $UPDATE_CONTAINER_NAME | jq -r '.[0].NetworkSettings.IPAddress')
++		MAC_ADDR=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.MacAddress}}{{end}}' $UPDATE_CONTAINER_NAME)
++		CONTAINER_NO=$(echo "$UPDATE_CONTAINER_NAME" | awk -F'_' '{print $2}')
++		CONTAINER_DATA_DIR=$(docker inspect $UPDATE_CONTAINER_NAME | jq -r '.[0].HostConfig.Binds' | grep "/data" |awk -F':' '{print $1}' | tr -d '"')
++		COTAINER_CONFIG="container_$CONTAINER_NO.conf"
++		run_cmd "docker rm -f $UPDATE_CONTAINER_NAME"
++		run_docker_image $UPDATE_CONTAINER_NAME $CONTAINER_DATA_DIR $DOCKER_IMAGE $COTAINER_CONFIG $CONTAINER_NO
++	done
++}
++
++# 运行容器
++# 输入两个参数：
++# 1、固件地址（必选：或者DOCKER IMAGE: REPOSITORY:TAG）
++# 2、容器数量（可选，没有配置默认为1）
++run_container() {
++	if [ $# -eq 2 ]; then
++		CONTAINER_NUM=$2
++		IMAGE_OR_PATH=$1
++	elif [ $# -eq 1 ]; then
++		CONTAINER_NUM=1
++		IMAGE_OR_PATH=$1
++	fi
++
++	# 判断IMAGE_OR_PATH是否为一个文件
++	# IMAGE_OR_PATH 为文件时，creat DOCKER IMAGE
++	# IMAGE_OR_PATH 为非文件时，判断IMAGE是否存在
++	if test -e "$IMAGE_OR_PATH"; then
++		creat_docker_image $IMAGE_OR_PATH
++	else
++		# 判断输入的 IMAGE 是否存在
++		IMAGE_TAG="$(echo "$IMAGE_OR_PATH" | cut -d: -f2)"
++		is_docker_image_exist $IMAGE_TAG
++		IS_IMAGE_EXIST=$?
++		if [ "$IS_IMAGE_EXIST"x == "1"x ]; then
++			echo "$IMAGE_OR_PATH IMAGE is exist"
++			DOCKER_IMAGE="$IMAGE_OR_PATH"
++		else
++			echo "FATAL: Not found $IMAGE_OR_PATH, please check it"
++			exit 1
++		fi
++	fi
++
++	if [ "$CONTAINER_NUM" -le 0 ]; then
++		echo "CONTAINER_NUM=$CONTAINER_NUM <= 0, set CONTAINER_NUM=1"
++		CONTAINER_NUM=1
++	fi
++	for ((i = 0; i < ${CONTAINER_NUM}; i++)); do
++		NEW_CONTAINER_NO=$i
++		# 获取已经存在的Android容器序号并按大小排列
++		EXIST_CONTAINER_NO_LIST=$(docker ps | grep -v "CONTAINER ID" | awk -F" "  '{print $NF}'|awk -F"_"  '{print $2}'|sort -n)
++		for EXIST_CONTAINER_NO in $EXIST_CONTAINER_NO_LIST; do
++			echo "EXIST_CONTAINER_NO=$EXIST_CONTAINER_NO, NEW_CONTAINER_NO=$NEW_CONTAINER_NO"
++			if [ "$EXIST_CONTAINER_NO" -lt "$NEW_CONTAINER_NO" ];then
++				continue
++			fi
++			if [ "$EXIST_CONTAINER_NO" == "$NEW_CONTAINER_NO" ];then
++				NEW_CONTAINER_NO=$(($NEW_CONTAINER_NO + 1))
++				continue
++			fi
++			break
++		done
++		echo "NEW_CONTAINER_NO=$NEW_CONTAINER_NO"
++		CONTAINER_NAME="android"_$NEW_CONTAINER_NO
++		COTAINER_CONFIG="container_$NEW_CONTAINER_NO.conf"
++		parse_config $COMMON_CONFIG
++		parse_config $CONTAINER_CONFIG_DIR/$COTAINER_CONFIG
++		prepare_android_data $NEW_CONTAINER_NO
++		prepare_network
++		run_docker_image $CONTAINER_NAME $CONTAINER_DATA_DIR $DOCKER_IMAGE $COTAINER_CONFIG $NEW_CONTAINER_NO
++	done
++}
++
++# 初始化设备环境
++# 安装docker及必要的应用，配置docker环境等
++init_device() {
++	run_cmd "update-alternatives --set iptables /usr/sbin/iptables-legacy"
++	# 安装必要软件包
++	run_cmd "sudo apt update"
++	install_package "fping"
++	# 安装docker包
++	install_package "docker.io"
++
++	# 修改docker的默认存储至/data目录
++	if [ ! -e "/etc/docker/daemon.json" ]; then
++		mkdir -p /data/docker
++		cp $DOCKER_DAEMON_FILE /etc/docker/daemon.json
++		systemctl daemon-reload
++		systemctl restart docker
++	fi
++
++	# 如果未配置wifibt， 需关掉rkwifibt服务，避免因为ko加载问题导致卡住
++	# SDK 版本不同，wifibt服务有变化
++	run_cmd "systemctl disable rkwifibt"
++	run_cmd "systemctl disable wifibt-init.service"
++}
++
++# 打印帮助函数
++print_help() {
++    echo "用法: $0 [-h] [-i][-c firmware_path] [-r image_or_path [container_num] ] [-u update_image_or_path [container_name] ]"
++    echo "      该脚本主要是用来在 Debian 系统上通过 docker 部署和运行Android容器。"
++    echo "      首次部署环境，请先运行 ./aic.sh -i 命令进行设备的初始化。"
++    echo "选项:"
++    echo "  -h            显示帮助信息"
++    echo "  -i            初始化设备环境：./aic.sh -i"
++    echo "                安装docker及必须的应用包，初始化docker环境和容器运行环境等"
++    echo "  -c            创建docker image: ./aic.sh -c firmware_path"
++    echo "                    参数1：firmware_path: 必选参数，表示容器的固件地址"
++    echo "                    例如： ./aic.sh -c /path/to/android_firmware.tgz"
++    echo "  -r            运行容器: ./aic.sh -r image_or_path [container_num]"
++    echo "                    参数1：image_or_path: 必选参数，表示容器的固件地址或者docker image（REPOSITORY:TAG）"
++    echo "                    参数2：container_num: 可选参数，表示容器数量，未配置，默认为1个"
++    echo "                    例如： ./aic.sh -r /path/to/android_firmware.tgz 3"
++    echo "  -u            升级容器： ./aic.sh -u update_image_or_path [container_name/container_id]"
++    echo "                    参数1：update_image_or_path: 必选参数，表示要升级的容器的固件地址或者image（REPOSITORY:TAG）"
++    echo "                    参数2：container_name/container_id: 可选参数，要升级的容器名称或容器ID，未配置，默认全部升级"
++    echo "                    例如： ./aic.sh -c /path/to/android_firmware.tgz android_0"
++}
++
++# 解析命令行选项和参数
++parse_opts() {
++	HAS_OPTION=false
++	OPTION=()
++	while getopts ":hvic:r:u:" opt; do
++		case $opt in
++			h)
++				print_help
++				HAS_OPTION=true
++				exit 0
++				;;
++			i)
++				echo "init device for run container"
++				init_device
++				HAS_OPTION=true
++				;;
++			v)
++				echo "aic.sh version is v1.0.2"
++				HAS_OPTION=true
++				exit 0
++				;;
++			c)
++				echo "creat docker images,  OPTARG is: $OPTARG"
++				ANDROID_FIRMWARE_PATH=$OPTARG
++				creat_docker_image $ANDROID_FIRMWARE_PATH
++				HAS_OPTION=true
++				;;
++			r)
++				OPTION+=("$OPTARG")
++				shift $((OPTIND-1))
++				OPTION+=("$@")
++				echo "run docker images,  OPTARG is: ${OPTION[*]}"
++				IMAGE_OR_PATH=${OPTION[0]}
++				CONTAINER_NUM=${OPTION[1]}
++				echo "IMAGE_OR_PATH=$IMAGE_OR_PATH, CONTAINER_NUM=$CONTAINER_NUM"
++				run_container $IMAGE_OR_PATH $CONTAINER_NUM
++				HAS_OPTION=true
++				;;
++			u)
++				OPTION+=("$OPTARG")
++				shift $((OPTIND-1))
++				OPTION+=("$@")
++				echo "update docker container images,  OPTARG is: ${OPTION[*]}"
++				IMAGE_OR_PATH=${OPTION[0]}
++				CONTAINER_NO=${OPTION[1]}
++				echo "IMAGE_OR_PATH=$IMAGE_OR_PATH, CONTAINER_NO=$CONTAINER_NO"
++				update_container $IMAGE_OR_PATH $CONTAINER_NO
++				HAS_OPTION=true
++				;;
++			?)
++				echo "无效选项: -$OPTARG" >&2
++				print_help
++				exit 1
++				;;
++			:)
++				echo "选项 -$OPTARG 需要参数." >&2
++				print_help
++				exit 1
++				;;
++		esac
++	done
++	if [ "$HAS_OPTION" == false ]; then
++		echo "无效选项，请检查输入参数:"
++		echo "运行脚本，需要指明要进行的操作（-c/-r/-i...）"
++		print_help
++	fi
++}
++
++main() {
++	# 如果没有提供任何参数，则打印帮助信息
++	if [ $# -eq 0 ]; then
++		print_help
++		exit 0
++	fi
++	# parse_config $COMMON_CONFIG
++
++	parse_opts "$@"
++}
++
++main "$@"
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/README.txt b/device/rockchip/rk3588/GT_P7500/container/android_config/README.txt
+new file mode 100755
+index 0000000000..9cc17d7647
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/README.txt
+@@ -0,0 +1,12 @@
++该目录主要是配置一些容器参数，主要分为两部分，一个是公共部分container_common.conf， 一个容器私有部分container_X.conf。
++希望在所有容器都生效的部分，可以添加在container_common.conf里面，只希望在X容器生效的，添加在container_X.conf。
++
++该配置文件需要在docker run启动容器时将其映射到容器中/vendor/etc/container目录下：
++-v $CONTAINER_CONFIG_DIR/container_common.conf:/vendor/etc/container/container_common.conf \
++-v $CONTAINER_CONFIG_DIR/$CONTAINER_CONFIG:/vendor/etc/container/container.conf
++
++在容器启动时，init进程会去读取这两个配置文件，将其配置成以"ro.container."开头的属性，然后各应用再根据自己的需求读取相应属性。
++
++目前仅支持 键值对 的形式进行配置， 以“#”号开头的行表示注释行。
++
++
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_0.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_0.conf
+new file mode 100755
+index 0000000000..8afbb72236
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_0.conf
+@@ -0,0 +1,8 @@
++# config for container 0
++container_id=0
++
++### display
++# 绑定到哪个屏幕，默认使用VVOP:Virtual-1~Virtual-8
++# 如果有实际屏幕，可以配置为实际屏幕的设备节点
++# ls /sys/class/drm/card0 可以查看支持的设备
++primary_type=Virtual-1
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_1.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_1.conf
+new file mode 100755
+index 0000000000..ab0dc57780
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_1.conf
+@@ -0,0 +1,8 @@
++# config for container 1
++container_id=1
++
++### display
++# 绑定到哪个屏幕，默认使用VVOP:Virtual-1~Virtual-8
++# 如果有实际屏幕，可以配置为实际屏幕的设备节点
++# ls /sys/class/drm/card0 可以查看支持的设备
++primary_type=Virtual-2
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_2.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_2.conf
+new file mode 100755
+index 0000000000..aed9e2d5ec
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_2.conf
+@@ -0,0 +1,8 @@
++# config for container 2
++container_id=2
++
++### display
++# 绑定到哪个屏幕，默认使用VVOP:Virtual-1~Virtual-8
++# 如果有实际屏幕，可以配置为实际屏幕的设备节点
++# ls /sys/class/drm/card0 可以查看支持的设备
++primary_type=Virtual-3
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_3.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_3.conf
+new file mode 100755
+index 0000000000..f7b71ead1f
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_3.conf
+@@ -0,0 +1,8 @@
++# config for container 3
++container_id=3
++
++### display
++# 绑定到哪个屏幕，默认使用VVOP:Virtual-1~Virtual-8
++# 如果有实际屏幕，可以配置为实际屏幕的设备节点
++# ls /sys/class/drm/card0 可以查看支持的设备
++primary_type=Virtual-4
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_4.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_4.conf
+new file mode 100755
+index 0000000000..a8efcd4983
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_4.conf
+@@ -0,0 +1,8 @@
++# config for container 4
++container_id=4
++
++### display
++# 绑定到哪个屏幕，默认使用VVOP:Virtual-1~Virtual-8
++# 如果有实际屏幕，可以配置为实际屏幕的设备节点
++# ls /sys/class/drm/card0 可以查看支持的设备
++primary_type=Virtual-5
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_5.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_5.conf
+new file mode 100755
+index 0000000000..29e3f6f13b
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_5.conf
+@@ -0,0 +1,8 @@
++# config for container 5
++container_id=5
++
++### display
++# 绑定到哪个屏幕，默认使用VVOP:Virtual-1~Virtual-8
++# 如果有实际屏幕，可以配置为实际屏幕的设备节点
++# ls /sys/class/drm/card0 可以查看支持的设备
++primary_type=Virtual-6
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_6.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_6.conf
+new file mode 100755
+index 0000000000..205c86c1e7
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_6.conf
+@@ -0,0 +1,8 @@
++# config for container 6
++container_id=6
++
++### display
++# 绑定到哪个屏幕，默认使用VVOP:Virtual-1~Virtual-8
++# 如果有实际屏幕，可以配置为实际屏幕的设备节点
++# ls /sys/class/drm/card0 可以查看支持的设备
++primary_type=Virtual-7
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_7.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_7.conf
+new file mode 100755
+index 0000000000..ca9a3939e9
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_7.conf
+@@ -0,0 +1,8 @@
++# config for container 7
++container_id=7
++
++### display
++# 绑定到哪个屏幕，默认使用VVOP:Virtual-1~Virtual-8
++# 如果有实际屏幕，可以配置为实际屏幕的设备节点
++# ls /sys/class/drm/card0 可以查看支持的设备
++primary_type=Virtual-8
+diff --git a/device/rockchip/rk3588/GT_P7500/container/android_config/container_common.conf b/device/rockchip/rk3588/GT_P7500/container/android_config/container_common.conf
+new file mode 100755
+index 0000000000..3ac827c920
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/android_config/container_common.conf
+@@ -0,0 +1,47 @@
++# default config for all container
++# 该配置为所有容器生效的默认配置，
++# 如需修改，请在对应容器的配置文件中修改
++# 除非希望在所有容器中生效，否则不要修改该配置文件
++
++# 必须打开，init.redroid.rc中使用
++enable.container.config=true
++# 配置容器id，该配置必须在应容器的配置文件中修改为对应容器id
++container_id=0
++
++### network
++# 网络类型:docker0 / macvlan_static / macvlan_dhcp / host
++network.type=docker0
++# dns 配置，没有配置，默认8.8.8.8
++# 只有docker0 / macvlan_static 配置dns才能生效
++# macvlan_dhcp / host 配置dns参数不会生效
++net_dns.num=2
++net_dns1=114.114.114.114
++net_dns2=8.8.8.8
++
++### HWC
++# 配置默认显示屏，必须在容器私有配置中重新配置
++# 如果需要多个屏幕显示配置成primary_type=DSI-1,HDMI-A-1
++primary_type=DSI-1
++# 配置默认分辨率
++default.resolution=1080x1920@60
++
++### audio
++# 关闭音频输出到宿主机
++disable.audio.output=true
++
++### input event
++# 关闭input输入事件,
++# 如需容器支持鼠标键盘，可以配置不关闭输入事件
++# 不关闭输入事件，配置为 false
++disable.input.event=true
++
++### ueventd
++# ueventd 冷启动，默认不开启冷启动
++# 如果需要使用U盘等外设，建议开启冷启动
++# 开启冷启动，将该配置设置为false
++disable.ueventd.cold_boot=true
++
++### usb
++# 默认不关闭usb.configfs，
++# 如无需使用USB，可以关闭，关闭请配置为true
++disable.usb.configfs=false
+diff --git a/device/rockchip/rk3588/GT_P7500/container/daemon.json b/device/rockchip/rk3588/GT_P7500/container/daemon.json
+new file mode 100644
+index 0000000000..64e074531e
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/container/daemon.json
+@@ -0,0 +1,3 @@
++{
++  "data-root": "/data/docker"
++}
+diff --git a/device/rockchip/rk3588/GT_P7500/dt-overlay.in b/device/rockchip/rk3588/GT_P7500/dt-overlay.in
+new file mode 100644
+index 0000000000..382291efd6
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/dt-overlay.in
+@@ -0,0 +1,15 @@
++/dts-v1/;
++/plugin/;
++
++&chosen {
++    bootargs_ext = "androidboot.boot_devices=${_boot_device}";
++};
++
++&reboot_mode {
++    mode-bootloader = <0x5242C309>;
++    mode-charge = <0x5242C30B>;
++    mode-fastboot = <0x5242C303>;
++    mode-loader = <0x5242C301>;
++    mode-normal = <0x5242C300>;
++    mode-recovery = <0x5242C303>;
++};
+diff --git a/device/rockchip/rk3588/GT_P7500/fstab.rk30board b/device/rockchip/rk3588/GT_P7500/fstab.rk30board
+new file mode 100644
+index 0000000000..17620e1311
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/fstab.rk30board
+@@ -0,0 +1,14 @@
++# Android Container fstab file, only contain some external devices.
++#<src>                                          <mnt_point>         <type>    <mnt_flags and options>                       <fs_mgr_flags>
++# For usb
++/devices/platform/*usb*   auto vfat defaults      voldmanaged=usb:auto
++
++# For sata
++/devices/platform/*.sata* auto vfat defaults voldmanaged=sata:auto
++
++# For pcie ssd
++/devices/platform/*.pcie* auto vfat defaults voldmanaged=pcie:auto
++
++/dev/block/zram0                                none                swap      defaults                                              zramsize=50%
++# For sdmmc
++/devices/platform/fe2c0000.mmc/mmc_host*        auto  auto    defaults        voldmanaged=sdcard1:auto
+diff --git a/device/rockchip/rk3588/GT_P7500/host_network.sh b/device/rockchip/rk3588/GT_P7500/host_network.sh
+new file mode 100644
+index 0000000000..3811f07c46
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/host_network.sh
+@@ -0,0 +1,125 @@
++#!/system/bin/sh
++
++valid_interface=()
++NAT_INTERFACE=""
++NAT_IP=""
++NAT_FREQ=""
++IS_NETWORK_CHANGE=0
++
++# 输出日志到Android的logcat
++# 需要两个参数，第一个固定为$LINENO
++# 第二个为要输出的日志
++# 如：print_log $LINENO "print_log test"
++print_log(){
++	line_no=$1
++	log=$2
++	logcat="/system/bin/log -t host_network.sh\(line:$line_no\) $log"
++
++	eval "$logcat"
++}
++
++# 使用host网络，需要重新配置tcp port，重启adbd，避免网络adb异常
++# 这边tcp port选择与aic.sh中定义的一致
++restart_adbd(){
++	print_log $LINENO "restart adbd"
++	container_no=$(getprop ro.container.container_id)
++	tcp_port_pre="110"
++	tcp_port=$tcp_port_pre$container_no
++	# 默认server端口号是5037,使用host网络，会和宿主机adbd的server端口冲突
++	server_port=$((5038+$container_no))
++	print_log $LINENO "restart adbd tcp_port: $tcp_port"
++	setprop service.adb.tcp.port $tcp_port
++	setprop ro.container.adbd.server.port $server_port
++	kill -9 `pgrep adb`
++	start adbd
++}
++
++get_interface(){
++	valid_interface=()
++	all_interfaces=$(ip link show | awk -F': ' '{print $2}' | grep -v "lo" |  grep -v veth | grep -v docker | grep -v dummy0)
++	for interface in $all_interfaces; do
++		if ping -I $interface -c 1 -W 1 www.baidu.com &> /dev/null; then
++			print_log $LINENO "foud valid interface: $interface"
++			valid_interface+=($interface)
++		fi
++	done
++}
++
++set_nat_for_docker0(){
++	interface=$1
++	# get default gateway
++	gateway=$(ip -4 route list table 0 | grep default | grep $interface | awk  '{print $3}')
++	# get ip_addr: 172.16.21.199/24
++	ip_addr=$(ip -4 addr show dev $interface | awk '/inet / {print $2}')
++	NAT_INTERFACE=$interface
++	NAT_IP=$ip_addr
++	NAT_FREQ=$(iw dev $interface link | grep freq |awk '{print $2}')
++	print_log $LINENO "interface=$interface, gateway=$gateway, ip_addr=$ip_addr, freq=$NAT_FREQ"
++
++	ip rule add from all lookup main pref 9999
++	ip r a default via $gateway dev $interface proto static t main
++	ndc nat enable docker0 $interface 2 $ip_addr
++	echo 1 > /proc/sys/net/ipv4/ip_forward
++
++	restart_adbd
++}
++
++is_network_change(){
++	interface=$1
++	ip_addr=$(ip -4 addr show dev $interface | awk '/inet / {print $2}')
++
++	if [ "$ip_addr" == "$NAT_IP" ]; then
++		ping -I $interface -c 1 -W 1 www.baidu.com &> /dev/null
++		if [ $? -ne 0 ] ; then
++			IS_NETWORK_CHANGE=1
++		fi
++		# wifi切换频率（2.4G->5G）也有可能导致使用bridge网络的容器网络异常
++		# 所以网络频率切换也视为网络变化
++		FREQ=$(iw dev $interface link | grep freq |awk '{print $2}')
++		if [ "$FREQ" == "$NAT_FREQ" ]; then
++			IS_NETWORK_CHANGE=0
++		else
++			IS_NETWORK_CHANGE=1
++		fi
++	else
++		IS_NETWORK_CHANGE=1
++	fi
++}
++
++main(){
++	while true; do
++		get_interface
++		if [ ${#valid_interface[@]} -eq 0 ]; then
++			print_log $LINENO "Not found valid interface to connect network"
++			sleep 5
++		else
++			first_interface=${valid_interface[0]}
++			set_nat_for_docker0 $first_interface
++			break
++		fi
++	done
++	while true; do
++		is_network_change $NAT_INTERFACE
++		if [ $IS_NETWORK_CHANGE == "1" ] ; then
++			print_log $LINENO "May network status change, will reset nat for docker0"
++			get_interface
++			if [ ${#valid_interface[@]} -eq 0 ]; then
++				print_log $LINENO "Not found valid interface to connect network"
++				NAT_IP=""
++				NAT_FREQ=""
++				sleep 3
++				continue
++			fi
++			first_interface=${valid_interface[0]}
++			set_nat_for_docker0 $first_interface
++		fi
++		# 执行adb root等命令可能导致adbd异常退出，原因待查，此为workround
++		adbd_pid=$(pgrep adbd)
++		if [ -z $adbd_pid ]; then
++			restart_adbd
++		fi
++		sleep 3
++	done
++}
++
++main "$@"
+diff --git a/device/rockchip/rk3588/GT_P7500/init.redroid.rc b/device/rockchip/rk3588/GT_P7500/init.redroid.rc
+new file mode 100755
+index 0000000000..8d88cb29e6
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/init.redroid.rc
+@@ -0,0 +1,89 @@
++on early-init
++    mount debugfs debugfs /sys/kernel/debug mode=755
++
++    # Mount binderfs
++    mkdir /dev/binderfs
++    mount binder binder /dev/binderfs stats=global
++    chmod 0755 /dev/binderfs
++    exec -- /vendor/bin/binder_alloc /dev/binderfs/binder-control binder hwbinder vndbinder
++
++    symlink /dev/binderfs/binder /dev/binder
++    symlink /dev/binderfs/hwbinder /dev/hwbinder
++    symlink /dev/binderfs/vndbinder /dev/vndbinder
++
++    symlink /dev/net/tun /dev/tun
++
++    # 32bit app require this, remove for 64bit only redroid
++    write /proc/sys/kernel/pid_max 65535
++
++    exec - root root -- /vendor/bin/chmod.sh
++
++    chown system system /dev/dma_heap/system
++
++    # used to place domain sockets
++    mkdir /ipc 0777
++
++on early-init && property:ro.container.disable.input.event=true
++    exec -- /bin/rm -rf /dev/input
++    # inputflinger require this dir
++    mkdir /dev/input
++
++# setup overlay data partition
++on early-init && property:ro.kernel.redroid.overlay=1
++    mkdir /data-diff/upper
++    rmdir /data-diff/work
++    mkdir /data-diff/work
++
++    mount overlay overlay /data lowerdir=/data-base,upperdir=/data-diff/upper,workdir=/data-diff/work
++
++# DNS
++on early-init && property:ro.kernel.net.eth0.dns1=*
++    setprop ro.boot.redroid_net_ndns 1
++    setprop ro.boot.redroid_net_dns1 ${ro.kernel.net.eth0.dns1}
++
++
++# network proxy
++on early-init && property:ro.kernel.net.eth0.proxy.type=*
++    setprop ro.boot.redroid_net_proxy_type ${ro.kernel.net.eth0.proxy.type}
++
++on early-init && property:ro.kernel.net.eth0.proxy.host=*
++    setprop ro.boot.redroid_net_proxy_host ${ro.kernel.net.eth0.proxy.host}
++
++on early-init && property:ro.kernel.net.eth0.proxy.port=*
++    setprop ro.boot.redroid_net_proxy_port ${ro.kernel.net.eth0.proxy.port}
++
++on early-init && property:ro.kernel.net.eth0.proxy.exclusionList=*
++    setprop ro.boot.redroid_net_proxy_exclude ${ro.kernel.net.eth0.proxy.exclusionList}
++
++on early-init && property:ro.kernel.net.eth0.proxy.pac=*
++    setprop ro.boot.redroid_net_proxy_pac ${ro.kernel.net.eth0.proxy.pac}
++
++on init
++    # lxcfs better
++    write /data/.empty 0
++    mount none /data/.empty /proc/vmallocinfo bind
++
++    # fix suspend host system?
++    mount none /dev/null /sys/power/state bind
++
++    setprop debug.renderengine.backend gles
++
++# when use docker0 network and macvlan_static network,
++# must use ipconfigstore to config network, after post-fs-data and before netd
++on post-fs-data
++    exec - system system -- /vendor/bin/ipconfigstore
++    # no need to mount, and encryption not supported yet
++    trigger nonencrypted
++
++# translate the property with prefix of 'ro.container.' to the property which application need
++on early-init && property:ro.container.enable.container.config=true
++    setprop persist.disable.audio.output ${ro.container.disable.audio.output}
++    setprop persist.vendor.resolution.main ${ro.container.default.resolution}
++    setprop ro.boot.redroid_net_ndns ${ro.container.net_dns.num}
++    setprop ro.boot.redroid_net_dns1 ${ro.container.net_dns1}
++    setprop ro.boot.redroid_net_dns2 ${ro.container.net_dns2}
++    setprop ro.cold_boot_done ${ro.container.disable_cold_boot}
++    setprop persist.sys.sdcardfs ${ro.container.use.sdcardfs}
++
++on property:sys.boot_completed=1 && property:ro.container.network.type=host
++    exec - root root -- /vendor/bin/host_network.sh
+diff --git a/device/rockchip/rk3588/GT_P7500/manifest.xml b/device/rockchip/rk3588/GT_P7500/manifest.xml
+new file mode 100644
+index 0000000000..c540005b47
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/manifest.xml
+@@ -0,0 +1,200 @@
++<manifest version="1.0" type="device" target-level="4">
++    <hal format="hidl">
++        <name>android.hardware.audio</name>
++        <transport>hwbinder</transport>
++        <version>5.0</version>
++        <interface>
++            <name>IDevicesFactory</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.audio.effect</name>
++        <transport>hwbinder</transport>
++        <version>5.0</version>
++        <interface>
++            <name>IEffectsFactory</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <!-- hal format="hidl">
++        <name>android.hardware.bluetooth</name>
++        <transport>hwbinder</transport>
++        <version>1.0</version>
++        <interface>
++            <name>IBluetoothHci</name>
++            <instance>default</instance>
++        </interface>
++    </hal-->
++    <hal format="hidl">
++        <name>android.hardware.keymaster</name>
++        <transport>hwbinder</transport>
++        <version>3.0</version>
++        <interface>
++            <name>IKeymasterDevice</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.drm</name>
++        <transport>hwbinder</transport>
++        <version>1.0</version>
++        <interface>
++            <name>ICryptoFactory</name>
++            <instance>default</instance>
++        </interface>
++        <interface>
++            <name>IDrmFactory</name>
++            <instance>default</instance>
++        </interface>
++        <fqname>@1.2::ICryptoFactory/clearkey</fqname>
++        <fqname>@1.2::IDrmFactory/clearkey</fqname>
++        <!-- <fqname>@1.2::ICryptoFactory/widevine</fqname>
++        <fqname>@1.2::IDrmFactory/widevine</fqname> -->
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.graphics.allocator</name>
++        <transport>hwbinder</transport>
++        <version>3.0</version>
++        <interface>
++            <name>IAllocator</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.graphics.mapper</name>
++        <transport arch="32+64">passthrough</transport>
++        <version>3.0</version>
++        <interface>
++            <name>IMapper</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.graphics.composer</name>
++        <transport>hwbinder</transport>
++        <version>2.1</version>
++        <interface>
++            <name>IComposer</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.health</name>
++        <transport>hwbinder</transport>
++        <version>2.0</version>
++        <interface>
++            <name>IHealth</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.light</name>
++        <transport>hwbinder</transport>
++        <version>2.0</version>
++        <interface>
++            <name>ILight</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.media.omx</name>
++        <transport>hwbinder</transport>
++        <version>1.0</version>
++        <interface>
++            <name>IOmx</name>
++            <instance>default</instance>
++        </interface>
++        <interface>
++            <name>IOmxStore</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.power</name>
++        <transport>hwbinder</transport>
++        <version>1.0</version>
++        <interface>
++            <name>IPower</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.sensors</name>
++        <transport>hwbinder</transport>
++        <version>1.0</version>
++        <interface>
++            <name>ISensors</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.soundtrigger</name>
++        <transport>hwbinder</transport>
++        <version>2.0</version>
++        <interface>
++            <name>ISoundTriggerHw</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.wifi</name>
++        <transport>hwbinder</transport>
++        <version>1.3</version>
++        <interface>
++            <name>IWifi</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.wifi.hostapd</name>
++        <transport>hwbinder</transport>
++        <version>1.1</version>
++        <interface>
++            <name>IHostapd</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.wifi.supplicant</name>
++        <transport>hwbinder</transport>
++        <version>1.2</version>
++        <interface>
++            <name>ISupplicant</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
++    <hal format="hidl">
++        <name>android.hardware.radio</name>
++        <transport>hwbinder</transport>
++        <version>1.0</version>
++        <interface>
++            <name>IRadio</name>
++            <instance>slot1</instance>
++        </interface>
++        <interface>
++            <name>ISap</name>
++            <instance>slot1</instance>
++        </interface>
++    </hal>
++
++    <!-- hal format="hidl">
++        <name>android.hardware.camera.provider</name>
++        <transport>hwbinder</transport>
++        <version>2.4</version>
++        <interface>
++            <name>ICameraProvider</name>
++            <instance>legacy/0</instance>
++        </interface>
++    </hal-->
++    <!--hal format="hidl">
++        <name>android.hardware.gatekeeper</name>
++        <transport>hwbinder</transport>
++        <version>1.0</version>
++        <interface>
++            <name>IGatekeeper</name>
++            <instance>default</instance>
++        </interface>
++    </hal-->
++
++</manifest>
+diff --git a/device/rockchip/rk3588/GT_P7500/media_profiles_default.xml b/device/rockchip/rk3588/GT_P7500/media_profiles_default.xml
+new file mode 100644
+index 0000000000..fd03524e0a
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/media_profiles_default.xml
+@@ -0,0 +1,689 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2010 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<!DOCTYPE MediaSettings [
++<!ELEMENT MediaSettings (CamcorderProfiles,
++                         EncoderOutputFileFormat+,
++                         VideoEncoderCap+,
++                         AudioEncoderCap+,
++                         VideoDecoderCap,
++                         AudioDecoderCap)>
++<!ELEMENT CamcorderProfiles (EncoderProfile+, ImageEncoding+, ImageDecoding, Camera)>
++<!ELEMENT EncoderProfile (Video, Audio)>
++<!ATTLIST EncoderProfile quality (high|low) #REQUIRED>
++<!ATTLIST EncoderProfile fileFormat (mp4|3gp) #REQUIRED>
++<!ATTLIST EncoderProfile duration (30|60) #REQUIRED>
++<!ATTLIST EncoderProfile cameraId (0|1) #REQUIRED>
++<!ELEMENT Video EMPTY>
++<!ATTLIST Video codec (h264|h263|m4v) #REQUIRED>
++<!ATTLIST Video bitRate CDATA #REQUIRED>
++<!ATTLIST Video width CDATA #REQUIRED>
++<!ATTLIST Video height CDATA #REQUIRED>
++<!ATTLIST Video frameRate CDATA #REQUIRED>
++<!ELEMENT Audio EMPTY>
++<!ATTLIST Audio codec (amrnb|amrwb|aac) #REQUIRED>
++<!ATTLIST Audio bitRate CDATA #REQUIRED>
++<!ATTLIST Audio sampleRate CDATA #REQUIRED>
++<!ATTLIST Audio channels (1|2) #REQUIRED>
++<!ELEMENT ImageEncoding EMPTY>
++<!ATTLIST ImageEncoding quality (90|80|70|60|50|40) #REQUIRED>
++<!ELEMENT ImageDecoding EMPTY>
++<!ATTLIST ImageDecoding memCap CDATA #REQUIRED>
++<!ELEMENT Camera EMPTY>
++<!ELEMENT EncoderOutputFileFormat EMPTY>
++<!ATTLIST EncoderOutputFileFormat name (mp4|3gp) #REQUIRED>
++<!ELEMENT VideoEncoderCap EMPTY>
++<!ATTLIST VideoEncoderCap name (h264|h263|m4v|wmv) #REQUIRED>
++<!ATTLIST VideoEncoderCap enabled (true|false) #REQUIRED>
++<!ATTLIST VideoEncoderCap minBitRate CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap maxBitRate CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap minFrameWidth CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap maxFrameWidth CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap minFrameHeight CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap maxFrameHeight CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap minFrameRate CDATA #REQUIRED>
++<!ATTLIST VideoEncoderCap maxFrameRate CDATA #REQUIRED>
++<!ELEMENT AudioEncoderCap EMPTY>
++<!ATTLIST AudioEncoderCap name (amrnb|amrwb|aac|wma) #REQUIRED>
++<!ATTLIST AudioEncoderCap enabled (true|false) #REQUIRED>
++<!ATTLIST AudioEncoderCap minBitRate CDATA #REQUIRED>
++<!ATTLIST AudioEncoderCap maxBitRate CDATA #REQUIRED>
++<!ATTLIST AudioEncoderCap minSampleRate CDATA #REQUIRED>
++<!ATTLIST AudioEncoderCap maxSampleRate CDATA #REQUIRED>
++<!ATTLIST AudioEncoderCap minChannels (1|2) #REQUIRED>
++<!ATTLIST AudioEncoderCap maxChannels (1|2) #REQUIRED>
++<!ELEMENT VideoDecoderCap EMPTY>
++<!ATTLIST VideoDecoderCap name (wmv) #REQUIRED>
++<!ATTLIST VideoDecoderCap enabled (true|false) #REQUIRED>
++<!ELEMENT AudioDecoderCap EMPTY>
++<!ATTLIST AudioDecoderCap name (wma) #REQUIRED>
++<!ATTLIST AudioDecoderCap enabled (true|false) #REQUIRED>
++<!ELEMENT VideoEditorCap EMPTY>
++<!ATTLIST VideoEditorCap maxInputFrameWidth CDATA #REQUIRED>
++<!ATTLIST VideoEditorCap maxInputFrameHeight CDATA #REQUIRED>
++<!ATTLIST VideoEditorCap maxOutputFrameWidth CDATA #REQUIRED>
++<!ATTLIST VideoEditorCap maxOutputFrameHeight CDATA #REQUIRED>
++<!ATTLIST VideoEditorCap maxPrefetchYUVFrames CDATA #REQUIRED>
++<!ELEMENT ExportVideoProfile EMPTY>
++<!ATTLIST ExportVideoProfile name (h264|h263|m4v) #REQUIRED>
++<!ATTLIST ExportVideoProfile profile CDATA #REQUIRED>
++<!ATTLIST ExportVideoProfile level CDATA #REQUIRED>
++]>
++<!--
++     This file is used to declare the multimedia profiles and capabilities
++     on an android-powered device.
++-->
++<MediaSettings>
++    <!-- Each camcorder profile defines a set of predefined configuration parameters -->
++    <CamcorderProfiles cameraId="0">
++
++
++        <EncoderProfile quality="qcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="128000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++
++        </EncoderProfile>
++
++        <EncoderProfile quality="qvga" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="256000"
++                   width="320"
++                   height="240"
++                   frameRate="30" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <!--
++         <EncoderProfile quality="cif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="352"
++                   height="288"
++                   frameRate="30" />
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++        -->
++        <!--  If your sensor driver don't support 720p and 480p stream, Please fill this element according as
++              your sensor max resolution for preview(Not Capture resolution)  -->
++        <EncoderProfile quality="480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                bitRate="3000000"
++                   width="640"
++                   height="480"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++        <!--  If your sensor driver don't support 480p stream, Please turn off this element -->
++
++        <!--
++        <EncoderProfile quality="480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="3000000"
++                   width="720"
++                   height="480"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++        -->
++        <!--  If your sensor driver don't support 480p stream, Please turn off this element -->
++
++<!--
++        <EncoderProfile quality="480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="3000000"
++                   width="800"
++                   height="600"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++-->
++         <!--  If your sensor driver don't support 576p stream, Please turn off this element -->
++
++<!--
++        <EncoderProfile quality="576p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="3000000"
++                   width="720"
++                   height="576"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++        <!--  If your sensor driver don't support 720p stream, Please turn off this element -->
++<!--
++        <EncoderProfile quality="720p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="6000000"
++                   width="1280"
++                   height="720"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++ -->
++        <!--  If your sensor driver don't support 1080p stream, Please turn off this element -->
++
++
++        <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqvga" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="30" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++        <!--
++        <EncoderProfile quality="timelapsecif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="352"
++                   height="288"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++		-->
++        <!--  If your sensor driver don't support 720p and 480p stream, Please fill this element according as
++              your sensor max resolution for preview(Not Capture resolution)  -->
++        <EncoderProfile quality="timelapse480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="640"
++                   height="480"
++                   frameRate="30" />
++
++        <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++        <!--  If your sensor driver don't support 480p stream, Please turn off this element  -->
++
++        <!--
++        <EncoderProfile quality="timelapse480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="256000"
++                   width="720"
++                   height="480"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++        -->
++        <!--  If your sensor driver don't support 480p stream, Please turn off this element  -->
++
++<!--
++        <EncoderProfile quality="timelapse480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="256000"
++                   width="800"
++                   height="600"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++         <!--  If your sensor driver don't support 720p and 480p stream, Please fill this element according as
++              your sensor max resolution for preview(Not Capture resolution)  -->
++<!--
++         <EncoderProfile quality="timelapse480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="800"
++                   height="600"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++         <!--  If your sensor driver don't support 576p stream, Please fill this element according as
++              your sensor max resolution for preview(Not Capture resolution)  -->
++<!--
++         <EncoderProfile quality="timelapse576p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="720"
++                   height="576"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++        <!--  If your sensor driver don't support 720p stream, Please turn off this element -->
++<!--
++        <EncoderProfile quality="timelapse720p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="3000000"
++                   width="1280"
++                   height="720"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++        <!--  If your sensor driver don't support 108p stream, Please turn off this element -->
++
++        <ImageEncoding quality="90" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++    <CamcorderProfiles cameraId="1">
++
++
++        <EncoderProfile quality="qcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="128000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++
++        </EncoderProfile>
++
++         <EncoderProfile quality="qvga" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="256000"
++                   width="320"
++                   height="240"
++                   frameRate="30" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++         <!--
++         <EncoderProfile quality="cif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="352"
++                   height="288"
++                   frameRate="30" />
++            <Audio codec="aac"
++                   bitRate="96000"
++                   sampleRate="48000"
++                   channels="1" />
++        </EncoderProfile>
++        -->
++        <!--  If your sensor driver don't support 720p and 480p stream, Please fill this element according as
++              your sensor max resolution for preview(Not Capture resolution)  -->
++        <EncoderProfile quality="480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                bitRate="3000000"
++                   width="640"
++                   height="480"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++        <!--  If your sensor driver don't support 480p stream, Please turn on this element   -->
++
++<!--
++        <EncoderProfile quality="480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="3000000"
++                   width="720"
++                   height="480"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++	<!--  If your sensor driver don't support 480p stream, Please turn off this element -->
++
++<!--
++        <EncoderProfile quality="480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="3000000"
++                   width="800"
++                   height="600"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++        <!--  If your sensor driver don't support 720p stream, Please turn off this element -->
++
++<!--
++        <EncoderProfile quality="720p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="6000000"
++                   width="1280"
++                   height="720"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++        <!--  If your sensor driver don't support 1080p stream, Please turn off this element -->
++
++<!--
++        <EncoderProfile quality="1080p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="6000000"
++                   width="1920"
++                   height="1080"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++          <EncoderProfile quality="timelapseqcif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="192000"
++                   width="176"
++                   height="144"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++        <EncoderProfile quality="timelapseqvga" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="128000"
++                   width="320"
++                   height="240"
++                   frameRate="30" />
++            <Audio codec="amrnb"
++                   bitRate="12200"
++                   sampleRate="8000"
++                   channels="1" />
++        </EncoderProfile>
++
++        <!--
++        <EncoderProfile quality="timelapsecif" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="352"
++                   height="288"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++        -->
++        <!--  If your sensor driver don't support 720p and 480p stream, Please fill this element according as
++              your sensor max resolution for preview(Not Capture resolution)  -->
++        <EncoderProfile quality="timelapse480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                bitRate="1200000"
++                   width="640"
++                   height="480"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++
++        <!--  If your sensor driver don't support 480p stream, Please turn on this element  -->
++
++<!--
++         <EncoderProfile quality="timelapse480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="720"
++                   height="480"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++<!--  If your sensor driver don't support 720p and 480p stream, Please fill this element according as
++              your sensor max resolution for preview(Not Capture resolution)  -->
++<!--
++         <EncoderProfile quality="timelapse480p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="1200000"
++                   width="800"
++                   height="600"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++
++        <!--  If your sensor driver don't support 720p stream, Please turn off this element -->
++
++<!--
++        <EncoderProfile quality="timelapse720p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="3000000"
++                   width="1280"
++                   height="720"
++                   frameRate="8" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++<!--  If your sensor driver don't support 108p stream, Please turn off this element -->
++
++<!--
++        <EncoderProfile quality="timelapse1080p" fileFormat="mp4" duration="30">
++            <Video codec="h264"
++                   bitRate="3000000"
++                   width="1920"
++                   height="1080"
++                   frameRate="30" />
++
++            <Audio codec="aac"
++                   bitRate="61000"
++                   sampleRate="44100"
++                   channels="1" />
++        </EncoderProfile>
++-->
++        <ImageEncoding quality="90" />
++        <ImageEncoding quality="80" />
++        <ImageEncoding quality="70" />
++        <ImageDecoding memCap="20000000" />
++
++    </CamcorderProfiles>
++
++
++    <EncoderOutputFileFormat name="3gp" />
++    <EncoderOutputFileFormat name="mp4" />
++
++    <!--
++         If a codec is not enabled, it is invisible to the applications
++         In other words, the applications won't be able to use the codec
++         or query the capabilities of the codec at all if it is disabled
++    -->
++    <VideoEncoderCap name="h264" enabled="true"
++        minBitRate="64000" maxBitRate="3000000"
++        minFrameWidth="176" maxFrameWidth="1920"
++        minFrameHeight="144" maxFrameHeight="1080"
++        minFrameRate="1" maxFrameRate="30" />
++
++    <VideoEncoderCap name="h263" enabled="true"
++        minBitRate="64000" maxBitRate="1000000"
++        minFrameWidth="176" maxFrameWidth="800"
++        minFrameHeight="144" maxFrameHeight="480"
++        minFrameRate="1" maxFrameRate="24" />
++
++    <VideoEncoderCap name="m4v" enabled="true"
++        minBitRate="64000" maxBitRate="2000000"
++        minFrameWidth="176" maxFrameWidth="800"
++        minFrameHeight="144" maxFrameHeight="480"
++        minFrameRate="1" maxFrameRate="24" />
++
++    <AudioEncoderCap name="aac" enabled="true"
++        minBitRate="8192" maxBitRate="96000"
++        minSampleRate="8000" maxSampleRate="44100"
++        minChannels="1" maxChannels="1" />
++
++    <AudioEncoderCap name="amrwb" enabled="true"
++        minBitRate="6600" maxBitRate="23050"
++        minSampleRate="16000" maxSampleRate="16000"
++        minChannels="1" maxChannels="1" />
++
++    <AudioEncoderCap name="amrnb" enabled="true"
++        minBitRate="5525" maxBitRate="12200"
++        minSampleRate="8000" maxSampleRate="8000"
++        minChannels="1" maxChannels="1" />
++
++    <!--
++        FIXME:
++        We do not check decoder capabilities at present
++        At present, we only check whether windows media is visible
++        for TEST applications. For other applications, we do
++        not perform any checks at all.
++    -->
++    <VideoDecoderCap name="wmv" enabled="false"/>
++    <AudioDecoderCap name="wma" enabled="false"/>
++    <!--
++    <VideoEditorCap  maxInputFrameWidth="1920"
++        maxInputFrameHeight="1080" maxOutputFrameWidth="1920"
++        maxOutputFrameHeight="1080" maxPrefetchYUVFrames="1"/>
++    -->
++    <!--
++        The VideoEditor Export codec profile and level values
++        correspond to the values in OMX_Video.h.
++        E.g. for h264, profile value 1 means OMX_VIDEO_AVCProfileBaseline
++        and  level 4096 means OMX_VIDEO_AVCLevel41.
++        Please note that the values are in decimal.
++        These values are for video encoder.
++    -->
++    <!--
++      Codec = h.264, Hp-High profile, level 4.1
++    -->
++    <!--<ExportVideoProfile name="h264" profile= "4" level="4096"/>-->
++    <!--
++      Codec = h.263, Baseline profile, level 0
++    -->
++    <!--<ExportVideoProfile name="h263" profile= "1" level="1"/>-->
++    <!--
++      Codec = mpeg4, Simple profile, level 3
++    -->
++    <!--<ExportVideoProfile name="m4v" profile= "1" level="16"/>-->
++</MediaSettings>
+diff --git a/device/rockchip/rk3588/GT_P7500/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml b/device/rockchip/rk3588/GT_P7500/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+new file mode 100755
+index 0000000000..3ae25d59d6
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+@@ -0,0 +1,42 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++/**
++ * Copyright (c) 2009, The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++-->
++<resources>
++    <integer name="def_screen_off_timeout">0x7fffffff</integer>
++   <!-- Initial value for the Settings.Secure.IMMERSIVE_MODE_CONFIRMATIONS setting,
++         which is a comma separated list of packages that no longer need confirmation
++         for immersive mode.
++         Override to disable immersive mode confirmation for certain packages. -->
++    <string name="def_immersive_mode_confirmations" translatable="false">confirmed</string>
++    <bool name="def_bluetooth_on">false</bool>
++    <bool name="def_accelerometer_rotation">false</bool>
++
++    <!-- 0 == Always sleep
++	 1 == Do not sleep when plugged in
++	 2 == Never sleep
++	When the screen is off, it will enter the sleep policy.
++	You can configure persist.wifi.sleep.delay.ms to delay closing wifi.
++	The default is 15 minutes, 0 means that the wifi is turned off
++	immediately after the screen is off. -->
++    <integer name="def_wifi_sleep_policy">2</integer>
++
++    <!-- Decrease animation duration. -->
++    <fraction name="def_window_animation_scale">50%</fraction>
++    <fraction name="def_window_transition_scale">50%</fraction>
++    <bool name="def_lockscreen_disabled">true</bool>
++</resources>
+diff --git a/device/rockchip/rk3588/GT_P7500/parameter.txt b/device/rockchip/rk3588/GT_P7500/parameter.txt
+new file mode 100755
+index 0000000000..0ee7cd8b62
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/parameter.txt
+@@ -0,0 +1,11 @@
++FIRMWARE_VER:10.0
++MACHINE_MODEL:RK3588
++MACHINE_ID:007
++MANUFACTURER:Rockchip
++MAGIC: 0x5041524B
++ATAG: 0x00200800
++MACHINE: RK3588
++CHECK_MASK: 0x80
++PWR_HLD: 0,0,A,0,1
++TYPE: GPT
++CMDLINE:mtdparts=rk29xxnand:0x00002000@0x00004000(uboot),0x00002000@0x00006000(trust),0x00002000@0x00008000(security),0x00002000@0x0000a000(misc),0x00002000@0x0000c000(dtb),0x00002000@0x0000e000(dtbo),0x00000800@0x00010000(vbmeta),0x00020000@0x00010800(boot),0x00030000@0x00030800(recovery),0x00038000@0x00060800(backup),0x000c0000@0x00098800(cache),0x00008000@0x00158800(metadata),0x00000400@0x00160800(frp),0x00000800@0x00160c00(baseparameter),0x00008000@0x00161400(logo),0x00614000@0x00169400(super),-@0x0077d400(userdata:grow)
+diff --git a/device/rockchip/rk3588/GT_P7500/recovery.fstab b/device/rockchip/rk3588/GT_P7500/recovery.fstab
+new file mode 100644
+index 0000000000..f7843a1f6b
+--- /dev/null
++++ b/device/rockchip/rk3588/GT_P7500/recovery.fstab
+@@ -0,0 +1,31 @@
++# Android fstab file.
++#<src>                                       <mnt_point>         <type>    <mnt_flags and options>       <fs_mgr_flags>
++/dev/block/platform/ff0f0000.dwmmc/by-name/user                  /mnt/internal_sd     vfat             defaults                  defaults
++/dev/block/mmcblk0p1                                               /mnt/external_sd     vfat             /dev/block/mmcblk0                  defaults
++/dev/block/by-name/system                /system              ext4             defaults                  defaults
++/dev/block/by-name/vendor                /vendor              ext4             defaults                  defaults
++/dev/block/by-name/odm                   /odm                 ext4             defaults                  defaults
++/dev/block/by-name/product               /product             ext4             defaults                  defaults
++/dev/block/by-name/system_ext            /system_ext          ext4             defaults                  defaults
++/dev/block/by-name/vendor_dlkm            /vendor_dlkm          ext4             defaults                  defaults
++/dev/block/by-name/odm_dlkm            /odm_dlkm          ext4             defaults                  defaults
++/dev/block/by-name/cache                 /cache               ext4             defaults                  defaults
++/dev/block/by-name/metadata              /metadata            ext4             defaults                  defaults
++/dev/block/by-name/userdata              /data                f2fs             defaults                  defaults
++/dev/block/by-name/cust                  /cust                ext4             defaults                  defaults
++/dev/block/by-name/custom                /custom              ext4             defaults                  defaults
++/dev/block/by-name/radical_update        /radical_update      ext4             defaults                  defaults
++/dev/block/by-name/misc                  /misc                emmc             defaults                  defaults
++/dev/block/by-name/uboot                 /uboot               emmc             defaults                  defaults
++/dev/block/by-name/charge                /charge              emmc             defaults                  defaults
++/dev/block/by-name/resource			   /resource		    emmc			 defaults				   defaults
++/dev/block/by-name/parameter             /parameter           emmc             defaults                  defaults
++/dev/block/by-name/boot                  /boot                emmc             defaults                  defaults
++/dev/block/by-name/recovery              /recovery            emmc             defaults                  defaults
++/dev/block/by-name/backup                /backup              emmc             defaults                  defaults
++/dev/block/by-name/frp                   /frp                 emmc             defaults                  defaults
++/dev/block/by-name/trust                 /trust               emmc             defaults                  defaults
++/dev/block/by-name/baseparamer           /baseparamer         emmc             defaults                  defaults
++/dev/block/by-name/vbmeta                /vbmeta              emmc             defaults                  defaults
++/dev/block/by-name/dtbo                /dtbo              emmc             defaults                  defaults
++/dev/block/by-name/vendor_boot           /vendor_boot                emmc             defaults                  defaults

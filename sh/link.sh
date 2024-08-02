@@ -19,3 +19,9 @@ done
 cat /snow/android10-rk3588/a_patches/gitinore > .gitignore
 
 ln -s a_patches/TODO.md TODO.md
+
+echo '
+
+# a_patches
+export PATH="/snow/android10-rk3588/a_patches/sh:$PATH"
+' >> ~/.bashrc 

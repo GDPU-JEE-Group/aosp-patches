@@ -1,5 +1,5 @@
-1. usb
-2. rk
+ins
+usb
 
 3. wifi
 4. 死机

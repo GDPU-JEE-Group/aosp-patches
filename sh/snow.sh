@@ -7,7 +7,7 @@ num=$4
 
 if [ "$1" = "-h"  ]; then
     echo ./snow.sh {product} {msg} {ip} {num}
-    echo ./snow.sh out test 168.34 2
+    echo ./snow.sh samsung test 168.34 2
     exit 0
 else
     echo ""
@@ -15,15 +15,17 @@ fi
 
 source build/envsetup.sh
 
-# if [ "$product" = "out" ]; then
-#     lunch rk3588_docker_overseas-user
-# elif [ "$product" = "in" ]; then
-#     lunch rk3588_docker_inland-user
-# else
-#     lunch rk3588_docker_overseas-user
-# fi
+if [ "$product" = "out" ]; then
+    lunch rk3588_docker_overseas-user
+elif [ "$product" = "in" ]; then
+    lunch rk3588_docker_inland-user
+elif [ "$product" = "samsung" ]; then
+    lunch GT_P7500-user
+else
+    lunch rk3588_docker_overseas-user
+fi
 
-    lunch rk3588_docker-user
+    # lunch rk3588_docker-user
 
 
 a_patches/sh/build_docker_android_snow.sh -A $msg $ip $num
