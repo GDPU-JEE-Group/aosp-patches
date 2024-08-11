@@ -1,0 +1,330 @@
+diff --git a/frameworks/base/core/java/android/content/ClipboardManager.java b/frameworks/base/core/java/android/content/ClipboardManager.java
+index dc1c700f5d..18ee427500 100644
+--- a/frameworks/base/core/java/android/content/ClipboardManager.java
++++ b/frameworks/base/core/java/android/content/ClipboardManager.java
+@@ -28,6 +28,8 @@ import android.os.ServiceManager.ServiceNotFoundException;
+ import com.android.internal.util.Preconditions;
+ 
+ import java.util.ArrayList;
++import android.util.Slog;
++
+ 
+ /**
+  * Interface to the clipboard service, for placing and retrieving text in
+@@ -60,6 +62,7 @@ public class ClipboardManager extends android.text.ClipboardManager {
+         @Override
+         public void dispatchPrimaryClipChanged() {
+             mHandler.post(() -> {
++                Slog.d("Space","ClipboardManager.dispatchPrimaryClipChanged()");
+                 reportPrimaryClipChanged();
+             });
+         }
+@@ -103,6 +106,7 @@ public class ClipboardManager extends android.text.ClipboardManager {
+         try {
+             Preconditions.checkNotNull(clip);
+             clip.prepareToLeaveProcess(true);
++            Slog.d("Space","ClipboardManager.setPrimaryClip(@NonNull ClipData clip)");
+             mService.setPrimaryClip(clip, mContext.getOpPackageName(), mContext.getUserId());
+         } catch (RemoteException e) {
+             throw e.rethrowFromSystemServer();
+@@ -246,7 +250,7 @@ public class ClipboardManager extends android.text.ClipboardManager {
+             }
+             listeners = mPrimaryClipChangedListeners.toArray();
+         }
+-
++            Slog.d("Space","ClipboardManager.reportPrimaryClipChanged()");
+         for (int i=0; i<listeners.length; i++) {
+             ((OnPrimaryClipChangedListener)listeners[i]).onPrimaryClipChanged();
+         }
+diff --git a/frameworks/base/core/java/com/android/internal/space/NineDSpaceManager.java b/frameworks/base/core/java/com/android/internal/space/NineDSpaceManager.java
+index 16b9d0c60a..af7c2c63b6 100644
+--- a/frameworks/base/core/java/com/android/internal/space/NineDSpaceManager.java
++++ b/frameworks/base/core/java/com/android/internal/space/NineDSpaceManager.java
+@@ -25,7 +25,7 @@ public final class NineDSpaceManager {
+     public static final String STATUS_RESUME_ACTIVITY = "resume_activity";
+     public static final String STATUS_BOOT_COMPLETED = "boot_completed";
+     public static final String STATUS_POST_NOTIFICATION = "post_notification";
+-    public static final String STATUS_CLIPBOARD = "clipboard_chanaged";
++    public static final String STATUS_CLIPBOARD = "clipboardChanaged";
+     public static final String STATUS_BRIGHTNESS = "brightness_chanaged";
+     public static final String STATUS_APP_MESSAGE = "app_message";
+     public static final String STATUS_INSTALL_CALLBACK = "install_callback";
+diff --git a/frameworks/base/services/core/java/com/android/server/clipboard/ClipboardService.java b/frameworks/base/services/core/java/com/android/server/clipboard/ClipboardService.java
+index b279b370c6..dba94ad2a8 100644
+--- a/frameworks/base/services/core/java/com/android/server/clipboard/ClipboardService.java
++++ b/frameworks/base/services/core/java/com/android/server/clipboard/ClipboardService.java
+@@ -136,6 +136,7 @@ class HostClipboardMonitor implements Runnable {
+     public void setHostClipboard(String content) {
+         try {
+             if (mPipe != null) {
++                Slog.d("Space","HostClipboardMonitor.setHostClipboard(String content)");
+                 mPipe.writeInt(Integer.reverseBytes(content.getBytes().length));
+                 mPipe.write(content.getBytes());
+             }
+@@ -361,6 +362,7 @@ public class ClipboardService extends SystemService {
+                     return;
+                 }
+                 checkDataOwnerLocked(clip, intendingUid);
++                Slog.d("Space","ClipboardService.setPrimaryClip(ClipData clip, String callingPackage, @UserIdInt int userId) ");
+                 setPrimaryClipInternal(clip, intendingUid);
+             }
+         }
+@@ -511,6 +513,7 @@ public class ClipboardService extends SystemService {
+             } else if (clip.getItemCount() > 0) {
+                 final CharSequence text = clip.getItemAt(0).getText();
+                 if (text != null) {
++                    Slog.d("Space","setPrimaryClipInternal(@Nullable ClipData clip, int uid)   text"+text.toString().length());
+                     mHostClipboardMonitor.setHostClipboard(text.toString());
+                 }
+             }
+@@ -586,7 +589,7 @@ public class ClipboardService extends SystemService {
+                 try {
+                     ListenerInfo li = (ListenerInfo)
+                             clipboard.primaryClipListeners.getBroadcastCookie(i);
+-
++                    Slog.d("Space","setPrimaryClipInternal(PerUserClipboard clipboard, @Nullable ClipData clip,int uid)");//!
+                     if (clipboardAccessAllowed(AppOpsManager.OP_READ_CLIPBOARD, li.mPackageName,
+                                 li.mUid, UserHandle.getUserId(li.mUid))) {
+                         clipboard.primaryClipListeners.getBroadcastItem(i)
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/MessageHandler.java b/vendor/ntimespace/Space9dService/src/com/android/server/MessageHandler.java
+index 68bd0f8a8f..54a65b07f4 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/MessageHandler.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/MessageHandler.java
+@@ -43,6 +43,7 @@ public class MessageHandler implements ServerSocket.MessageListener, SystemInfo.
+     private static final String OP_COMMIT_TEXT = "commit_text";
+     private static final String OP_HIDE_KEYBOARD = "hide_keyboard";
+     private static final String OP_WRITE_CLIPBOARD = "clipboard_copy";
++    private static final String OP_WRITE_CLIPBOARD_V2 = "clipboardCopy";
+     private static final String OP_TOTAL_FRAMES = "total_frames";
+     private static final String OP_CLIENT_MESSAGE = "client_message";
+     private static final String OP_BOOT_COMPLETE = "boot_completed";
+@@ -53,6 +54,8 @@ public class MessageHandler implements ServerSocket.MessageListener, SystemInfo.
+     private static final String OP_UNINSTALL_PACKAGE = "uninstall_package";
+     private static final String OP_HEART_BEAT = "heart_beat";
+ 
++    private static int isCopyFromArmStream = 0;
++
+     private SystemInfo mInfo;
+ 
+     public MessageHandler(Space9dManagerService service) {
+@@ -144,11 +147,16 @@ public class MessageHandler implements ServerSocket.MessageListener, SystemInfo.
+                         setResult(mResult, OP_FAILURE, "input channel not connected");
+                     }
+                     break;
++
++                case OP_WRITE_CLIPBOARD_V2:
+                 case OP_WRITE_CLIPBOARD:
++                    Slog.d("Space", "------toAndroid_begin--111--");
+                     String c_text = mData.getString("text");
+                     boolean paste = mData.optBoolean("paste");
+                     ClipboardManager cm = (ClipboardManager) mService.mContext.
+                             getSystemService(Context.CLIPBOARD_SERVICE);
++                    isCopyFromArmStream++;//!
++                    Slog.d("Space", "isCopyFromArmStream is Open :"+isCopyFromArmStream);
+                     cm.setPrimaryClip(ClipData.newPlainText("client", c_text));
+ 
+                     if (paste) {
+@@ -159,6 +167,7 @@ public class MessageHandler implements ServerSocket.MessageListener, SystemInfo.
+                         }
+                     }
+                     setResult(mResult, OP_SUCCESS, "success");
++                    Slog.d("Space", "------toAndroid_end--222--");
+                     break;
+                 case OP_HEART_BEAT:
+                     setResult(mResult, OP_SUCCESS, "success");
+@@ -202,10 +211,24 @@ public class MessageHandler implements ServerSocket.MessageListener, SystemInfo.
+ 
+     @Override
+     public void onInfoChanged(String action, Bundle bundle) {
++        Slog.d("Space", "------toStream_begin--111--");
++
+         try {
+-            mService.sendTracking(action, bundle);
++            if(action.equals("clipboardChanaged")){
++                Slog.d("Space","onInfoChanged(String action, Bundle bundle)"+action);
++            }
++            if(action.equals("clipboardChanaged") && isCopyFromArmStream>0){
++                Slog.d("Space","isCopyFromArmStream!!!!!!!");
++                isCopyFromArmStream--;
++                Slog.d("Space", "isCopyFromArmStream is Close :"+isCopyFromArmStream);
++                return;
++            }else{
++                mService.sendTracking(action, bundle);
++            }
+         } catch (RemoteException e) {
+             Slog.w(TAG, "onInfoChanged: action:" + action, e);
++            isCopyFromArmStream=0;
+         }
++        Slog.d("Space", "------toStream_end--222--");
+     }
+ }
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/ServerSocket.java b/vendor/ntimespace/Space9dService/src/com/android/server/ServerSocket.java
+index 627abed38c..52fb17295a 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/ServerSocket.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/ServerSocket.java
+@@ -47,6 +47,12 @@ public class ServerSocket {
+     static {
+         System.loadLibrary("native_socket");
+     }
++    // sPoolWorkQueue 是一个阻塞队列，用于保存待执行的任务。
++    // executorService 是一个线程池，用于并发执行任务。
++    // HEADER_SIZE 是消息头的大小。
++    // mListener 是消息监听器的实例。
++    // mClients 是一个客户端套接字列表，存储连接到服务器的客户端套接字。
++    // 静态代码块用于加载本地库 native_socket。
+ 
+     public ServerSocket(MessageListener listener) {
+         this.mListener = listener;
+@@ -61,6 +67,11 @@ public class ServerSocket {
+     }
+ 
+     private void createServerAndListen() {
++        // 创建或检查套接字文件路径。
++        // 调用本地方法 createServerSocket 创建服务器套接字。
++        // 使用反射设置文件描述符。
++        // 使用 LocalServerSocket 开始监听客户端连接。
++        // 接受客户端连接并将其交给 ConnectRunner 处理。
+         try {
+             File sockFile = new File(SOCKET_PATH);
+             if (!sockFile.getParentFile().exists()) {
+@@ -92,6 +103,8 @@ public class ServerSocket {
+     }
+ 
+     private class ConnectRunner implements Runnable {
++        // ConnectRunner 类实现了 Runnable 接口，用于处理每个客户端连接。
++        // run 方法调用 handleClient 方法。
+         private final LocalSocket socket;
+         ConnectRunner(LocalSocket s) {
+             this.socket = s;
+@@ -104,6 +117,9 @@ public class ServerSocket {
+     }
+ 
+     private void handleClient(LocalSocket socket) {
++        // 读取消息头，确定消息长度。
++        // 读取消息内容，并将其传递给 MessageListener。
++        // 处理特殊的 "CNCT" 消息，将新客户端添加到客户端列表。
+         try {
+             InputStream inputStream = socket.getInputStream();
+             byte[] lengthBuffer = new byte[HEADER_SIZE];
+@@ -126,6 +142,7 @@ public class ServerSocket {
+                 }
+ 
+                 if (readBytes == HEADER_SIZE) {
++                    //! 读取消息头，确定消息长度
+                     headerStr = new String(lengthBuffer, StandardCharsets.UTF_8);
+                     maxBytes = Integer.parseInt(headerStr.trim());
+                     // skip '!'
+@@ -143,6 +160,9 @@ public class ServerSocket {
+ 
+                     String message = new String(messageBuffer, StandardCharsets.UTF_8);
+                     Slog.v(TAG, "s9_sock-----handleClient-Received message: " + message);
++
++                    //! 处理特殊的 "CNCT" 消息，将新客户端添加到客户端列表。
++                    // 握手逻辑
+                     if ("CNCT".equals(message)) {
+                         if (!mClients.contains(socket)) {
+                             mClients.add(socket);
+@@ -150,6 +170,7 @@ public class ServerSocket {
+                             Slog.w(TAG, "link has been established.");
+                         }
+                     } else {
++                    //! 读取消息内容，并将其传递给 MessageListener
+                         mListener.onMessageReceive(socket, message);
+                     }
+                 } else {
+@@ -161,18 +182,25 @@ public class ServerSocket {
+         }
+     }
+ 
++    // 发送消息方法
++    // 检查套接字和消息是否有效。
++    // 获取输出流并发送消息。
++    // 处理发送失败情况，关闭客户端连接。
+     public void send(LocalSocket socket, String message) {
++        // 初步检查
+         if (socket == null || message == null || !mClients.contains(socket)) {
+             Slog.w(TAG, "send warn: remove ? " + socket);
+             return;
+         }
+ 
++        //获取输出流
+         OutputStream outputStream = null;
+         try {
+             outputStream = socket.getOutputStream();
+         } catch (IOException e) {
+         }
+ 
++        // 检查文件描述符和输出流
+         FileDescriptor fd = socket.getFileDescriptor();
+         if (fd == null || outputStream == null) {
+             mClients.remove(socket);
+@@ -180,8 +208,10 @@ public class ServerSocket {
+             return;
+         }
+ 
++        // 准备消息
+         byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
+         String sendMsg = String.format("%04d!%s", bytes.length, message);
++        // 发送消息
+         try {
+             outputStream.write(sendMsg.getBytes());
+             outputStream.flush();
+@@ -190,7 +220,7 @@ public class ServerSocket {
+             closeClient(socket, "send failure");
+         }
+     }
+-
++    // 广播消息方法
+     public void send(String message) {
+         synchronized(mClients) {
+             for (int i = mClients.size() - 1; i >= 0; i--) {
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerService.java b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerService.java
+index 782d5f296d..035a4b9443 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerService.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerService.java
+@@ -238,6 +238,8 @@ public class Space9dManagerService extends INineDSpace.Stub {
+                 }
+             }
+             Slog.v(TAG, "s9_sock---sendTracking: " + name + " (" + message.toString() + ")");
++
++            Slog.d("clipp","sendTracking(String name, Bundle data)    message.toString()"+message.toString());//!
+             mServerSocket.send(message.toString());
+         } catch (JSONException e) {
+             Slog.w(TAG, "sendTracking: " + name + " error", e);
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/SystemInfo.java b/vendor/ntimespace/Space9dService/src/com/android/server/SystemInfo.java
+index 374be79579..d6d8be1c14 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/SystemInfo.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/SystemInfo.java
+@@ -111,16 +111,27 @@ public class SystemInfo {
+                 if (clipData != null && clipData.getItemCount() > 0) {
+                     ClipData.Item item = clipData.getItemAt(0);
+                     CharSequence text = item.getText();
+-
+-                    if (mListener != null && text != null) {
+-                        Bundle bundle = new Bundle();
+-                        bundle.putString("clipdata", text.toString());
+-                        mListener.onInfoChanged(STATUS_CLIPBOARD, bundle);
++                    if (text != null) {
++                        String textStr = text.toString();
++                        if (textStr.length() > 3000) {
++                            textStr = textStr.substring(0, 3000);
++                            Slog.d("Space", "length()>3000, truncated to 3000");
++                        }
++
++                        if (mListener != null) {
++                            Bundle bundle = new Bundle();
++                            bundle.putString("clipdata", textStr);
++                            Slog.d("Space", "onPrimaryClipChanged()");
++                            Slog.d("Space", "text.toString()" + textStr);
++                            Slog.d("Space", "text.toString().length" + textStr.length());
++                            mListener.onInfoChanged(STATUS_CLIPBOARD, bundle);
++                        }
+                     }
+                 }
+             }
+         });
+ 
++
+         bindNotification();
+ 
+         IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);

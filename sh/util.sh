@@ -1,15 +1,14 @@
 # functions.sh
 
 run_cmd() {
-    echo "Executing: $*"
+    echo -e "\033[0;32mExecuting: $*\033[0m"
     "$@"
     local status=$?
     if [ $status -ne 0 ]; then
-        echo "Error: Command failed with status $status"
+        echo -e "\033[0;31mError: Command failed with status $status\033[0m"
         exit $status
     fi
 }
-
 # 定义函数 check_args
 check_args() {
     # 检查是否有任意一个参数为空

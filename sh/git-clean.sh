@@ -1,2 +1,4 @@
-git checkout -- .
-git reset
+# git checkout -- .
+# git reset
+git reset --hard
+git clean -fd

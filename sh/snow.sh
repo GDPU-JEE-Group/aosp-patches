@@ -4,6 +4,7 @@ product=$1
 msg=$2-$product
 ip=$3
 num=$4
+DATE=$(date  +%Y%m%d.%H%M)
 
 if [ "$1" = "-h"  ]; then
     echo ./snow.sh {product} {msg} {ip} {num}
@@ -21,6 +22,12 @@ elif [ "$product" = "in" ]; then
     lunch rk3588_docker_inland-user
 elif [ "$product" = "samsung" ]; then
     lunch GT_P7500-user
+elif [ "$product" = "guozhen" ]; then
+    lunch rk3588_docker_guozhen-user
+    echo my_build_guozhen.sh $DATE
+    /snow/android10-rk3588/my_build_guozhen.sh $DATE
+    exit 0
+    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!errror"
 else
     lunch rk3588_docker_overseas-user
 fi
