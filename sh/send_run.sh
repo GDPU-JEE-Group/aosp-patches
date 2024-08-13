@@ -1,7 +1,7 @@
 #变量------------
-ip=192.168.168.59
+ip=192.168.30.51
 num=0
-filepath=IMAGE/AOSP_user_20240808.1317_clip-realse1-in/IMAGES/rk3588_docker_inland-android10-user-super.img-20240808.1317.tgz
+filepath=IMAGE/AOSP_user_20240803.0152_hit-out/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240803.0152.tgz
 
 #提取变量-------------
 # 使用参数扩展提取文件名	
@@ -30,7 +30,8 @@ echo "Filename: $filename"
 
 echo ssh root@$ip 
 
-kill-stream.sh $num
+echo kill-stream.sh $ip $num
+kill-stream.sh $ip $num
 ##  grep -rHn "s9.adbd.auth_required" .
 
 ## grep -Hn "s9.adbd.auth_required" $(find . -name "*.rc") --exclude-dir={out,prebuilts}

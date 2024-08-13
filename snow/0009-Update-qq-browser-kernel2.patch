@@ -1,0 +1,81 @@
+diff --git a/device/rockchip/space-common/device_inland.mk b/device/rockchip/space-common/device_inland.mk
+index a40f1edac2..6159d55268 100644
+--- a/device/rockchip/space-common/device_inland.mk
++++ b/device/rockchip/space-common/device_inland.mk
+@@ -14,3 +14,7 @@ PRODUCT_SERVICE_CONFIG = device/rockchip/space-common/configs/product_config.xml
+ PRODUCT_MOCK_CONFIG = device/rockchip/space-common/configs/default_mock.prop
+ PRODUCT_LAUNCHER_CONFIG_DIR=$(LOCAL_PATH)/configs/Launcher3
+ $(call inherit-product, $(LOCAL_PATH)/device_common.mk)
++
++
++#qqweb
++PRODUCT_COPY_FILES += vendor/ntimespace/scripts/first_boot.sh:system/bin/first_boot.sh
+\ No newline at end of file
+diff --git a/vendor/ntimespace/scripts/first_boot.sh b/vendor/ntimespace/scripts/first_boot.sh
+new file mode 100644
+index 0000000000..985d89da27
+--- /dev/null
++++ b/vendor/ntimespace/scripts/first_boot.sh
+@@ -0,0 +1,44 @@
++#!/system/bin/sh
++
++# 设置当前脚本路径
++cur_path="/data/local/ntimespace"
++
++# 使用find和grep查找qqbrowser相关的apk文件
++APK_PATH=$(find /system/priv-app/ -type f -name "*.apk" | grep -m 1 "qqbrowser")
++
++run_cmd() {
++    echo "[$(date  +%Y%m%d.%H%M)] Executing: $*" >> $cur_path/first_boot.log
++    "$@"
++    local status=$?
++    if [ $status -ne 0 ]; then
++        echo "[$(date  +%Y%m%d.%H%M)] Error: Command failed with status $status" >> $cur_path/first_boot.log
++        exit $status
++    fi
++}
++
++# 检查日志文件大小，如果大于2MB则清空
++check_log_size() {
++    if [ -f $cur_path/first_boot.log ]; then
++        local log_size=$(stat -c%s "$cur_path/first_boot.log")
++        if [ $log_size -gt 2097152 ]; then
++            echo "[$(date  +%Y%m%d.%H%M)] Log file size exceeds 2MB, clearing log file" > $cur_path/first_boot.log
++        fi
++    fi
++}
++
++# 检查 first_boot_done 文件是否存在，并且检查APK文件是否存在
++if [ ! -f $cur_path/first_boot_done ] && [ -f "$APK_PATH" ]; then
++    # 在这里添加你的脚本内容
++    run_cmd mkdir -p $cur_path
++    run_cmd pm install "$APK_PATH"
++    run_cmd pm clear com.tencent.mtt
++
++    # 脚本执行完成后，创建一个文件来标记脚本已经执行过
++    run_cmd touch $cur_path/first_boot_done
++    echo "[$(date  +%Y%m%d.%H%M)] Succeed: pm install $APK_PATH " >> $cur_path/first_boot.log
++else
++    echo "[$(date  +%Y%m%d.%H%M)] Info: $cur_path/first_boot_done is exit OR  $APK_PATH is not exit" >> $cur_path/first_boot.log
++fi
++
++# 检查日志文件大小
++check_log_size
+diff --git a/vendor/ntimespace/scripts/s9.boot.rc b/vendor/ntimespace/scripts/s9.boot.rc
+index 03ed68bb53..7b43d19f7c 100644
+--- a/vendor/ntimespace/scripts/s9.boot.rc
++++ b/vendor/ntimespace/scripts/s9.boot.rc
+@@ -3,3 +3,13 @@ on boot
+ 
+ on property:sys.boot_completed=1
+     exec root root -- /system/bin/sh -c /system/bin/script.sh true
++
++service snow /system/bin/sh /system/bin/first_boot.sh
++    class late_start
++    user root
++    group root
++    disabled
++    oneshot
++
++on property:sys.boot_completed=1
++    start snow

@@ -37,4 +37,6 @@ fi
 
 a_patches/sh/build_docker_android_snow.sh -A $msg $ip $num
 
+kill-stream.sh 192.168.$ip $num
+
 # 我 把 setType=0，logd all 打印了 
