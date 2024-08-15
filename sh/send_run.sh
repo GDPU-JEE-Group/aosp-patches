@@ -1,7 +1,8 @@
 #变量------------
-ip=192.168.30.51
-num=0
-filepath=IMAGE/AOSP_user_20240803.0152_hit-out/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240803.0152.tgz
+ip=192.168.168.34
+num=1
+# filepath=IMAGE/AOSP_user_20240815.0713_clip-out/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240815.0713.tgz
+filepath=IMAGE/AOSP_user_20240802.0713_ins-ok-out-Rlease/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240802.0713.tgz
 
 #提取变量-------------
 # 使用参数扩展提取文件名	
@@ -39,3 +40,5 @@ echo ssh root@$ip docker exec -it android_$num
 	sleep 3
 	ssh root@$ip docker exec  android_$num start adbd
 	echo ssh root@$ip docker exec  android_$num start adbd
+
+kill-stream.sh $ip $num

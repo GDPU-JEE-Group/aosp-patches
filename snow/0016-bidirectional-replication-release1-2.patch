@@ -1,0 +1,97 @@
+diff --git a/frameworks/base/core/java/android/widget/TextView.java b/frameworks/base/core/java/android/widget/TextView.java
+index b202167628..8b76ad9323 100644
+--- a/frameworks/base/core/java/android/widget/TextView.java
++++ b/frameworks/base/core/java/android/widget/TextView.java
+@@ -73,6 +73,7 @@ import android.os.AsyncTask;
+ import android.os.Build;
+ import android.os.Build.VERSION_CODES;
+ import android.os.Bundle;
++import android.os.PersistableBundle;
+ import android.os.LocaleList;
+ import android.os.Parcel;
+ import android.os.Parcelable;
+@@ -12178,7 +12179,20 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
+                 return true;
+ 
+             case ID_CUT:
+-                final ClipData cutData = ClipData.newPlainText(null, getTransformedText(min, max));
++                // 创建 ClipDescription 并添加剪切标识
++                ClipDescription cutDescription = new ClipDescription(null, new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN});
++                // 获取当前的 extras，如果为 null 则创建一个新的 PersistableBundle
++                PersistableBundle extras1 = cutDescription.getExtras();
++                if (extras1 == null) {
++                    extras1 = new PersistableBundle();
++                }
++                extras1.putString("operation_type", "cut");
++                cutDescription.setExtras(extras1);
++
++                // 创建 ClipData 并附加上述描述
++                final ClipData cutData = new ClipData(cutDescription, new ClipData.Item(getTransformedText(min, max)));
++
++                // 设置剪贴板数据
+                 if (setPrimaryClip(cutData)) {
+                     deleteText_internal(min, max);
+                 } else {
+@@ -12186,16 +12200,31 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
+                             com.android.internal.R.string.failed_to_copy_to_clipboard,
+                             Toast.LENGTH_SHORT).show();
+                 }
++                Log.d("Space","ID_CUT---");
+                 return true;
+ 
+             case ID_COPY:
+-                // For link action mode in a non-selectable/non-focusable TextView,
+-                // make sure that we set the appropriate min/max.
++                // 获取选择区域
+                 final int selStart = getSelectionStart();
+                 final int selEnd = getSelectionEnd();
+                 min = Math.max(0, Math.min(selStart, selEnd));
+                 max = Math.max(0, Math.max(selStart, selEnd));
+-                final ClipData copyData = ClipData.newPlainText(null, getTransformedText(min, max));
++
++                // 创建 ClipDescription
++                ClipDescription copyDescription = new ClipDescription(null, new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN});
++
++                // 获取当前的 extras，如果为 null 则创建一个新的 PersistableBundle
++                PersistableBundle extras2 = copyDescription.getExtras();
++                if (extras2 == null) {
++                    extras2 = new PersistableBundle();
++                }
++                extras2.putString("operation_type", "copy");
++                copyDescription.setExtras(extras2);
++
++                // 创建 ClipData 并附加上述描述
++                final ClipData copyData = new ClipData(copyDescription, new ClipData.Item(getTransformedText(min, max)));
++
++                // 设置剪贴板数据
+                 if (setPrimaryClip(copyData)) {
+                     stopTextActionMode();
+                 } else {
+@@ -12203,8 +12232,10 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
+                             com.android.internal.R.string.failed_to_copy_to_clipboard,
+                             Toast.LENGTH_SHORT).show();
+                 }
++                Log.d("Space", "ID_COPY---");
+                 return true;
+ 
++
+             case ID_REPLACE:
+                 if (mEditor != null) {
+                     mEditor.replace();
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/SystemInfo.java b/vendor/ntimespace/Space9dService/src/com/android/server/SystemInfo.java
+index be92bc3909..c54d8bbfaa 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/SystemInfo.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/SystemInfo.java
+@@ -121,6 +121,12 @@ public class SystemInfo {
+                         if (mListener != null) {
+                             Bundle bundle = new Bundle();
+                             bundle.putString("clipdata", textStr);
++                            if(clipData.getDescription().getExtras() != null){
++                                bundle.putString("opMode", clipData.getDescription().getExtras().getString("operation_type"));
++                                Slog.d("Space", "clipData.getDescription().getExtras()"+clipData.getDescription().getExtras().getString("operation_type"));
++                            }else{
++                                Slog.d("Space", "clipData.getDescription().getExtras() NULL!!!!!!!");
++                            }
+                             mListener.onInfoChanged(STATUS_CLIPBOARD, bundle);
+                         }
+                     }
