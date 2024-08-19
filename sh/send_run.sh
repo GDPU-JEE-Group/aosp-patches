@@ -1,8 +1,8 @@
 #变量------------
 ip=192.168.168.34
-num=1
+num=2
 # filepath=IMAGE/AOSP_user_20240815.0713_clip-out/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240815.0713.tgz
-filepath=IMAGE/AOSP_user_20240802.0713_ins-ok-out-Rlease/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240802.0713.tgz
+filepath=IMAGE/AOSP_user_20240816.0747_key-log-out/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240816.0747.tgz
 
 #提取变量-------------
 # 使用参数扩展提取文件名	

@@ -1,0 +1,1 @@
+chmod +x /snow/android10-rk3588/a_patches/sh/*sh
