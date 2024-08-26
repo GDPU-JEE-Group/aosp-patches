@@ -1,0 +1,703 @@
+diff --git a/frameworks/base/packages/SystemUI/legacy/recents/src/com/android/systemui/recents/LegacyRecentsImpl.java b/frameworks/base/packages/SystemUI/legacy/recents/src/com/android/systemui/recents/LegacyRecentsImpl.java
+index a150de95fc..1c61ae1836 100644
+--- a/frameworks/base/packages/SystemUI/legacy/recents/src/com/android/systemui/recents/LegacyRecentsImpl.java
++++ b/frameworks/base/packages/SystemUI/legacy/recents/src/com/android/systemui/recents/LegacyRecentsImpl.java
+@@ -296,18 +296,19 @@ public class LegacyRecentsImpl implements RecentsImplementation {
+      * Toggles the Recents activity.
+      */
+     @Override
+-    public void toggleRecentApps() {
++    public void toggleRecentApps() {//!
+         int growTarget = getComponent(Divider.class).getView().growsRecents();
+         int currentUser = sSystemServicesProxy.getCurrentUser();
++        Log.d("input-log","LegacyRecentsImpl.java   toggleRecentApps()     isSystemUser(currentUser)"+sSystemServicesProxy.isSystemUser(currentUser))
+         if (sSystemServicesProxy.isSystemUser(currentUser)) {
+-            mImpl.toggleRecents(growTarget);
++            mImpl.toggleRecents(growTarget);//!
+         } else {
+             if (mSystemToUserCallbacks != null) {
+                 IRecentsNonSystemUserCallbacks callbacks =
+                         mSystemToUserCallbacks.getNonSystemUserRecentsForUser(currentUser);
+                 if (callbacks != null) {
+                     try {
+-                        callbacks.toggleRecents(growTarget);
++                        callbacks.toggleRecents(growTarget);//!
+                     } catch (RemoteException e) {
+                         Log.e(TAG, "Callback failed", e);
+                     }
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/OverviewProxyRecentsImpl.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/OverviewProxyRecentsImpl.java
+index 958695d3b2..b0d6a3a097 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/OverviewProxyRecentsImpl.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/OverviewProxyRecentsImpl.java
+@@ -93,14 +93,17 @@ public class OverviewProxyRecentsImpl implements RecentsImplementation {
+     }
+ 
+     @Override
+-    public void toggleRecentApps() {
++    public void toggleRecentApps() {//!
++        Log.d("input-log","OverviewProxyRecentsImpl.java           toggleRecentApps()");
+         // If connected to launcher service, let it handle the toggle logic
+         IOverviewProxy overviewProxy = mOverviewProxyService.getProxy();
+         if (overviewProxy != null) {
+             final Runnable toggleRecents = () -> {
+                 try {
+                     if (mOverviewProxyService.getProxy() != null) {
+-                        mOverviewProxyService.getProxy().onOverviewToggle();
++                        Log.d("input-log","OverviewProxyRecentsImpl.java   mOverviewProxyService.getProxy().onOverviewToggle()--start");
++                        mOverviewProxyService.getProxy().onOverviewToggle();//!
++                        Log.d("input-log","OverviewProxyRecentsImpl.java   mOverviewProxyService.getProxy().onOverviewToggle()--end");
+                     }
+                 } catch (RemoteException e) {
+                     Log.e(TAG, "Cannot send toggle recents through proxy service.", e);
+@@ -109,12 +112,13 @@ public class OverviewProxyRecentsImpl implements RecentsImplementation {
+             // Preload only if device for current user is unlocked
+             final StatusBar statusBar = mSysUiServiceProvider.getComponent(StatusBar.class);
+             if (statusBar != null && statusBar.isKeyguardShowing()) {
++                Log.d("input-log","OverviewProxyRecentsImpl.java   statusBar != null && statusBar.isKeyguardShowing()");
+                 statusBar.executeRunnableDismissingKeyguard(() -> {
+                         // Flush trustmanager before checking device locked per user
+                         mTrustManager.reportKeyguardShowingChanged();
+                         mHandler.post(toggleRecents);
+                     }, null,  true /* dismissShade */, false /* afterKeyguardGone */,
+-                    true /* deferred */);
++                    true /* deferred */);   
+             } else {
+                 toggleRecents.run();
+             }
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/Recents.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/Recents.java
+index 0fc4fe72bd..be621f1f92 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/Recents.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/Recents.java
+@@ -24,6 +24,7 @@ import android.provider.Settings;
+ import com.android.systemui.R;
+ import com.android.systemui.SystemUI;
+ import com.android.systemui.statusbar.CommandQueue;
++import android.util.Log;
+ 
+ import java.io.FileDescriptor;
+ import java.io.PrintWriter;
+@@ -90,6 +91,7 @@ public class Recents extends SystemUI implements CommandQueue.Callbacks {
+     public void toggleRecentApps() {
+         // Ensure the device has been provisioned before allowing the user to interact with
+         // recents
++        Log.d("input-log","Recents.java:    toggleRecentApps() "+isUserSetup());
+         if (!isUserSetup()) {
+             return;
+         }
+@@ -133,7 +135,7 @@ public class Recents extends SystemUI implements CommandQueue.Callbacks {
+     /**
+      * @return whether this device is provisioned and the current user is set up.
+      */
+-    private boolean isUserSetup() {
++    private boolean isUserSetup() {//!
+         ContentResolver cr = mContext.getContentResolver();
+         return (Settings.Global.getInt(cr, Settings.Global.DEVICE_PROVISIONED, 0) != 0) &&
+                 (Settings.Secure.getInt(cr, Settings.Secure.USER_SETUP_COMPLETE, 0) != 0);
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
+index 6329af5607..d346d18443 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
+@@ -44,7 +44,7 @@ import android.os.Message;
+ import android.util.Pair;
+ import android.util.SparseArray;
+ import android.view.inputmethod.InputMethodSystemProperty;
+-
++import android.util.Log;
+ import androidx.annotation.VisibleForTesting;
+ 
+ import com.android.internal.os.SomeArgs;
+@@ -833,6 +833,7 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
+ 
+         public void handleMessage(Message msg) {
+             final int what = msg.what & MSG_MASK;
++            Log.d("input-log","CommandQueue.java: "+what);
+             switch (what) {
+                 case MSG_ICON: {
+                     switch (msg.arg1) {
+diff --git a/frameworks/base/services/core/java/com/android/server/policy/PhoneWindowManager.java b/frameworks/base/services/core/java/com/android/server/policy/PhoneWindowManager.java
+index 9d90cae800..fefadae587 100644
+--- a/frameworks/base/services/core/java/com/android/server/policy/PhoneWindowManager.java
++++ b/frameworks/base/services/core/java/com/android/server/policy/PhoneWindowManager.java
+@@ -707,6 +707,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                     dispatchMediaKeyRepeatWithWakeLock((KeyEvent)msg.obj);
+                     break;
+                 case MSG_DISPATCH_SHOW_RECENTS:
++                    Slog.d("input-log", "handleMessage(Message msg)");
+                     showRecentApps(false);
+                     break;
+                 case MSG_DISPATCH_SHOW_GLOBAL_ACTIONS:
+@@ -2707,10 +2708,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+ 
+     // TODO(b/117479243): handle it in InputPolicy
+     /** {@inheritDoc} */
++    //! 这个方法在按键事件被分发给窗口之前调用，用来决定是否要拦截事件或执行其他特殊处理。
+     @Override
+     public long interceptKeyBeforeDispatching(WindowState win, KeyEvent event, int policyFlags) {
++        Slog.d("input-log", "interceptKeyBeforeDispatching(WindowState win, KeyEvent event, int policyFlags)");
++        
+         final long result = interceptKeyBeforeDispatchingInner(win, event, policyFlags);
+         final int eventDisplayId = event.getDisplayId();
++
++        // 添加日志以记录 interceptKeyBeforeDispatching 的调用情况
++        Log.d("PhoneWindowManager", "interceptKeyBeforeDispatching: keyCode=" + event.getKeyCode() + 
++              " action=" + event.getAction());
+         if (result == 0 && !mPerDisplayFocusEnabled
+                 && eventDisplayId != INVALID_DISPLAY && eventDisplayId != mTopFocusedDisplayId) {
+             // An event is targeting a non-focused display. Try to move the display to top so that
+@@ -2747,8 +2755,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+         final boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
+         final boolean canceled = event.isCanceled();
+         final int displayId = event.getDisplayId();
++        Slog.d("input-log", "interceptKeyBeforeDispatchingInner(WindowState win, KeyEvent event,int policyFlags)");
+ 
+-        if (DEBUG_INPUT) {
++        if (true) {
+             Log.d(TAG, "interceptKeyTi keyCode=" + keyCode + " down=" + down + " repeatCount="
+                     + repeatCount + " keyguardOn=" + keyguardOn + " canceled=" + canceled);
+         }
+@@ -2887,7 +2896,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                 }
+             }
+             return 0;
+-        } else if (keyCode == KeyEvent.KEYCODE_APP_SWITCH) {
++        } else if (keyCode == KeyEvent.KEYCODE_APP_SWITCH) {//!
+             if (!keyguardOn) {
+                 if (down && repeatCount == 0) {
+                     preloadRecentApps();
+@@ -3328,7 +3337,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+     }
+ 
+     private boolean interceptFallback(WindowState win, KeyEvent fallbackEvent, int policyFlags) {
+-        int actions = interceptKeyBeforeQueueing(fallbackEvent, policyFlags);
++        int actions = interceptKeyBeforeQueueing(fallbackEvent, policyFlags);//!
+         if ((actions & ACTION_PASS_TO_USER) != 0) {
+             long delayMillis = interceptKeyBeforeDispatching(
+                     win, fallbackEvent, policyFlags);
+@@ -3540,7 +3549,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+     }
+ 
+     @Override
+-    public void showRecentApps() {
++    public void showRecentApps() {//!
+         mHandler.removeMessages(MSG_DISPATCH_SHOW_RECENTS);
+         mHandler.obtainMessage(MSG_DISPATCH_SHOW_RECENTS).sendToTarget();
+     }
+@@ -3789,6 +3798,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+     }
+ 
+     // TODO(b/117479243): handle it in InputPolicy
++    //! 这个方法在按键事件被放入事件队列之前调用，用来决定事件的处理策略，比如是否应该唤醒设备，是否应该把事件传递给应用程序等。
+     /** {@inheritDoc} */
+     @Override
+     public int interceptKeyBeforeQueueing(KeyEvent event, int policyFlags) {
+@@ -3796,13 +3806,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+             // If we have not yet booted, don't let key events do anything.
+             return 0;
+         }
+-
++    
+         final boolean interactive = (policyFlags & FLAG_INTERACTIVE) != 0;
+         final boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
+         final boolean canceled = event.isCanceled();
+         final int keyCode = event.getKeyCode();
+         final int displayId = event.getDisplayId();
+-
++    
+         final boolean isInjected = (policyFlags & WindowManagerPolicy.FLAG_INJECTED) != 0;
+ 
+         // If screen is off then we treat the case where the keyguard is open but hidden
+@@ -3813,16 +3823,19 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                                             (interactive ?
+                                                 isKeyguardShowingAndNotOccluded() :
+                                                 mKeyguardDelegate.isShowing()));
+-
+-        if (DEBUG_INPUT) {
+-            Log.d(TAG, "interceptKeyTq keycode=" + keyCode
+-                    + " interactive=" + interactive + " keyguardActive=" + keyguardActive
+-                    + " policyFlags=" + Integer.toHexString(policyFlags));
+-        }
+-
+-        // Basic policy based on interactive state.
++    
++        // 添加日志以记录 interceptKeyBeforeQueueing 的调用情况
++        Log.d("PhoneWindowManager", "interceptKeyBeforeQueueing: keyCode=" + keyCode 
++              + ", interactive=" + interactive + ", keyguardActive=" + keyguardActive
++              + ", displayId=" + displayId);
++    
++        // 打印是否为任务切换键
++        if (keyCode == KeyEvent.KEYCODE_APP_SWITCH) {
++            Log.i("PhoneWindowManager", "Task switch key detected in interceptKeyBeforeQueueing");
++        }
++    
+         int result;
+-         boolean isBox = "box".equals(SystemProperties.get("ro.target.product"));
++        boolean isBox = "box".equals(SystemProperties.get("ro.target.product"));
+         boolean isWakeKey = (policyFlags & WindowManagerPolicy.FLAG_WAKE) != 0
+                 || event.isWakeKey();
+         if(isBox){
+@@ -3833,7 +3846,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+             // key to the application.
+             result = ACTION_PASS_TO_USER;
+             isWakeKey = false;
+-
++    
+             if (interactive) {
+                 // If the screen is awake, but the button pressed was the one that woke the device
+                 // then don't pass it to the application
+@@ -3863,7 +3876,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                 mPendingWakeKey = keyCode;
+             }
+         }
+-
++    
+         // If the key would be handled globally, just return the result, don't worry about special
+         // key processing.
+         if (isValidGlobalKey(keyCode)
+@@ -3874,7 +3887,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+             }
+             return result;
+         }
+-
++    
+         // Enable haptics if down and virtual key without multiple repetitions. If this is a hard
+         // virtual key such as a navigation bar button, only vibrate if flag is enabled.
+         final boolean isNavBarVirtKey = ((event.getFlags() & KeyEvent.FLAG_VIRTUAL_HARD_KEY) != 0);
+@@ -4229,7 +4242,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+             wakeUp(event.getEventTime(), mAllowTheaterModeWakeFromKey,
+                     PowerManager.WAKE_REASON_WAKE_KEY, "android.policy:KEY");
+         }
+-
++    
+         return result;
+     }
+ 
+diff --git a/frameworks/base/services/core/java/com/android/server/statusbar/StatusBarManagerInternal.java b/frameworks/base/services/core/java/com/android/server/statusbar/StatusBarManagerInternal.java
+index a93d2b8b6f..22cf0f1f0b 100644
+--- a/frameworks/base/services/core/java/com/android/server/statusbar/StatusBarManagerInternal.java
++++ b/frameworks/base/services/core/java/com/android/server/statusbar/StatusBarManagerInternal.java
+@@ -26,7 +26,7 @@ public interface StatusBarManagerInternal {
+     void showScreenPinningRequest(int taskId);
+     void showAssistDisclosure();
+ 
+-    void preloadRecentApps();
++    void preloadRecentApps();//!
+ 
+     void cancelPreloadRecentApps();
+ 
+diff --git a/frameworks/base/services/core/java/com/android/server/wm/InputManagerCallback.java b/frameworks/base/services/core/java/com/android/server/wm/InputManagerCallback.java
+index 6b500967f4..ed12d43312 100644
+--- a/frameworks/base/services/core/java/com/android/server/wm/InputManagerCallback.java
++++ b/frameworks/base/services/core/java/com/android/server/wm/InputManagerCallback.java
+@@ -179,6 +179,8 @@ final class InputManagerCallback implements InputManagerService.WindowManagerCal
+     @Override
+     public long interceptKeyBeforeDispatching(
+             IBinder focus, KeyEvent event, int policyFlags) {
++        Slog.d("InputManagerCallback", "Intercepting key event: " + event.toString());
++
+         WindowState windowState = mService.windowForClientLocked(null, focus, false);
+         return mService.mPolicy.interceptKeyBeforeDispatching(windowState, event, policyFlags);
+     }
+diff --git a/frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java b/frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java
+index 9785cd24fc..09ca963b3b 100644
+--- a/frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java
++++ b/frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java
+@@ -4478,6 +4478,7 @@ public class WindowManagerService extends IWindowManager.Stub
+                 ? focusedApp.getTask().mStack : null;
+     }
+ 
++    // 用于检测设备是否应该进入安全模式（Safe Mode）
+     public boolean detectSafeMode() {
+         if (!mInputManagerCallback.waitForInputDevicesReady(
+                 INPUT_DEVICES_READY_FOR_SAFE_MODE_DETECTION_TIMEOUT_MILLIS)) {
+@@ -5906,6 +5907,7 @@ public class WindowManagerService extends IWindowManager.Stub
+     }
+ 
+     public void showRecentApps() {
++        Slog.w("input-log","WindowManagerService.java.showRecentApps()");
+         mPolicy.showRecentApps();
+     }
+ 
+diff --git a/frameworks/native/services/inputflinger/EventHub.cpp b/frameworks/native/services/inputflinger/EventHub.cpp
+index e9de1de4a2..71f549c348 100644
+--- a/frameworks/native/services/inputflinger/EventHub.cpp
++++ b/frameworks/native/services/inputflinger/EventHub.cpp
+@@ -241,7 +241,12 @@ bool EventHub::Device::hasValidFd() {
+ // --- EventHub ---
+ 
+ const int EventHub::EPOLL_MAX_EVENTS;
+-
++// 1.初始化一些成员变量
++// 2.创建epoll对象，EPOLL_SIZE_HINT = 8代表最大监听数为8.
++// 3.创建inotify对象，监听/dev/input下设备节点的增删。
++// 4.将mINotifyFd添加到epoll中，作为一个监控对象。
++// 5.创建管道，将管道读取端的可读事件添加到epoll中。使epoll_wait()返回，唤醒InputReader线程。                        
++// 原文链接：https://blog.csdn.net/VNanyesheshou/article/details/62422404
+ EventHub::EventHub(void) :
+         mBuiltInKeyboardId(NO_BUILT_IN_KEYBOARD), mNextDeviceId(1), mControllerNumbers(),
+         mOpeningDevices(nullptr), mClosingDevices(nullptr),
+@@ -249,11 +254,13 @@ EventHub::EventHub(void) :
+         mNeedToReopenDevices(false), mNeedToScanDevices(true),
+         mPendingEventCount(0), mPendingEventIndex(0), mPendingINotify(false) {
+     acquire_wake_lock(PARTIAL_WAKE_LOCK, WAKE_LOCK_ID);
+-
++    //创建epoll对象，mEpollFd为epoll对象的描述符
+     mEpollFd = epoll_create1(EPOLL_CLOEXEC);
+     LOG_ALWAYS_FATAL_IF(mEpollFd < 0, "Could not create epoll instance: %s", strerror(errno));
+-
++    //创建inotify对象，mINotifyFd为inotify对象的描述符
+     mINotifyFd = inotify_init();
++    //DEVICE_PATH值为"/dev/input"，监听该目录下的设备节点创建与删除操作。通过read函数读取事件。
++     // 当目录下的设备节点发生增删事件时，可已通过 read(fd) 获取事件的详细信息
+     mInputWd = inotify_add_watch(mINotifyFd, DEVICE_PATH, IN_DELETE | IN_CREATE);
+     LOG_ALWAYS_FATAL_IF(mInputWd < 0, "Could not register INotify for %s: %s",
+             DEVICE_PATH, strerror(errno));
+@@ -268,27 +275,32 @@ EventHub::EventHub(void) :
+ 
+     struct epoll_event eventItem;
+     memset(&eventItem, 0, sizeof(eventItem));
+-    eventItem.events = EPOLLIN;
+-    eventItem.data.fd = mINotifyFd;
++    eventItem.events = EPOLLIN;//监听可读事件
++    eventItem.data.fd = mINotifyFd;// 自定义值
++    //EPOLL_CTL_ADD表示增加事件
++    //epoll_ctl将事件监听添加到epoll对象中去。
+     int result = epoll_ctl(mEpollFd, EPOLL_CTL_ADD, mINotifyFd, &eventItem);
+     LOG_ALWAYS_FATAL_IF(result != 0, "Could not add INotify to epoll instance.  errno=%d", errno);
+ 
+     int wakeFds[2];
++    // 创建管道，fds[0] 表示管道的读端，fds[1] 表示管道的写端
+     result = pipe(wakeFds);
+     LOG_ALWAYS_FATAL_IF(result != 0, "Could not create wake pipe.  errno=%d", errno);
+ 
+     mWakeReadPipeFd = wakeFds[0];
+     mWakeWritePipeFd = wakeFds[1];
+ 
++    // 设置唤醒读端为非阻塞式
+     result = fcntl(mWakeReadPipeFd, F_SETFL, O_NONBLOCK);
+     LOG_ALWAYS_FATAL_IF(result != 0, "Could not make wake read pipe non-blocking.  errno=%d",
+             errno);
+-
++    // 设置唤醒写端为非阻塞式
+     result = fcntl(mWakeWritePipeFd, F_SETFL, O_NONBLOCK);
+     LOG_ALWAYS_FATAL_IF(result != 0, "Could not make wake write pipe non-blocking.  errno=%d",
+             errno);
+ 
+     eventItem.data.fd = mWakeReadPipeFd;
++    // 把唤醒读端的 fd 添加到 epoll 监听队列中，目的是在必要时唤醒 reader 线程
+     result = epoll_ctl(mEpollFd, EPOLL_CTL_ADD, mWakeReadPipeFd, &eventItem);
+     LOG_ALWAYS_FATAL_IF(result != 0, "Could not add wake read pipe to epoll instance.  errno=%d",
+             errno);
+@@ -818,45 +830,53 @@ size_t EventHub::getEvents(int timeoutMillis, RawEvent* buffer, size_t bufferSiz
+     AutoMutex _l(mLock);
+ 
+     struct input_event readBuffer[bufferSize];
+-
++    //每存一个事件，event指针向后移动一个元素。
+     RawEvent* event = buffer;
++    //capacity存buffer中剩余端元素数量，capacity为0，表示buffer已满。
+     size_t capacity = bufferSize;
+     bool awoken = false;
+-    for (;;) {
++    for (;;) {//循环体。
++        //获取系统当前时间（native层的方法）。  
+         nsecs_t now = systemTime(SYSTEM_TIME_MONOTONIC);
+ 
+         // Reopen input devices if needed.
+-        if (mNeedToReopenDevices) {
++        if (mNeedToReopenDevices) {//判断是否需要重新打开设备  
+             mNeedToReopenDevices = false;
+ 
+             ALOGI("Reopening all input devices due to a configuration change.");
+ 
+-            closeAllDevicesLocked();
+-            mNeedToScanDevices = true;
++            closeAllDevicesLocked();//关闭、卸载所有设备  
++            mNeedToScanDevices = true;//下次扫描设备  
+             break; // return to the caller before we actually rescan
+         }
+ 
+         // Report any devices that had last been added/removed.
++        // 遍历mClosingDevices，生成DEVICE_REMOVED事件 
+         while (mClosingDevices) {
+             Device* device = mClosingDevices;
+             ALOGV("Reporting device closed: id=%d, name=%s\n",
+                  device->id, device->path.c_str());
+             mClosingDevices = device->next;
+-            event->when = now;
++            event->when = now;//设置事件的时间戳  
+             event->deviceId = (device->id == mBuiltInKeyboardId) ?
+-                    ReservedInputDeviceId::BUILT_IN_KEYBOARD_ID : device->id;
+-            event->type = DEVICE_REMOVED;
+-            event += 1;
+-            delete device;
++                    ReservedInputDeviceId::BUILT_IN_KEYBOARD_ID : device->id;//设置事件对应的设备id  
++            event->type = DEVICE_REMOVED; //设在事件类型DEVICE_REMOVED  
++            event += 1;//event指向下一个RawEvent对象  
++            delete device;//释放不需要的device  
+             mNeedToSendFinishedDeviceScan = true;
++            // capacity为0时，表示buffer已满，则停止循环将事件返回给调用者（也就是InputReader），剩余的事件等下次getEvents调用  
+             if (--capacity == 0) {
+                 break;
+             }
+-        }
++        }//mClosingDevices初始值为0，所以刚开始调用getEvents()函数不会运行上述代码块。该块中主要是遍历mClosingDevices，生成DEVICE_REMOVED事件。
+ 
++        // mNeedToScanDevices初始值为true，所以第一次getEvents会运行该代码块。该代码块主要工作：
++        // 1 mNeedToScanDevices赋值为false，避免重复扫描打开设备。
++        // 2 调用scanDevicesLocked()，//打开/dev/input下所有输入设备。
++        // 3 mNeedToSendFinishedDeviceScan赋值为true，用于生成FINISHED_DEVICE_SCAN事件。
+         if (mNeedToScanDevices) {
+             mNeedToScanDevices = false;
+-            scanDevicesLocked();
++            scanDevicesLocked();//打开/dev/input下所有输入设备 
+             mNeedToSendFinishedDeviceScan = true;
+         }
+ 
+@@ -1052,7 +1072,7 @@ size_t EventHub::getEvents(int timeoutMillis, RawEvent* buffer, size_t bufferSiz
+         }
+     }
+ 
+-    // All done, return the number of events we read.
++    // All done, return the number of events we read.//全部完成，返回我们读取的事件数。
+     return event - buffer;
+ }
+ 
+@@ -1090,6 +1110,7 @@ void EventHub::scanDevicesLocked() {
+             ALOGE("scan video dir failed for %s", VIDEO_DEVICE_PATH);
+         }
+     }
++    // 创建一个虚拟的输入设备（这个不太清楚）。  
+     if (mDevices.indexOfKey(ReservedInputDeviceId::VIRTUAL_KEYBOARD_ID) < 0) {
+         createVirtualKeyboardLocked();
+     }
+@@ -1191,6 +1212,7 @@ status_t EventHub::openDeviceLocked(const char* devicePath) {
+ 
+     ALOGV("Opening device: %s", devicePath);
+ 
++    //打开设备节点 
+     int fd = open(devicePath, O_RDWR | O_CLOEXEC | O_NONBLOCK);
+     if(fd < 0) {
+         ALOGE("could not open %s, %s\n", devicePath, strerror(errno));
+@@ -1256,6 +1278,7 @@ status_t EventHub::openDeviceLocked(const char* devicePath) {
+     // Fill in the descriptor.
+     assignDescriptorLocked(identifier);
+ 
++    //创建Device  
+     // Allocate device.  (The device object takes ownership of the fd at this point.)
+     int32_t deviceId = mNextDeviceId++;
+     Device* device = new Device(fd, deviceId, devicePath, identifier);
+@@ -1273,9 +1296,11 @@ status_t EventHub::openDeviceLocked(const char* devicePath) {
+     ALOGV("  driver:     v%d.%d.%d\n",
+         driverVersion >> 16, (driverVersion >> 8) & 0xff, driverVersion & 0xff);
+ 
+-    // Load the configuration file for the device.
++    // Load the configuration file for the device.加载配置信息  
+     loadConfigurationLocked(device);
+-
++    // Figure out the kinds of events the device reports.  
++    //设置device->classes，为设备分配类别（鼠标、键盘、触摸板等）  
++    
+     // Figure out the kinds of events the device reports.
+     ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(device->keyBitmask)), device->keyBitmask);
+     ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(device->absBitmask)), device->absBitmask);
+@@ -1762,6 +1787,10 @@ void EventHub::closeAllDevicesLocked() {
+     }
+ }
+ 
++// closeDeviceLocked()函数主要工作：
++// 1.从Epoll中删除监听（EPOLL_CTL_DEL）。
++// 2.mDevices中删除Device对象
++// 3.将删除端Device对象添加到mClosingDevices中。用于之后向InputReader发送DEVICE_REMOVED事件
+ void EventHub::closeDeviceLocked(Device* device) {
+     ALOGI("Removed device: path=%s name=%s id=%d fd=%d classes=0x%x",
+          device->path.c_str(), device->identifier.name.c_str(), device->id,
+@@ -1781,6 +1810,7 @@ void EventHub::closeDeviceLocked(Device* device) {
+ 
+     releaseControllerNumberLocked(device);
+ 
++    //移除设备 
+     mDevices.removeItem(device->id);
+     device->close();
+ 
+@@ -1864,6 +1894,7 @@ status_t EventHub::readNotifyLocked() {
+     return 0;
+ }
+ 
++// scanDirLocked()函数遍历/dev/input文件夹下的所有设备节点，并分别执行openDeviceLocked(devname)，加载设备
+ status_t EventHub::scanDirLocked(const char *dirname)
+ {
+     char devname[PATH_MAX];
+diff --git a/frameworks/native/services/inputflinger/InputDispatcher.cpp b/frameworks/native/services/inputflinger/InputDispatcher.cpp
+index b921d954dc..143b7f5d19 100644
+--- a/frameworks/native/services/inputflinger/InputDispatcher.cpp
++++ b/frameworks/native/services/inputflinger/InputDispatcher.cpp
+@@ -789,6 +789,10 @@ bool InputDispatcher::dispatchDeviceResetLocked(
+ 
+ bool InputDispatcher::dispatchKeyLocked(nsecs_t currentTime, KeyEntry* entry,
+         DropReason* dropReason, nsecs_t* nextWakeupTime) {
++    // 在函数开头打印基本的按键事件信息
++    ALOGI("dispatchKeyLocked: deviceId=%d, action=%d, flags=%d, keyCode=%d, scanCode=%d, repeatCount=%d",
++          entry->deviceId, entry->action, entry->flags, entry->keyCode, entry->scanCode, entry->repeatCount);
++
+     // Preprocessing.
+     if (! entry->dispatchInProgress) {
+         if (entry->repeatCount == 0
+@@ -797,15 +801,10 @@ bool InputDispatcher::dispatchKeyLocked(nsecs_t currentTime, KeyEntry* entry,
+                 && (!(entry->policyFlags & POLICY_FLAG_DISABLE_KEY_REPEAT))) {
+             if (mKeyRepeatState.lastKeyEntry
+                     && mKeyRepeatState.lastKeyEntry->keyCode == entry->keyCode) {
+-                // We have seen two identical key downs in a row which indicates that the device
+-                // driver is automatically generating key repeats itself.  We take note of the
+-                // repeat here, but we disable our own next key repeat timer since it is clear that
+-                // we will not need to synthesize key repeats ourselves.
+                 entry->repeatCount = mKeyRepeatState.lastKeyEntry->repeatCount + 1;
+                 resetKeyRepeatLocked();
+-                mKeyRepeatState.nextRepeatTime = LONG_LONG_MAX; // don't generate repeats ourselves
++                mKeyRepeatState.nextRepeatTime = LONG_LONG_MAX;
+             } else {
+-                // Not a repeat.  Save key down state in case we do see a repeat later.
+                 resetKeyRepeatLocked();
+                 mKeyRepeatState.nextRepeatTime = entry->eventTime + mConfig.keyRepeatTimeout;
+             }
+@@ -826,7 +825,6 @@ bool InputDispatcher::dispatchKeyLocked(nsecs_t currentTime, KeyEntry* entry,
+         logOutboundKeyDetails("dispatchKey - ", entry);
+     }
+ 
+-    // Handle case where the policy asked us to try again later last time.
+     if (entry->interceptKeyResult == KeyEntry::INTERCEPT_KEY_RESULT_TRY_AGAIN_LATER) {
+         if (currentTime < entry->interceptKeyWakeupTime) {
+             if (entry->interceptKeyWakeupTime < *nextWakeupTime) {
+@@ -838,7 +836,6 @@ bool InputDispatcher::dispatchKeyLocked(nsecs_t currentTime, KeyEntry* entry,
+         entry->interceptKeyWakeupTime = 0;
+     }
+ 
+-    // Give the policy a chance to intercept the key.
+     if (entry->interceptKeyResult == KeyEntry::INTERCEPT_KEY_RESULT_UNKNOWN) {
+         if (entry->policyFlags & POLICY_FLAG_PASS_TO_USER) {
+             CommandEntry* commandEntry = postCommandLocked(
+@@ -861,15 +858,14 @@ bool InputDispatcher::dispatchKeyLocked(nsecs_t currentTime, KeyEntry* entry,
+         }
+     }
+ 
+-    // Clean up if dropping the event.
+     if (*dropReason != DROP_REASON_NOT_DROPPED) {
+         setInjectionResult(entry, *dropReason == DROP_REASON_POLICY
+                 ? INPUT_EVENT_INJECTION_SUCCEEDED : INPUT_EVENT_INJECTION_FAILED);
+         mReporter->reportDroppedKey(entry->sequenceNum);
++        ALOGI("Key event dropped: keyCode=%d, dropReason=%d", entry->keyCode, *dropReason);
+         return true;
+     }
+ 
+-    // Identify targets.
+     std::vector<InputTarget> inputTargets;
+     int32_t injectionResult = findFocusedWindowTargetsLocked(currentTime,
+             entry, inputTargets, nextWakeupTime);
+@@ -879,17 +875,20 @@ bool InputDispatcher::dispatchKeyLocked(nsecs_t currentTime, KeyEntry* entry,
+ 
+     setInjectionResult(entry, injectionResult);
+     if (injectionResult != INPUT_EVENT_INJECTION_SUCCEEDED) {
++        ALOGI("Key event injection failed: keyCode=%d, result=%d", entry->keyCode, injectionResult);
+         return true;
+     }
+ 
+-    // Add monitor channels from event's or focused display.
+     addGlobalMonitoringTargetsLocked(inputTargets, getTargetDisplayId(entry));
+ 
+-    // Dispatch the key.
++    // 在事件分发之前打印日志
++    ALOGI("Dispatching key event: keyCode=%d to %zu targets", entry->keyCode, inputTargets.size());
++
+     dispatchEventLocked(currentTime, entry, inputTargets);
+     return true;
+ }
+ 
++
+ void InputDispatcher::logOutboundKeyDetails(const char* prefix, const KeyEntry* entry) {
+ #if DEBUG_OUTBOUND_EVENT_DETAILS
+     ALOGD("%seventTime=%" PRId64 ", deviceId=%d, source=0x%x, displayId=%" PRId32 ", "
+diff --git a/frameworks/native/services/inputflinger/InputReader.cpp b/frameworks/native/services/inputflinger/InputReader.cpp
+index 8a66fc735a..2ed19c8d65 100755
+--- a/frameworks/native/services/inputflinger/InputReader.cpp
++++ b/frameworks/native/services/inputflinger/InputReader.cpp
+@@ -368,6 +368,11 @@ void InputReader::processEventsLocked(const RawEvent* rawEvents, size_t count) {
+ #if DEBUG_RAW_EVENTS
+             ALOGD("BatchSize: %zu Count: %zu", batchSize, count);
+ #endif
++
++            // 添加日志：打印设备ID和事件类型
++            ALOGW("InputReader::processEventsLocked(const RawEvent* rawEvents, size_t count)");
++            ALOGD("InputReader.Processing event from device: %d, event type: %d", rawEvent->deviceId, rawEvent->type);
++
+             processEventsForDeviceLocked(deviceId, rawEvent, batchSize);
+         } else {
+             switch (rawEvent->type) {
+@@ -1140,40 +1145,44 @@ void InputDevice::reset(nsecs_t when) {
+ void InputDevice::process(const RawEvent* rawEvents, size_t count) {
+     // Process all of the events in order for each mapper.
+     // We cannot simply ask each mapper to process them in bulk because mappers may
+-    // have side-effects that must be interleaved.  For example, joystick movement events and
++    // have side-effects that must be interleaved. For example, joystick movement events and
+     // gamepad button presses are handled by different mappers but they should be dispatched
+     // in the order received.
+     for (const RawEvent* rawEvent = rawEvents; count != 0; rawEvent++) {
+-#if DEBUG_RAW_EVENTS
+-        ALOGD("Input event: device=%d type=0x%04x code=0x%04x value=0x%08x when=%" PRId64,
+-                rawEvent->deviceId, rawEvent->type, rawEvent->code, rawEvent->value,
+-                rawEvent->when);
+-#endif
++        // Log each raw event for debugging purposes.
++        ALOGW("InputDevice::process(const RawEvent* rawEvents, size_t count)");
++
++        ALOGD("InputDevice.Processing input event: device=%d type=0x%04x code=0x%04x value=0x%08x when=%" PRId64,
++              rawEvent->deviceId, rawEvent->type, rawEvent->code, rawEvent->value, rawEvent->when);
+ 
+         if (mDropUntilNextSync) {
+             if (rawEvent->type == EV_SYN && rawEvent->code == SYN_REPORT) {
+                 mDropUntilNextSync = false;
+-#if DEBUG_RAW_EVENTS
+-                ALOGD("Recovered from input event buffer overrun.");
+-#endif
++                ALOGI("Recovered from input event buffer overrun.");
+             } else {
+-#if DEBUG_RAW_EVENTS
+-                ALOGD("Dropped input event while waiting for next input sync.");
+-#endif
++                ALOGI("Dropped input event while waiting for next input sync.");
+             }
+         } else if (rawEvent->type == EV_SYN && rawEvent->code == SYN_DROPPED) {
+             ALOGI("Detected input event buffer overrun for device %s.", getName().c_str());
+             mDropUntilNextSync = true;
+             reset(rawEvent->when);
+         } else {
++            // Log before processing the event with each mapper.
++            ALOGI("Dispatching to mappers for processing: device=%d type=0x%04x code=0x%04x",
++                  rawEvent->deviceId, rawEvent->type, rawEvent->code);
++
+             for (InputMapper* mapper : mMappers) {
+                 mapper->process(rawEvent);
++                // Log after processing with each mapper.
++                ALOGI("Mapper processed event: device=%d type=0x%04x code=0x%04x",
++                      rawEvent->deviceId, rawEvent->type, rawEvent->code);
+             }
+         }
+         --count;
+     }
+ }
+ 
++
+ void InputDevice::timeoutExpired(nsecs_t when) {
+     for (InputMapper* mapper : mMappers) {
+         mapper->timeoutExpired(when);
+@@ -2388,6 +2397,12 @@ bool KeyboardInputMapper::isMediaKey(int32_t keyCode) {
+ 
+ void KeyboardInputMapper::processKey(nsecs_t when, bool down, int32_t scanCode,
+         int32_t usageCode) {
++    
++    ALOGW("KeyboardInputMapper::processKey(nsecs_t when, bool down, int32_t scanCode,int32_t usageCode)");
++
++    ALOGD("KeyboardInputMapper.Processing key event: deviceId=%d, time=%lld, action=%s, scanCode=%d, usageCode=%d",
++        getDeviceId(), static_cast<long long>(when), down ? "down" : "up", scanCode, usageCode);
++
+     int32_t keyCode;
+     int32_t keyMetaState;
+     uint32_t policyFlags;

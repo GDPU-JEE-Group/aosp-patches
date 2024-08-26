@@ -1,0 +1,40 @@
+From aedc01b45eb16a92e635ffb4764e78cc09d9aad7 Mon Sep 17 00:00:00 2001
+From: Zhen Chen <chenzhen@rock-chips.com>
+Date: Tue, 30 Jul 2024 18:44:22 +0800
+Subject: [PATCH 2/3] =?UTF-8?q?WA:=20sf:=20BufferLayer::latchUnsignaledBuf?=
+ =?UTF-8?q?fers():=20=E5=BC=BA=E5=88=B6=E8=BF=94=E5=9B=9E=20true?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Ib0960be817e3ef35fd28f299e26ad81a19e9406c
+---
+ services/surfaceflinger/BufferLayer.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/services/surfaceflinger/BufferLayer.cpp b/services/surfaceflinger/BufferLayer.cpp
+index 45f46f3..8fafdaf 100755
+--- a/services/surfaceflinger/BufferLayer.cpp
++++ b/services/surfaceflinger/BufferLayer.cpp
+@@ -783,6 +783,7 @@ bool BufferLayer::isProtected() const {
+ }
+ 
+ bool BufferLayer::latchUnsignaledBuffers() {
++#if 0
+     static bool propertyLoaded = false;
+     static bool latch = false;
+     static std::mutex mutex;
+@@ -794,6 +795,10 @@ bool BufferLayer::latchUnsignaledBuffers() {
+         propertyLoaded = true;
+     }
+     return latch;
++#else
++    ALOGI("WA: cz: %s: %d: force to latch unsignaled buffers", __FUNCTION__, __LINE__);
++    return true;
++#endif
+ }
+ 
+ // h/w composer set-up
+-- 
+2.7.4
+
