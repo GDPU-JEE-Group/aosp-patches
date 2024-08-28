@@ -1,10 +1,9 @@
 #!/bin/bash
 
 # 默认值
-default_dev_branch="dev-20240815"
-default_push_branch="ft/20240829/CLOUDPHONE-3198-input-hijacking"
-default_patch_path="a_patches/snow/0009-Update-qq-browser-kernel2.patch"
-default_commit_msg="ft(输入法):输入法劫持"
+default_push_branch=$(git branch --show-current)
+default_patch_path="a_patches/snow/0018-Change-phone-app-name.patch"
+default_commit_msg="ft(AppName):更换电话app名字"
 
 run_cmd() {
     echo -e "\033[0;32mExecuting: $*\033[0m"
@@ -34,8 +33,8 @@ run_cmd() {
 echo -e '\e[?2004l'
 
 # 请求用户输入各项参数，并提供默认值
-read -p "请输入开发分支名称（dev_branch） [默认: $default_dev_branch]: " dev_branch
-dev_branch=${dev_branch:-$default_dev_branch}
+# read -p "请输入开发分支名称（dev_branch） [默认: $default_dev_branch]: " dev_branch
+# dev_branch=${dev_branch:-$default_dev_branch}
 
 read -p "请输入本地分支名称（push_branch） [默认: $default_push_branch]: " push_branch
 push_branch=${push_branch:-$default_push_branch}
@@ -63,6 +62,23 @@ echo "开始执行操作..."
 
 # 清理并重置本地分支
 run_cmd git reset --hard origin/$dev_branch
+
+# # 比较当前分支和目标分支名
+# current_branch=$(git branch --show-current) # 获取当前分支名
+# if [ "$current_branch" == "$default_push_branch" ]; then
+#     echo "当前分支已经是 $default_push_branch，继续下一步操作。"
+# else
+#     echo "当前分支不是 $default_push_branch，切换到 $default_push_branch 分支。"
+    
+#     # 检查目标分支是否存在
+#     if git show-ref --verify --quiet refs/heads/$default_push_branch; then
+#         echo "分支 $default_push_branch 已经存在，切换到该分支。"
+#         git checkout $default_push_branch
+#     else
+#         echo "分支 $default_push_branch 不存在，创建并切换到该分支。"
+#         git checkout -b $default_push_branch
+#     fi
+# fi
 
 # 应用补丁并直接添加到暂存区
 run_cmd git apply --index $patch_path

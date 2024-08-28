@@ -1,0 +1,13 @@
+diff --git a/packages/apps/Dialer/java/com/android/dialer/main/impl/res/values-zh-rCN/strings.xml b/packages/apps/Dialer/java/com/android/dialer/main/impl/res/values-zh-rCN/strings.xml
+index 9649748a16..ce5a40bab7 100644
+--- a/packages/apps/Dialer/java/com/android/dialer/main/impl/res/values-zh-rCN/strings.xml
++++ b/packages/apps/Dialer/java/com/android/dialer/main/impl/res/values-zh-rCN/strings.xml
+@@ -17,7 +17,7 @@
+ 
+ <resources xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+-    <string name="main_activity_label" msgid="3121599977875141886">"拨打电话"</string>
++    <string name="main_activity_label" msgid="3121599977875141886">"电话"</string>
+     <string name="nui_shortcut_name" msgid="6370942901789984087">"电话 NUI"</string>
+     <string name="main_call_history_tab_description" msgid="1705569872650796265">"通话记录"</string>
+     <string name="search" msgid="3570654445331155513">"@android:string/search_go"</string>
