@@ -1,0 +1,261 @@
+diff --git a/frameworks/base/core/java/android/util/S9Helper.java b/frameworks/base/core/java/android/util/S9Helper.java
+new file mode 100644
+index 0000000000..988beb2808
+--- /dev/null
++++ b/frameworks/base/core/java/android/util/S9Helper.java
+@@ -0,0 +1,176 @@
++package android.util;
++
++import java.io.IOException;
++import java.nio.file.*;
++import java.util.List;
++import java.util.ArrayList;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.Map;
++
++/** {@hide} */
++public class S9Helper {
++    private static final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>(); // 记录所有键值对
++    private static final List<String> syncedFiles = new ArrayList<>(); // 记录所有文件地址
++
++    // 主控制方法，负责同步文件与map，并处理操作
++    /** {@hide} */
++    public static String ctl(String filePath, String operation, String key, String newValue) {
++
++        // 参数校验
++        if (filePath == null || filePath.isEmpty() || operation == null || operation.isEmpty() || key == null || key.isEmpty()) {
++            Log.e("Snow", "Error: Invalid parameters - filePath: " + filePath + ", operation: " + operation + ", key: " + key + ", newValue: " + newValue);
++            return "";
++        }
++
++        try {
++            Path path = Paths.get(filePath);
++
++            // 校验操作
++            if (!operation.equals("get") && !operation.equals("set")) {
++                Log.e("Snow", "Error: Invalid operation - " + operation);
++                return "";
++            }
++
++            // 校验路径存在
++            Log.d("Snow", "Files.notExists(path)"+Files.notExists(path));
++
++            if (Files.notExists(path)) {
++
++                if (operation.equals("get")) {
++                    Log.w("Snow", "Error: File does not exist - " + filePath);
++                    return "";
++                }
++                Log.d("Snow", "File not found, creating new file - " + filePath);
++                Files.createFile(path);
++                // 修改文件权限为 777
++                changeFilePermissions(filePath);
++            }
++
++            // 读取文件内容
++            List<String> lines = Files.readAllLines(path);
++            boolean found = false;
++
++            // get
++            if (operation.equals("get")) {
++
++                for (String line : lines) {
++                    if (line.startsWith(key + "=")) {
++                        String value = line.substring(line.indexOf('=') + 1);
++                        map.put(key, value); // 必更新
++                        return value;
++                    }
++                }
++                Log.d("Snow", "Info: Key not found - " + key);
++
++                return "";
++            }
++            // 下面是set()
++
++            for (int i = 0; i < lines.size(); i++) {
++                if (lines.get(i).startsWith(key + "=")) {
++                    lines.set(i, key + "=" + newValue);
++                    found = true;
++                    break;
++                }
++            }
++
++            if (!found) {
++                lines.add(key + "=" + newValue);
++            }
++
++            Files.write(path, lines);
++            updateMapFromFile(filePath);
++            if (!syncedFiles.contains(filePath)) {
++                syncedFiles.add(filePath);
++            }
++
++            return newValue;
++
++        } catch (IOException e) {
++            Log.e("Snow", "Error: Could not update file " + filePath + ", operation: " + operation + ", key: " + key + ", newValue: " + newValue, e);
++            return "";
++        }
++    }
++
++    public static void changeFilePermissions(String filePath) throws IOException {
++        Process process = Runtime.getRuntime().exec("chmod 777 " + filePath);
++        try {
++            int result = process.waitFor();
++            if (result != 0) {
++                Log.e("Snow", "Error: Failed to change permissions for " + filePath);
++            }
++        } catch (InterruptedException e) {
++            e.printStackTrace();
++        }
++    }
++
++    // 从文件更新Map
++    private static void updateMapFromFile(String filePath) {
++        Log.d("Snow", "updateMapFromFile() " + filePath);
++
++        try {
++            Path path = Paths.get(filePath);
++            List<String> lines = Files.readAllLines(path);
++            for (String line : lines) {
++                if (line.contains("=")) {
++                    String key = line.substring(0, line.indexOf('='));
++                    String value = line.substring(line.indexOf('=') + 1);
++                    map.put(key, value);
++                }
++            }
++        } catch (IOException e) {
++            Log.e("Snow", "Error: Could not update map from file " + filePath, e);
++        }
++    }
++
++    // get方法，快速从Map获取值，必要时同步文件
++    /** {@hide} */
++    public static String get(String filePath, String key, String defaultValue) {
++
++        if (map.containsKey(key)) {
++
++            return map.get(key);
++        } else if (!syncedFiles.contains(filePath)) {
++
++            String value = ctl(filePath, "get", key, null);
++            if (value.isEmpty()) {
++
++                return defaultValue;
++            }
++            syncedFiles.add(filePath);
++            return value;
++        } else {
++
++            return defaultValue;
++        }
++    }
++
++    // set方法，更新Map并同步文件
++    /** {@hide} */
++    public static String set(String filePath, String key, String newValue) { // 必更新
++        String result = ctl(filePath, "set", key, newValue);
++        if (!syncedFiles.contains(filePath)) {
++            syncedFiles.add(filePath);
++        }
++        return result;
++    }
++
++    // 打印所有键值对
++    /** {@hide} */
++    public static String printAll() {
++        StringBuilder str = new StringBuilder("");
++
++        str.append("Synced files:\n");
++        for (String file : syncedFiles) {
++            updateMapFromFile(file);
++            str.append(file).append('\n');
++        }
++
++        str.append("All key-value pairs in map:\n");
++        for (Map.Entry<String, String> entry : map.entrySet()) {
++            str.append(entry.getKey()).append("=").append(entry.getValue()).append('\n');
++        }
++
++        return str.toString();
++    }
++}
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+index 48a14b4b01..cb547dcb4b 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+@@ -27,6 +27,7 @@ import android.content.ContentUris;
+ import android.database.Cursor;
+ import java.util.Calendar;
+ import android.util.Log;
++import android.util.S9Helper;
+ 
+ public class Space9dManagerShellCommand extends ShellCommand {
+ 
+@@ -600,6 +601,56 @@ public class Space9dManagerShellCommand extends ShellCommand {
+         }
+     }
+ 
++private void runCtlMap(PrintWriter pw) throws RemoteException {
++    String nextOpt = getNextArg();
++    
++    if (nextOpt == null) {
++        pw.println("Error: Operation not specified.");
++        return;
++    }
++
++    String filePath = getNextArg();
++    String key = getNextArg();
++    String value = null;
++    String result = "";
++
++    switch (nextOpt) {
++        case "set":
++            value = getNextArg();
++            if (filePath == null || key == null || value == null) {
++                pw.println("Error: Missing required arguments for 'set' operation.");
++                return;
++            }
++            result = S9Helper.set(filePath, key, value);
++            break;
++
++        case "get":
++            if (filePath == null || key == null) {
++                pw.println("Error: Missing required arguments for 'get' operation.");
++                return;
++            }
++            String defaultValue = "";
++            result = S9Helper.get(filePath, key, defaultValue);
++            break;
++
++        case "print":
++            result = S9Helper.printAll();
++            break; 
++
++        default:
++            pw.println("Error: Unsupported operation '" + nextOpt + "'.");
++            return;
++    }
++
++    if (result == null || result.isEmpty()) {
++        pw.println("Error: Failed to " + nextOpt + " value.");
++    } else {
++        pw.println(nextOpt + " operation successful. Key: " + key + " = " + value + " in file: '" + filePath + "'.");
++        pw.println("Result: " + result);
++    }
++}
++
++
+     private void insertSmsWithDate(String address, String body, long date, int type) {
+         ContentResolver resolver = mContext.getContentResolver();
+         ContentValues values = new ContentValues();
+@@ -664,6 +715,9 @@ public class Space9dManagerShellCommand extends ShellCommand {
+                 case "sms":
+                     runSms(pw);
+                     break;
++                case "ctlmap":
++                    runCtlMap(pw);
++                    break;
+                 default:
+                     pw.println("Unknown command: " + cmd);
+                     break;
