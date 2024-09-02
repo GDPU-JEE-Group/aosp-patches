@@ -1,1 +1,0 @@
-find out -name '*qqbrowser*'  -exec rm -rf {} +
