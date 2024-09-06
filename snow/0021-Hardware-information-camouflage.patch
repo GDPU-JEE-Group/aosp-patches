@@ -1,0 +1,533 @@
+From d4a628614c600cc4bdf733d9cb7b829344e4c29c Mon Sep 17 00:00:00 2001
+From: chaixiang <973731820@qq.com>
+Date: Thu, 5 Sep 2024 06:29:07 +0000
+Subject: [PATCH] =?UTF-8?q?feat(=E7=A1=AC=E4=BB=B6=E4=BF=A1=E6=81=AF?=
+ =?UTF-8?q?=E4=BC=AA=E8=A3=85):=20=E6=94=AF=E6=8C=81=E6=89=8B=E6=9C=BA?=
+ =?UTF-8?q?=E5=9E=8B=E5=8F=B7=E3=80=81cpu=E3=80=81gpu=E3=80=81=E4=B8=BB?=
+ =?UTF-8?q?=E6=9D=BF=E7=AD=89=E4=BF=A1=E6=81=AF=E4=BC=AA=E8=A3=85?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+1. 伪装云机的 制造商供应商、设备、产品名、品牌、型号、描述与指纹
+2. 伪装云机的 GPU、cpu、主板的型号和供应商
+
+Closes CLOUDPHONE-3199
+---
+ device/rockchip/space-common/device_common.mk |   5 +-
+ .../base/core/java/android/os/Build.java      |   5 +
+ .../java/android/os/SystemProperties.java     |  11 ++
+ .../base/core/java/android/util/S9Helper.java | 179 ++++++++++++++++++
+ frameworks/native/opengl/libs/GLES_CM/gl.cpp  |  70 ++++++-
+ .../server/Space9dManagerShellCommand.java    |  54 ++++++
+ vendor/ntimespace/scripts/s9.boot.rc          |  11 ++
+ vendor/ntimespace/scripts/s9_cpuinfo.sh       |  57 ++++++
+ 8 files changed, 387 insertions(+), 5 deletions(-)
+ create mode 100644 frameworks/base/core/java/android/util/S9Helper.java
+ create mode 100644 vendor/ntimespace/scripts/s9_cpuinfo.sh
+
+diff --git a/device/rockchip/space-common/device_common.mk b/device/rockchip/space-common/device_common.mk
+index 6ec5c81062..131ef7afaf 100644
+--- a/device/rockchip/space-common/device_common.mk
++++ b/device/rockchip/space-common/device_common.mk
+@@ -98,4 +98,7 @@ endif
+ PRODUCT_LOCALES += en_US af_ZA am_ET ar_EG ar_XB as_IN az_AZ be_BY bg_BG bn_BD bs_BA ca_ES cs_CZ da_DK de_DE el_GR en_AU en_CA en_GB en_IN en_XA es_ES es_US et_EE eu_ES fa_IR fi_FI fr_CA fr_FR gl_ES gu_IN hi_IN hr_HR hu_HU hy_AM in_ID is_IS it_IT iw_IL ja_JP ka_GE kk_KZ km_KH kn_IN ko_KR ky_KG lo_LA lt_LT lv_LV mk_MK ml_IN mn_MN mr_IN ms_MY my_MM nb_NO ne_NP nl_NL or_IN pa_IN pl_PL pt_BR pt_PT ro_RO ru_RU si_LK sk_SK sl_SI sq_AL sr_Latn_RS sr_RS sv_SE sw_TZ ta_IN te_IN th_TH tl_PH tr_TR uk_UA ur_PK uz_UZ vi_VN zh_CN zh_HK zh_TW zu_ZA
+ 
+ #通讯录
+-PRODUCT_PACKAGES +=  Dialer messaging  
+\ No newline at end of file
++PRODUCT_PACKAGES +=  Dialer messaging  
++
++#Hardware Info
++PRODUCT_COPY_FILES += vendor/ntimespace/scripts/s9_cpuinfo.sh:system/bin/s9_cpuinfo.sh
+\ No newline at end of file
+diff --git a/frameworks/base/core/java/android/os/Build.java b/frameworks/base/core/java/android/os/Build.java
+index 176c2b7db0..a75ffc7f55 100755
+--- a/frameworks/base/core/java/android/os/Build.java
++++ b/frameworks/base/core/java/android/os/Build.java
+@@ -29,6 +29,7 @@ import android.content.Context;
+ import android.text.TextUtils;
+ import android.util.Slog;
+ import android.view.View;
++import android.util.S9Helper;
+ 
+ import com.android.internal.telephony.TelephonyProperties;
+ 
+@@ -1262,6 +1263,10 @@ public class Build {
+ 
+     @UnsupportedAppUsage
+     private static String getString(String property) {
++        if(property.equals("ro.hardware")){
++            return SystemProperties.get("s9.cpu.hardware", SystemProperties.get(property, UNKNOWN));
++        }
++        // return S9Helper.get("/data/local/ntimespace/hardware_info.conf",property,SystemProperties.get(property, UNKNOWN));// 复制cpu vendor
+         return SystemProperties.get(property, UNKNOWN);
+     }
+ 
+diff --git a/frameworks/base/core/java/android/os/SystemProperties.java b/frameworks/base/core/java/android/os/SystemProperties.java
+index 45384105cc..9a4c9430c4 100644
+--- a/frameworks/base/core/java/android/os/SystemProperties.java
++++ b/frameworks/base/core/java/android/os/SystemProperties.java
+@@ -22,6 +22,7 @@ import android.annotation.SystemApi;
+ import android.annotation.TestApi;
+ import android.annotation.UnsupportedAppUsage;
+ import android.util.Log;
++import android.util.S9Helper;
+ import android.util.MutableInt;
+ 
+ import com.android.internal.annotations.GuardedBy;
+@@ -109,7 +110,17 @@ public class SystemProperties {
+     @TestApi
+     public static String get(@NonNull String key) {
+         if (TRACK_KEY_ACCESS) onKeyAccess(key);
++        
++        if(key.equals("ro.board.platform")){
++            String cur_value=native_get("s9.board.platform");
++            if(cur_value.isEmpty()){
++                Log.w("hardware-info","s9.board.platform is Empty");
++                return native_get(key);
++            }
++            return cur_value;
++        }
+         return native_get(key);
++        // String cur_value=S9Helper.get("/data/local/ntimespace/hardware_info.conf",key,origin_value);
+     }
+ 
+     /**
+diff --git a/frameworks/base/core/java/android/util/S9Helper.java b/frameworks/base/core/java/android/util/S9Helper.java
+new file mode 100644
+index 0000000000..d4a8342b4f
+--- /dev/null
++++ b/frameworks/base/core/java/android/util/S9Helper.java
+@@ -0,0 +1,179 @@
++package android.util;
++
++import java.io.IOException;
++import java.nio.file.*;
++import java.util.List;
++import java.util.ArrayList;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.Map;
++
++/** {@hide} */
++public class S9Helper {
++    private static final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>(); // 记录所有键值对
++    private static final List<String> syncedFiles = new ArrayList<>(); // 记录所有文件地址
++
++    // 主控制方法，负责同步文件与map，并处理操作
++    /** {@hide} */
++    public static String ctl(String filePath, String operation, String key, String newValue) {
++
++        // 参数校验
++        if (filePath == null || filePath.isEmpty() || operation == null || operation.isEmpty() || key == null || key.isEmpty()) {
++            Log.e("S9Helper", "Error: Invalid parameters - filePath: " + filePath + ", operation: " + operation + ", key: " + key + ", newValue: " + newValue);
++            return "";
++        }
++
++        try {
++            Path path = Paths.get(filePath);
++
++            // 校验操作
++            if (!operation.equals("get") && !operation.equals("set")) {
++                Log.e("S9Helper", "Error: Invalid operation - " + operation);
++                return "";
++            }
++
++            // 校验路径存在
++            Log.w("S9Helper", "Files.notExists(path)"+Files.notExists(path));// /data目录下权限严重，Files.notExists(path)可能不准
++
++            if (Files.notExists(path)) {
++
++                if (operation.equals("get")) {
++                    Log.w("S9Helper", "Error: File does not exist - " + filePath);
++                    return "";
++                }
++                Log.d("S9Helper", "File not found, creating new file - " + filePath);
++                Files.createFile(path);
++                // 修改文件权限为 777
++                changeFilePermissions(filePath);
++            }
++
++            // 读取文件内容
++            List<String> lines = Files.readAllLines(path);
++            boolean found = false;
++
++            // get
++            if (operation.equals("get")) {
++
++                for (String line : lines) {
++                    if (line.startsWith(key + "=")) {
++                        String value = line.substring(line.indexOf('=') + 1);
++                        map.put(key, value); // 必更新
++                        return value;
++                    }
++                }
++                Log.d("S9Helper", "Info: Key not found - " + key);
++
++                return "";
++            }
++            // 下面是set()
++
++            for (int i = 0; i < lines.size(); i++) {
++                if (lines.get(i).startsWith(key + "=")) {
++                    lines.set(i, key + "=" + newValue);
++                    found = true;
++                    break;
++                }
++            }
++
++            if (!found) {
++                lines.add(key + "=" + newValue);
++            }
++
++            Files.write(path, lines);
++            updateMapFromFile(filePath);
++            if (!syncedFiles.contains(filePath)) {
++                syncedFiles.add(filePath);
++            }
++
++            return newValue;
++
++        } catch (IOException e) {
++            Log.e("S9Helper", "Error: Could not update file " + filePath + ", operation: " + operation + ", key: " + key + ", newValue: " + newValue, e);
++            return "";
++        }
++    }
++
++    public static void changeFilePermissions(String filePath) throws IOException {
++        Process process = Runtime.getRuntime().exec("chmod 777 " + filePath);
++        try {
++            int result = process.waitFor();
++            if (result != 0) {
++                Log.e("S9Helper", "Error: Failed to change permissions for " + filePath);
++            }
++        } catch (InterruptedException e) {
++            e.printStackTrace();
++        }
++    }
++
++    // 从文件更新Map
++    private static void updateMapFromFile(String filePath) {
++        Log.d("S9Helper", "updateMapFromFile() " + filePath);
++
++        try {
++            Path path = Paths.get(filePath);
++            List<String> lines = Files.readAllLines(path);
++            for (String line : lines) {
++                if (line.contains("=")) {
++                    String key = line.substring(0, line.indexOf('='));
++                    String value = line.substring(line.indexOf('=') + 1);
++                    map.put(key, value);
++                }
++            }
++        } catch (IOException e) {
++            Log.e("S9Helper", "Error: Could not update map from file " + filePath, e);
++        }
++    }
++
++    // get方法，快速从Map获取值，必要时同步文件
++    /** {@hide} */
++    public static String get(String filePath, String key, String defaultValue) {
++        Log.d("S9Helper", "get() " + filePath);
++
++        if (map.containsKey(key)) {
++
++            return map.get(key);
++        } else if (!syncedFiles.contains(filePath)) {
++
++            String value = ctl(filePath, "get", key, null);
++            if (value.isEmpty()) {
++
++                return defaultValue;
++            }
++            syncedFiles.add(filePath);
++            return value;
++        } else {
++            Log.d("S9Helper", "no this key");
++            return defaultValue;
++        }
++    }
++
++    // set方法，更新Map并同步文件
++    /** {@hide} */
++    public static String set(String filePath, String key, String newValue) { // 必更新
++        Log.d("S9Helper", "set() " + filePath);
++
++        String result = ctl(filePath, "set", key, newValue);
++        if (!syncedFiles.contains(filePath)) {
++            syncedFiles.add(filePath);
++        }
++        return result;
++    }
++
++    // 打印所有键值对
++    /** {@hide} */
++    public static String printAll() {
++        StringBuilder str = new StringBuilder("");
++
++        str.append("Synced files:\n");
++        for (String file : syncedFiles) {
++            updateMapFromFile(file);
++            str.append(file).append('\n');
++        }
++
++        str.append("All key-value pairs in map:\n");
++        for (Map.Entry<String, String> entry : map.entrySet()) {
++            str.append(entry.getKey()).append("=").append(entry.getValue()).append('\n');
++        }
++
++        return str.toString();
++    }
++}
+diff --git a/frameworks/native/opengl/libs/GLES_CM/gl.cpp b/frameworks/native/opengl/libs/GLES_CM/gl.cpp
+index bacd4b4bc8..fd214223fd 100644
+--- a/frameworks/native/opengl/libs/GLES_CM/gl.cpp
++++ b/frameworks/native/opengl/libs/GLES_CM/gl.cpp
+@@ -28,6 +28,9 @@
+ #include "../hooks.h"
+ #include "../egl_impl.h"
+ 
++#include <fstream>
++#include <sstream>
++
+ using namespace android;
+ 
+ // ----------------------------------------------------------------------------
+@@ -347,10 +350,69 @@ extern "C" {
+ extern "C" const GLubyte * __glGetString(GLenum name);
+ 
+ const GLubyte * glGetString(GLenum name) {
+-    const GLubyte * ret = egl_get_string_for_current_context(name);
+-    if (ret == NULL) {
+-        gl_hooks_t::gl_t const * const _c = &getGlThreadSpecific()->gl;
+-        ret = _c->glGetString(name);
++    static std::string cachedVendor;
++    static std::string cachedRenderer;
++
++    const GLubyte* ret = nullptr;
++    std::string line;
++
++    switch (name) {
++        case 0x1F00: // GL_VENDOR
++            if (cachedVendor.empty()) {
++                std::ifstream configFile("/vendor/etc/container/container.conf");
++                if (configFile.is_open()) {
++                    while (std::getline(configFile, line)) {
++                        if (line.find("GL_VENDOR=") == 0) {
++                            cachedVendor = line.substr(strlen("GL_VENDOR="));
++                            break;
++                        }
++                    }
++                    configFile.close();
++                } else {
++                    ALOGE("glGetString (GLES_CM): Failed to open vendor file or no read permission.");
++                }
++            }
++            ret = cachedVendor.empty() ? nullptr : (const GLubyte*)cachedVendor.c_str();
++            break;
++
++        case 0x1F01: // GL_RENDERER
++            if (cachedRenderer.empty()) {
++                std::ifstream configFile("/vendor/etc/container/container.conf");
++                if (configFile.is_open()) {
++                    while (std::getline(configFile, line)) {
++                        if (line.find("GL_RENDERER=") == 0) {
++                            cachedRenderer = line.substr(strlen("GL_RENDERER="));
++                            break;
++                        }
++                    }
++                    configFile.close();
++                } else {
++                    ALOGE("glGetString (GLES_CM): Failed to open renderer file or no read permission.");
++                }
++            }
++            ret = cachedRenderer.empty() ? nullptr : (const GLubyte*)cachedRenderer.c_str();
++            break;
++
++        default:
++            // 如果不是自定义的情况，使用原始逻辑获取值
++            ret = egl_get_string_for_current_context(name);
++            if (ret == NULL) {
++                gl_hooks_t::gl_t const * const _c = &getGlThreadSpecific()->gl;
++                ret = _c->glGetString(name);
++            }
++            break;
++    }
++
++    if (ret == nullptr) {
++        // 使用原始逻辑获取值
++        ret = egl_get_string_for_current_context(name);
++        if (ret == NULL) {
++            gl_hooks_t::gl_t const * const _c = &getGlThreadSpecific()->gl;
++            ret = _c->glGetString(name);
++        }
+     }
++
++    // 打印传入的参数和返回的值
++    ALOGI("glGetString (GLES_CM): called with name: 0x%x, returning: %s", name, ret ? (const char*)ret : "NULL");
+     return ret;
+ }
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+index 48a14b4b01..3af63203d7 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+@@ -27,6 +27,7 @@ import android.content.ContentUris;
+ import android.database.Cursor;
+ import java.util.Calendar;
+ import android.util.Log;
++import android.util.S9Helper;
+ 
+ public class Space9dManagerShellCommand extends ShellCommand {
+ 
+@@ -600,6 +601,56 @@ public class Space9dManagerShellCommand extends ShellCommand {
+         }
+     }
+ 
++private void runCtlMap(PrintWriter pw) throws RemoteException {
++    String nextOpt = getNextArg();
++    
++    if (nextOpt == null) {
++        pw.println("Error: Operation not specified.");
++        return;
++    }
++
++    String filePath = getNextArg();
++    String key = getNextArg();
++    String value = null;
++    String result = "";
++
++    switch (nextOpt) {
++        case "set":
++            value = getNextArg();
++            if (filePath == null || key == null || value == null) {
++                pw.println("Error: Missing required arguments for 'set' operation.");
++                return;
++            }
++            result = S9Helper.set(filePath, key, value);
++            break;
++
++        case "get":
++            if (filePath == null || key == null) {
++                pw.println("Error: Missing required arguments for 'get' operation.");
++                return;
++            }
++            String defaultValue = "";
++            result = S9Helper.get(filePath, key, defaultValue);
++            break;
++
++        case "print":
++            result = S9Helper.printAll();
++            break; 
++
++        default:
++            pw.println("Error: Unsupported operation '" + nextOpt + "'.");
++            return;
++    }
++
++    if (result == null || result.isEmpty()) {
++        pw.println("Error: Failed to " + nextOpt + " value, and "+result.isEmpty()+(result == null));
++    } else {
++        pw.println(nextOpt + " operation successful. Key: " + key + " = " + value + " in file: '" + filePath + "'.");
++        pw.println("Result: " + result);
++    }
++}
++
++
+     private void insertSmsWithDate(String address, String body, long date, int type) {
+         ContentResolver resolver = mContext.getContentResolver();
+         ContentValues values = new ContentValues();
+@@ -664,6 +715,9 @@ public class Space9dManagerShellCommand extends ShellCommand {
+                 case "sms":
+                     runSms(pw);
+                     break;
++                case "ctlmap":
++                    runCtlMap(pw);
++                    break;
+                 default:
+                     pw.println("Unknown command: " + cmd);
+                     break;
+diff --git a/vendor/ntimespace/scripts/s9.boot.rc b/vendor/ntimespace/scripts/s9.boot.rc
+index 7b43d19f7c..91290463f5 100644
+--- a/vendor/ntimespace/scripts/s9.boot.rc
++++ b/vendor/ntimespace/scripts/s9.boot.rc
+@@ -13,3 +13,14 @@ service snow /system/bin/sh /system/bin/first_boot.sh
+ 
+ on property:sys.boot_completed=1
+     start snow
++
++service cpuinfoo /system/bin/sh /system/bin/s9_cpuinfo.sh
++    class late_start
++    user root
++    group root
++    disabled
++    oneshot
++
++on property:sys.boot_completed=1
++    # 其他启动指令
++    start cpuinfoo
+diff --git a/vendor/ntimespace/scripts/s9_cpuinfo.sh b/vendor/ntimespace/scripts/s9_cpuinfo.sh
+new file mode 100644
+index 0000000000..bfd2fed78c
+--- /dev/null
++++ b/vendor/ntimespace/scripts/s9_cpuinfo.sh
+@@ -0,0 +1,57 @@
++#!/system/bin/sh
++
++# 设置当前脚本路径
++cur_path="/data/local/ntimespace"
++logfile=$cur_path/cpuinfoo.log
++
++run_cmd() {
++    echo "[$(date  +%Y%m%d.%H%M)] Executing: $*" >> $logfile
++    "$@"
++    local status=$?
++    if [ $status -ne 0 ]; then
++        echo "[$(date  +%Y%m%d.%H%M)] Error: Command failed with status $status" >> $logfile
++        exit $status
++    fi
++}
++
++# 检查日志文件大小，如果大于2MB则清空
++check_log_size() {
++    if [ -f $logfile ]; then
++        local log_size=$(stat -c%s "$logfile")
++        if [ $log_size -gt 2097152 ]; then
++            echo "[$(date  +%Y%m%d.%H%M)] Log file size exceeds 2MB, clearing log file" > $logfile
++        fi
++    fi
++}
++
++hard_info(){
++    run_cmd mount -o remount -o rw /
++    cat /proc/cpuinfo > /etc/cpuinfo
++
++    # 获取系统属性 's9.cpu.name' 的值并赋给变量 'hardware'
++    hardware=$(getprop s9.cpu.name)
++
++    # 将 "Hardware : $hardware" 追加到 /etc/cpuinfo 文件的末尾
++    echo "Hardware        : $hardware" >> /etc/cpuinfo
++
++    run_cmd mount --bind /etc/cpuinfo /proc/cpuinfo
++    run_cmd mount -o remount,ro /
++}
++# ------------------------------------------
++main(){
++    # 检查 /etc/cpuinfo 文件是否存在
++    if [ ! -f /etc/cpuinfo ]; then
++        hard_info #!!!!!!!!!!!!!!!!!!!!
++        echo "[$(date  +%Y%m%d.%H%M)] Succeed: hard_info " >> $logfile
++    else
++        rm -rf /etc/cpuinfo
++        hard_info
++        echo "[$(date  +%Y%m%d.%H%M)] Info: /etc/cpuinfo is exit OR  $APK_PATH is not exit" >> $logfile
++    fi
++
++    # 检查日志文件大小
++    check_log_size
++}
++
++### main
++main
+-- 
+2.25.1
+
