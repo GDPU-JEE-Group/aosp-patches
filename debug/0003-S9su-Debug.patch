@@ -1,0 +1,607 @@
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/RootActivity.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/RootActivity.java
+index 23bc5c513c..1e324aa6d8 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/RootActivity.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/RootActivity.java
+@@ -67,6 +67,7 @@ public class RootActivity extends PreferenceActivity implements Preference.OnPre
+         mRootController.removeRootListener();
+     }
+ 
++    // 打开全局root
+     public void adjustAllAppPreference(boolean isRoot) {
+         mGlobalPreference.setChecked(isRoot);
+         int childCount = mAppPreference.getPreferenceCount();
+@@ -94,6 +95,7 @@ public class RootActivity extends PreferenceActivity implements Preference.OnPre
+         }
+     }
+ 
++    // 打开某个应用的root
+     public void setAppPreferenceStatus(String packageName, boolean isGrant) {
+         SwitchPreference preference = getAppPreference(packageName);
+         if (preference != null) {
+diff --git a/vendor/ntimespace/proc_watcher/AppWatcher.cpp b/vendor/ntimespace/proc_watcher/AppWatcher.cpp
+index 16d9b915af..44fb1e42bd 100644
+--- a/vendor/ntimespace/proc_watcher/AppWatcher.cpp
++++ b/vendor/ntimespace/proc_watcher/AppWatcher.cpp
+@@ -1,21 +1,26 @@
+ #include <jni.h>
+ #include <stdio.h>
+-
+ #include "GrantRoot.h"
+ #include "BuildModifier.h"
+ 
+ /**
+  * Zygote fork before
++ * 在 Zygote 进程分叉前执行，用于在系统启动应用程序之前进行一些环境设置操作，通过 BuildModifier 修改系统属性。
+  */
+ extern "C" void onZygoteFork(JNIEnv* env, uid_t uid) {
+-  BuildModifier modifier(env);
++  ALOGD("S9_proc_watcher | onZygoteFork() called with UID: %d", uid);
++  BuildModifier modifier(env); // BuildModifier 类用于修改 Android 系统的属性和版本信息。
+   modifier.apply();
++  ALOGE("S9_proc_watcher | modifier.apply() end");
+ }
+ 
+ /**
+- * Zygote foek after
++ * Zygote fork after
++ * 在应用创建后执行，通过 GrantRoot 类尝试对应用进行提权操作，根据 UID 判断是否可以授予 root 权限。
+  */
+ extern "C" void onAppCreate(int uid) {
++  ALOGD("S9_proc_watcher | onAppCreate() called with UID: %d", uid);
+   GrantRoot root(uid);
+   root.handleRoot();
++  ALOGD("S9_proc_watcher | root.handleRoot() end");
+ }
+diff --git a/vendor/ntimespace/proc_watcher/BuildModifier.cpp b/vendor/ntimespace/proc_watcher/BuildModifier.cpp
+index 5560f9368c..118f8450ff 100644
+--- a/vendor/ntimespace/proc_watcher/BuildModifier.cpp
++++ b/vendor/ntimespace/proc_watcher/BuildModifier.cpp
+@@ -93,6 +93,7 @@ void setIntegerValue(jclass jc, JNIEnv* env, jfieldID field, std::string value)
+   env->SetStaticIntField(jc, field, atoi(value.c_str()));
+ }
+ 
++// 通过 socket 连接 /data/system/s9_sock，从后台获取需要修改的属性集合。
+ std::map<std::string, std::string> BuildModifier::getApplyproperties() {
+   std::map<std::string, std::string> properties;
+ 
+@@ -130,7 +131,7 @@ std::map<std::string, std::string> BuildModifier::getApplyproperties() {
+ 
+   return properties;
+ }
+-
++// 遍历属性集合，根据每个属性的键值对来修改系统的属性字段。调用多个设置函数（如 setStringValue()、setBooleanValue() 等），修改 Build 类和 Version 类中的属性。
+ void BuildModifier::apply() {
+   std::map<std::string, std::string> propertyMap = getApplyproperties();
+   std::vector<std::string> vector;
+diff --git a/vendor/ntimespace/proc_watcher/GrantRoot.cpp b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+index 78144f22a2..30dfb0421b 100644
+--- a/vendor/ntimespace/proc_watcher/GrantRoot.cpp
++++ b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+@@ -1,86 +1,112 @@
+ #include "GrantRoot.h"
+ 
+ bool GrantRoot::startGrantRoot() {
++  ALOGD("S9_proc_watcher | startGrantRoot() called for UID: %d", mUid);
++  // 1.1 设置 umask 掩码,umask 设置为 026，这意味着新创建的文件的默认权限将去掉组的写权限和其他用户的写和执行权限。
+   mode_t cmask = umask(026);
+   struct stat info;
+ 
++  // 1.2 检查并创建必要的目录
++  // stat 用于检查目录 OVERLAY_MISC_DIR 是否存在，如果不存在，就使用 mkdir 创建，权限设为 0750（所有者可读写执行，组成员可读，其他人无权限）。
++  // 同样的方法创建其他两个目录 OVERLAY_MISC_WORKDIR 和 OVERLAY_MISC_UPPERDIR，并分别赋予 0751 的权限。
+   if (stat(OVERLAY_MISC_DIR, &info) != 0) {
+     if (mkdir(OVERLAY_MISC_DIR, 0750) != 0) {
+-      ALOGE("Error creating directory: %s, errno: %d.", OVERLAY_MISC_DIR, errno);
++      ALOGE("S9_proc_watcher | Error creating directory: %s, errno: %d.", OVERLAY_MISC_DIR, errno);
+       return false;
+     }
+   }
+ 
+   if (stat(OVERLAY_MISC_WORKDIR, &info) != 0) {
+     if (mkdir(OVERLAY_MISC_WORKDIR, 0751) != 0) {
+-      ALOGE("Error creating directory: %s, errno: %d.", OVERLAY_MISC_WORKDIR, errno);
++      ALOGE("S9_proc_watcher | Error creating directory: %s, errno: %d.", OVERLAY_MISC_WORKDIR, errno);
+       return false;
+     }
+   }
+ 
+   if (stat(OVERLAY_MISC_UPPERDIR, &info) != 0) {
+     if (mkdir(OVERLAY_MISC_UPPERDIR, 0751) != 0) {
+-      ALOGE("Error creating directory: %s, errno: %d.", OVERLAY_MISC_UPPERDIR, errno);
++      ALOGE("S9_proc_watcher | Error creating directory: %s, errno: %d.", OVERLAY_MISC_UPPERDIR, errno);
+       return false;
+     }
+   }
+ 
+   umask(cmask);
++  // 1.3 创建 su 的符号链接
++  // 检查 SU_PATH（/data/overlay_misc/upper/su）是否存在，不存在则创建一个指向 SU_DAEMON_PATH（/system/xbin/s9su）的符号链接。
++  // 如果 SU_PATH 存在但不是一个符号链接，就先删除它，然后再创建新的符号链接。
+   if (stat(SU_PATH, &info) != 0) {
++    ALOGD("S9_proc_watcher | Creating symlink: %s -> %s", SU_PATH, SU_DAEMON_PATH);
+     if (symlink(SU_DAEMON_PATH, SU_PATH) != 0) {
+-      ALOGE("Error creating symlink: %s -> %s, errno: %d.", SU_PATH, SU_DAEMON_PATH, errno);
++      ALOGE("S9_proc_watcher | Error creating symlink: %s -> %s, errno: %d.", SU_PATH, SU_DAEMON_PATH, errno);
+       return false;
+     }
+   } else {
+     if (!S_ISLNK(info.st_mode)) {
++      ALOGD("S9_proc_watcher | Removing existing non-symlink file: %s", SU_PATH);
+       if (remove(SU_PATH) != 0) {
+-        ALOGE("Error deleting %s, errno: %d.", SU_PATH, errno);
+-	return false;
++        ALOGE("S9_proc_watcher | Error deleting %s, errno: %d.", SU_PATH, errno);
++        return false;
+       }
++      ALOGD("S9_proc_watcher | Creating symlink after removing old file: %s -> %s", SU_PATH, SU_DAEMON_PATH);
+       if (symlink(SU_DAEMON_PATH, SU_PATH) != 0) {
+-        ALOGE("Error creating symlink: %s -> %s, errno: %d.", SU_PATH, SU_DAEMON_PATH, errno);
++        ALOGE("S9_proc_watcher | Error creating symlink: %s -> %s, errno: %d.", SU_PATH, SU_DAEMON_PATH, errno);
+         return false;
+       }
+     }
+   }
+ 
++  // 1.4 叠加挂载 overlay 文件系统
++  // 使用 overlay 文件系统将 OVERLAY_MISC_UPPERDIR 和 OVERLAY_MISC_WORKDIR 作为上层和工作目录，对 /system/bin 进行叠加挂载。这种操作将 SU_PATH（su 二进制文件的链接）放入系统路径，从而实现提权的目的。
++  // mount 调用的 MS_RDONLY 标志使挂载为只读，防止非预期的修改。
+   char data[256] = {0};
+   sprintf(data, "lowerdir=%s,upperdir=%s,workdir=%s",
+       "/system/bin", OVERLAY_MISC_UPPERDIR, OVERLAY_MISC_WORKDIR);
+ 
++  ALOGD("S9_proc_watcher | Mounting overlay filesystem with data: %s", data);
+   int ret = mount("overlay", "/system/bin", "overlay", MS_RDONLY, data);
+-  ALOGI("root---startGrantRoot, uid:%d ,ret: %d", mUid,ret);
++  ALOGI("S9_proc_watcher | root---startGrantRoot, uid:%d ,ret: %d", mUid, ret);
+   if (ret != 0) {
+-    ALOGE("Error mounting overlay, data: %s, ret: %d, errno: %d", data, ret, errno);
++    ALOGE("S9_proc_watcher | Error mounting overlay, data: %s, ret: %d, errno: %d", data, ret, errno);
+     return false;
+   }
++
++  ALOGD("S9_proc_watcher | startGrantRoot() completed successfully for UID: %d", mUid);
+   return true;
+ }
+ 
++// checkRootable() 方法通过与后台权限服务通信，验证当前用户是否具备提权的资格。这种设计可以集中控制权限管理，提高系统安全性。
+ bool GrantRoot::checkRootable() {
++  ALOGD("S9_proc_watcher | checkRootable() called for UID: %d", mUid);
++
+   char buffer[64];
+   char data[48];
+-
+   int length;
+   char response = 0;
+   bool result;
+ 
+   SocketConnection socket;
+   if (!socket.doOpen("/data/system/root_sock")) {
++    ALOGE("S9_proc_watcher | Failed to open socket to /data/system/root_sock for UID: %d", mUid);
+     return false;
+   }
+ 
+   memset(buffer, 0, sizeof(buffer));
+-
+   memset(data, 0, sizeof(data));
++
+   length = snprintf(data, sizeof(data), "root:%d", mUid);
+   snprintf(buffer, sizeof(buffer), "%02d|%s", length, data);
+ 
++  ALOGD("S9_proc_watcher | Sending root request: %s", buffer);
+   result = socket.request(buffer, &response, sizeof(response));
+   socket.doClose();
+-  ALOGI("root---checkRootable result: %d, response: %c ,uid:%d", result, response,mUid);
++
++  ALOGI("S9_proc_watcher | root---checkRootable result: %d, response: %c ,uid:%d", result, response, mUid);
+   if (!result) {
++    ALOGE("S9_proc_watcher | Failed to get rootable response for UID: %d", mUid);
+     return false;
+   }
+-  return response == '1';
+-}
++
++  bool isRootable = response == '1';
++  ALOGD("S9_proc_watcher | checkRootable() result for UID: %d is %s", mUid, isRootable ? "true" : "false");
++  return isRootable;
++}
+\ No newline at end of file
+diff --git a/vendor/ntimespace/proc_watcher/GrantRoot.h b/vendor/ntimespace/proc_watcher/GrantRoot.h
+index cc21f9f086..8ff14d90a0 100644
+--- a/vendor/ntimespace/proc_watcher/GrantRoot.h
++++ b/vendor/ntimespace/proc_watcher/GrantRoot.h
+@@ -28,7 +28,7 @@ class GrantRoot {
+ public:
+   GrantRoot(uid_t uid):mUid(uid) {}
+ 
+-  void handleRoot() {
++  void handleRoot() { //根据用户 ID 判断是否允许执行提权操作
+     if (mUid == UID_ROOT || mUid == UID_SYSTEM || mUid == UID_SHELL || checkRootable()) {
+       ALOGV("startGrantRoot: %d", mUid);
+       startGrantRoot();
+@@ -37,8 +37,8 @@ public:
+ 
+ private:
+   uid_t mUid;
+-  bool startGrantRoot();
+-  bool checkRootable();
++  bool startGrantRoot(); // 执行实际的提权操作，比如将 mUid 用户的权限提升为 root。
++  bool checkRootable(); // 进行一系列权限检查，确保提权的合法性
+ };
+ 
+ #endif /* GrantRoot_h */
+diff --git a/vendor/ntimespace/su/su.c b/vendor/ntimespace/su/su.c
+index 963acbabbd..6196e64f30 100644
+--- a/vendor/ntimespace/su/su.c
++++ b/vendor/ntimespace/su/su.c
+@@ -44,7 +44,10 @@ extern int is_daemon;
+ extern int daemon_from_uid;
+ extern int daemon_from_pid;
+ 
++//这个名称较为随意，可能是执行特定任务的 fork() 函数。fork() 是创建子进程的系统调用，可能为了某些任务（不太关心错误处理，故名称中包含 "zero fucks"）。
+ int fork_zero_fucks() {
++    ALOGD("S9su fork_zero_fucks()");
++
+     int pid = fork();
+     if (pid) {
+         int status;
+@@ -58,7 +61,10 @@ int fork_zero_fucks() {
+     }
+ }
+ 
++//这个函数可能用于初始化上下文，特别是从系统初始化进程 (init) 中获取某些信息或进行操作。
+ static int from_init(struct su_initiator *from) {
++    ALOGD("S9su from_init()");
++    
+     char path[PATH_MAX], exe[PATH_MAX];
+     char args[4096], *argv0, *argv_rest;
+     int fd;
+@@ -140,14 +146,16 @@ static int from_init(struct su_initiator *from) {
+     return 0;
+ }
+ 
++//用于设置环境变量。在执行 su 时，可能需要根据特定的上下文设置一组新的环境变量。
+ static void populate_environment(const struct su_context *ctx) {
+     struct passwd *pw;
+-
++    ALOGD("S9su populate_environment()  Populating environment for UID: %d, shell: %s", ctx->to.uid, ctx->to.shell);
+     if (ctx->to.keepenv)
+         return;
+ 
+     pw = getpwuid(ctx->to.uid);
+     if (pw) {
++        ALOGD("S9su Setting HOME=%s, SHELL=%s", pw->pw_dir, ctx->to.shell ? ctx->to.shell : DEFAULT_SHELL);
+         setenv("HOME", pw->pw_dir, 1);
+         if (ctx->to.shell)
+             setenv("SHELL", ctx->to.shell, 1);
+@@ -160,15 +168,18 @@ static void populate_environment(const struct su_context *ctx) {
+     }
+ }
+ 
++// 用于设置用户或进程的身份（UID/GID），以确保执行操作时具有正确的权限。
+ void set_identity(unsigned int uid) {
+     /*
+      * Set effective uid back to root, otherwise setres[ug]id will fail
+      * if uid isn't root.
+      */
++    ALOGD("S9su set_identity() Before set_identity: UID: %d, GID: %d, eUID: %d, eGID: %d", getuid(), getgid(), geteuid(), getegid());
+     if (seteuid(0)) {
+         PLOGE("seteuid (root)");
+         exit(EXIT_FAILURE);
+     }
++    ALOGD("S9su After set_identity: UID: %d, GID: %d, eUID: %d, eGID: %d", getuid(), getgid(), geteuid(), getegid());
+     if (setresgid(uid, uid, uid)) {
+         PLOGE("setresgid (%u)", uid);
+         exit(EXIT_FAILURE);
+@@ -198,19 +209,34 @@ static void usage(int status) {
+     exit(status);
+ }
+ 
++// 拒绝某些权限请求。su 程序可能需要判断某些上下文或请求并拒绝执行。
+ static __attribute__ ((noreturn)) void deny(struct su_context *ctx) {
++    ALOGD("S9su deny() Denying access: UID=%d, BIN=%s", ctx->from.uid, ctx->from.bin);
++
+     char *cmd = get_command(&ctx->to);
+-    ALOGW("request rejected (%u->%u %s)", ctx->from.uid, ctx->to.uid, cmd);
++    ALOGW("S9su request rejected (%u->%u %s)", ctx->from.uid, ctx->to.uid, cmd);
+     fprintf(stderr, "%s\n", strerror(EACCES));
+     exit(EXIT_FAILURE);
+ }
+ 
++// 允许某些权限请求，与 deny 函数相反，允许在某些条件下的权限切换。
++// 这个 allow 函数的核心功能是：
++// 设置环境：通过 populate_environment 来设置适当的环境变量。
++// 切换身份：通过 set_identity 将用户身份切换为目标用户（通常是 root）。
++// 执行命令：通过 execvp 在提权后的子进程中执行指定的命令或 shell。
++// 管理子进程：等待子进程执行完毕，并记录执行状态。
+ static __attribute__ ((noreturn)) void allow(struct su_context *ctx, const char *packageName) {
++    ALOGD("S9su allow ()");
++
+     char *arg0;
+     int argc, err;
+ 
++    // 1. 设置权限掩码
+     umask(ctx->umask);
++    // umask 函数用于设置文件创建权限掩码（umask），即当新文件或目录被创建时，
++    // 它的默认权限会基于这个掩码进行限制。这里是从上下文中取出 umask 值并设置。
+ 
++    // 2. 确定要执行的命令或 shell
+     char *binary;
+     argc = ctx->to.optind;
+     if (ctx->to.command) {
+@@ -229,7 +255,13 @@ static __attribute__ ((noreturn)) void allow(struct su_context *ctx, const char
+             binary = DEFAULT_SHELL;
+         }
+     }
++    // 代码首先检查上下文中的 ctx->to.command 是否存在，如果存在，意味着用户通过 -c 参数指定了需要执行的命令。在这种情况下，binary 被设置为目标 shell，并将命令作为 shell 参数传递。
++    // 如果没有指定命令，但是指定了 shell，binary 就会设置为这个 shell。
++    // 如果既没有命令也没有指定 shell，默认使用系统的默认 shell (DEFAULT_SHELL)。
+ 
++    // 3. 构造登录 shell 名称
++    // 这段代码会根据 binary 来确定程序名（去掉路径），并将其设置为 arg0。
++    // 如果上下文中指定了 login 参数，则在 arg0 前面加上 - 号，表示这是一个登录 shell（如 -bash）。登录 shell 会执行一些初始化操作，如加载环境变量等。
+     arg0 = strrchr (binary, '/');
+     arg0 = (arg0) ? arg0 + 1 : binary;
+     if (ctx->to.login) {
+@@ -244,14 +276,18 @@ static __attribute__ ((noreturn)) void allow(struct su_context *ctx, const char
+         arg0 = p;
+     }
+ 
+-    populate_environment(ctx);
++    // 4. 设置环境变量
++    populate_environment(ctx);// 调用 populate_environment(ctx)，这个函数会根据上下文 ctx 来设置环境变量。环境变量是用户切换时需要更新的内容，比如用户的主目录 (HOME)、路径 (PATH) 等。
++    // 5. 切换用户身份
++    // 调用 set_identity 函数切换当前进程的用户身份，将用户 ID 切换为 ctx->to.uid。这是提权操作的核心步骤，通常将目标用户切换为 root（UID 0）。
++    // 通过将用户 ID 切换为 root，程序获得了超级用户权限，从而可以执行任何需要 root 权限的操作。
+     set_identity(ctx->to.uid);
+ 
+ #define PARG(arg)                                    \
+     (argc + (arg) < ctx->to.argc) ? " " : "",                    \
+     (argc + (arg) < ctx->to.argc) ? ctx->to.argv[argc + (arg)] : ""
+ 
+-    ALOGD("%u %s executing %u %s using binary %s : %s%s%s%s%s%s%s%s%s%s%s%s%s%s",
++    ALOGD("S9su %u %s executing %u %s using binary %s : %s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+             ctx->from.uid, ctx->from.bin,
+             ctx->to.uid, get_command(&ctx->to), binary,
+             arg0, PARG(0), PARG(1), PARG(2), PARG(3), PARG(4), PARG(5),
+@@ -259,23 +295,52 @@ static __attribute__ ((noreturn)) void allow(struct su_context *ctx, const char
+ 
+     ctx->to.argv[--argc] = arg0;
+ 
++    // 7. 创建子进程并执行命令
++    // 这里调用 fork() 创建一个子进程。子进程会执行实际的命令或 shell。
++    // 在子进程中，调用 execvp() 函数运行命令。如果执行失败，会记录错误并退出。
++    // execvp() 是一个执行命令的系统调用，它会根据给定的 binary 和参数列表，查找并运行程序。
++    // 父进程会等待子进程完成，调用 waitpid() 等待子进程结束，并返回执行状态。如果有指定 packageName，则调用 appops_finish_op_su 完成权限操作的记录。
++    ALOGD("S9su Executing command: %s with arguments:", binary);
++    for (int i = argc; i < ctx->to.argc; i++) {
++        ALOGD("S9su Arg[%d]: %s", i, ctx->to.argv[i]);
++    }
++
+     int pid = fork();
+-    if (!pid) {
++    if (pid == 0) {
++        // 子进程执行部分
++        ALOGD("S9su Child process (PID: %d) about to execute command: %s with arguments:", getpid(), binary);
++        for (int i = argc; i < ctx->to.argc; i++) {
++            ALOGD("S9su Child process Arg[%d]: %s", i, ctx->to.argv[i]);
++        }
++
++        // 执行命令
+         execvp(binary, ctx->to.argv + argc);
+-        err = errno;
+-        PLOGE("exec");
+-        fprintf(stderr, "Cannot execute %s: %s\n", binary, strerror(err));
++
++        // 如果 execvp 失败，打印错误日志
++        int err = errno;
++        PLOGE("S9su Child process failed to exec command");
++        fprintf(stderr, "S9su Child process cannot execute %s: %s\n", binary, strerror(err));
+         exit(EXIT_FAILURE);
+-    } else {
++    } else if (pid > 0) {
++        // 父进程执行部分
+         int status;
+-
+-        ALOGD("Waiting for pid %d.", pid);
++        ALOGD("S9su Parent process (PID: %d) waiting for child process (PID: %d).", getpid(), pid);
+         waitpid(pid, &status, 0);
++
++        // 如果有指定 packageName，调用 appops_finish_op_su 完成权限操作
+         if (packageName) {
++            ALOGD("S9su Parent process finished app ops for package: %s", packageName);
+             appops_finish_op_su(ctx->from.uid, packageName);
+         }
++
++        ALOGD("S9su Parent process exiting with child status: %d", status);
+         exit(status);
++    } else {
++        // fork() 失败的情况
++        PLOGE("S9su fork() failed in Parent process.");
++        exit(EXIT_FAILURE);
+     }
++
+ }
+ 
+ /*
+@@ -284,8 +349,11 @@ static __attribute__ ((noreturn)) void allow(struct su_context *ctx, const char
+  * we can't simply use the property service, since we aren't launched from init
+  * and can't trust the location of the property workspace.
+  * Find the properties ourselves.
++ access_disabled: 判断或设置某些访问功能是否被禁用。可能是用于判断当前上下文是否禁止了某些功能。
+  */
+ int access_disabled(const struct su_initiator *from) {
++    ALOGD("S9su access_disabled()");
++
+     char *data;
+     char build_type[PROPERTY_VALUE_MAX];
+     char debuggable[PROPERTY_VALUE_MAX], enabled[PROPERTY_VALUE_MAX];
+@@ -301,7 +369,7 @@ int access_disabled(const struct su_initiator *from) {
+         free(data);
+         /* only allow su on debuggable builds */
+         if (strcmp("1", debuggable) != 0) {
+-            ALOGE("Root access is disabled on non-debug builds");
++            ALOGE("S9su Root access is disabled on non-debug builds");
+             return 1;
+         }
+ 
+@@ -320,7 +388,7 @@ int access_disabled(const struct su_initiator *from) {
+         if (strcmp("eng", build_type) != 0 &&
+                 from->uid != AID_SHELL && from->uid != AID_ROOT &&
+                 (atoi(enabled) & CM_ROOT_ACCESS_APPS_ONLY) != CM_ROOT_ACCESS_APPS_ONLY ) {
+-            ALOGE("Apps root access is disabled by system setting - "
++            ALOGE("S9su Apps root access is disabled by system setting - "
+                  "enable it under settings -> developer options");
+             return 1;
+         }
+@@ -328,7 +396,7 @@ int access_disabled(const struct su_initiator *from) {
+         /* disallow su in a shell if appropriate */
+         if (from->uid == AID_SHELL &&
+                 (atoi(enabled) & CM_ROOT_ACCESS_ADB_ONLY) != CM_ROOT_ACCESS_ADB_ONLY ) {
+-            ALOGE("Shell root access is disabled by a system setting - "
++            ALOGE("S9su Shell root access is disabled by a system setting - "
+                  "enable it under settings -> developer options");
+             return 1;
+         }
+@@ -337,8 +405,11 @@ int access_disabled(const struct su_initiator *from) {
+     return 0;
+ }
+ 
++//定于三星设备的 fork() 实现，可能是为了处理三星设备上的特定需求。
+ static void fork_for_samsung(void)
+ {
++    ALOGD("S9su  fork_for_samsung()");
++
+     // Samsung CONFIG_SEC_RESTRICT_SETUID wants the parent process to have
+     // EUID 0, or else our setresuid() calls will be denied.  So make sure
+     // all such syscalls are executed by a child process.
+@@ -361,7 +432,7 @@ static void fork_for_samsung(void)
+ 
+ int main(int argc, char *argv[]) {
+     if (getuid() != geteuid()) {
+-        ALOGE("must not be a setuid binary");
++        ALOGE("S9su must not be a setuid binary");
+         return 1;
+     }
+ 
+@@ -370,6 +441,13 @@ int main(int argc, char *argv[]) {
+ 
+ int su_main(int argc, char *argv[], int need_client) {
+     // start up in daemon mode if prompted
++    ALOGD("S9su su_main() started with UID: %d, GID: %d, eUID: %d, eGID: %d", getuid(), getgid(), geteuid(), getegid());
++    ALOGD("S9su Arguments: argc=%d, argv[0]=%s", argc, argv[0]);
++    for (int i = 1; i < argc; i++) {
++        ALOGD("S9su Arg[%d]: %s", i, argv[i]);
++    }
++    ALOGD("S9su Parent PID: %d", getppid());
++    
+     if (argc == 2 && strcmp(argv[1], "--master") == 0) {
+         return run_daemon();
+     }
+@@ -377,6 +455,8 @@ int su_main(int argc, char *argv[], int need_client) {
+     int ppid = getppid();
+     fork_for_samsung();
+ 
++    // 3. 环境变量清理
++    // 这里清理了所有不安全的环境变量，防止恶意进程通过特定的环境变量来提升权限或影响系统行为。
+     // Sanitize all secure environment variables (from linker_environ.c in AOSP linker).
+     /* The same list than GLibc at this point */
+     static const char* const unsec_vars[] = {
+@@ -415,8 +495,10 @@ int su_main(int argc, char *argv[], int need_client) {
+         cp++;
+     }
+ 
+-    ALOGD("su invoked.");
+-
++    ALOGD("S9su su invoked.");
++    // 权限上下文设置
++    // 定义了一个 su_context 结构体，保存了当前的权限请求的上下文信息。ctx.from 包含了发起请求的用户或进程的信息，
++    // 而 ctx.to 则是目标用户信息，这里将目标 UID 设定为 AID_ROOT（root 权限）。
+     struct su_context ctx = {
+         .from = {
+             .pid = -1,
+@@ -450,6 +532,7 @@ int su_main(int argc, char *argv[], int need_client) {
+         { NULL, 0, NULL, 0 },
+     };
+ 
++    // 处理命令行参数，设置目标 shell、命令或环境保持选项等。
+     while ((c = getopt_long(argc, argv, "+c:hlmps:Vv", long_opts, NULL)) != -1) {
+         switch(c) {
+         case 'c':
+@@ -482,9 +565,10 @@ int su_main(int argc, char *argv[], int need_client) {
+         }
+     }
+ 
++    // 尝试连接守护进程
+     if (need_client) {
+         // attempt to connect to daemon...
+-        ALOGD("starting daemon client %d %d", getuid(), geteuid());
++        ALOGD("S9su starting daemon client %d %d", getuid(), geteuid());
+         return connect_daemon(argc, argv, ppid);
+     }
+ 
+@@ -492,6 +576,8 @@ int su_main(int argc, char *argv[], int need_client) {
+         ctx.to.login = 1;
+         optind++;
+     }
++    // 处理用户和 UID
++    // 如果提供了用户名或 UID 参数，su 将尝试获取目标用户的 UID，并设置为上下文中的目标 UID（即需要切换到的身份）。
+     /* username or uid */
+     if (optind < argc && strcmp(argv[optind], "--")) {
+         struct passwd *pw;
+@@ -503,15 +589,15 @@ int su_main(int argc, char *argv[], int need_client) {
+             errno = 0;
+             ctx.to.uid = strtoul(argv[optind], &endptr, 10);
+             if (errno || *endptr) {
+-                ALOGE("Unknown id: %s\n", argv[optind]);
+-                fprintf(stderr, "Unknown id: %s\n", argv[optind]);
++                ALOGE("S9su Unknown id: %s\n", argv[optind]);
++                fprintf(stderr, "S9su Unknown id: %s\n", argv[optind]);
+                 exit(EXIT_FAILURE);
+             }
+         } else {
+             ctx.to.uid = pw->pw_uid;
+             if (pw->pw_name) {
+                 if (strlcpy(ctx.to.name, pw->pw_name, sizeof(ctx.to.name)) >= sizeof(ctx.to.name)) {
+-                    ALOGE("name too long");
++                    ALOGE("S9su name too long");
+                     exit(EXIT_FAILURE);
+                 }
+             }
+@@ -522,28 +608,32 @@ int su_main(int argc, char *argv[], int need_client) {
+         optind++;
+     }
+     ctx.to.optind = optind;
+-
++    // 权限请求处理
++    // 调用 from_init() 获取请求发起者的详细信息。如果初始化失败，调用 deny() 函数拒绝权限请求。
++    // 如果发起请求的 UID 是 AID_ROOT（即 root 用户），将自动调用 allow() 函数直接授予权限。
++    // 检查是否完全禁用了 superuser 访问（通过 access_disabled() 函数）。如果禁用了，则调用 deny() 拒绝请求。
++    // 如果请求来自 shell 用户（AID_SHELL），则直接授予权限。
+     if (from_init(&ctx.from) < 0) {
+         deny(&ctx);
+     }
+ 
+-    ALOGE("SU from: %s", ctx.from.name);
++    ALOGE("S9su SU from: %s", ctx.from.name);
+ 
+     // the latter two are necessary for stock ROMs like note 2 which do dumb things with su, or crash otherwise
+     if (ctx.from.uid == AID_ROOT) {
+-        ALOGD("Allowing root/system/radio.");
++        ALOGD("S9su Allowing root/system/radio.");
+         allow(&ctx, NULL);
+     }
+ 
+     // check if superuser is disabled completely
+     if (access_disabled(&ctx.from)) {
+-        ALOGD("access_disabled");
++        ALOGD("S9su access_disabled");
+         deny(&ctx);
+     }
+ 
+     // autogrant shell at this point
+     if (ctx.from.uid == AID_SHELL) {
+-        ALOGD("Allowing shell.");
++        ALOGD("S9su Allowing shell.");
+         allow(&ctx, NULL);
+     }
+ 

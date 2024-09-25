@@ -1,0 +1,98 @@
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/OverviewProxyRecentsImpl.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/OverviewProxyRecentsImpl.java
+index b0d6a3a097..50b9e87251 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/OverviewProxyRecentsImpl.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/recents/OverviewProxyRecentsImpl.java
+@@ -29,6 +29,7 @@ import android.hardware.display.DisplayManager;
+ import android.os.Handler;
+ import android.os.RemoteException;
+ import android.util.Log;
++import android.util.S9Logger;
+ import android.view.Display;
+ import android.widget.Toast;
+ 
+@@ -46,6 +47,7 @@ import com.android.systemui.statusbar.phone.StatusBar;
+ public class OverviewProxyRecentsImpl implements RecentsImplementation {
+ 
+     private final static String TAG = "OverviewProxyRecentsImpl";
++    private static S9Logger s9Logger = S9Logger.getInstance();
+ 
+     private SysUiServiceProvider mSysUiServiceProvider;
+     private Context mContext;
+@@ -94,16 +96,16 @@ public class OverviewProxyRecentsImpl implements RecentsImplementation {
+ 
+     @Override
+     public void toggleRecentApps() {//!
+-        Log.d("input-log","OverviewProxyRecentsImpl.java           toggleRecentApps()");
++        s9Logger.logD("input-log","OverviewProxyRecentsImpl.java           toggleRecentApps()");
+         // If connected to launcher service, let it handle the toggle logic
+         IOverviewProxy overviewProxy = mOverviewProxyService.getProxy();
+         if (overviewProxy != null) {
+             final Runnable toggleRecents = () -> {
+                 try {
+                     if (mOverviewProxyService.getProxy() != null) {
+-                        Log.d("input-log","OverviewProxyRecentsImpl.java   mOverviewProxyService.getProxy().onOverviewToggle()--start");
++                        s9Logger.logD("input-log","OverviewProxyRecentsImpl.java   mOverviewProxyService.getProxy().onOverviewToggle()--start");
+                         mOverviewProxyService.getProxy().onOverviewToggle();//!
+-                        Log.d("input-log","OverviewProxyRecentsImpl.java   mOverviewProxyService.getProxy().onOverviewToggle()--end");
++                        s9Logger.logD("input-log","OverviewProxyRecentsImpl.java   mOverviewProxyService.getProxy().onOverviewToggle()--end");
+                     }
+                 } catch (RemoteException e) {
+                     Log.e(TAG, "Cannot send toggle recents through proxy service.", e);
+@@ -112,7 +114,7 @@ public class OverviewProxyRecentsImpl implements RecentsImplementation {
+             // Preload only if device for current user is unlocked
+             final StatusBar statusBar = mSysUiServiceProvider.getComponent(StatusBar.class);
+             if (statusBar != null && statusBar.isKeyguardShowing()) {
+-                Log.d("input-log","OverviewProxyRecentsImpl.java   statusBar != null && statusBar.isKeyguardShowing()");
++                s9Logger.logD("input-log","OverviewProxyRecentsImpl.java   statusBar != null && statusBar.isKeyguardShowing()");
+                 statusBar.executeRunnableDismissingKeyguard(() -> {
+                         // Flush trustmanager before checking device locked per user
+                         mTrustManager.reportKeyguardShowingChanged();
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
+index d346d18443..421a75a9cf 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
+@@ -45,6 +45,7 @@ import android.util.Pair;
+ import android.util.SparseArray;
+ import android.view.inputmethod.InputMethodSystemProperty;
+ import android.util.Log;
++import android.util.S9Logger;
+ import androidx.annotation.VisibleForTesting;
+ 
+ import com.android.internal.os.SomeArgs;
+@@ -65,6 +66,7 @@ import java.util.ArrayList;
+  */
+ public class CommandQueue extends IStatusBar.Stub implements CallbackController<Callbacks>,
+         DisplayManager.DisplayListener {
++    private static S9Logger s9Logger = S9Logger.getInstance();
+     private static final int INDEX_MASK = 0xffff;
+     private static final int MSG_SHIFT  = 16;
+     private static final int MSG_MASK   = 0xffff << MSG_SHIFT;
+@@ -833,7 +835,7 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
+ 
+         public void handleMessage(Message msg) {
+             final int what = msg.what & MSG_MASK;
+-            Log.d("input-log","CommandQueue.java: "+what);
++            s9Logger.logD("input-log","CommandQueue.java: "+what);
+             switch (what) {
+                 case MSG_ICON: {
+                     switch (msg.arg1) {
+diff --git a/frameworks/native/services/inputflinger/InputReader.cpp b/frameworks/native/services/inputflinger/InputReader.cpp
+index 3595806b11..4ce20f8996 100755
+--- a/frameworks/native/services/inputflinger/InputReader.cpp
++++ b/frameworks/native/services/inputflinger/InputReader.cpp
+@@ -1170,13 +1170,13 @@ void InputDevice::process(const RawEvent* rawEvents, size_t count) {
+             reset(rawEvent->when);
+         } else {
+             // Log before processing the event with each mapper.
+-            ALOGI("Dispatching to mappers for processing: device=%d type=0x%04x code=0x%04x",
++            s9Logger.logD(LOG_TAG,"Dispatching to mappers for processing: device=%d type=0x%04x code=0x%04x",
+                   rawEvent->deviceId, rawEvent->type, rawEvent->code);
+ 
+             for (InputMapper* mapper : mMappers) {
+                 mapper->process(rawEvent);
+                 // Log after processing with each mapper.
+-                ALOGI("Mapper processed event: device=%d type=0x%04x code=0x%04x",
++                s9Logger.logD(LOG_TAG,"Mapper processed event: device=%d type=0x%04x code=0x%04x",
+                       rawEvent->deviceId, rawEvent->type, rawEvent->code);
+             }
+         }

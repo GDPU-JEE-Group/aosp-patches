@@ -1,4 +1,10 @@
 #!/bin/bash
+source util.sh
+msg=$2
+ip=192.168."$3"
+num=$4
+echo "=> build_docker_android_snow.sh $msg $ip $num"
+
 start_time=$(date  +.%H%M)
 DATE=$(date  +%Y%m%d.%H%M)
 #source build/envsetup.sh >/dev/null
@@ -88,7 +94,8 @@ if [ "$BUILD_ANDROID" = true ] ; then
 	simg2img super.img super.img.ext4
 	lpunpack super.img.ext4 super_img/
 
-	tar --use-compress-program=pigz -cvpf $TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz super_img/
+	# tar --use-compress-program=pigz -cvpf $TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz super_img/
+	run_cmd tar --use-compress-program=pigz -cvpf AOSP-super.img-$BUILD_VARIANT-$msg.tgz super_img/
 
 	rm -rf super_img
 	rm super.img
@@ -139,40 +146,26 @@ if [ "$BUILD_PATCH" = true ] ; then
 fi
 
 
-# tips: STUB_PATH=Image/"$TARGET_PRODUCT"_"$ANDROID_VERSION"_"$BUILD_VARIANT"_"$DATE"
+# tips: STUB_PATH=Image/"$TARGET_PRODUCT"_"$ANDROID_VERSION"_"$BUILD_VARIANT"_"$DATE"   ------------------------------------------------
 # chaixiang
-msg=$2
-ip=192.168."$3"
-num=$4
-
-echo build_docker_android_snow.sh $msg $ip $num
-
-filename=$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz
+filename=AOSP-super.img-$BUILD_VARIANT-$msg.tgz
 echo filename=$filename
+filepath=IMAGE/AOSP_"$BUILD_VARIANT"_"$DATE"_"$msg"/IMAGES/$filename
+echo filepath=$filepath
 
 cd $PROJECT_TOP
 
 if [ -n "$msg" ]; then
     echo "msg is not empty"
 	# 改名+打印
-	echo mv $STUB_PATH IMAGE/AOSP_"$BUILD_VARIANT"_"$DATE"_"$msg"
-	mv $STUB_PATH IMAGE/AOSP_"$BUILD_VARIANT"_"$DATE"_"$msg"
-	filepath=IMAGE/AOSP_"$BUILD_VARIANT"_"$DATE"_"$msg"/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz
-	echo filepath=$filepath
+	run_cmd mv $STUB_PATH IMAGE/AOSP_"$BUILD_VARIANT"_"$DATE"_"$msg"
 
 	# 发送
-	echo scp $filepath root@$ip:/userdata/snow/
-	echo ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
-	echo ssh root@$ip rm -rf /userdata/snow/$filename
-	echo ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num --image=latest
-	ssh root@$ip docker exec -it android_$num start adbd
-	echo ssh root@$ip docker ps
-
-	scp $filepath root@$ip:/userdata/snow/
-	ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
-	ssh root@$ip rm -rf /userdata/snow/$filename
-	ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num --image=latest
-	ssh root@$ip docker ps
+	run_cmd scp $filepath root@$ip:/userdata/snow/
+	run_cmd ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
+	run_cmd ssh root@$ip rm -rf /userdata/snow/$filename
+	run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num --image=latest
+	run_cmd ssh root@$ip docker ps
 
 else
     echo "msg is empty"
@@ -180,14 +173,5 @@ fi
 
 end_time=$(date  +.%H%M)
 echo $start_time - $end_time
-echo ssh root@$ip docker exec -it android_$num 
-
-# ip_=192.168.30.34
-# id_=3
-# scp $STUB_PATH/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz  root@$ip_:/userdata/snow/
-# ssh root@$ip_ build_image.sh /data/snow/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz 
-# ssh root@$ip_ android_ctl.sh restart $id_ --image=latest 
-# echo  $STUB_PATH/IMAGES/$TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz  root@$ip_:/userdata/snow/
-	sleep 1
-	ssh root@$ip docker exec  android_$num start adbd
-	echo ssh root@$ip docker exec  android_$num start adbd
+	sleep 3
+	run_cmd ssh root@$ip docker exec  android_$num start adbd

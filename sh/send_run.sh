@@ -1,8 +1,8 @@
 #变量------------
 ip=192.168.168.34
-num=2
+num=$1
 # filepath=IMAGE/AOSP_user_20240815.0713_clip-out/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240815.0713.tgz
-filepath=IMAGE/AOSP_user_20240821.0856_cpu-out/IMAGES/rk3588_docker_overseas-android10-user-super.img-20240821.0856.tgz
+filepath=$2
 
 #提取变量-------------
 # 使用参数扩展提取文件名	
