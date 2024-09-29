@@ -1,0 +1,61 @@
+diff --git a/vendor/ntimespace/proc_watcher/AppWatcher.cpp b/vendor/ntimespace/proc_watcher/AppWatcher.cpp
+index 16d9b915af..05d2b8f640 100644
+--- a/vendor/ntimespace/proc_watcher/AppWatcher.cpp
++++ b/vendor/ntimespace/proc_watcher/AppWatcher.cpp
+@@ -8,14 +8,18 @@
+  * Zygote fork before
+  */
+ extern "C" void onZygoteFork(JNIEnv* env, uid_t uid) {
++  ALOGI("root---onZygoteFork(),start uid:%d",uid);
+   BuildModifier modifier(env);
+   modifier.apply();
++  ALOGI("root---onZygoteFork(),end uid:%d",uid);
+ }
+ 
+ /**
+  * Zygote foek after
+  */
+ extern "C" void onAppCreate(int uid) {
++  ALOGI("root---onAppCreate(),start uid:%d",uid);
+   GrantRoot root(uid);
+   root.handleRoot();
++  ALOGI("root---onAppCreate(),end uid:%d",uid);
+ }
+diff --git a/vendor/ntimespace/proc_watcher/GrantRoot.cpp b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+index 78144f22a2..272f5720e6 100644
+--- a/vendor/ntimespace/proc_watcher/GrantRoot.cpp
++++ b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+@@ -1,6 +1,8 @@
+ #include "GrantRoot.h"
+ 
+ bool GrantRoot::startGrantRoot() {
++  ALOGI("root---startGrantRoot()");
++
+   mode_t cmask = umask(026);
+   struct stat info;
+ 
+@@ -58,6 +60,8 @@ bool GrantRoot::startGrantRoot() {
+ }
+ 
+ bool GrantRoot::checkRootable() {
++  ALOGI("root---checkRootable(),start uid:%d",uid);
++
+   char buffer[64];
+   char data[48];
+ 
+@@ -67,6 +71,7 @@ bool GrantRoot::checkRootable() {
+ 
+   SocketConnection socket;
+   if (!socket.doOpen("/data/system/root_sock")) {
++    ALOGE("root---socket.doOpen(),failed!");
+     return false;
+   }
+ 
+@@ -80,6 +85,7 @@ bool GrantRoot::checkRootable() {
+   socket.doClose();
+   ALOGI("root---checkRootable result: %d, response: %c ,uid:%d", result, response,mUid);
+   if (!result) {
++    ALOGE("root---result:",result);
+     return false;
+   }
+   return response == '1';
