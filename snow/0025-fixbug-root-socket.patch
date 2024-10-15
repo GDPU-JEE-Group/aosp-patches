@@ -1,0 +1,331 @@
+diff --git a/device/rockchip/space-common/device_common.mk b/device/rockchip/space-common/device_common.mk
+index 9ab3c23681..759fdfd5fd 100644
+--- a/device/rockchip/space-common/device_common.mk
++++ b/device/rockchip/space-common/device_common.mk
+@@ -79,6 +79,8 @@ PRODUCT_COPY_FILES += \
+         hardware/ntimespace/camera/camera_init.sh:system/bin/camera_init.sh \
+         hardware/ntimespace/camera/camera_init.rc:system/etc/init/camera_init.rc 
+ 
++# snow sh
++PRODUCT_COPY_FILES += vendor/ntimespace/scripts/restart_apps.sh:system/bin/restart_apps.sh
+ 
+ # logcatd
+ PRODUCT_PACKAGES += logcatd logpersist.start
+diff --git a/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java b/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+index 5b599e9318..348ae055fb 100644
+--- a/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -9204,6 +9204,8 @@ public class ActivityManagerService extends IActivityManager.Stub
+                     intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY
+                             | Intent.FLAG_RECEIVER_FOREGROUND);
+                     intent.putExtra(Intent.EXTRA_USER_HANDLE, currentUserId);
++                    Log.d(TAG,"tell me time Intent.ACTION_USER_STARTED Intent.ACTION_USER_STARTING");
++                    
+                     broadcastIntentLocked(null, null, intent,
+                             null, null, 0, null, null, null, OP_NONE,
+                             null, false, false, MY_PID, SYSTEM_UID, callingUid, callingPid,
+diff --git a/frameworks/base/services/java/com/android/server/SystemServer.java b/frameworks/base/services/java/com/android/server/SystemServer.java
+index 2fd0d194ec..277e420aff 100644
+--- a/frameworks/base/services/java/com/android/server/SystemServer.java
++++ b/frameworks/base/services/java/com/android/server/SystemServer.java
+@@ -2096,6 +2096,18 @@ public final class SystemServer {
+                 traceEnd();
+             }
+ 
++            Slog.d(TAG,"tell me time startS9ext() 1");///
++
++            traceBeginAndSlog("Start com.android.ext");///
++            try {
++                startS9ext(context);
++            } catch (Throwable e) {
++                reportWtf("starting com.android.ext", e);///
++            }
++            traceEnd();
++            Slog.d(TAG,"tell me time startS9ext() 2");///
++
++
+             traceBeginAndSlog("StartSystemUI");
+             try {
+                 startSystemUi(context, windowManagerF);
+@@ -2348,6 +2360,20 @@ public final class SystemServer {
+         windowManager.onSystemUiStarted();
+     }
+ 
++    private static void startS9ext(Context context) {
++            // 启动你的应用
++            Intent intent2 = new Intent();
++            intent2.setComponent(new ComponentName("com.android.ext", "com.android.ext.root.RootActivity"));
++            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
++
++            try {
++                Slog.d(TAG,"tell me time com.android.ext. start()");
++                context.startActivityAsUser(intent2, UserHandle.SYSTEM);
++            } catch (Exception e) {
++                Slog.e(TAG, "Failed to start RootActivity", e);
++            }
++    }
++
+     private static void traceBeginAndSlog(@NonNull String name) {
+         Slog.i(TAG, name);
+         BOOT_TIMINGS_TRACE_LOG.traceBegin(name);
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
+index 13fdd07242..1240365be6 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
+@@ -4,6 +4,10 @@ import android.app.Application;
+ 
+ import com.android.libutils.Logger;
+ 
++import android.util.Log;
++import java.io.BufferedReader;
++import java.io.InputStreamReader; // 导入需要的包
++
+ public class AppGlobal extends Application {
+ 
+     @Override
+@@ -12,6 +16,38 @@ public class AppGlobal extends Application {
+         Logger logger = Logger.init(this);
+         // logger.interrupt();
+         new RootModule().onCreate(this);
++        // 执行Shell脚本
++        executeShellScript("/system/bin/restart_apps.sh");
++    }
++
++    private void executeShellScript(String scriptPath) {
++        try {
++            // 构建命令
++            String[] cmd = {"/system/bin/sh", scriptPath};
++            
++            // 执行命令
++            Process process = Runtime.getRuntime().exec(cmd);
++
++            // 获取命令输出
++            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
++            String line;
++            while ((line = reader.readLine()) != null) {
++                Log.d("ShellOutput", line);
++            }
++
++            // 获取错误输出
++            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
++            while ((line = errorReader.readLine()) != null) {
++                Log.e("ShellError", line);
++            }
++
++            // 等待进程结束
++            int exitCode = process.waitFor();
++            Log.d("AppGlobal", "Shell script executed with exit code: " + exitCode);
++
++        } catch (Exception e) {
++            Log.e("AppGlobal", "Failed to execute shell script", e);
++        }
+     }
+ }
+ 
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
+index ce6c2a00d9..b17bd1ff67 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
+@@ -72,11 +72,14 @@ public class ManagerService {
+                 Method method = mSockFd.getClass().getDeclaredMethod("setInt$", int.class);
+                 method.setAccessible(true);
+                 method.invoke(mSockFd, socket);
++                Log.d("ManagerService-root","createServerSocket() succeeful");
+             } catch (Exception e) {
+                 logger.w("FileDescriptor.setInt$ error", e);
++                Log.d("ManagerService-root","============FileDescriptor.setInt$ error==================");
+             }
+         } else {
+             logger.w("warn: createServerSocket is -1");
++            Log.d("ManagerService-root","============createServerSocket is -1==================");
+         }
+     }
+ 
+diff --git a/vendor/ntimespace/proc_watcher/GrantRoot.cpp b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+index 78144f22a2..696a50579b 100644
+--- a/vendor/ntimespace/proc_watcher/GrantRoot.cpp
++++ b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+@@ -1,6 +1,8 @@
+ #include "GrantRoot.h"
+ 
+ bool GrantRoot::startGrantRoot() {
++  ALOGI("root---startGrantRoot()");
++
+   mode_t cmask = umask(026);
+   struct stat info;
+ 
+@@ -58,6 +60,8 @@ bool GrantRoot::startGrantRoot() {
+ }
+ 
+ bool GrantRoot::checkRootable() {
++  ALOGI("root---checkRootable(");
++
+   char buffer[64];
+   char data[48];
+ 
+@@ -67,6 +71,7 @@ bool GrantRoot::checkRootable() {
+ 
+   SocketConnection socket;
+   if (!socket.doOpen("/data/system/root_sock")) {
++    ALOGE("root---socket.doOpen(),failed!");
+     return false;
+   }
+ 
+@@ -80,6 +85,7 @@ bool GrantRoot::checkRootable() {
+   socket.doClose();
+   ALOGI("root---checkRootable result: %d, response: %c ,uid:%d", result, response,mUid);
+   if (!result) {
++    ALOGE("root---result:%d",result);
+     return false;
+   }
+   return response == '1';
+diff --git a/vendor/ntimespace/scripts/restart_apps.sh b/vendor/ntimespace/scripts/restart_apps.sh
+new file mode 100755
+index 0000000000..bfc012fa11
+--- /dev/null
++++ b/vendor/ntimespace/scripts/restart_apps.sh
+@@ -0,0 +1,143 @@
++#!/system/bin/sh
++
++debug=0
++version=2024_1008_1552
++# ------------------------------------------------自定义变量区
++# 设置当前脚本路径
++log_path="/data/local/ntimespace"
++log_name="root-restart_apps.log"
++max_log_size=2388608 # 8MB 日志最大的容量
++
++
++
++# ------------------------------------------------公共工具函数库
++# 打印并记录日志的函数，比起echo，多了同步写入到日志
++log_and_echo() {
++    local message="$1"
++    local color="$2"
++
++    # 打印信息到控制台并根据颜色设置（仅在 debug 模式下）
++    if [ "$debug" -eq 1 ]; then
++        if [ -n "$color" ]; then
++            echo -e "${color}${message}${NC}"
++        else
++            echo "$message"
++        fi
++    fi
++
++    # 将信息写入日志文件
++    /system/xbin/s9su -c "echo $message >> $log_path/$log_name "
++}
++
++# 错误处理函数
++errorr() {
++    local error_message="$1"
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 错误: $error_message" "$RED"
++}
++
++# 记录并运行命令,记录输入,记录输出
++run_cmd() {
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 执行命令: $*" "$NC"
++
++    # 捕获命令的输出
++    local output
++    output=$("$@" 2>&1)
++    local status=$?
++
++    # 记录命令输出到日志
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 命令输出: $output" "$NC"
++
++    if [ $status -ne 0 ]; then
++        errorr "命令执行失败，状态码 $status"
++        return 1
++    else
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 命令执行成功" "$GREEN"
++        return 0
++    fi
++}
++
++# 检查日志文件大小，如果大于用户定义的最大值则清空
++check_log_size() {
++    if [ -f "$log_path/$log_name" ]; then
++        local log_size=$(stat -c%s "$log_path/$log_name")
++        if [ "$log_size" -gt "$max_log_size" ]; then
++            log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件超过用户定义的大小限制 $((max_log_size/1024/1024))MB，清空日志文件" "$NC"
++            echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件超过用户定义的大小限制，清空日志文件" > "$log_path/$log_name"
++        fi
++    else
++        /system/xbin/s9su -c "mkdir -p $log_path"
++        /system/xbin/s9su -c "touch $log_path/$log_name"
++        /system/xbin/s9su -c "chmod -R 777 $log_path"
++        log_and_echo  "日志文件已创建并设置权限：$log_path/$log_name"
++    fi
++}
++
++
++
++# ------------------------------------------------业务代码区#####################
++### 1.获取第三方应用包名：使用 pm list packages -3 获取所有第三方应用包名。
++### 2.确认哪些应用正在运行：使用 ps -ef 确认哪些应用正在运行。
++### 3.获取入口活动：通过 cmd package resolve-activity 获取每个正在运行应用的入口活动。
++### 4.关闭应用：使用 am force-stop 关闭应用。
++### 5.重新启动应用：使用 am start -n 重新启动应用。
++################################################################################
++check_log_size
++
++log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 脚本启动，版本: $version" "$GREEN"
++
++restart_apps=$(getprop s9.ext.restart_apps)
++# 检查属性值是否为 1
++if [ "$restart_apps" -eq "-1" ]; then
++    log_and_echo "s9.ext.restart_apps -1, skipping script."
++    exit 0
++fi
++# 如果属性值为 其他，继续执行剩下的逻辑
++log_and_echo "s9.ext.restart_apps is $restart_apps, proceeding with script execution."
++
++
++# Step 1: 获取第三方应用包名
++third_party_packages=$(pm list packages -3 | awk -F: '{print $2}')
++log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 1. 获取所有第三方应用包名... $third_party_packages" "$GREEN"
++
++
++# Step 2: 确认哪些应用正在运行
++log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 2. 确认哪些第三方应用正在运行..." "$GREEN"
++running_packages=()
++for package in $third_party_packages; do
++    if ps -ef | grep -q "$package"; then
++    log_and_echo "$package"
++        running_packages+=($package)
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 2. 发现正在运行的应用: $package" "$GREEN"
++    fi
++done
++
++if [ ${#running_packages[@]} -eq 0 ]; then
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 没有发现正在运行的第三方应用。" "$RED"
++    exit 0
++fi
++
++
++# Step 3: 获取运行中的应用的入口活动
++log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 3. 获取正在运行应用的入口活动..." "$GREEN"
++for package in "${running_packages[@]}"; do
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 处理 $package ..." "$GREEN"
++
++    run_cmd sh -c "cmd package resolve-activity --brief $package | tail -n 1"
++    entry_activity=$(cmd package resolve-activity --brief $package | tail -n 1)
++    log_and_echo  $entry_activity
++    if [ -n "$entry_activity" ]; then
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 入口活动: $entry_activity" "$GREEN"
++        
++        # Step 4: 关闭应用
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 4. 关闭 $package ..." "$GREEN"
++        run_cmd am force-stop "$package"
++
++        # Step 5: 重新启动应用
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 5. 重新启动 $package ..." "$GREEN"
++        run_cmd am start -n "$entry_activity"
++    else
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 未找到 $package 的入口活动。" "$RED"
++    fi
++done
++
++log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 脚本执行完毕。" "$GREEN"
+\ No newline at end of file

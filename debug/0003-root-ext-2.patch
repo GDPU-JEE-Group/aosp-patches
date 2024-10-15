@@ -1,0 +1,261 @@
+diff --git a/device/rockchip/space-common/device_common.mk b/device/rockchip/space-common/device_common.mk
+index 9ab3c23681..759fdfd5fd 100644
+--- a/device/rockchip/space-common/device_common.mk
++++ b/device/rockchip/space-common/device_common.mk
+@@ -79,6 +79,8 @@ PRODUCT_COPY_FILES += \
+         hardware/ntimespace/camera/camera_init.sh:system/bin/camera_init.sh \
+         hardware/ntimespace/camera/camera_init.rc:system/etc/init/camera_init.rc 
+ 
++# snow sh
++PRODUCT_COPY_FILES += vendor/ntimespace/scripts/restart_apps.sh:system/bin/restart_apps.sh
+ 
+ # logcatd
+ PRODUCT_PACKAGES += logcatd logpersist.start
+diff --git a/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java b/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+index 5b599e9318..53c9e1d086 100644
+--- a/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -406,6 +406,9 @@ import java.util.concurrent.atomic.AtomicInteger;
+ import java.util.concurrent.atomic.AtomicLong;
+ import java.util.function.BiFunction;
+ 
++import android.util.Slog;
++
++
+ public class ActivityManagerService extends IActivityManager.Stub
+         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
+ 
+@@ -9169,7 +9172,9 @@ public class ActivityManagerService extends IActivityManager.Stub
+         synchronized (this) {
+             // Only start up encryption-aware persistent apps; once user is
+             // unlocked we'll come back around and start unaware apps
++            Slog.d(TAG,"tell me time startPersistentApps 1");
+             startPersistentApps(PackageManager.MATCH_DIRECT_BOOT_AWARE);
++            Slog.d(TAG,"tell me time startPersistentApps 2");
+ 
+             // Start up initial activity.
+             mBooting = true;
+@@ -9204,6 +9209,8 @@ public class ActivityManagerService extends IActivityManager.Stub
+                     intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY
+                             | Intent.FLAG_RECEIVER_FOREGROUND);
+                     intent.putExtra(Intent.EXTRA_USER_HANDLE, currentUserId);
++                    Slog.d(TAG,"tell me time Intent.ACTION_USER_STARTED Intent.ACTION_USER_STARTING");
++                    
+                     broadcastIntentLocked(null, null, intent,
+                             null, null, 0, null, null, null, OP_NONE,
+                             null, false, false, MY_PID, SYSTEM_UID, callingUid, callingPid,
+diff --git a/frameworks/base/services/java/com/android/server/SystemServer.java b/frameworks/base/services/java/com/android/server/SystemServer.java
+index 2fd0d194ec..24e76c80f4 100644
+--- a/frameworks/base/services/java/com/android/server/SystemServer.java
++++ b/frameworks/base/services/java/com/android/server/SystemServer.java
+@@ -2096,6 +2096,18 @@ public final class SystemServer {
+                 traceEnd();
+             }
+ 
++            Slog.d(TAG,"tell me time startS9ext() 1");///
++
++            traceBeginAndSlog("Start com.android.ext");///
++            try {
++                startS9ext(context);
++            } catch (Throwable e) {
++                reportWtf("starting com.android.ext", e);///
++            }
++            traceEnd();
++            Slog.d(TAG,"tell me time startS9ext() 2");///
++
++
+             traceBeginAndSlog("StartSystemUI");
+             try {
+                 startSystemUi(context, windowManagerF);
+@@ -2181,6 +2193,10 @@ public final class SystemServer {
+             mSystemServiceManager.startBootPhase(
+                     SystemService.PHASE_THIRD_PARTY_APPS_CAN_START);
+             traceEnd();
++            
++            // Slog.d(TAG,"tell me time startS9ext 1");
++            // startS9ext(context);
++            // Slog.d(TAG,"tell me time startS9ext() 1");
+ 
+             traceBeginAndSlog("StartNetworkStack");
+             try {
+@@ -2339,6 +2355,8 @@ public final class SystemServer {
+     }
+ 
+     private static void startSystemUi(Context context, WindowManagerService windowManager) {
++        Slog.d(TAG,"tell me time startSystemUi() 1");
++
+         Intent intent = new Intent();
+         intent.setComponent(new ComponentName("com.android.systemui",
+                 "com.android.systemui.SystemUIService"));
+@@ -2346,8 +2364,26 @@ public final class SystemServer {
+         //Slog.d(TAG, "Starting service: " + intent);
+         context.startServiceAsUser(intent, UserHandle.SYSTEM);
+         windowManager.onSystemUiStarted();
++        Slog.d(TAG,"tell me time startSystemUi() 2 ");
++
+     }
+ 
++    private static void startS9ext(Context context) {
++            // 启动你的应用
++            Intent intent2 = new Intent();
++            intent2.setComponent(new ComponentName("com.android.ext", "com.android.ext.root.RootActivity"));
++            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
++
++            try {
++                Slog.d(TAG,"tell me time mContext.startActivity(intent2) 1");
++                context.startActivityAsUser(intent2, UserHandle.SYSTEM);
++                Slog.d(TAG,"tell me time mContext.startActivity(intent2) 2");
++            } catch (Exception e) {
++                Slog.e(TAG, "Failed to start RootActivity", e);
++            }
++    }
++
++
+     private static void traceBeginAndSlog(@NonNull String name) {
+         Slog.i(TAG, name);
+         BOOT_TIMINGS_TRACE_LOG.traceBegin(name);
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
+index 13fdd07242..9f4c36468d 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
+@@ -4,14 +4,53 @@ import android.app.Application;
+ 
+ import com.android.libutils.Logger;
+ 
++import android.util.Log;
++import java.io.BufferedReader;
++import java.io.InputStreamReader; // 导入需要的包
++
+ public class AppGlobal extends Application {
+ 
+     @Override
+     public void onCreate() {
++        Log.d("AppGlobal","tell me time AppGlobal onCreate()");
++
+         super.onCreate();
+         Logger logger = Logger.init(this);
+         // logger.interrupt();
+         new RootModule().onCreate(this);
++
++        // 执行Shell脚本
++        executeShellScript("/system/bin/restart_apps.sh");
++    }
++
++    private void executeShellScript(String scriptPath) {
++        try {
++            // 构建命令
++            String[] cmd = {"/system/bin/sh", scriptPath};
++            
++            // 执行命令
++            Process process = Runtime.getRuntime().exec(cmd);
++
++            // 获取命令输出
++            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
++            String line;
++            while ((line = reader.readLine()) != null) {
++                Log.d("ShellOutput", line);
++            }
++
++            // 获取错误输出
++            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
++            while ((line = errorReader.readLine()) != null) {
++                Log.e("ShellError", line);
++            }
++
++            // 等待进程结束
++            int exitCode = process.waitFor();
++            Log.d("AppGlobal", "Shell script executed with exit code: " + exitCode);
++
++        } catch (Exception e) {
++            Log.e("AppGlobal", "Failed to execute shell script", e);
++        }
+     }
+ }
+ 
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/RootModule.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/RootModule.java
+index 62703cb1a1..f2bd673052 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/RootModule.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/RootModule.java
+@@ -13,12 +13,14 @@ import com.android.ext.root.ManagerService;
+ import com.android.ext.root.RootActivity;
+ import com.android.ext.root.RootController;
+ import com.android.libutils.Package;
++import android.util.Log;
+ 
+ public class RootModule {
+ 
+     private RootController mController;
+ 
+     public void onCreate(Context context) {
++        Log.d("RootModule-root","onCreate()");
+         Configuration.init(context);
+ 
+         mController = RootController.getInstance(context);
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
+index ce6c2a00d9..0b8ae23948 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
+@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor;
+ import java.util.concurrent.TimeUnit;
+ 
+ import android.util.Log;
++import android.os.SystemProperties;
+ 
+ public class ManagerService {
+ 
+@@ -72,11 +73,17 @@ public class ManagerService {
+                 Method method = mSockFd.getClass().getDeclaredMethod("setInt$", int.class);
+                 method.setAccessible(true);
+                 method.invoke(mSockFd, socket);
++
++                Log.d("ManagerService-root","createServerSocket() succeeful");
++                SystemProperties.set("s9.ext.root.sock", "1");
++                Log.d("ManagerService-root","tell me time createServerSocket() succeeful");
+             } catch (Exception e) {
+                 logger.w("FileDescriptor.setInt$ error", e);
++                Log.d("ManagerService-root","============FileDescriptor.setInt$ error==================");
+             }
+         } else {
+             logger.w("warn: createServerSocket is -1");
++            Log.d("ManagerService-root","============createServerSocket is -1==================");
+         }
+     }
+ 
+diff --git a/vendor/ntimespace/proc_watcher/GrantRoot.cpp b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+index 78144f22a2..696a50579b 100644
+--- a/vendor/ntimespace/proc_watcher/GrantRoot.cpp
++++ b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+@@ -1,6 +1,8 @@
+ #include "GrantRoot.h"
+ 
+ bool GrantRoot::startGrantRoot() {
++  ALOGI("root---startGrantRoot()");
++
+   mode_t cmask = umask(026);
+   struct stat info;
+ 
+@@ -58,6 +60,8 @@ bool GrantRoot::startGrantRoot() {
+ }
+ 
+ bool GrantRoot::checkRootable() {
++  ALOGI("root---checkRootable(");
++
+   char buffer[64];
+   char data[48];
+ 
+@@ -67,6 +71,7 @@ bool GrantRoot::checkRootable() {
+ 
+   SocketConnection socket;
+   if (!socket.doOpen("/data/system/root_sock")) {
++    ALOGE("root---socket.doOpen(),failed!");
+     return false;
+   }
+ 
+@@ -80,6 +85,7 @@ bool GrantRoot::checkRootable() {
+   socket.doClose();
+   ALOGI("root---checkRootable result: %d, response: %c ,uid:%d", result, response,mUid);
+   if (!result) {
++    ALOGE("root---result:%d",result);
+     return false;
+   }
+   return response == '1';

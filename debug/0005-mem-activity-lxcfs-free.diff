@@ -1,0 +1,210 @@
+diff --git a/external/toybox/toys/other/free.c b/external/toybox/toys/other/free.c
+index ce0df02070..9bcb86cc9d 100644
+--- a/external/toybox/toys/other/free.c
++++ b/external/toybox/toys/other/free.c
+@@ -20,6 +20,9 @@ config FREE
+ #define FOR_free
+ #include "toys.h"
+ 
++#define MEMINFO_FILE "/proc/meminfo"
++
++
+ GLOBALS(
+   unsigned bits;
+   unsigned long long units;
+@@ -38,21 +41,65 @@ static char *convert(unsigned long d)
+   return s;
+ }
+ 
++struct meminfo {
++    unsigned long totalram;
++    unsigned long freeram;
++    unsigned long bufferram;
++    unsigned long cachedram;
++    unsigned long totalswap;
++    unsigned long freeswap;
++    unsigned long sharedram;
++    unsigned long available;
++};
++
++void get_meminfo(struct meminfo *info) {
++    FILE *fp = fopen(MEMINFO_FILE, "r");
++    if (!fp) {
++        perror("Failed to open /proc/meminfo");
++        exit(1);
++    }
++    
++    char line[256];
++    while (fgets(line, sizeof(line), fp)) {
++        if (sscanf(line, "MemTotal: %lu kB", &info->totalram) == 1) continue;
++        if (sscanf(line, "MemFree: %lu kB", &info->freeram) == 1) continue;
++        if (sscanf(line, "Buffers: %lu kB", &info->bufferram) == 1) continue;
++        if (sscanf(line, "Cached: %lu kB", &info->cachedram) == 1) continue;
++        if (sscanf(line, "SwapTotal: %lu kB", &info->totalswap) == 1) continue;
++        if (sscanf(line, "SwapFree: %lu kB", &info->freeswap) == 1) continue;
++        if (sscanf(line, "Shmem: %lu kB", &info->sharedram) == 1) continue;
++        if (sscanf(line, "MemAvailable: %lu kB", &info->available) == 1) continue;
++    }
++    
++    fclose(fp);
++}
++
++void print_memory_info(struct meminfo *info) {
++    unsigned long usedram = info->totalram - info->freeram;
++    unsigned long usedswap = info->totalswap - info->freeswap;
++    
++    printf("\t\ttotal        used        free      shared     buffers\n");
++    printf("Mem:    %13lu %12lu %12lu %12lu %12lu\n",
++           info->totalram * 1024,
++           usedram * 1024,
++           info->freeram * 1024,
++           info->sharedram * 1024,
++           info->bufferram * 1024);
++    
++    printf("-/+ buffers/cache:%15lu %12lu\n",
++           (usedram - info->bufferram - info->cachedram) * 1024,
++           (info->freeram + info->bufferram + info->cachedram) * 1024);
++    
++    printf("Swap:  %13lu %12lu %12lu\n",
++           info->totalswap * 1024,
++           usedswap * 1024,
++           info->freeswap * 1024);
++}
++
+ void free_main(void)
+ {
+-  struct sysinfo in;
+-
+-  sysinfo(&in);
+-  TT.units = in.mem_unit ? in.mem_unit : 1;
+-  while ((toys.optflags&(FLAG_h-1)) && !(toys.optflags&(1<<TT.bits))) TT.bits++;
+-  TT.bits *= 10;
+-  TT.buf = toybuf;
+-
+-  xprintf("\t\ttotal        used        free      shared     buffers\n"
+-    "Mem:%17s%12s%12s%12s%12s\n-/+ buffers/cache:%15s%12s\n"
+-    "Swap:%16s%12s%12s\n", convert(in.totalram),
+-    convert(in.totalram-in.freeram), convert(in.freeram), convert(in.sharedram),
+-    convert(in.bufferram), convert(in.totalram - in.freeram - in.bufferram),
+-    convert(in.freeram + in.bufferram), convert(in.totalswap),
+-    convert(in.totalswap - in.freeswap), convert(in.freeswap));
++  struct meminfo info;
++  get_meminfo(&info);
++  print_memory_info(&info);
++  if (0) convert(123L);//大多数现代编译器会将这一部分优化掉，从而不会影响性能或产生多余的代码
+ }
+diff --git a/frameworks/base/core/java/android/app/ActivityManager.java b/frameworks/base/core/java/android/app/ActivityManager.java
+index 556b60bafd..c5e1709ff3 100644
+--- a/frameworks/base/core/java/android/app/ActivityManager.java
++++ b/frameworks/base/core/java/android/app/ActivityManager.java
+@@ -68,6 +68,10 @@ import android.util.ArrayMap;
+ import android.util.DisplayMetrics;
+ import android.util.Singleton;
+ import android.util.Size;
++import android.util.Log;
++import java.io.BufferedReader;
++import java.io.FileReader;
++import java.io.IOException;
+ 
+ import com.android.internal.app.LocalePicker;
+ import com.android.internal.app.procstats.ProcessStats;
+@@ -2403,12 +2407,86 @@ public class ActivityManager {
+      */
+     public void getMemoryInfo(MemoryInfo outInfo) {
+         try {
++            Log.d(TAG, "snow_mem_trace frameworks/base/core/java/android/app/ActivityManager.java getMemoryInfo(MemoryInfo outInfo)");
+             getService().getMemoryInfo(outInfo);
++
++            // 
++            Log.d(TAG, "snow_mem ");
++                    // 打印 MemoryInfo 的各个参数值
++            // 将 totalMem 手动修改为 14G（14 * 1024 * 1024 * 1024 = 15032385536 bytes）
++            Log.d(TAG, "snow_mem Memory Info - availMem: " + outInfo.availMem 
++                + ", totalMem: " + outInfo.totalMem 
++                + ", threshold: " + outInfo.threshold 
++                + ", lowMemory: " + outInfo.lowMemory 
++                + ", hiddenAppThreshold: " + outInfo.hiddenAppThreshold 
++                + ", secondaryServerThreshold: " + outInfo.secondaryServerThreshold 
++                + ", visibleAppThreshold: " + outInfo.visibleAppThreshold 
++                + ", foregroundAppThreshold: " + outInfo.foregroundAppThreshold);
++                    // 读取 /proc/meminfo 文件并获取 MemTotal 的值
++                    updateMemoryInfoFromProcMeminfo(outInfo);
++            Log.d(TAG, "snow_mem Memory Info - availMem: " + outInfo.availMem 
++                + ", totalMem: " + outInfo.totalMem 
++                + ", threshold: " + outInfo.threshold 
++                + ", lowMemory: " + outInfo.lowMemory 
++                + ", hiddenAppThreshold: " + outInfo.hiddenAppThreshold 
++                + ", secondaryServerThreshold: " + outInfo.secondaryServerThreshold 
++                + ", visibleAppThreshold: " + outInfo.visibleAppThreshold 
++                + ", foregroundAppThreshold: " + outInfo.foregroundAppThreshold);
++
+         } catch (RemoteException e) {
+             throw e.rethrowFromSystemServer();
+         }
+     }
+ 
++    
++    private void updateMemoryInfoFromProcMeminfo(MemoryInfo outInfo) {
++        String memInfoFile = "/proc/meminfo";
++        long memTotal = 0;
++        long memFree = 0;
++        long memAvailable = 0;
++        long memCached = 0;
++
++        try (BufferedReader reader = new BufferedReader(new FileReader(memInfoFile))) {
++            String line;
++            while ((line = reader.readLine()) != null) {
++                if (line.startsWith("MemTotal:")) {
++                    memTotal = parseMemInfoLine(line);
++                } else if (line.startsWith("MemFree:")) {
++                    memFree = parseMemInfoLine(line);
++                } else if (line.startsWith("MemAvailable:")) {
++                    memAvailable = parseMemInfoLine(line);
++                } else if (line.startsWith("Cached:")) {
++                    memCached = parseMemInfoLine(line);
++                }
++            }
++        } catch (IOException e) {
++            Log.e(TAG, "Failed to read /proc/meminfo", e);
++        }
++
++        // 更新 outInfo 的各个值
++        if (memTotal > 0) {
++            outInfo.totalMem = memTotal;
++        }
++        if (memAvailable > 0) {
++            outInfo.availMem = memAvailable;
++        }
++
++        // 可以根据需要更新其他字段，比如缓存内存
++        // outInfo.cachedMem = memCached; // 如果有相应字段的话
++    }
++
++    private long parseMemInfoLine(String line) {
++        String[] parts = line.split("\\s+");
++        if (parts.length >= 2) {
++            try {
++                return Long.parseLong(parts[1]) * 1024; // 转换为字节
++            } catch (NumberFormatException e) {
++                Log.e(TAG, "Failed to parse memory info line: " + line, e);
++            }
++        }
++        return 0;
++    }
++
+     /**
+      * Information you can retrieve about an ActivityStack in the system.
+      * @hide
+diff --git a/system/core/init/first_stage_init.cpp b/system/core/init/first_stage_init.cpp
+index a0ad34029e..0e4ae18a31 100644
+--- a/system/core/init/first_stage_init.cpp
++++ b/system/core/init/first_stage_init.cpp
+@@ -128,7 +128,7 @@ int FirstStageMain(int argc, char** argv) {
+     }
+     CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
+ #define MAKE_STR(x) __STRING(x)
+-    CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
++    CHECKCALL(mount("proc", "/proc", "proc", 0, "remount,hidepid=2,gid=" MAKE_STR(AID_READPROC)));
+ #undef MAKE_STR
+     // Don't expose the raw commandline to unprivileged processes.
+     CHECKCALL(chmod("/proc/cmdline", 0440));

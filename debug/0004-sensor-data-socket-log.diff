@@ -1,0 +1,224 @@
+diff --git a/hardware/rockchip/sensor/log.h b/hardware/rockchip/sensor/log.h
+index cc9c98407a..8a22784c27 100644
+--- a/hardware/rockchip/sensor/log.h
++++ b/hardware/rockchip/sensor/log.h
+@@ -12,11 +12,11 @@ extern int debug_level;
+ #define LOGW(...) if(debug_level >= 1)ALOGW(__VA_ARGS__)
+ #define LOGE(...) if(debug_level >= 0)ALOGE(__VA_ARGS__)
+ 
+-#define V(...) LOGV(__VA_ARGS__)
+-#define D(...) LOGD(__VA_ARGS__)
+-#define I(...) LOGI(__VA_ARGS__)
+-#define W(...) LOGW(__VA_ARGS__)
+-#define E(...) LOGE(__VA_ARGS__)
++#define V(...) ALOGV(__VA_ARGS__)
++#define D(...) ALOGD(__VA_ARGS__)
++#define I(...) ALOGI(__VA_ARGS__)
++#define W(...) ALOGW(__VA_ARGS__)
++#define E(...) ALOGE(__VA_ARGS__)
+ 
+ #define LOGV_IF(C, ...) if(C) {LOGV(__VA_ARGS__);}
+ #define LOGD_IF(C, ...) if(C) {LOGD(__VA_ARGS__);}
+diff --git a/hardware/rockchip/sensor/sensors.cpp b/hardware/rockchip/sensor/sensors.cpp
+index e384607662..3866542cb6 100644
+--- a/hardware/rockchip/sensor/sensors.cpp
++++ b/hardware/rockchip/sensor/sensors.cpp
+@@ -44,38 +44,38 @@ int sendMsg(int sockfd, int type){
+ }
+ static void *server_connecter(void*) {
+     int ret = 0;
+-    I("connecter thread init pid:%d, tid:%d\n", getpid(), gettid());
++    I("snowsensors_server_connecter connecter thread init pid:%d, tid:%d\n", getpid(), gettid());
+ 
+ retry:
+     ret = connect(g_sockfd_ctrl, (struct sockaddr *) &g_ctrl_srv_addr, sizeof(g_ctrl_srv_addr));
+     if (!ret) {
+-        I("connect to %s success\n", g_ctrlPath);
++        I("snowsensors_server_connecter connect to %s success\n", g_ctrlPath);
+         while(!g_connecterQuit) {
+             if(sendMsg(g_sockfd_ctrl, JW_SENSOR_HEART_BEAT) < 0) {
+-                E("send heart beat to client:%s failed, reconnect\n", g_ctrlPath);
++                E("snowsensors_server_connecter send heart beat to client:%s failed, reconnect\n", g_ctrlPath);
+                 sleep(5);
+                 goto retry;
+             }
+             sleep(10);
+         }
+-    }else {
+-        E("connect to %s error:%d %s\n", g_ctrlPath, errno, strerror(errno));
++    } else {
++        E("snowsensors_server_connecter connect to %s error:%d %s\n", g_ctrlPath, errno, strerror(errno));
+         sleep(5);
+         goto retry;
+     }
+     
+-    I("connecter thread exit pid:%d, tid:%d\n", getpid(), gettid());
+-	pthread_exit(NULL);
++    I("snowsensors_server_connecter connecter thread exit pid:%d, tid:%d\n", getpid(), gettid());
++    pthread_exit(NULL);
+ }
+ 
+ static void *recv_handle(void *dev) {
+-    //To be optimized: use lwrb_get_linear_block_write_address && lwrb_advance to reduce once memcpy to fifo
+-    I("recv thread init pid:%d, tid:%d\n", getpid(), gettid());
+-	sensors_poll_context_t *dev_tmp = (sensors_poll_context_t*)dev;
++    // To be optimized: use lwrb_get_linear_block_write_address && lwrb_advance to reduce once memcpy to fifo
++    I("snowsensors_recv_handle recv thread init pid:%d, tid:%d\n", getpid(), gettid());
++    sensors_poll_context_t *dev_tmp = (sensors_poll_context_t*)dev;
+     while (!g_recvQuit) {
+-        //recv from sensor
++        // recv from sensor
+         int msg_type;
+-		int sensor_type = 0;
++        int sensor_type = 0;
+         sensor_event event;
+         struct iovec recv_iov[2];
+         recv_iov[0].iov_base = &msg_type;
+@@ -91,49 +91,44 @@ static void *recv_handle(void *dev) {
+         recv_msg.msg_iovlen = 2;
+ 
+         ssize_t recv_bytes = recvmsg(g_sockfd_data, &recv_msg, 0);
+-		I("%p:%zd\n",dev_tmp, recv_bytes);
+-		if(recv_bytes<0)
+-			sleep(1);
++        I("snowsensors_recv_handle %p:%zd\n", dev_tmp, recv_bytes);
++        if (recv_bytes < 0)
++            sleep(1);
+         if (recv_bytes < 0) {
+-
+-            E("recv from %s error:%d %s,maybe unsock file is changed, rebind it\n", g_dataPath, errno, strerror(errno));
+-            if(!access(g_dataPath, F_OK))
++            E("snowsensors_recv_handle recv from %s error:%d %s, maybe unsock file is changed, rebind it\n", g_dataPath, errno, strerror(errno));
++            if (!access(g_dataPath, F_OK))
+                 unlink(g_dataPath);
+ 
+-            if (bind(g_sockfd_data, (struct sockaddr *)&g_dataAddr, sizeof(g_dataAddr)) < 0) 
+-                E("Binding failed:%s",strerror(errno));
++            if (bind(g_sockfd_data, (struct sockaddr *)&g_dataAddr, sizeof(g_dataAddr)) < 0)
++                E("snowsensors_recv_handle Binding failed:%s", strerror(errno));
+ 
+             sleep(1);
+             continue;
+ 
+-        }else if (recv_bytes < sizeof(sensor_event)) {
+-
+-            E("recv sensor data len:%zu < %" PRIuPTR " maybe err?\n", recv_bytes, (uintptr_t)sizeof(sensor_event));
+-			continue;
+-
+-        }else {
+-
+-			I("recv type 0x%x\n", msg_type);
+-
+-			switch (msg_type & 0xFFFF0000)
+-			{
+-			case JW_SENSOR_BLOCK:
+-				sensor_type = msg_type - JW_SENSOR_BLOCK;
+-				if(dev_tmp->getSensor(sensor_type)->isEnabled())
+-					write(dev_tmp->getSensor(sensor_type)->getWriteFd(), event,  sizeof(sensor_event));
+-				else 
+-					D("sensor %s is not enable\n", dev_tmp->getSensor(sensor_type)->getName());
+-				break;
+-			case JW_SENSOR_HEART_BEAT:
+-				break;
+-			default:
+-				E("recv unknown type 0x%x\n", msg_type);
+-				break;
+-			}
+-			
+-		}
++        } else if (recv_bytes < sizeof(sensor_event)) {
++            E("snowsensors_recv_handle recv sensor data len:%zu < %" PRIuPTR " maybe err?\n", recv_bytes, (uintptr_t)sizeof(sensor_event));
++            continue;
++
++        } else {
++            I("snowsensors_recv_handle recv type 0x%x\n", msg_type);
++
++            switch (msg_type & 0xFFFF0000) {
++            case JW_SENSOR_BLOCK:
++                sensor_type = msg_type - JW_SENSOR_BLOCK;
++                if (dev_tmp->getSensor(sensor_type)->isEnabled())
++                    write(dev_tmp->getSensor(sensor_type)->getWriteFd(), event, sizeof(sensor_event));
++                else 
++                    D("snowsensors_recv_handle sensor %s is not enable\n", dev_tmp->getSensor(sensor_type)->getName());
++                break;
++            case JW_SENSOR_HEART_BEAT:
++                break;
++            default:
++                E("snowsensors_recv_handle recv unknown type 0x%x\n", msg_type);
++                break;
++            }
++        }
+     }
+-    I("recv thread exit pid:%d, tid:%d\n", getpid(), gettid());
++    I("snowsensors_recv_handle recv thread exit pid:%d, tid:%d\n", getpid(), gettid());
+     pthread_exit(NULL);
+ }
+ 
+@@ -307,22 +302,24 @@ static int init_sensors(hw_module_t const* module, hw_device_t** device) {
+ 	int ret = 0;
+     debug_level = property_get_int32("debug.sensors.debuglevel", 2);
+ 
+-    D("init_sensors SENSORS_DEVICE_API_VERSION_1_0\n");
++    // 修改日志标签为 snowsensors_
++    D("snowsensors_init_sensors SENSORS_DEVICE_API_VERSION_1_0\n");
+ 
+ 	sensors_poll_context_t *dev = new sensors_poll_context_t();
+ 	memset(&dev->device, 0, sizeof(sensors_poll_device_1_t));
+ 
+ 	property_get("ro.sensor.ctrl", g_ctrlPath, SENSOR_CTRL);
+     property_get("ro.sensor.data", g_dataPath, SENSOR_DATA);
++    D("snowsensors_init_sensors g_ctrlPath:%s,g_ctrlPath:%s\n",g_ctrlPath,g_dataPath);
+ 
+     g_sockfd_data = socket(AF_UNIX, SOCK_DGRAM, 0);
+     if (g_sockfd_data == -1) {
+-        E("sensor_open: unable to create data socket error=%d:%s", errno, strerror(errno));
++        E("snowsensors_sensor_open: unable to create data socket error=%d:%s", errno, strerror(errno));
+     }
+ 
+ 	g_sockfd_ctrl = socket(AF_UNIX, SOCK_DGRAM, 0);
+     if (g_sockfd_ctrl == -1) {
+-        E("sensor_open: unable to create ctrl socket error=%d:%s", errno, strerror(errno));
++        E("snowsensors_sensor_open: unable to create ctrl socket error=%d:%s", errno, strerror(errno));
+     }
+ 
+ 	memset(&g_ctrl_srv_addr, 0, sizeof(g_ctrl_srv_addr));
+@@ -335,19 +332,18 @@ static int init_sensors(hw_module_t const* module, hw_device_t** device) {
+ 
+     if(!access(g_dataPath, F_OK))
+         unlink(g_dataPath);
+-	if (bind(g_sockfd_data, (struct sockaddr *)&g_dataAddr, sizeof(g_dataAddr)) < 0) {
+-		E("Binding data sock failed:%s",strerror(errno));
+-	}
+-
++    if (bind(g_sockfd_data, (struct sockaddr *)&g_dataAddr, sizeof(g_dataAddr)) < 0) {
++        E("snowsensors_Binding data sock failed:%s", strerror(errno));
++    }
+ 
+     ret = pthread_create(&g_serverConnecter, nullptr, server_connecter, nullptr);
+     if (ret) {
+-        E("connecter thread create error:%s",strerror(errno));
++        E("snowsensors_connecter thread create error:%s", strerror(errno));
+     }
+ 
+     ret = pthread_create(&g_receiver, nullptr, recv_handle, (void*)dev);
+     if (ret) {
+-        E("recv thread create error:%s",strerror(errno));
++        E("snowsensors_recv thread create error:%s", strerror(errno));
+     }
+ 
+    	
+@@ -370,12 +366,12 @@ static int init_sensors(hw_module_t const* module, hw_device_t** device) {
+ 	return status;
+ }
+ 
+-
+ static int open_sensors(const struct hw_module_t* module, const char* name, struct hw_device_t** device) {
+-    I("sensors : open sensors called and name: %c", *name);
++    I("snowsensors_sensors : open sensors called and name: %c", *name);
+     return init_sensors(module, device);
+ }
+ 
++
+ static int sensors__get_sensors_list(struct sensors_module_t* module, struct sensor_t const** list) {
+     *list = sSensorList;
+     return ARRAY_SIZE(sSensorList);

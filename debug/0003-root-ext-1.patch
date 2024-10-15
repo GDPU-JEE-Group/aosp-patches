@@ -1,0 +1,656 @@
+diff --git a/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java b/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+index 5b599e9318..11954c1484 100644
+--- a/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -406,6 +406,14 @@ import java.util.concurrent.atomic.AtomicInteger;
+ import java.util.concurrent.atomic.AtomicLong;
+ import java.util.function.BiFunction;
+ 
++import android.app.ActivityThread;
++import android.content.ComponentName;
++import android.content.Intent;
++import android.os.RemoteException;
++import android.util.Slog;
++import android.os.UserHandle;
++
++
+ public class ActivityManagerService extends IActivityManager.Stub
+         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
+ 
+@@ -9169,7 +9177,9 @@ public class ActivityManagerService extends IActivityManager.Stub
+         synchronized (this) {
+             // Only start up encryption-aware persistent apps; once user is
+             // unlocked we'll come back around and start unaware apps
++            Slog.d(TAG,"tell me time startPersistentApps 1");
+             startPersistentApps(PackageManager.MATCH_DIRECT_BOOT_AWARE);
++            Slog.d(TAG,"tell me time startPersistentApps 2");
+ 
+             // Start up initial activity.
+             mBooting = true;
+@@ -9194,6 +9204,33 @@ public class ActivityManagerService extends IActivityManager.Stub
+             }
+ 
+             mAtmInternal.showSystemReadyErrorDialogsIfNeeded();
++            // 检查 s9.ext.root.sock 的值
++            boolean isRootSockEnabled = false;
++            long startTime = System.currentTimeMillis();
++            long timeout = 13000; // 3秒超时
++
++            Slog.d(TAG,"tell me time if (bootingSystemUser) 1");
++
++            while (System.currentTimeMillis() - startTime < timeout) {
++                String sockValue = SystemProperties.get("s9.ext.root.sock"); // 使用 SystemProperties 获取值
++                if ("1".equals(sockValue.trim())) {
++                    isRootSockEnabled = true;
++                    break;
++                }
++                try {
++                    Thread.sleep(200); // 每0.2秒检查一次
++                } catch (InterruptedException e) {
++                    // 处理异常，例如可以记录日志或者恢复线程的中断状态
++                    Thread.currentThread().interrupt(); // 恢复中断状态
++                    Slog.d(TAG,"tell me time time out !");
++                }
++
++            }
++
++            if (!isRootSockEnabled) {
++                Slog.i(TAG, "root------s9.ext.root.sock is not enabled after 3 seconds.");
++            }
++            Slog.d(TAG,"tell me time if (bootingSystemUser) 2");
+ 
+             if (bootingSystemUser) {
+                 final int callingUid = Binder.getCallingUid();
+diff --git a/frameworks/base/services/java/com/android/server/SystemServer.java b/frameworks/base/services/java/com/android/server/SystemServer.java
+index 2fd0d194ec..24e76c80f4 100644
+--- a/frameworks/base/services/java/com/android/server/SystemServer.java
++++ b/frameworks/base/services/java/com/android/server/SystemServer.java
+@@ -2096,6 +2096,18 @@ public final class SystemServer {
+                 traceEnd();
+             }
+ 
++            Slog.d(TAG,"tell me time startS9ext() 1");///
++
++            traceBeginAndSlog("Start com.android.ext");///
++            try {
++                startS9ext(context);
++            } catch (Throwable e) {
++                reportWtf("starting com.android.ext", e);///
++            }
++            traceEnd();
++            Slog.d(TAG,"tell me time startS9ext() 2");///
++
++
+             traceBeginAndSlog("StartSystemUI");
+             try {
+                 startSystemUi(context, windowManagerF);
+@@ -2181,6 +2193,10 @@ public final class SystemServer {
+             mSystemServiceManager.startBootPhase(
+                     SystemService.PHASE_THIRD_PARTY_APPS_CAN_START);
+             traceEnd();
++            
++            // Slog.d(TAG,"tell me time startS9ext 1");
++            // startS9ext(context);
++            // Slog.d(TAG,"tell me time startS9ext() 1");
+ 
+             traceBeginAndSlog("StartNetworkStack");
+             try {
+@@ -2339,6 +2355,8 @@ public final class SystemServer {
+     }
+ 
+     private static void startSystemUi(Context context, WindowManagerService windowManager) {
++        Slog.d(TAG,"tell me time startSystemUi() 1");
++
+         Intent intent = new Intent();
+         intent.setComponent(new ComponentName("com.android.systemui",
+                 "com.android.systemui.SystemUIService"));
+@@ -2346,8 +2364,26 @@ public final class SystemServer {
+         //Slog.d(TAG, "Starting service: " + intent);
+         context.startServiceAsUser(intent, UserHandle.SYSTEM);
+         windowManager.onSystemUiStarted();
++        Slog.d(TAG,"tell me time startSystemUi() 2 ");
++
+     }
+ 
++    private static void startS9ext(Context context) {
++            // 启动你的应用
++            Intent intent2 = new Intent();
++            intent2.setComponent(new ComponentName("com.android.ext", "com.android.ext.root.RootActivity"));
++            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
++
++            try {
++                Slog.d(TAG,"tell me time mContext.startActivity(intent2) 1");
++                context.startActivityAsUser(intent2, UserHandle.SYSTEM);
++                Slog.d(TAG,"tell me time mContext.startActivity(intent2) 2");
++            } catch (Exception e) {
++                Slog.e(TAG, "Failed to start RootActivity", e);
++            }
++    }
++
++
+     private static void traceBeginAndSlog(@NonNull String name) {
+         Slog.i(TAG, name);
+         BOOT_TIMINGS_TRACE_LOG.traceBegin(name);
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
+index 13fdd07242..f1c69cc736 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
+@@ -4,10 +4,14 @@ import android.app.Application;
+ 
+ import com.android.libutils.Logger;
+ 
++import android.util.Log;
++
+ public class AppGlobal extends Application {
+ 
+     @Override
+     public void onCreate() {
++        Log.d("AppGlobal","tell me time AppGlobal onCreate()");
++
+         super.onCreate();
+         Logger logger = Logger.init(this);
+         // logger.interrupt();
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/RootModule.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/RootModule.java
+index 62703cb1a1..f2bd673052 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/RootModule.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/RootModule.java
+@@ -13,12 +13,14 @@ import com.android.ext.root.ManagerService;
+ import com.android.ext.root.RootActivity;
+ import com.android.ext.root.RootController;
+ import com.android.libutils.Package;
++import android.util.Log;
+ 
+ public class RootModule {
+ 
+     private RootController mController;
+ 
+     public void onCreate(Context context) {
++        Log.d("RootModule-root","onCreate()");
+         Configuration.init(context);
+ 
+         mController = RootController.getInstance(context);
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
+index ce6c2a00d9..0b8ae23948 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
+@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor;
+ import java.util.concurrent.TimeUnit;
+ 
+ import android.util.Log;
++import android.os.SystemProperties;
+ 
+ public class ManagerService {
+ 
+@@ -72,11 +73,17 @@ public class ManagerService {
+                 Method method = mSockFd.getClass().getDeclaredMethod("setInt$", int.class);
+                 method.setAccessible(true);
+                 method.invoke(mSockFd, socket);
++
++                Log.d("ManagerService-root","createServerSocket() succeeful");
++                SystemProperties.set("s9.ext.root.sock", "1");
++                Log.d("ManagerService-root","tell me time createServerSocket() succeeful");
+             } catch (Exception e) {
+                 logger.w("FileDescriptor.setInt$ error", e);
++                Log.d("ManagerService-root","============FileDescriptor.setInt$ error==================");
+             }
+         } else {
+             logger.w("warn: createServerSocket is -1");
++            Log.d("ManagerService-root","============createServerSocket is -1==================");
+         }
+     }
+ 
+diff --git a/vendor/ntimespace/proc_watcher/GrantRoot.cpp b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+index 78144f22a2..696a50579b 100644
+--- a/vendor/ntimespace/proc_watcher/GrantRoot.cpp
++++ b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+@@ -1,6 +1,8 @@
+ #include "GrantRoot.h"
+ 
+ bool GrantRoot::startGrantRoot() {
++  ALOGI("root---startGrantRoot()");
++
+   mode_t cmask = umask(026);
+   struct stat info;
+ 
+@@ -58,6 +60,8 @@ bool GrantRoot::startGrantRoot() {
+ }
+ 
+ bool GrantRoot::checkRootable() {
++  ALOGI("root---checkRootable(");
++
+   char buffer[64];
+   char data[48];
+ 
+@@ -67,6 +71,7 @@ bool GrantRoot::checkRootable() {
+ 
+   SocketConnection socket;
+   if (!socket.doOpen("/data/system/root_sock")) {
++    ALOGE("root---socket.doOpen(),failed!");
+     return false;
+   }
+ 
+@@ -80,6 +85,7 @@ bool GrantRoot::checkRootable() {
+   socket.doClose();
+   ALOGI("root---checkRootable result: %d, response: %c ,uid:%d", result, response,mUid);
+   if (!result) {
++    ALOGE("root---result:%d",result);
+     return false;
+   }
+   return response == '1';
+diff --git a/vendor/ntimespace/proc_watcher/SocketConnection.h b/vendor/ntimespace/proc_watcher/SocketConnection.h
+index 39b9767d45..04f8110396 100644
+--- a/vendor/ntimespace/proc_watcher/SocketConnection.h
++++ b/vendor/ntimespace/proc_watcher/SocketConnection.h
+@@ -8,11 +8,17 @@
+ #include <sys/un.h>
+ #include <sys/mount.h>
+ #include <unistd.h>
++#include <chrono>               // 支持时间操作
++#include <thread>                // 支持线程
++#include <atomic>               // 支持原子操作
++#include <chrono>               // 支持时间操作
++#include <cstring>              // 支持字符串操作
+ 
+ class SocketConnection {
+ public:
+   bool doOpen(const char* path);
+   bool request(const char* message, char* result, int size);
++  bool request_retry(const char* message, char* result, int result_size,const char* sock_path);
+   void doClose();
+ private:
+   int mFd;
+diff --git a/vendor/ntimespace/scripts/del-vmos.sh b/vendor/ntimespace/scripts/del-vmos.sh
+new file mode 100644
+index 0000000000..75da2aa05c
+--- /dev/null
++++ b/vendor/ntimespace/scripts/del-vmos.sh
+@@ -0,0 +1,105 @@
++#!/bin/sh
++### -------------参数区
++# 设置当前脚本路径
++cur_path="/userdata"
++log_name="del-vmos.log"
++base_dir="/userdata/container/android_data"
++search_term="vmos.db"
++# 检测间隔时间，单位秒
++loop_time=500
++
++# 设置颜色
++GREEN='\033[0;32m'
++RED='\033[0;31m'
++NC='\033[0m' # No Color
++
++### -------------函数区
++
++# 打印并记录日志的函数
++log_and_echo() {
++    local message="$1"
++    local color="$2"
++
++    # # 打印信息到控制台并根据颜色设置
++    # if [ -n "$color" ]; then
++    #     echo -e "${color}${message}${NC}"
++    # else
++    #     echo "$message"
++    # fi
++
++    # 将信息写入日志文件
++    echo "$message" >> "$cur_path/$log_name"
++}
++
++# 记录并运行命令
++run_cmd() {
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 执行命令: $*" "$NC"
++    "$@"
++    local status=$?
++    if [ $status -ne 0 ]; then
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 错误: 命令执行失败，状态码 $status" "$RED"
++        return 1
++    else
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 命令执行成功" "$GREEN"
++        return 0
++    fi
++}
++
++# 检查日志文件大小，如果大于2MB则清空
++check_log_size() {
++    if [ -f $cur_path/$log_name ]; then
++        local log_size=$(stat -c%s "$cur_path/$log_name")
++        if [ $log_size -gt 2097152 ]; then
++            log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件超过2MB，清空日志文件" "$NC"
++            echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件超过2MB，清空日志文件" > $cur_path/$log_name
++        fi
++    fi
++}
++
++# 主循环，每5秒检测一次
++main_loop() {
++    while true; do
++        # 检查日志文件大小
++        check_log_size
++
++        # 扫描所有容器并过滤掉journal文件
++        find $base_dir/* -name "*$search_term*" | grep -v 'journal' | while read line; do
++            log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 查找到: $line" "$NC"
++
++            # 提取容器编号并确保只处理 0-9 之间的编号
++            container_id=$(echo $line | grep -o 'data_[0-9]' | sed 's/data_//')
++            package_name=$(echo $line | awk -F '/' '{print $(NF-2)}')
++
++            # 如果没有找到符合条件的容器和包名，跳过该次操作
++            if [ -z "$container_id" ] || [ -z "$package_name" ]; then
++                log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 未找到符合条件的容器或包名，跳过" "$RED"
++                continue
++            fi
++
++            log_and_echo "在容器 $container_id 中找到包 $package_name" "$GREEN"
++
++            # 使用 docker 卸载应用，不再使用 -it，只使用 -i
++            log_and_echo "docker exec -i android_$container_id pm uninstall $package_name" "$NC"
++            docker exec -i android_$container_id pm uninstall $package_name
++
++            if [ $? -eq 0 ]; then
++                log_and_echo "应用 $package_name 在容器 $container_id 中成功卸载" "$GREEN"
++            else
++                log_and_echo "应用 $package_name 在容器 $container_id 中卸载失败" "$RED"
++            fi
++        done
++
++        # 如果 find 没有找到任何结果，不打印任何信息并进入下一个检测周期
++        if [ $(find $base_dir/* -name "*$search_term*" | grep -v 'journal' | wc -l) -eq 0 ]; then
++            log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 未找到任何匹配的文件" "$RED"
++        fi
++
++        # 每5秒检测一次
++        sleep $loop_time
++    done
++}
++
++# 调用主循环在后台运行
++echo "若想修改间隔时间、日志路径，请修改本脚本里变量区的值，默认间隔$loop_time s"
++echo "日志在   cat $cur_path/$log_name" "$NC"
++main_loop &
+diff --git a/vendor/ntimespace/scripts/ratate.sh b/vendor/ntimespace/scripts/ratate.sh
+new file mode 100644
+index 0000000000..345e46224a
+--- /dev/null
++++ b/vendor/ntimespace/scripts/ratate.sh
+@@ -0,0 +1,65 @@
++#!/system/bin/sh
++
++# 设置当前脚本路径
++cur_path="/data/local/tmp"
++log_name="ratate.log"
++cur=0
++
++# 记录并运行命令
++run_cmd() {
++    echo "[$(date +'%Y-%m-%d %H:%M:%S')] 执行命令: $*" >> $cur_path/$log_name
++    "$@"
++    local status=$?
++    if [ $status -ne 0 ]; then
++        echo "[$(date +'%Y-%m-%d %H:%M:%S')] 错误: 命令执行失败，状态码 $status" >> $cur_path/$log_name
++        return 1
++    else
++        echo "[$(date +'%Y-%m-%d %H:%M:%S')] 命令执行成功" >> $cur_path/$log_name
++        return 0
++    fi
++}
++
++# 检查日志文件大小，如果大于2MB则清空
++check_log_size() {
++    if [ -f $cur_path/$log_name ]; then
++        local log_size=$(stat -c%s "$cur_path/$log_name")
++        if [ $log_size -gt 2097152 ]; then
++            echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件超过2MB，清空日志文件" > $cur_path/$log_name
++        fi
++    fi
++}
++
++# 主循环，每3秒检测一次
++main_loop() {
++    while true; do
++        # 检查日志文件大小
++        check_log_size
++
++        # 获取 accelerometer_rotation 当前值
++        original_value=$(settings get system accelerometer_rotation)
++        echo "[$(date +'%Y-%m-%d %H:%M:%S')] 当前 accelerometer_rotation 值: $original_value" >> $cur_path/$log_name
++        
++        # 将 accelerometer_rotation 设置为 0（禁用自动旋转）
++        run_cmd settings put system accelerometer_rotation 0
++        
++        # 将屏幕强制设置为竖屏
++        run_cmd settings put system user_rotation 0
++        
++        # 恢复原来的 accelerometer_rotation 值
++        run_cmd settings put system accelerometer_rotation $original_value
++
++        # 每3秒检测一次
++        sleep 3
++    done
++}
++
++# 调用主循环在后台运行
++echo "cat $cur_path/$log_name"
++main_loop &
++
++# 等待3秒后检查是否有循环执行
++sleep 2
++echo "[$(date +'%Y-%m-%d %H:%M:%S')] 执行成功，执行日志在 $cur_path/$log_name"
++
++
++# tail -n 1 /data/local/tmp/ratate.sh | grep -q 'main_loop &' && echo "版本1" || (tail -n 1 /data/local/tmp/ratate.sh | grep -q '执行成功' && echo "版本2" || echo "未知版本")
+diff --git a/vendor/ntimespace/scripts/ratate_2024_1006_1513.sh b/vendor/ntimespace/scripts/ratate_2024_1006_1513.sh
+new file mode 100644
+index 0000000000..24c0cdc46d
+--- /dev/null
++++ b/vendor/ntimespace/scripts/ratate_2024_1006_1513.sh
+@@ -0,0 +1,206 @@
++#!/bin/bash
++
++debug=0
++version=2024_1006_1513
++# ------------------------------------------------自定义变量区
++# 设置当前脚本路径
++log_path="/userdata/log"
++log_name="ratate.log"
++loop_time=3 # 每次循环的间隔时间
++max_log_size=8388608 # 8MB 日志最大的容量
++# nums是要执行的容器的编号数组，例如：nums=(1 2 5)，则脚本每次在容器android_1,android_2,android_5执行旋转的逻辑
++# 还有 nums="auto",则会默认脚本开始时扫描有几个安卓容器，自动把他们加进nums里。
++nums="auto"
++# nums=(1 2 4)
++
++
++# ------------------------------------------------公共工具函数库
++# 打印并记录日志的函数
++log_and_echo() {
++    local message="$1"
++    local color="$2"
++
++    # 打印信息到控制台并根据颜色设置（仅在 debug 模式下）
++    if [ "$debug" -eq 1 ]; then
++        if [ -n "$color" ]; then
++            echo -e "${color}${message}${NC}"
++        else
++            echo "$message"
++        fi
++    fi
++
++    # 将信息写入日志文件
++    echo "$message" >> "$log_path/$log_name"
++}
++
++# 错误处理函数
++errorr() {
++    local error_message="$1"
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 错误: $error_message" "$RED"
++}
++
++# 记录并运行命令
++run_cmd() {
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 执行命令: $*" "$NC"
++
++    # 捕获命令的输出
++    local output
++    output=$("$@" 2>&1)
++    local status=$?
++
++    # 记录命令输出到日志
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 命令输出: $output" "$NC"
++
++    if [ $status -ne 0 ]; then
++        errorr "命令执行失败，状态码 $status"
++        return 1
++    else
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 命令执行成功" "$GREEN"
++        return 0
++    fi
++}
++
++# 检查日志文件大小，如果大于用户定义的最大值则清空
++check_log_size() {
++    if [ -f "$log_path/$log_name" ]; then
++        local log_size=$(stat -c%s "$log_path/$log_name")
++        if [ "$log_size" -gt "$max_log_size" ]; then
++            log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件超过用户定义的大小限制 $((max_log_size/1024/1024))MB，清空日志文件" "$NC"
++            echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件超过用户定义的大小限制，清空日志文件" > "$log_path/$log_name"
++        fi
++    else
++        mkdir -p $log_path
++    fi
++}
++
++# 杀掉除本次进程以外的其他ratate.sh
++kill_other_ratate() {
++    log_and_echo "=> 2.杀掉除本次进程以外的其他ratate.sh"
++
++    # 打印当前 ratate 进程信息
++    run_cmd bash -c "top -b -n 1 | grep ratate"
++
++    # 获取当前脚本的 PID
++    current_pid=$$
++    log_and_echo "获取当前脚本的 PID: $current_pid"
++
++    # 获取除当前进程以外的其他 ratate 进程 PID
++    kill_pid=$(ps -ef | grep ratate | grep -v grep | awk -v current_pid="$current_pid" '{if ($2 != current_pid) print $2}')
++
++    # 检查 kill_pid 是否为空
++    if [ -n "$kill_pid" ]; then
++        log_and_echo "killed的 PID: $kill_pid"
++        
++        # 循环遍历 kill_pid 并杀死每个进程
++        for pid in $kill_pid; do
++            log_and_echo "杀死进程 $pid"
++            run_cmd kill $pid
++        done
++    else
++        log_and_echo "没有其他 ratate 进程需要杀掉" "$YELLOW"
++    fi
++
++    # 打印杀掉进程后的进程信息
++    run_cmd bash -c "top -b -n 1 | grep ratate"
++}
++
++# 主循环，每3秒检测一次
++main_loop() {
++    log_and_echo "=> 3.进入主循环不断把要旋转的云机转成竖屏"
++
++    while true; do
++        # 检查日志文件大小
++        check_log_size
++        
++        ratate #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
++
++        # 每3秒检测一次
++        sleep $loop_time
++    done
++}
++
++
++# ------------------------------------------------业务代码区
++# 强制旋转成竖屏
++ratate() { 
++    for cur_num in "${nums[@]}"; do
++        # 获取 accelerometer_rotation 当前值
++        original_value=$(docker exec -i android_$cur_num settings get system accelerometer_rotation)
++        
++        # 错误检测
++        if [ -z "$original_value" ] || [[ ! "$original_value" =~ ^(0|1)$ ]]; then
++            log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 错误: 获取到的 accelerometer_rotation 值无效 (云机: $cur_num, 值: $original_value)" "$RED"
++            original_value=0
++        fi
++        
++        log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 当前 accelerometer_rotation 值: $original_value (云机: $cur_num)" "$NC"
++        
++        # 将 accelerometer_rotation 设置为 0（禁用自动旋转）
++        run_cmd docker exec -i android_$cur_num settings put system accelerometer_rotation 0
++
++        # 将屏幕强制设置为竖屏
++        run_cmd docker exec -i android_$cur_num settings put system user_rotation 0
++
++        # 恢复原来的 accelerometer_rotation 值
++        run_cmd docker exec -i android_$cur_num settings put system accelerometer_rotation $original_value
++    done
++}
++
++# 检测 nums数组或自动扫描在线容器填写nums
++check_nums() {
++    log_and_echo "=> 1.检测 nums数组是否合法或自动扫描在线容器填写nums（确认物理机上有哪些容器要旋转，把编号写入数组nums）"
++
++    # 检测 nums 是否为 "auto"
++    if [ "$nums" == "auto" ]; then
++        # 获取所有容器名称
++        container_names=$(docker ps --format "{{.Names}}")
++        nums=()
++        # 遍历所有容器名称，匹配格式 android_0, android_1, android_2...
++        for container in $container_names; do
++            if [[ $container =~ ^android_([0-9])$ ]]; then
++                # 提取数字并加入 nums 数组
++                nums+=("${BASH_REMATCH[1]}")
++            fi
++        done
++    fi
++
++    # 检测 nums 数组中的元素是否全为 0 到 9 的数字
++    for num in "${nums[@]}"; do
++        if ! [[ "$num" =~ ^[0-9]$ ]]; then
++            log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 错误: 无效的数字 $num，nums 数组只能包含 0-9 之间的数字" "$RED"
++            exit 1
++        fi
++    done
++
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 是否为Debug模式： $debug ,交付给运维时必须为0" "$GREEN"
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 脚本版本号:$version " "$GREEN"
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志路径: $log_path/$log_name" "$GREEN"
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件最大值: $max_log_size , 1MB是1048576" "$GREEN"
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 每次循环检测间隔: $loop_time s" "$GREEN"
++    log_and_echo "[$(date +'%Y-%m-%d %H:%M:%S')] 被检测这些android_容器的编号有: ${nums[*]}" "$GREEN"
++    
++    echo "[$(date +'%Y-%m-%d %H:%M:%S')] 是否为Debug模式： $debug ,交付给运维时必须为0" 
++    echo "[$(date +'%Y-%m-%d %H:%M:%S')] 脚本版本号： $version "
++    echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志路径: $log_path/$log_name" 
++    echo "[$(date +'%Y-%m-%d %H:%M:%S')] 日志文件最大值: $max_log_size , 1MB是1048576"
++    echo "[$(date +'%Y-%m-%d %H:%M:%S')] 每次循环检测间隔: $loop_time s" 
++    echo "[$(date +'%Y-%m-%d %H:%M:%S')] 被检测这些android_容器的编号有: ${nums[*]}" 
++    echo "------------------------------ 以上变量都可以在脚本变量区 自由设置"
++}
++
++
++
++
++
++# ------------------------------------------------实际执行命令的区间
++# 1.检查日志大小
++# 2.检查要旋转的云机编号
++# 3.杀掉除本次进程以外的其他ratate.sh
++# 4.进入主循环不断把要旋转的云机转成竖屏
++check_log_size
++check_nums
++kill_other_ratate
++ratate #确保至少执行一遍没有出错，才能打印成功
++main_loop &
++
++echo "[$(date +'%Y-%m-%d %H:%M:%S')] --执行成功，执行日志在 cat $log_path/$log_name"
+\ No newline at end of file

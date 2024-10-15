@@ -1,0 +1,178 @@
+From 041320e527ba75a4d16a61d68c2051a646c4518d Mon Sep 17 00:00:00 2001
+From: kimi2 <kimi2@qq.com>
+Date: Mon, 23 Sep 2024 23:17:18 +0800
+Subject: [PATCH] feature: The oom adj value of the application is supported
+
+---
+ .../android/internal/space/api/AmMock.java    | 86 +++++++++++++++++++
+ .../com/android/server/am/ProcessList.java    |  8 ++
+ .../com/android/server/mock/MockManager.java  |  6 +-
+ 3 files changed, 98 insertions(+), 2 deletions(-)
+ create mode 100644 frameworks/base/core/java/com/android/internal/space/api/AmMock.java
+
+diff --git a/frameworks/base/core/java/com/android/internal/space/api/AmMock.java b/frameworks/base/core/java/com/android/internal/space/api/AmMock.java
+new file mode 100644
+index 0000000000..e52c1ce1bf
+--- /dev/null
++++ b/frameworks/base/core/java/com/android/internal/space/api/AmMock.java
+@@ -0,0 +1,86 @@
++package com.android.internal.space.api;
++
++import android.content.Context;
++import android.text.TextUtils;
++
++import com.android.internal.space.NineDSpaceManager;
++
++import java.util.Arrays;
++import java.util.Map;
++
++public class AmMock extends IMockCallback.Stub {
++
++    public static final String NAME = "am";
++    private Map mMap;
++
++    private NineDSpaceManager mSpaceManager;
++
++    private Context mContext;
++
++    @Override
++    public void onCallback(Map map) {
++        this.mMap = map;
++    }
++
++    private static AmMock sMock;
++
++    public static synchronized AmMock get(Context context) {
++        if (sMock == null) {
++            sMock = new AmMock(context);
++        }
++        return sMock;
++    }
++
++    protected AmMock(Context context) {
++        this.mContext = context;
++        mSpaceManager = (NineDSpaceManager) context
++                .getSystemService(Context.SPACE_SERVICE);
++        this.mMap = mSpaceManager.addMockCallback(NAME, this);
++    }
++
++    public boolean isMock() {
++        return mMap != null && mMap.size() > 0;
++    }
++
++    public boolean isPersistentApp(String packageName) {
++        String persitentPkgs = (String) mMap.getOrDefault("persistentApps", "");
++        if (!TextUtils.isEmpty(persitentPkgs)) {
++            String[] packages = persitentPkgs.split(",");
++            return Arrays.asList(packages).contains(packageName);
++        }
++        return false;
++    }
++
++    public boolean isPersistentNativeApp(String packageName) {
++        String persitentPkgs = (String) mMap.getOrDefault("persistentNativeApps", "");
++        if (!TextUtils.isEmpty(persitentPkgs)) {
++            String[] packages = persitentPkgs.split(",");
++            return Arrays.asList(packages).contains(packageName);
++        }
++        return false;
++    }
++
++    public int getOomAdj(int uid, int defaultAmt) {
++        if (!isMock()) return defaultAmt;
++
++        String packageName = getPackageName(uid);
++        if (packageName != null) {
++           if (isPersistentApp(packageName)) {
++               return -800;
++           }
++
++           if (isPersistentNativeApp(packageName)) {
++               return -1000;
++           }
++        }
++        return defaultAmt;
++    }
++
++    private String getPackageName(int uid) {
++        String[] packages = mContext.getPackageManager().getPackagesForUid(uid);
++        if (packages != null && packages.length> 0) {
++            return packages[0];
++        }
++        return null;
++    }
++}
+diff --git a/frameworks/base/services/core/java/com/android/server/am/ProcessList.java b/frameworks/base/services/core/java/com/android/server/am/ProcessList.java
+index e9ab935209..ad7d739751 100644
+--- a/frameworks/base/services/core/java/com/android/server/am/ProcessList.java
++++ b/frameworks/base/services/core/java/com/android/server/am/ProcessList.java
+@@ -101,6 +101,7 @@ import com.android.server.wm.ActivityServiceConnectionsHolder;
+ import com.android.server.wm.WindowManagerService;
+ 
+ import com.android.internal.space.NineDSpaceManager;
++import com.android.internal.space.api.AmMock;
+ import com.android.server.space.SystemTracking;
+ 
+ import dalvik.system.VMRuntime;
+@@ -272,6 +273,7 @@ public final class ProcessList {
+     static final byte LMK_GETKILLCNT = 4;
+ 
+     ActivityManagerService mService = null;
++    static AmMock sMock = null;
+ 
+     // To kill process groups asynchronously
+     static KillHandler sKillHandler = null;
+@@ -572,6 +574,8 @@ public final class ProcessList {
+         mService = service;
+         mActiveUids = activeUids;
+ 
++        sMock = AmMock.get(mService.mContext);
++
+         if (sKillHandler == null) {
+             sKillThread = new ServiceThread(TAG + ":kill",
+                     THREAD_PRIORITY_BACKGROUND, true /* allowIo */);
+@@ -1184,6 +1188,10 @@ public final class ProcessList {
+         if (amt == UNKNOWN_ADJ)
+             return;
+ 
++        if (sMock != null) {
++            amt = sMock.getOomAdj(uid, amt);
++        }
++
+         long start = SystemClock.elapsedRealtime();
+         ByteBuffer buf = ByteBuffer.allocate(4 * 4);
+         buf.putInt(LMK_PROCPRIO);
+diff --git a/vendor/space9d/Space9dService/src/com/android/server/mock/MockManager.java b/vendor/space9d/Space9dService/src/com/android/server/mock/MockManager.java
+index d68038f0d8..ec81f8904d 100644
+--- a/vendor/space9d/Space9dService/src/com/android/server/mock/MockManager.java
++++ b/vendor/space9d/Space9dService/src/com/android/server/mock/MockManager.java
+@@ -7,6 +7,7 @@ import android.os.RemoteException;
+ import android.util.ArrayMap;
+ import android.util.Slog;
+ 
++import com.android.internal.space.api.AmMock;
+ import com.android.internal.space.api.BatteryMock;
+ import com.android.internal.space.api.BluetoothMock;
+ import com.android.internal.space.api.ConnectivityMock;
+@@ -32,7 +33,8 @@ public class MockManager {
+             BluetoothMock.NAME,
+             ConnectivityMock.NAME,
+             VpnMock.NAME,
+-            WiFiMock.NAME
++            WiFiMock.NAME,
++            AmMock.NAME
+     };
+ 
+     private ArrayMap<String, MockInfo> mMockMap = new ArrayMap<>();
+@@ -229,7 +231,7 @@ public class MockManager {
+ 
+         Map<String, String> map = getMockInfo(name);
+         buffer.append("\t" + name).append("\n");
+-        buffer.append("\tisApply:" + (isApply(name) ? "true" : "false")).append("\n");
++        buffer.append("\tapply:" + (isApply(name) ? "true" : "false")).append("\n");
+ 
+         for (String key : map.keySet()) {
+             buffer.append("\t\t" + key + "=" + map.get(key)).append("\n");
+-- 
+2.25.1
+
