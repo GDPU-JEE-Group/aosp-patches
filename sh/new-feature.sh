@@ -8,7 +8,7 @@ check_args() {
         # 打印示例信息
         echo " - : $0 $feature_branch $feature_branch"
         echo "Usage: $0 feature_branch template_branch"
-        echo "Example: $0 ft/20240815/dev_CLOUDPHONE-2757_hideApp dev-20240815"
+        echo "Example: $0 20241023/ft_CLOUDPHONE-4265_appguard dev-20241023"
         # 退出脚本
         exit 1
     fi

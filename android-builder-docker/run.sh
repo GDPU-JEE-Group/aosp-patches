@@ -1,0 +1,1 @@
+docker run -it --restart=always --hostname snowrepo --name redroid-builder -v /linux_data/alex/snow:/snow -p 5210:22 redroid-builder      
