@@ -6,9 +6,10 @@ ip=$3
 num=$4
 DATE=$(date  +%Y%m%d.%H%M)
 
-if [ "$1" = "-h"  ]; then
-    echo ./snow.sh {product} {msg} {ip} {num}
-    echo ./snow.sh samsung test 168.34 2
+if [ "$1" = "-h" -o $# -lt 1 ]; then
+    echo "./snow.sh {product} {msg} {ip} {num}"
+    echo "./snow.sh in test 168.34 2"
+    echo "in 国内, out 国外, guozhen 果真"
     exit 0
 else
     echo ""

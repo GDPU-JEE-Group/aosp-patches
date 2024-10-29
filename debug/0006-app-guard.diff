@@ -1,0 +1,398 @@
+diff --git a/vendor/ntimespace/ExtProvider/AndroidManifest.xml b/vendor/ntimespace/ExtProvider/AndroidManifest.xml
+index 1e47e78de0..27d745bf8c 100644
+--- a/vendor/ntimespace/ExtProvider/AndroidManifest.xml
++++ b/vendor/ntimespace/ExtProvider/AndroidManifest.xml
+@@ -40,6 +40,32 @@
+                 android:name="com.android.settings.title"
+                 android:resource="@string/app_name" />
+         </activity>
++        <activity
++            android:name="com.android.ext.root.AppDaemonActivity"
++            android:exported="true">
++
++            <intent-filter>
++                <action android:name="com.android.settings.action.EXTRA_SETTINGS" />
++                <category android:name="android.intent.category.DEFAULT" />
++            </intent-filter>
++
++            <meta-data
++                android:name="com.android.settings.category"
++                android:value="com.android.settings.category.ia.homepage" />
++
++            <meta-data
++                android:name="com.android.settings.icon"
++                android:resource="@drawable/root" />
++            <meta-data
++                android:name="com.android.settings.icon_tintable"
++                android:value="true" />
++            <meta-data
++                android:name="com.android.settings.summary"
++                android:resource="@string/super_user_manage2" />
++            <meta-data
++                android:name="com.android.settings.title"
++                android:resource="@string/appdaemon_name" />
++        </activity>
+     </application>
+ 
+ </manifest>
+diff --git a/vendor/ntimespace/ExtProvider/res/values-zh-rCN/strings.xml b/vendor/ntimespace/ExtProvider/res/values-zh-rCN/strings.xml
+index 9a0679c714..be53110a0e 100644
+--- a/vendor/ntimespace/ExtProvider/res/values-zh-rCN/strings.xml
++++ b/vendor/ntimespace/ExtProvider/res/values-zh-rCN/strings.xml
+@@ -1,10 +1,15 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <string name="app_name">设置扩展</string>
++    <string name="app_name">超级用户管理</string>
+     <string name="super_user">开启超级用户</string>
+     <string name="app_root_details">授权APP超级用户</string>
+     <string name="apply_prompt">重新启动程序生效，自动强制停止应用</string>
+     <string name="super_user_manage">超级用户管理</string>
+     <string name="allow">授权</string>
+     <string name="disallow">拒绝</string>
++
++    <string name="app_daemon">应用守护功能</string>
++    <string name="appdaemon_name">应用守护</string>
++    <string name="super_user_manage2">应用守护设置</string>
++
+ </resources>
+diff --git a/vendor/ntimespace/ExtProvider/res/values/strings.xml b/vendor/ntimespace/ExtProvider/res/values/strings.xml
+index e380736d70..8d0329a43d 100644
+--- a/vendor/ntimespace/ExtProvider/res/values/strings.xml
++++ b/vendor/ntimespace/ExtProvider/res/values/strings.xml
+@@ -1,10 +1,15 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <string name="app_name">Settings extension</string>
++    <string name="app_name">Superuser management</string>
+     <string name="super_user">Enabling Super User</string>
+     <string name="app_root_details">Granted to App superuser</string>
+     <string name="apply_prompt">Automatically forcibly stops the application</string>
+     <string name="super_user_manage">Superuser management</string>
+     <string name="allow">Grant</string>
+     <string name="disallow">Deny</string>
++
++    <string name="app_daemon">app_daemon</string>
++    <string name="appdaemon_name">APP Deamon</string>
++    <string name="super_user_manage2">APP Deamon</string>
++    
+ </resources>
+diff --git a/vendor/ntimespace/ExtProvider/res/xml/appguard_preferences.xml b/vendor/ntimespace/ExtProvider/res/xml/appguard_preferences.xml
+new file mode 100644
+index 0000000000..6a97aca899
+--- /dev/null
++++ b/vendor/ntimespace/ExtProvider/res/xml/appguard_preferences.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
++    <EditTextPreference
++        android:key="app_guard_interval"
++        android:title="检测间隔"
++        android:summary="设置守护进程检测间隔，单位为秒，范围5到3600秒"
++        android:defaultValue="15"
++        android:inputType="number" />
++
++    <PreferenceCategory
++        android:key="app_daemon"
++        android:title="@string/app_daemon">
++    </PreferenceCategory>
++
++</PreferenceScreen>
+diff --git a/vendor/ntimespace/ExtProvider/res/xml/root_preferences.xml b/vendor/ntimespace/ExtProvider/res/xml/root_preferences.xml
+index aadecef59c..94955a78f0 100644
+--- a/vendor/ntimespace/ExtProvider/res/xml/root_preferences.xml
++++ b/vendor/ntimespace/ExtProvider/res/xml/root_preferences.xml
+@@ -22,4 +22,9 @@
+         android:title="@string/app_root_details">
+     </PreferenceCategory>
+ 
++    <!-- <PreferenceCategory
++        android:key="app_daemon"
++        android:title="@string/app_daemon">
++    </PreferenceCategory> -->
++
+ </PreferenceScreen>
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
+index 13fdd07242..67f1a373a4 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/AppGlobal.java
+@@ -12,6 +12,10 @@ public class AppGlobal extends Application {
+         Logger logger = Logger.init(this);
+         // logger.interrupt();
+         new RootModule().onCreate(this);
++
++        new AppGuardService().startAppGuard(this);
+     }
++
++
+ }
+ 
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/AppDaemonActivity.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/AppDaemonActivity.java
+new file mode 100644
+index 0000000000..bc7c1622bd
+--- /dev/null
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/AppDaemonActivity.java
+@@ -0,0 +1,169 @@
++package com.android.ext.root;
++
++import android.content.pm.PackageInfo;
++import android.os.Bundle;
++import android.preference.CheckBoxPreference;
++import android.preference.Preference;
++import android.preference.PreferenceActivity;
++import android.preference.PreferenceCategory;
++import android.preference.SwitchPreference;
++import android.preference.EditTextPreference;
++
++import android.annotation.Nullable;
++
++import com.android.ext.R;
++import com.android.libutils.Package;
++
++import java.util.List;
++import android.content.SharedPreferences;
++import java.util.ArrayList;
++import java.util.HashSet;
++import java.util.Set;
++import android.util.Log;
++
++
++/**
++ * @noinspection ALL
++ */
++public class AppDaemonActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
++
++    // 新增的成员变量
++    PreferenceCategory mAppDaemonPreference;
++    List<String> appDaemonList;  // 用于存储持久化的包名
++    SharedPreferences sharedPreferences;
++
++    @Override
++    protected void onCreate(@Nullable Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        addPreferencesFromResource(R.xml.appguard_preferences);
++
++        // 获取SharedPreferences对象
++        sharedPreferences = getSharedPreferences("appDaemonPrefs", MODE_PRIVATE);
++        appDaemonList = new ArrayList<>(sharedPreferences.getStringSet("app_daemon_list", new HashSet<>()));
++
++        // 打印当前持久化的包名列表
++        logAppDaemonList();
++
++        // 加载已有的控件
++        List<PackageInfo> packageInfos = Package.getAllPackages(getApplicationContext());
++        // 新增appDaemon的PreferenceCategory处理逻辑
++        mAppDaemonPreference = (PreferenceCategory) findPreference("app_daemon");
++        // 遍历所有应用的包名
++        for (PackageInfo pi : packageInfos) {
++            // 获取每个应用的SwitchPreference
++            SwitchPreference preference = getAppDaemonPreference(pi.packageName);
++            
++            // 如果包名在持久化的appDaemonList中，设置为选中状态，否则未选中
++            if (appDaemonList.contains(pi.packageName)) {
++                preference.setChecked(true);
++            } else {
++                preference.setChecked(false);
++            }
++            preference.setEnabled(true);  // 根据业务逻辑启用/禁用
++        }
++
++        //-----
++        EditTextPreference intervalPreference = (EditTextPreference) findPreference("app_guard_interval");
++        intervalPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
++            @Override
++            public boolean onPreferenceChange(Preference preference, Object newValue) {
++                try {
++                    int intervalSeconds = Integer.parseInt(newValue.toString());
++                    if (intervalSeconds < 5 || intervalSeconds > 3600) {
++                        Log.d("AppDaemonActivity", "无效的间隔时间，必须在5到3600秒之间。");
++                        return false;  // 无效的输入，拒绝改变
++                    }
++
++                    // 保存间隔到 SharedPreferences
++                    SharedPreferences.Editor editor = sharedPreferences.edit();
++                    editor.putLong("app_guard_interval", intervalSeconds * 1000L);  // 保存为毫秒
++                    editor.apply();
++
++                    Log.d("AppDaemonActivity", "更新检测间隔为: " + intervalSeconds + " 秒");
++
++                    // 通知 AppGuardService 更新 interval
++                    // AppGuardService appGuardService = new AppGuardService();
++                    // appGuardService.updateInterval(intervalSeconds * 1000L);
++
++                    return true;
++                } catch (NumberFormatException e) {
++                    Log.e("AppDaemonActivity", "输入不是有效的数字格式。");
++                    return false;
++                }
++            }
++        });
++    }
++
++    // 获取或创建SwitchPreference并监听变化
++    public SwitchPreference getAppDaemonPreference(String packageName) {
++        SwitchPreference preference = new SwitchPreference(getApplicationContext());
++        preference.setIcon(Package.getAppIcon(getApplicationContext(), packageName));
++        preference.setTitle(Package.getAppLabel(getApplicationContext(), packageName));
++        preference.setSwitchTextOn(R.string.allow);
++        preference.setSwitchTextOff(R.string.disallow);
++        preference.setKey(packageName);
++        preference.setOnPreferenceChangeListener((pref, newValue) -> {
++            boolean isChecked = (Boolean) newValue;
++            if (isChecked) {
++                addAppToDaemonList(packageName);
++            } else {
++                removeAppFromDaemonList(packageName);
++            }
++            logAppDaemonList();  // 每次更新时打印列表
++            return true;
++        });
++
++        mAppDaemonPreference.addPreference(preference);
++        return preference;
++    }
++
++    // 添加包名到appDaemonList，并持久化
++    private void addAppToDaemonList(String packageName) {
++        appDaemonList.add(packageName);
++        saveAppDaemonList();
++    }
++
++    // 从appDaemonList中移除包名，并持久化
++    private void removeAppFromDaemonList(String packageName) {
++        appDaemonList.remove(packageName);
++        saveAppDaemonList();
++    }
++
++    // 持久化存储appDaemonList
++    private void saveAppDaemonList() {
++        SharedPreferences.Editor editor = sharedPreferences.edit();
++        editor.putStringSet("app_daemon_list", new HashSet<>(appDaemonList));
++        editor.apply();
++    }
++
++    // 打印当前appDaemonList的内容
++    private void logAppDaemonList() {
++        System.out.println("App Daemon List: " + appDaemonList.toString());
++    }
++
++    @Override
++    public boolean onPreferenceChange(Preference preference, Object newValue) {
++        boolean isChecked = (Boolean) newValue;
++        String packageName = preference.getKey();
++        
++        if (isChecked) {
++            // 添加包名到appDaemonList
++            appDaemonList.add(packageName);
++        } else {
++            // 移除包名
++            appDaemonList.remove(packageName);
++        }
++
++        // 持久化更新后的appDaemonList
++        SharedPreferences.Editor editor = sharedPreferences.edit();
++        editor.putStringSet("app_daemon_list", new HashSet<>(appDaemonList));
++        editor.apply();  // 使用apply()而不是commit()，以提高性能
++
++        // 打印日志
++        Log.i("App Daemon", "App Daemon List: " + appDaemonList.toString());
++
++        return true;
++    }
++
++}
++
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/AppGuardService.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/AppGuardService.java
+new file mode 100644
+index 0000000000..72125377a3
+--- /dev/null
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/AppGuardService.java
+@@ -0,0 +1,88 @@
++package com.android.ext;
++
++import android.app.ActivityManager;
++import android.content.Context;
++import android.content.Intent;
++import android.content.SharedPreferences;
++import android.content.pm.PackageManager;
++import android.os.Handler;
++import android.util.Log;
++
++import java.util.ArrayList;
++import java.util.HashSet;
++import java.util.List;
++import java.util.Set;
++
++public class AppGuardService {
++
++    private final Handler handler = new Handler();
++    private long interval = 20000;  // 20秒
++    private List<String> appDaemonList;
++    SharedPreferences sharedPreferences;
++
++
++    public void startAppGuard(final Context context) {   
++        sharedPreferences = context.getSharedPreferences("appDaemonPrefs", Context.MODE_PRIVATE);     
++
++        handler.postDelayed(new Runnable() {
++            @Override
++            public void run() {
++                interval = sharedPreferences.getLong("app_guard_interval", 15000); 
++
++                appDaemonList = getAppDaemonListFromPreferences(context);
++                Log.d("AppGuardService", "AppDaemonList: " + appDaemonList);
++
++                ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
++                List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
++                Log.d("AppGuardService", "Running App Processes: " + runningAppProcesses);
++
++                for (String packageName : appDaemonList) {
++                    if (!isAppRunning(context, packageName)) {
++                        Log.d("AppGuardService", packageName + " is not running. Launching it...");
++                        launchApp(context, packageName);
++                    } else {
++                        Log.d("AppGuardService", packageName + " is already running.");
++                    }
++                }
++                // 继续下次检测
++                handler.postDelayed(this, interval);
++            }
++        }, interval);
++    }
++
++    // 获取守护应用列表
++    private List<String> getAppDaemonListFromPreferences(Context context) {
++        Set<String> appSet = sharedPreferences.getStringSet("app_daemon_list", new HashSet<>());
++        return new ArrayList<>(appSet);
++    }
++
++    // 停止守护服务
++    public void stopAppGuard() {
++        handler.removeCallbacksAndMessages(null);
++    }
++
++    // 判断应用是否在运行
++    public boolean isAppRunning(Context context, String packageName) {
++        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
++        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
++        
++        for (ActivityManager.RunningAppProcessInfo appProcess : runningAppProcesses) {
++            String processPackageName = appProcess.pkgList.length > 0 ? appProcess.pkgList[0] : null;
++            if (processPackageName != null && processPackageName.equals(packageName)) {
++                return true;
++            }
++        }
++        return false;
++    }
++
++    // 启动应用
++    public void launchApp(Context context, String packageName) {
++        PackageManager packageManager = context.getPackageManager();
++        Intent intent = packageManager.getLaunchIntentForPackage(packageName);
++        if (intent != null) {
++            context.startActivity(intent);
++        } else {
++            Log.d("AppGuardService", "Unable to launch app: " + packageName);
++        }
++    }
++}

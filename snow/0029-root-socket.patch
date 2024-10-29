@@ -1,0 +1,126 @@
+diff --git a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
+index b17bd1ff67..39b33b2a4d 100644
+--- a/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
++++ b/vendor/ntimespace/ExtProvider/src/com/android/ext/root/ManagerService.java
+@@ -21,6 +21,12 @@ import java.util.concurrent.SynchronousQueue;
+ import java.util.concurrent.ThreadPoolExecutor;
+ import java.util.concurrent.TimeUnit;
+ 
++import java.util.concurrent.atomic.AtomicInteger;
++import java.util.concurrent.LinkedBlockingQueue;
++import java.util.concurrent.ThreadPoolExecutor;
++import java.util.concurrent.TimeUnit;
++
++
+ import android.util.Log;
+ 
+ public class ManagerService {
+@@ -43,6 +49,10 @@ public class ManagerService {
+ 
+     private static ManagerService mService;
+ 
++    // 在 ManagerService 类中定义一个 AtomicInteger 变量
++    private AtomicInteger currentConnections = new AtomicInteger(0);
++    private Integer maxConnections = 100;
++
+     public ManagerService(Context context, RootController controller) {
+         this.mContext = context;
+         this.mController = controller;
+@@ -72,14 +82,14 @@ public class ManagerService {
+                 Method method = mSockFd.getClass().getDeclaredMethod("setInt$", int.class);
+                 method.setAccessible(true);
+                 method.invoke(mSockFd, socket);
+-                Log.d("ManagerService-root","createServerSocket() succeeful");
++                Log.d("ManagerService","createServerSocket() succeeful");
+             } catch (Exception e) {
+                 logger.w("FileDescriptor.setInt$ error", e);
+-                Log.d("ManagerService-root","============FileDescriptor.setInt$ error==================");
++                Log.d("ManagerService","============FileDescriptor.setInt$ error==================");
+             }
+         } else {
+             logger.w("warn: createServerSocket is -1");
+-            Log.d("ManagerService-root","============createServerSocket is -1==================");
++            Log.d("ManagerService","============createServerSocket is -1==================");
+         }
+     }
+ 
+@@ -87,8 +97,9 @@ public class ManagerService {
+         isStart = false;
+         if (mServerSocket != null) {
+             try {
+-                mServerSocket.close();
++                mServerSocket.close(); // 关闭 LocalServerSocket
+             } catch (IOException e) {
++                e.printStackTrace(); // 处理异常
+             }
+         }
+     }
+@@ -115,16 +126,21 @@ public class ManagerService {
+                         12, // maximumPoolSize: Maximum number of threads (no upper limit here)
+                         10L, // keepAliveTime: Threads idle for 60 seconds are terminated
+                         TimeUnit.SECONDS, // keepAliveTime unit
+-                        new SynchronousQueue<>() // Work queue: SynchronousQueue for short-lived tasks
++                        // new SynchronousQueue<>() // Work queue: SynchronousQueue for short-lived tasks
++                        new LinkedBlockingQueue<>(2000) // 增加任务排队能力
+                 );
+ 
+                 LocalSocket socket;
+                 while (isStart) {
+                     socket = mServerSocket.accept();
++                    // 每当有新的连接接受时，增加连接计数
++                    int currentCount = currentConnections.incrementAndGet();
++                    Log.d("ManagerService ","Current connections: " + currentCount);
+                     mThreadPool.execute(new ClientHandler(socket));
+                 }
+ 
+             } catch (IOException e) {
++                Log.e("ManagerService","Error creating LocalServerSocket");
+             }
+         }
+     }
+@@ -179,6 +195,9 @@ public class ManagerService {
+                 clientSocket.close();
+             } catch (IOException e) {
+                 e.printStackTrace();
++            } finally {
++                // 这里可以打印当前连接数等
++                Log.d("ManagerService","Connection closed. Current connections: " + currentConnections.decrementAndGet());
+             }
+         }
+     }
+diff --git a/vendor/ntimespace/proc_watcher/SocketConnection.cpp b/vendor/ntimespace/proc_watcher/SocketConnection.cpp
+index f49f2c4dd1..583cb76905 100644
+--- a/vendor/ntimespace/proc_watcher/SocketConnection.cpp
++++ b/vendor/ntimespace/proc_watcher/SocketConnection.cpp
+@@ -1,4 +1,6 @@
+ #include "SocketConnection.h"
++#include <thread> // 添加这一行
++#include <chrono> // 也需要这个头文件来使用 std::chrono
+ 
+ bool SocketConnection::doOpen(const char* sock_path) {
+   struct sockaddr_un un;
+@@ -29,13 +31,18 @@ bool SocketConnection::doOpen(const char* sock_path) {
+   setsockopt(mFd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
+   setsockopt(mFd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+ 
+-  ret = connect(mFd, (struct sockaddr *)&un, sizeof(un));
+-  if (ret < 0) {
+-    doClose();
+-    ALOGW("Connect socket err: %s", strerror(errno));
+-    return false;
++  // 增加重试机制
++  for (int attempts = 0; attempts < 4; ++attempts) {
++      ret = connect(mFd, (struct sockaddr *)&un, sizeof(un));
++      if (ret == 0) {
++          return true; // 连接成功
++      }
++      ALOGW("Connect socket err for path %s: %s", sock_path, strerror(errno));
++      std::this_thread::sleep_for(std::chrono::milliseconds(80)); // 等待后重试
+   }
+-  return true;
++  
++    doClose(); // 失败后关闭
++    return false;
+ }
+ 
+ bool SocketConnection::request(const char* message, char* result, int result_size) {

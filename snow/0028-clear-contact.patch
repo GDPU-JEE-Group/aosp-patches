@@ -1,0 +1,59 @@
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+index 3af63203d7..64d6ec0116 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/Space9dManagerShellCommand.java
+@@ -146,6 +146,34 @@ public class Space9dManagerShellCommand extends ShellCommand {
+         pw.println(String.format("Update mock modules: %s", buffer));
+     }
+ 
++    // 新增：清除所有联系人的方法
++    private void clearAllContacts(PrintWriter pw) {
++        ContentResolver resolver = mContext.getContentResolver();
++        Uri uri = ContactsContract.RawContacts.CONTENT_URI;
++
++        // 执行删除操作
++        int deletedCount = resolver.delete(uri, null, null); // 删除所有联系人
++        if (deletedCount > 0) {
++            pw.println("All contacts deleted successfully.");
++        } else {
++            pw.println("No contacts found to delete.");
++        }
++    }
++
++    // 新增：清除所有通话记录的方法
++    private void clearAllCallLogs(PrintWriter pw) {
++        ContentResolver resolver = mContext.getContentResolver();
++        Uri uri = CallLog.Calls.CONTENT_URI;
++
++        // 执行删除操作
++        int deletedCount = resolver.delete(uri, null, null); // 删除所有通话记录
++        if (deletedCount > 0) {
++            pw.println("All call logs deleted successfully.");
++        } else {
++            pw.println("No call logs found to delete.");
++        }
++    }
++
+     private void runContact(PrintWriter pw) {
+         ArrayMap<String, String> addMap = new ArrayMap<>();
+         List<String> delList = new ArrayList<>();
+@@ -165,6 +193,9 @@ public class Space9dManagerShellCommand extends ShellCommand {
+                 }
+             } else if ("-r".equals(nextOpt)) {
+                 delList.add(getNextArg());
++            } else if ("--clear".equals(nextOpt)) { // 新增：检测到 clear 命令
++                clearAllContacts(pw); // 调用清除联系人方法
++                return; // 结束方法
+             }
+         }
+ 
+@@ -357,6 +388,9 @@ public class Space9dManagerShellCommand extends ShellCommand {
+                 }
+             } else if ("-r".equals(nextOpt)) {
+                 delList.add(getNextArg());
++            } else if ("--clear".equals(nextOpt)) { // 新增：检测到 clear 命令
++                clearAllCallLogs(pw); // 调用清除通话记录方法
++                return; // 结束方法
+             }
+         }
+ 
