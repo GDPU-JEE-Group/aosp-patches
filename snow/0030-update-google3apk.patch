@@ -1,0 +1,113 @@
+diff --git a/device/rockchip/space-common/device_overseas.mk b/device/rockchip/space-common/device_overseas.mk
+index 4ae5fb99f3..0d3b0111de 100644
+--- a/device/rockchip/space-common/device_overseas.mk
++++ b/device/rockchip/space-common/device_overseas.mk
+@@ -15,7 +15,6 @@ GAPPS_VARIANT := pico
+ 
+ # add default apps
+ PRODUCT_PACKAGES += \
+-	com.google.android.gms \
+ 	Gboard \
+ 	google-chrome \
+ 	Launcher3-aosp-withQuickstep \
+diff --git a/packages/apps/ntimesapp/Android.mk b/packages/apps/ntimesapp/Android.mk
+index 76bd795998..1ae841341d 100644
+--- a/packages/apps/ntimesapp/Android.mk
++++ b/packages/apps/ntimesapp/Android.mk
+@@ -49,17 +49,17 @@ LOCAL_PRIVILEGED_MODULE := true
+ 
+ include $(BUILD_PREBUILT)
+ #######################################################
+-include $(CLEAR_VARS)
++# include $(CLEAR_VARS)
+ 
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_MODULE := com.google.android.gms
+-LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
+-LOCAL_MODULE_CLASS := APPS
+-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+-LOCAL_CERTIFICATE := PRESIGNED
+-LOCAL_PRIVILEGED_MODULE := true
++# LOCAL_MODULE_TAGS := optional
++# LOCAL_MODULE := com.google.android.gms
++# LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
++# LOCAL_MODULE_CLASS := APPS
++# LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
++# LOCAL_CERTIFICATE := PRESIGNED
++# LOCAL_PRIVILEGED_MODULE := true
+ 
+-include $(BUILD_PREBUILT)
++# include $(BUILD_PREBUILT)
+ #######################################################
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := com.sohu.inputmethod.sogou
+diff --git a/vendor/opengapps/build/core/update-google.sh b/vendor/opengapps/build/core/update-google.sh
+new file mode 100644
+index 0000000000..9be3af19a5
+--- /dev/null
++++ b/vendor/opengapps/build/core/update-google.sh
+@@ -0,0 +1,19 @@
++vendor/opengapps/sources/all/priv-app/com.google.android.gsf/29/nodpi/29.apk
++vendor/opengapps/sources/arm64/priv-app/com.google.android.gms/29/480/214218039.apk
++vendor/opengapps/sources/arm64/priv-app/com.android.vending/23/nodpi/84321600.apk
++
++rm -f    vendor/opengapps/sources/all/priv-app/com.google.android.gsf/29/nodpi/29.apk
++rm -f    vendor/opengapps/sources/arm64/priv-app/com.google.android.gms/29/nodpi/214218037.apk
++rm -f    vendor/opengapps/sources/arm64/priv-app/com.android.vending/21/nodpi/83032110.apk
++
++cp a_patches/lastest-app/com.google.android.gsf_10-6494331-29_minAPI29-nodpi_apkmirror.com.apk                                                      vendor/opengapps/sources/all/priv-app/com.google.android.gsf/29/nodpi/29.apk
++cp a_patches/lastest-app/Google-Play-services_24.42.32-040400-688217902_APKPure.apk                                                                 vendor/opengapps/sources/arm64/priv-app/com.google.android.gms/29/480/214218039.apk
++cp a_patches/lastest-app/com.android.vending_43.2.16-23_0_PR_686207179-84321600_minAPI23-arm64-v8a-armeabi-v7a-x86-x86_64-nodpi_apkmirror.com.apk   vendor/opengapps/sources/arm64/priv-app/com.android.vending/23/nodpi/84321600.apk
++
++
++
++# vendor/opengapps/sources/all/priv-app/com.google.android.gsf/29/nodpi/29.apk
++# vendor/opengapps/sources/arm64/priv-app/com.google.android.gms/29/480/214218039.apk
++# vendor/opengapps/sources/arm64/priv-app/com.android.vending/23/nodpi/84321600.apk
++
++
+diff --git a/vendor/opengapps/build/modules/GooglePlayServices/Android.mk b/vendor/opengapps/build/modules/GooglePlayServices/Android.mk
+new file mode 100644
+index 0000000000..388caf8fda
+--- /dev/null
++++ b/vendor/opengapps/build/modules/GooglePlayServices/Android.mk
+@@ -0,0 +1,8 @@
++LOCAL_PATH := .
++include $(CLEAR_VARS)
++include $(GAPPS_CLEAR_VARS)
++LOCAL_MODULE := GooglePlayServices
++LOCAL_PACKAGE_NAME := com.google.android.gms
++LOCAL_PRIVILEGED_MODULE := true
++
++include $(BUILD_GAPPS_PREBUILT_APK)
+diff --git a/vendor/opengapps/build/opengapps-packages.mk b/vendor/opengapps/build/opengapps-packages.mk
+index 6541cde84a..c5426b6186 100644
+--- a/vendor/opengapps/build/opengapps-packages.mk
++++ b/vendor/opengapps/build/opengapps-packages.mk
+@@ -17,6 +17,7 @@ endif
+ 
+ GAPPS_PRODUCT_PACKAGES += \
+     GoogleServicesFramework \
++    GooglePlayServices \
+     Phonesky
+ 
+ TVGAPPS_PRODUCT_PACKAGES += \
+diff --git a/vendor/opengapps/sources/all/priv-app/com.google.android.gsf/29/nodpi/29.apk b/vendor/opengapps/sources/all/priv-app/com.google.android.gsf/29/nodpi/29.apk
+old mode 100755
+new mode 100644
+index ea0348392f..fb4325895f
+Binary files a/vendor/opengapps/sources/all/priv-app/com.google.android.gsf/29/nodpi/29.apk and b/vendor/opengapps/sources/all/priv-app/com.google.android.gsf/29/nodpi/29.apk differ
+diff --git a/vendor/opengapps/sources/arm64/priv-app/com.android.vending/23/nodpi/84321600.apk b/vendor/opengapps/sources/arm64/priv-app/com.android.vending/23/nodpi/84321600.apk
+new file mode 100644
+index 0000000000..e004f0e912
+--- /dev/null
++++ b/vendor/opengapps/sources/arm64/priv-app/com.android.vending/23/nodpi/84321600.apk
+@@ -0,0 +1,3 @@
++version https://git-lfs.github.com/spec/v1
++oid sha256:6c394f1a6cc5dc2889cb7dda2262b5089e9d2d3625858a825f1e6cf2f0134b77
++size 67427248
+diff --git a/vendor/opengapps/sources/arm64/priv-app/com.google.android.gms/29/480/214218039.apk b/vendor/opengapps/sources/arm64/priv-app/com.google.android.gms/29/480/214218039.apk
+old mode 100755
+new mode 100644
+index 7d9bc1687a..32e889e62c
+Binary files a/vendor/opengapps/sources/arm64/priv-app/com.google.android.gms/29/480/214218039.apk and b/vendor/opengapps/sources/arm64/priv-app/com.google.android.gms/29/480/214218039.apk differ

@@ -7,6 +7,7 @@ if [ $# -ne 2 ]; then
     echo "       ESFileExplorer"
     echo "       google-chrome"
     echo "       com.google.android.gms"
+    echo "       com.android.vending"
     echo "       com.sohu.inputmethod.sogou"
     echo "       Gboard"
     echo "       czwg"

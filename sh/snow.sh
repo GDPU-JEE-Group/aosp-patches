@@ -4,6 +4,7 @@ product=$1
 msg=$2-$product
 ip=$3
 num=$4
+reset=$5
 DATE=$(date  +%Y%m%d.%H%M)
 
 if [ "$1" = "-h" -o $# -lt 1 ]; then
@@ -36,7 +37,7 @@ fi
     # lunch rk3588_docker-user
 
 
-a_patches/sh/build_docker_android_snow.sh -A $msg $ip $num
+a_patches/sh/build_docker_android_snow.sh -A $msg $ip $num $reset
 
 kill-stream.sh 192.168.$ip $num
 

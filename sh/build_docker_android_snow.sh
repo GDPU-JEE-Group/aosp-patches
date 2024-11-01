@@ -3,6 +3,7 @@ source util.sh
 msg=$2
 ip=192.168."$3"
 num=$4
+reset=$5
 echo "=> build_docker_android_snow.sh $msg $ip $num"
 
 start_time=$(date  +.%H%M)
@@ -164,7 +165,11 @@ if [ -n "$msg" ]; then
 	run_cmd scp $filepath root@$ip:/userdata/snow/
 	run_cmd ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
 	run_cmd ssh root@$ip rm -rf /userdata/snow/$filename
-	run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh restart $num --image=latest
+	if [ "$reset" = "reset" ];then
+		run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num --image=latest
+	else
+		run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh restart $num --image=latest
+	fi
 	run_cmd ssh root@$ip docker ps
 
 else
