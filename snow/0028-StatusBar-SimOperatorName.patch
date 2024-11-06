@@ -1,0 +1,65 @@
+diff --git a/frameworks/base/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml b/frameworks/base/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml
+index 42d541e3af..044e58bc0e 100644
+--- a/frameworks/base/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml
++++ b/frameworks/base/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml
+@@ -31,6 +31,17 @@
+         android:gravity="center_vertical"
+         android:orientation="horizontal" >
+ 
++        <!-- 添加的TextView显示运营商名称 -->
++        <TextView
++            android:id="@+id/operator_name"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:textColor="@android:color/white"
++            android:textSize="12sp"
++            android:layout_gravity="center_vertical"
++            android:paddingEnd="4dp"
++            android:text="运营商名称" />
++
+         <FrameLayout
+             android:id="@+id/inout_container"
+             android:layout_height="17dp"
+diff --git a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
+index 689d161c2e..58303630c6 100644
+--- a/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
++++ b/frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
+@@ -40,6 +40,10 @@ import com.android.systemui.DualToneHandler;
+ import com.android.systemui.R;
+ import com.android.systemui.plugins.DarkIconDispatcher.DarkReceiver;
+ import com.android.systemui.statusbar.phone.StatusBarSignalPolicy.MobileIconState;
++import android.telephony.TelephonyManager;
++import android.widget.TextView;
++import android.util.Log;
++
+ 
+ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+         StatusIconDisplayable {
+@@ -56,6 +60,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+     private ImageView mIn;
+     private ImageView mOut;
+     private ImageView mMobile, mMobileType, mMobileRoaming;
++    private TextView mOperatorNameTextView;
+     private View mMobileRoamingSpace;
+     private int mVisibleState = -1;
+     private DualToneHandler mDualToneHandler;
+@@ -109,6 +114,19 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+         mIn = findViewById(R.id.mobile_in);
+         mOut = findViewById(R.id.mobile_out);
+         mInoutContainer = findViewById(R.id.inout_container);
++        // 获取运营商名称
++        TelephonyManager telephonyManager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
++        String SimOperatorName = telephonyManager.getSimOperatorName(); // 获取运营商名称
++        // 11-06 15:49:55.241   421   421 D statusbar: mOperatorNameTextView start11111CHT
++
++        // 找到 TextView 控件，并设置运营商名称
++        if (mOperatorNameTextView == null) {
++            mOperatorNameTextView = findViewById(R.id.operator_name); // 获取控件实例
++        }
++        // Log.d("statusbar", "mOperatorNameTextView == null: " + (mOperatorNameTextView == null));
++        if (mOperatorNameTextView != null) {
++            mOperatorNameTextView.setText(SimOperatorName); // 设置运营商名称
++        }
+ 
+         mMobileDrawable = new SignalDrawable(getContext());
+         mMobile.setImageDrawable(mMobileDrawable);
