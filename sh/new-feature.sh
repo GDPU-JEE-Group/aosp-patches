@@ -44,3 +44,5 @@ switch_branch(){
 check_args
 confirm_clear_operation
 switch_branch
+
+run_cmd git branch
