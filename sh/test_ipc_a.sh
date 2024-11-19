@@ -26,6 +26,11 @@ import_sh() {
     echo "所有仓库均无法加载脚本 '$script_path'。"
     return 1
 }
+# 示例：执行远程脚本
+# bash <(wget -qO- https://gitee.com/trychar-no1/snow-env/raw/master/init.sh)
+# 示例：导入远程函数
+# source <(curl -s https://example.com/path/to/script.sh)
+# source <(wget -qO- https://example.com/path/to/script.sh)
 # -----------------------------------------------------------------------------
 # *****************************************************************************
 # |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
