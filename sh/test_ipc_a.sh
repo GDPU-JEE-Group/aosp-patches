@@ -1,8 +1,8 @@
 #!/bin/bash
 # 定义远程仓库地址列表
 ADD_REPO=(
-    "https://raw.githubusercontent.com/GDPU-JEE-Group/snow-env/refs/heads/master"
     "https://gitee.com/trychar-no1/snow-env/raw/master"
+    "https://raw.githubusercontent.com/GDPU-JEE-Group/snow-env/refs/heads/master"
 )
 # 通用函数：从多个仓库加载指定脚本并导入其所有函数----------------------------------
 import_sh() {
