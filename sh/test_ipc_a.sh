@@ -28,6 +28,7 @@ import_sh() {
 }
 # 示例：执行远程脚本
 # bash <(wget -qO- https://gitee.com/trychar-no1/snow-env/raw/master/init.sh)
+# bash <(curl -s https://gitee.com/trychar-no1/snow-env/raw/master/init.sh)
 # 示例：导入远程函数
 # source <(curl -s https://example.com/path/to/script.sh)
 # source <(wget -qO- https://example.com/path/to/script.sh)
