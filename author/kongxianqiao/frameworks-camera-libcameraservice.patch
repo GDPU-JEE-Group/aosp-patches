@@ -1,0 +1,58 @@
+diff --git a/frameworks/av/services/camera/libcameraservice/CameraService.cpp b/frameworks/av/services/camera/libcameraservice/CameraService.cpp
+index 0828db999a..ccc4caf5aa 100755
+--- a/frameworks/av/services/camera/libcameraservice/CameraService.cpp
++++ b/frameworks/av/services/camera/libcameraservice/CameraService.cpp
+@@ -1432,11 +1432,13 @@ Status CameraService::connectHelper(const sp<CALLBACK>& cameraCb, const String8&
+                     "Cannot open camera %s for \"%s\" (PID %d): Too many other clients connecting",
+                     cameraId.string(), clientName8.string(), clientPid);
+         }
++
+         // Enforce client permissions and do basic sanity checks
+         if(!(ret = validateConnectLocked(cameraId, clientName8,
+                 /*inout*/clientUid, /*inout*/clientPid, /*out*/originalClientPid)).isOk()) {
+             return ret;
+         }
++
+         // Check the shim parameters after acquiring lock, if they have already been updated and
+         // we were doing a shim update, return immediately
+         if (shimUpdateOnly) {
+@@ -1445,6 +1447,7 @@ Status CameraService::connectHelper(const sp<CALLBACK>& cameraCb, const String8&
+                 if (!cameraState->getShimParams().isEmpty()) return ret;
+             }
+         }
++
+         status_t err;
+ 
+         sp<BasicClient> clientTmp = nullptr;
+@@ -1467,6 +1470,7 @@ Status CameraService::connectHelper(const sp<CALLBACK>& cameraCb, const String8&
+                             strerror(-err), err, cameraId.string());
+             }
+         }
++
+         if (clientTmp.get() != nullptr) {
+             // Handle special case for API1 MediaRecorder where the existing client is returned
+             device = static_cast<CLIENT*>(clientTmp.get());
+@@ -1475,7 +1479,7 @@ Status CameraService::connectHelper(const sp<CALLBACK>& cameraCb, const String8&
+ 
+         // give flashlight a chance to close devices if necessary.
+         mFlashlight->prepareDeviceOpen(cameraId);
+-        
++
+         int facing = -1;
+         int deviceVersion = getDeviceVersion(cameraId, /*out*/&facing);
+         if (facing == -1) {
+@@ -1939,14 +1943,6 @@ Status CameraService::supportsCameraApi(const String16& cameraId, int apiVersion
+     }
+ 
+     int deviceVersion = getDeviceVersion(id);
+-    int totalNum = 100;
+-    //设置超时10秒，获取相机的版本，相机获取到版本才不会崩溃，所以这里是等待驱动启动后，才能获取版本
+-    while(0 < totalNum && deviceVersion == -1){
+-        usleep(100000);
+-        deviceVersion = getDeviceVersion(id); 
+-        ALOGV("%s: Camera id %s getDeviceVersion: totalNum: %d",__FUNCTION__, id.string(), totalNum);
+-        --totalNum;
+-    }
+     switch (deviceVersion) {
+         case CAMERA_DEVICE_API_VERSION_1_0:
+         case CAMERA_DEVICE_API_VERSION_3_0:

@@ -1,0 +1,4 @@
+diff --git a/hardware/rockchip/camera/Android.mk.1 b/hardware/rockchip/camera/Android.mk
+similarity index 100%
+rename from hardware/rockchip/camera/Android.mk.1
+rename to hardware/rockchip/camera/Android.mk

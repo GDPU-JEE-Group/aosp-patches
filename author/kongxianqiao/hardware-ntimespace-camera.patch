@@ -1,0 +1,112 @@
+diff --git a/hardware/ntimespace/camera/camera_init.rc b/hardware/ntimespace/camera/camera_init.rc
+old mode 100644
+new mode 100755
+diff --git a/hardware/ntimespace/camera/camera_init.sh b/hardware/ntimespace/camera/camera_init.sh
+old mode 100644
+new mode 100755
+diff --git a/hardware/ntimespace/camera/v4l2_wrapper.cpp b/hardware/ntimespace/camera/v4l2_wrapper.cpp
+index c11f8205d0..f794a6b708 100644
+--- a/hardware/ntimespace/camera/v4l2_wrapper.cpp
++++ b/hardware/ntimespace/camera/v4l2_wrapper.cpp
+@@ -29,8 +29,6 @@
+ #include "android-base/properties.h"
+ #include "debug.h"
+ 
+-
+-
+ namespace v4l2_camera_hal {
+ 
+ using arc::V4L2FrameBuffer;
+@@ -892,10 +890,9 @@ int V4L2Wrapper::DequeueRequest(std::shared_ptr<CaptureRequest> request) {
+   uint64_t convertTimeNs = 0;
+   uint64_t memcpyTimeNs = 0;
+ 
+-  static uint64_t printfTimeNs = timeNanos();
+-
+   int ret = 0;
+   int res = 0;
++
+   if (!format_) {
+     HAL_LOGV(
+         "Format not set, so stream can't be on, "
+@@ -903,12 +900,14 @@ int V4L2Wrapper::DequeueRequest(std::shared_ptr<CaptureRequest> request) {
+     ret = -EAGAIN;
+     goto Exit;
+   }
++
+   if (!request)
+   {
+     HAL_LOGE("DequeueRequest failed, request is null");
+     ret = -EAGAIN;
+     goto Exit;
+   }
++
+   {
+     v4l2_buffer buffer;
+     memset(&buffer, 0, sizeof(buffer));
+@@ -932,12 +931,9 @@ int V4L2Wrapper::DequeueRequest(std::shared_ptr<CaptureRequest> request) {
+                 else
+                 {
+                     frame_count++;
+-                    if (4000 <= toMilliSeconds(timeNanos() - printfTimeNs)){//不能为5秒，因为上面usleep(5*1000);
+-                      HAL_LOGE("[fps]DQBUF: %s. No aviable data. frame_count=%d \n", strerror(errno), frame_count);
+-                      printfTimeNs = timeNanos();
+-                    }
++                    HAL_LOGE("[fps]DQBUF: %s. No aviable data. frame_count=%d", strerror(errno), frame_count);
+                     ret = -EAGAIN;
+-                    goto Exit;
++                    //goto Exit;
+                 }
+             } else {
+                 // Unexpected failure.
+@@ -961,6 +957,7 @@ int V4L2Wrapper::DequeueRequest(std::shared_ptr<CaptureRequest> request) {
+         goto Exit;
+     }
+     HAL_LOGD("VIDIOC_DQBUF got buffer index %d", buffer.index);
++
+     {
+       RequestContext* request_context = &buffers_[buffer.index];
+ 
+@@ -980,24 +977,15 @@ int V4L2Wrapper::DequeueRequest(std::shared_ptr<CaptureRequest> request) {
+       {
+         buffer.length = request_context->camera_buffer->GetWidth() * request_context->camera_buffer->GetHeight() * 4;
+       }
++
+       last_dq_index = buffer.index;
+-      if (!request_context){
+-        HAL_LOGE("DequeueRequest failed, request_context is null");
+-        ret = -EAGAIN;
+-        goto Exit;
+-      }
+-      if (!request_context->request){
+-        HAL_LOGE("DequeueRequest failed, request_context->request is null");
+-        ret = -EAGAIN;
+-        goto Exit;
+-      }
+       dump_data_index = request_context->request->frame_number;
+       HAL_LOGD("Process frame %u, buffer numbers %d", dump_data_index, 
+         (uint32_t)request_context->request->output_buffers.size());
+ 
+       // Perform the format conversion.
+       arc::CachedFrame cached_frame;
+-      uint32_t output_buffer_size = request_context->request->output_buffers.size();     
++      uint32_t output_buffer_size = request_context->request->output_buffers.size();      
+       for(uint32_t i = 0; i < output_buffer_size; i++) {
+           HAL_LOGV("-----------------------------------------------------------");
+           HAL_LOGD("Process buffer[%d]", i);
+@@ -1043,6 +1031,7 @@ int V4L2Wrapper::DequeueRequest(std::shared_ptr<CaptureRequest> request) {
+             ret = -EINVAL;
+             goto Exit;
+           }
++
+           uint64_t time = timeNanos();
+           if (request_context->camera_buffer->GetFourcc() == fourcc &&
+             request_context->camera_buffer->GetWidth() == stream_buffer->stream->width &&
+@@ -1091,6 +1080,7 @@ int V4L2Wrapper::DequeueRequest(std::shared_ptr<CaptureRequest> request) {
+           }  
+  
+       }
++
+       //EAGAIN we will not QBUF
+       if (ret == -EAGAIN) {
+         ret = 0;
