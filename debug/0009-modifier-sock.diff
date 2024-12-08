@@ -1,0 +1,263 @@
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/MessageHandler.java b/vendor/ntimespace/Space9dService/src/com/android/server/MessageHandler.java
+index 48485fa10f..ab883e66f3 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/MessageHandler.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/MessageHandler.java
+@@ -87,21 +87,41 @@ public class MessageHandler implements ServerSocket.MessageListener, SystemInfo.
+     }
+ 
+     private boolean onInternalMessage(LocalSocket socket, String data) {
++        // 打印接收到的原始数据
++        Slog.d("InternalMessage  0001|", "Received data: " + data);
++    
+         if (data.startsWith("prop:")) {
++            // 获取系统属性
+             Properties properties = mService.getModuleManager().getSysProp(false);
++            Slog.d("InternalMessage  0001|", "Loaded Properties: " + properties);
++    
+             StringBuffer buffer = new StringBuffer();
+             Set<String> keys = properties.stringPropertyNames();
++    
++            // 打印获取到的所有 keys
++            Slog.d("InternalMessage  0001|", "Property keys: " + keys);
++    
+             if (keys.size() > 0) {
+                 for (String key : keys) {
+-                    buffer.append(key).append('=').append(properties.getProperty(key).toString());
++                    // 打印每个 key 和对应的 value
++                    String value = properties.getProperty(key).toString();
++                    // Slog.d("InternalMessage  0001|", "Property key: " + key + ", value: " + value);
++    
++                    buffer.append(key).append('=').append(value).append('&');
+                 }
++                // 删除最后一个多余的 '&'
+                 buffer.deleteCharAt(buffer.length() - 1);
+             }
++    
++            // 打印最终生成的 buffer 字符串
++            Slog.d("InternalMessage  0001|", "Final buffer string: " + buffer.toString());
++    
++            // 将 buffer 内容发送到 socket
+             getServer().send(socket, buffer.toString());
+             return true;
+         }
+         return false;
+-    }
++    }    
+ 
+     @Override
+     public void onMessageReceive(LocalSocket socket, String data) {
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/ServerSocket.java b/vendor/ntimespace/Space9dService/src/com/android/server/ServerSocket.java
+index 52fb17295a..d52cb01447 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/ServerSocket.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/ServerSocket.java
+@@ -187,39 +187,57 @@ public class ServerSocket {
+     // 获取输出流并发送消息。
+     // 处理发送失败情况，关闭客户端连接。
+     public void send(LocalSocket socket, String message) {
++        if(message.equals("")){
++            Slog.d(TAG, "0001| send: message=\"\" ");
++            message="null";
++        }
+         // 初步检查
+         if (socket == null || message == null || !mClients.contains(socket)) {
+-            Slog.w(TAG, "send warn: remove ? " + socket);
++            Slog.w(TAG, "0001|send warn: remove ? " + socket);
+             return;
+         }
+-
+-        //获取输出流
++    
++        // 打印socket和message
++        Slog.d(TAG, "0001| send: socket = " + socket + ", message = " + message);
++    
++        // 获取输出流
+         OutputStream outputStream = null;
+         try {
+             outputStream = socket.getOutputStream();
++            Slog.d(TAG, "0001| send: Retrieved output stream: " + outputStream);
+         } catch (IOException e) {
++            Slog.e(TAG, "0001| send: Failed to get output stream", e);
+         }
+-
++    
+         // 检查文件描述符和输出流
+         FileDescriptor fd = socket.getFileDescriptor();
+         if (fd == null || outputStream == null) {
+             mClients.remove(socket);
+-            Slog.w(TAG, "send warn: " + fd + " -> " + outputStream);
++            Slog.w(TAG, "0001|send warn: fd = " + fd + " -> outputStream = " + outputStream);
+             return;
+         }
+-
++    
++        // 打印文件描述符
++        Slog.d(TAG, "0001| send: FileDescriptor = " + fd);
++    
+         // 准备消息
+         byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
+         String sendMsg = String.format("%04d!%s", bytes.length, message);
++    
++        // 打印准备好的消息
++        Slog.d(TAG, "0001| send: sendMsg = " + sendMsg + " (Message length: " + bytes.length + " bytes)");
++    
+         // 发送消息
+         try {
+             outputStream.write(sendMsg.getBytes());
+             outputStream.flush();
++            Slog.d(TAG, "0001| send: Message sent successfully.");
+         } catch (Exception e) {
+-            Slog.e(TAG, "send failure!", e);
++            Slog.e(TAG, "0001|send failure!", e);
+             closeClient(socket, "send failure");
+         }
+     }
++    
+     // 广播消息方法
+     public void send(String message) {
+         synchronized(mClients) {
+diff --git a/vendor/ntimespace/proc_watcher/BuildModifier.cpp b/vendor/ntimespace/proc_watcher/BuildModifier.cpp
+index 5560f9368c..3d9ecc3a6c 100644
+--- a/vendor/ntimespace/proc_watcher/BuildModifier.cpp
++++ b/vendor/ntimespace/proc_watcher/BuildModifier.cpp
+@@ -102,6 +102,8 @@ std::map<std::string, std::string> BuildModifier::getApplyproperties() {
+   bool result;
+   char response[4090];
+   SocketConnection socket;
++
++  // 打开 socket 连接
+   if (!socket.doOpen("/data/system/s9_sock")) {
+     return properties;
+   }
+@@ -110,16 +112,23 @@ std::map<std::string, std::string> BuildModifier::getApplyproperties() {
+   memset(buffer, 0, sizeof(buffer));
+   memset(protocol, 0, sizeof(protocol));
+ 
++  // 构造协议消息
+   length = snprintf(protocol, sizeof(protocol), "prop:%d", sizeof(void*) != sizeof(uint64_t) ? 1 : 0);
+   snprintf(buffer, sizeof(buffer), "%04d!%s", length, protocol);
+ 
++  // 请求数据
+   result = socket.request(buffer, response, sizeof(response));
++
++  // 关闭 socket
+   socket.doClose();
+ 
++  // 检查请求结果
+   if (!result) {
++    ALOGW("0001|  BuildModifier.cpp socket.request err:");
+     return properties;
+   }
+ 
++  // 处理响应
+   length = strlen(response);
+   if (length == 0) {
+     return properties;
+diff --git a/vendor/ntimespace/proc_watcher/GrantRoot.cpp b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+index 816dc79ad1..3ca0b65d52 100644
+--- a/vendor/ntimespace/proc_watcher/GrantRoot.cpp
++++ b/vendor/ntimespace/proc_watcher/GrantRoot.cpp
+@@ -3,12 +3,15 @@
+ #include <thread> // 添加这一行
+ #include <chrono> // 也需要这个头文件来使用 std::chrono
+ 
++#include <unistd.h>
++#include <fcntl.h>
++
+ bool GrantRoot::startGrantRoot() {
+-  const int max_retries = 3; // 最大重试次数
++  const int max_retries = 3;
+   int retry_count = 0;
+   bool success = false;
+-  static std::mutex mountMutex; // 声明一个静态互斥锁
+-  std::lock_guard<std::mutex> lock(mountMutex); // 加锁
++  static std::mutex mountMutex;
++  std::lock_guard<std::mutex> lock(mountMutex);
+ 
+   while (retry_count < max_retries) {
+     ALOGI("root---startGrantRoot(), attempt %d", retry_count + 1);
+@@ -64,14 +67,23 @@ bool GrantRoot::startGrantRoot() {
+       continue;
+     }
+ 
+-    // 验证 /system/bin/su 是否成功创建
+-    if (stat(SU_PATH, &info) == 0 && S_ISLNK(info.st_mode)) {
+-      success = true;
+-      break;
++    // 增强验证步骤
++    char resolved_path[PATH_MAX];
++    ssize_t len = readlink(SU_PATH, resolved_path, sizeof(resolved_path) - 1);
++    if (len != -1) {
++        resolved_path[len] = '\0';  // 终止符
++        ALOGI("Symlink at %s points to: %s", SU_PATH, resolved_path);
++        if (strcmp(resolved_path, SU_DAEMON_PATH) == 0) {
++            success = true;
++            break;
++        } else {
++            ALOGE("Verification failed: %s points to an incorrect target: %s", SU_PATH, resolved_path);
++        }
+     } else {
+-      ALOGE("Verification failed: %s does not exist or is not a symlink.", SU_PATH);
+-      retry_count++;
++      ALOGE("Error reading symlink: %s, errno: %d", SU_PATH, errno);
+     }
++
++    retry_count++;
+   }
+ 
+   if (!success) {
+diff --git a/vendor/ntimespace/proc_watcher/SocketConnection.cpp b/vendor/ntimespace/proc_watcher/SocketConnection.cpp
+index 583cb76905..7f1c97e50b 100644
+--- a/vendor/ntimespace/proc_watcher/SocketConnection.cpp
++++ b/vendor/ntimespace/proc_watcher/SocketConnection.cpp
+@@ -30,21 +30,28 @@ bool SocketConnection::doOpen(const char* sock_path) {
+   tv.tv_usec = 0;
+   setsockopt(mFd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
+   setsockopt(mFd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
++  const char* initialMessage = "0004!CNCT";
+ 
+   // 增加重试机制
+-  for (int attempts = 0; attempts < 4; ++attempts) {
+-      ret = connect(mFd, (struct sockaddr *)&un, sizeof(un));
+-      if (ret == 0) {
+-          return true; // 连接成功
+-      }
++  for (int attempts = 0; attempts < 2; ++attempts) {
++    ret = connect(mFd, (struct sockaddr *)&un, sizeof(un));
++    if (ret != 0) {
+       ALOGW("Connect socket err for path %s: %s", sock_path, strerror(errno));
+-      std::this_thread::sleep_for(std::chrono::milliseconds(80)); // 等待后重试
++      std::this_thread::sleep_for(std::chrono::milliseconds(10)); // 等待后重试
++      continue;
++    }
++      
++    int ret1 = write(mFd, initialMessage, strlen(initialMessage));
++    if (ret1 < 0) {
++      ALOGW("Write socket err initialMessage: %s", strerror(errno));
++      continue;
++    }
++    return true; // 连接成功
+   }
+   
+-    doClose(); // 失败后关闭
+-    return false;
++  doClose(); // 失败后关闭
++  return false;
+ }
+-
+ bool SocketConnection::request(const char* message, char* result, int result_size) {
+   int ret = write(mFd, message, strlen(message));
+   if (ret < 0) {
+@@ -54,8 +61,12 @@ bool SocketConnection::request(const char* message, char* result, int result_siz
+ 
+   ret = read(mFd, result, result_size);
+   if (ret < 0) {
+-    ALOGW("Read socket err: %s", strerror(errno));
++    ALOGW("0001| Read socket err: %s", strerror(errno));
++    ALOGW("0001| Write socket message: %s", message);
++
+     return false;
++  }else{
++    ALOGW("0001| Write socket message succeeful: %s", message);
+   }
+   return true;
+ }

@@ -1,3 +1,5 @@
+source /snow/android10-rk3588/a_patches/sh/util.sh
+
 #变量------------
 num=$1
 ip=192.168.$2
@@ -16,29 +18,18 @@ echo "filepath: $filepath"
 echo "Filename: $filename"
 
 	#运行----------------------------------
-	echo scp $filepath root@$ip:/userdata/snow/
-	echo ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
-	echo ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh restart $num --image=latest
-	echo ssh root@$ip rm -rf /userdata/snow/$filename
-	echo ssh root@$ip docker ps
 
-	scp $filepath root@$ip:/userdata/snow/
-	ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
-		ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num
-	ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh restart $num --image=latest
-	ssh root@$ip rm -rf /userdata/snow/$filename
-	ssh root@$ip docker ps
+
+	run_cmd scp $filepath root@$ip:/userdata/snow/
+	run_cmd ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
+	run_cmd 	ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num
+	run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh restart $num --image=latest
+	run_cmd ssh root@$ip rm -rf /userdata/snow/$filename
+	run_cmd ssh root@$ip docker ps
 
 echo ssh root@$ip 
 
-echo kill-stream.sh $ip $num
-kill-stream.sh $ip $num
+run_cmd kill-stream.sh $ip $num
 ##  grep -rHn "s9.adbd.auth_required" .
 
 ## grep -Hn "s9.adbd.auth_required" $(find . -name "*.rc") --exclude-dir={out,prebuilts}
-echo ssh root@$ip docker exec -it android_$num 
-	sleep 3
-	ssh root@$ip docker exec  android_$num start adbd
-	echo ssh root@$ip docker exec  android_$num start adbd
-
-kill-stream.sh $ip $num

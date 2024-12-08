@@ -1,0 +1,222 @@
+diff --git a/frameworks/base/core/java/com/android/internal/space/NineDSpaceManager.java b/frameworks/base/core/java/com/android/internal/space/NineDSpaceManager.java
+index 8232828330..eacd9ec313 100644
+--- a/frameworks/base/core/java/com/android/internal/space/NineDSpaceManager.java
++++ b/frameworks/base/core/java/com/android/internal/space/NineDSpaceManager.java
+@@ -36,6 +36,7 @@ public final class NineDSpaceManager {
+     public static final String STATUS_PROCESS_CREATE = "create_process";
+     public static final String STATUS_PROCESS_DESTORY = "destory_process";
+     public static final String STATUS_APP_CRASH = "app_crash";
++    public static final String STATUS_GPS_DATA = "gpsData";
+ 
+     public static final String MODE_VPN = "vpn_config_dialog";
+     public static final String MODE_SCREEN_RECORD = "screen_record";
+diff --git a/frameworks/base/core/java/com/android/internal/space/api/GPSMock.java b/frameworks/base/core/java/com/android/internal/space/api/GPSMock.java
+new file mode 100644
+index 0000000000..e955eaa35f
+--- /dev/null
++++ b/frameworks/base/core/java/com/android/internal/space/api/GPSMock.java
+@@ -0,0 +1,109 @@
++package com.android.internal.space.api;
++
++import android.content.Context;
++import android.os.Parcel;
++import android.os.RemoteException;
++import android.os.ServiceManager;
++import com.android.internal.space.INineDSpace;
++import java.util.Map;
++import java.util.Arrays;
++import java.util.Collections;
++import java.util.HashSet;
++import java.util.Set;
++
++import android.util.Log;
++import android.os.SystemProperties;
++
++public class GPSMock extends IMockCallback.Stub {
++
++    public static final String NAME = "location";
++
++    Context mContext;
++
++    private Map mMap;
++    private boolean Enabled;
++
++    INineDSpace mService;
++
++    private static GPSMock mGPS;
++
++    @Override
++    public void onCallback(Map map) {
++        this.mMap = map;
++    }
++
++    public static GPSMock getMock() {
++        if (mGPS != null) {
++            return mGPS;
++        }
++
++        mGPS = new GPSMock();
++        return mGPS;
++    }
++
++    private GPSMock() {
++         mService = INineDSpace.Stub.asInterface(ServiceManager.getService(Context.SPACE_SERVICE));
++         Enabled=SystemProperties.getBoolean("s9.gps.state", false);
++        Log.d("GPS-","---------------------------GPSMock init");
++        Log.d("GPS-","---Enabled:"+Enabled);
++        Log.d("GPS-","---s9.gps.state:"+SystemProperties.getBoolean("s9.gps.state", false));
++    }
++
++    public boolean isMock() {
++        if (mMap == null && mService != null) {
++            try {
++                mMap = mService.addMockCallback(NAME, this);
++            } catch (RemoteException e) {
++            }
++            return (mMap != null);
++        }
++        return mMap != null;
++    }
++
++    public String getName(String raw) {
++        if (!isMock()) return raw;
++        return (String) mMap.getOrDefault("name", raw);
++    }
++
++    public String getAddress(String raw) {
++        if (!isMock()) return raw;
++        return (String) mMap.getOrDefault("address", raw);
++    }
++
++    public boolean isEnabled(boolean raw) {
++        if (!isMock()) return raw;
++        return Enabled;
++    }
++
++    public void setAble(boolean raw) {
++        Enabled=raw;
++        String val=Enabled ? "1" : "0";
++        SystemProperties.set("s9.gps.state", val);
++        Log.d("GPS-","---------------------------setAble(boolean raw)");
++        Log.d("GPS-","---raw:"+raw);
++        Log.d("GPS-","---Enabled:"+Enabled);
++        Log.d("GPS-","---s9.gps.state:"+SystemProperties.getBoolean("s9.gps.state", false));
++    }
++
++
++
++    // public boolean sendGPSData(){
++    //     if(mMap==null ||  mMap.isEmpty()){
++    //         return "";
++    //     }
++    //     String mock1 = mMap.getOrDefault("mock","null");
++    //     String lat = mMap.getOrDefault("mock","lat");
++    //     String lon = mMap.getOrDefault("mock","lon");
++    //     String alt = mMap.getOrDefault("mock","alt");
++
++    //     if(mock1.equals("null")||lat.equals("null")||lon.equals("null")){
++    //         return "";
++    //     }
++    //     SystemTracking.get(mContext).getBuilder()
++    //         .setTraceName(NineDSpaceManager.STATUS_GPS_DATA)
++    //         .putInt("data", "["+lat+","+lon+","+alt+"]")
++    //         .send();
++    //     return true;
++    // }
++
++}
+diff --git a/vendor/ntimespace/Space9dService/src/com/android/server/mock/MockManager.java b/vendor/ntimespace/Space9dService/src/com/android/server/mock/MockManager.java
+index 15b78a721b..f2b04e5564 100644
+--- a/vendor/ntimespace/Space9dService/src/com/android/server/mock/MockManager.java
++++ b/vendor/ntimespace/Space9dService/src/com/android/server/mock/MockManager.java
+@@ -17,6 +17,9 @@ import com.android.internal.space.api.ConnectivityMock;
+ import com.android.internal.space.api.IMockCallback;
+ import com.android.internal.space.api.VpnMock;
+ import com.android.internal.space.api.WiFiMock;
++import com.android.internal.space.api.GPSMock;
++import com.android.internal.space.NineDSpaceManager;
++import android.os.Bundle;
+ import com.android.server.comm.CommonHelper;
+ 
+ import org.json.JSONException;
+@@ -43,7 +46,8 @@ public class MockManager {
+             VpnMock.NAME,
+             WiFiMock.NAME,
+             SIM_MOCK_NAME,
+-            AmMock.NAME
++            AmMock.NAME,
++            GPSMock.NAME,
+     };
+ 
+     private ArrayMap<String, MockInfo> mMockMap = new ArrayMap<>();
+@@ -174,9 +178,14 @@ public class MockManager {
+     }
+ 
+     public String[] updateMock(Map<String, Object> addMap, List<String> removeKeys) {
++        // android.util.Log.d("0002|", "SUPPORT_MOCK_NAME= " + SUPPORT_MOCK_NAME);
++        // android.util.Log.d("0002|", "SUPPORT_MOCK_NAME= " + GPSMock.NAME);
++        // android.util.Log.d("0002|", "isSupportMock= " + isSupportMock(GPSMock.NAME));
++        // SUPPORT_MOCK_NAME
++        // isSupportMock(GPSMock.NAME);
+         List<String> mocks = new ArrayList<>();
+         if (addMap != null && addMap.size() > 0) {
+-            String name;
++            String name="";
+             for (String item : addMap.keySet()) {
+                 name = getMockPrefix(item);
+                 android.util.Log.d(TAG, "updateMock---add-name= " + name);
+@@ -186,6 +195,12 @@ public class MockManager {
+                 }
+                 if (!isSupportMock(name)) {
+                     Slog.w(TAG, String.format("Unknown mock tag: %s", name));
++                    // Slog.w(TAG, String.format("11111111111 %s", name));
++                    // android.util.Log.d("0002|", "SUPPORT_MOCK_NAME= " + SUPPORT_MOCK_NAME);
++                    // android.util.Log.d("0002|", "SUPPORT_MOCK_NAME= " + GPSMock.NAME);
++                    // android.util.Log.d("0002|", "isSupportMock= " + isSupportMock(GPSMock.NAME));
++                    // Slog.w(TAG, String.format("Unknown mock tag: %s", name));
++
+                     continue;
+                 }
+ 
+@@ -195,6 +210,9 @@ public class MockManager {
+                     mocks.add(name);
+                 }
+             }
++            if(name.equals("location")){
++                updateGPS();
++            }
+         }
+ 
+         if (removeKeys != null && removeKeys.size() > 0) {
+@@ -273,4 +291,31 @@ public class MockManager {
+         }
+         return mockJson;
+     }
++
++
++    public String updateGPS(){
++        if(mMockMap==null || mMockMap.get("location")==null || mMockMap.isEmpty()){
++            return "";
++        }
++        String mock1 =(String) mMockMap.get("location").map.getOrDefault("mock","null");
++        String lat =(String) mMockMap.get("location").map.getOrDefault("lat","null");
++        String lon =(String) mMockMap.get("location").map.getOrDefault("lon","null");
++        String alt =(String) mMockMap.get("location").map.getOrDefault("alt","null");
++
++        if(mock1.equals("null")||lat.equals("null")||lon.equals("null")){
++            return "";
++        }
++        // SystemTracking.get(mContext).getBuilder()
++        //     .setTraceName(NineDSpaceManager.STATUS_GPS_DATA)
++        //     .putInt("data", "[23.145684713706014,113.26294359746191,7.942]")
++        //     .send();
++        Bundle dataPacket = new Bundle();
++        dataPacket.putString("data", "["+lat+","+lon+","+alt+"]");
++        dataPacket.putString("resultInfo", "success");
++        
++        NineDSpaceManager mSpaceManager = (NineDSpaceManager) mContext.getSystemService(Context.SPACE_SERVICE);
++        mSpaceManager.sendTracking("gpsData", dataPacket);
++        // mContext.getSystemService(Context.SPACE_SERVICE).sendTracking("gpsData", dataPacket);
++        return "";
++    }
+ }
