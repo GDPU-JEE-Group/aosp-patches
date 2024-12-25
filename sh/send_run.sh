@@ -22,8 +22,8 @@ echo "Filename: $filename"
 
 	run_cmd scp $filepath root@$ip:/userdata/snow/
 	run_cmd ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
-	run_cmd 	ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num
-	run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh restart $num --image=latest
+	run_cmd 	ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num --image=latest
+	# run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh restart $num --image=latest
 	run_cmd ssh root@$ip rm -rf /userdata/snow/$filename
 	run_cmd ssh root@$ip docker ps
 
