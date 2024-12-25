@@ -7,7 +7,7 @@ apk_name=$2
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
-
+debug=1
 log_and_echo() {
     local message="$1"
     local color="$2"
@@ -57,8 +57,8 @@ run_cmd() {
 run_cmd mount -o remount -o rw /
 run_cmd mkdir -p /system/priv-app/$apk_name
 run_cmd cp -r $apk_path /system/priv-app/$apk_name/
-run_cmd chmod -R 644 /system/priv-app/$apk_name
-run_cmd chown -R system:system /system/priv-app/$apk_name
+run_cmd chmod -R 755 /system/priv-app/$apk_name
+run_cmd chown -R root:root /system/priv-app/$apk_name
 run_cmd mount -o remount -o ro /
 
 run_cmd ls -al /system/priv-app/$apk_name/
