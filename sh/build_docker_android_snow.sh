@@ -1,26 +1,15 @@
 #!/bin/bash
-source util.sh
-msg=$2
-ip=192.168."$3"
-num=$4
-reset=$5
-echo "=> build_docker_android_snow.sh $msg $ip $num"
 
-start_time=$(date  +.%H%M)
 DATE=$(date  +%Y%m%d.%H%M)
-#source build/envsetup.sh >/dev/null
-source build/envsetup.sh
+source build/envsetup.sh >/dev/null
 export PATH=$ANDROID_BUILD_TOP/prebuilts/clang/host/linux-x86/clang-r416183b/bin:$PATH
 export TARGET_PRODUCT=`get_build_var TARGET_PRODUCT`
 export BUILD_VARIANT=`get_build_var TARGET_BUILD_VARIANT`
-export ANDROID_VERSION=`get_build_var PRODUCT_ANDROID_VERSION`
-export BUILD_JOBS=80			
+export ANDROID_VERSION="android12"
+export BUILD_JOBS=80
 
-echo $TARGET_PRODUCT 
 export PROJECT_TOP=`gettop`
 lunch $TARGET_PRODUCT-$BUILD_VARIANT
-
-echo $TARGET_PRODUCT-$BUILD_VARIANT
 
 STUB_PATH=Image/"$TARGET_PRODUCT"_"$ANDROID_VERSION"_"$BUILD_VARIANT"_"$DATE"
 STUB_PATH="$(echo $STUB_PATH | tr '[:lower:]' '[:upper:]')"
@@ -28,36 +17,47 @@ STUB_PATH="$(echo $STUB_PATH | tr '[:lower:]' '[:upper:]')"
 export STUB_PATH=$PROJECT_TOP/$STUB_PATH
 export STUB_PATCH_PATH=$STUB_PATH/PATCHES
 
-if [ -n "$1" ]
-then
-    while getopts "KAP" arg
-    do
-         case $arg in
-	     K)
-	         echo "will build linux kernel with Clang"
-	         BUILD_KERNEL=true
-	         ;;
-	     A)
-	         echo "will build android"
-	         BUILD_ANDROID=true
-	         ;;
-	     P)
-		 echo "will generate patch"
-		 BUILD_PATCH=true
-		 ;;
-             ?)
-	         echo "will build kernel AND android"
-	         BUILD_KERNEL=true
-	         BUILD_ANDROID=true
-		 BUILD_PATCH=true
-	         ;;
-         esac
-    done
-else
-    echo "will build kernel AND android"
-    BUILD_KERNEL=true
-    BUILD_ANDROID=true
-    BUILD_PATCH=true
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --version=*)
+            # 提取版本号
+            version="${1#*=}"
+            echo "version:$version"
+            shift
+            ;;
+	    -msg=*)
+            # 提取版本号
+            msg="${1#*=}"
+            shift
+            ;;
+	-K)
+            echo "will build linux kernel with Clang"
+            BUILD_KERNEL=true
+            shift
+            ;;
+        -A)
+            echo "will build android"
+            BUILD_ANDROID=true
+            shift
+            ;;
+        -P)
+            echo "will generate patch"
+            BUILD_PATCH=true
+            shift
+            ;;
+        *)  
+	    shift
+            ;;
+    esac
+done
+
+# 检查是否找到了版本号
+if [ -z "$version" ]; then
+{
+    echo "Error: No version number specified"
+    echo "Usage: ./build_docker_android.sh -A --verison=0711"
+}>&2
+exit 1
 fi
 
 if [ "$BUILD_ANDROID" = true ] ; then
@@ -69,9 +69,11 @@ if [ "$BUILD_ANDROID" = true ] ; then
 		make lpunpack
 	fi
 
-	echo "start build android"
+	echo "start install clean"
 	make installclean
-	make -j$BUILD_JOBS
+	echo "start build android"
+	# make -j$BUILD_JOBS
+	make  
 	# check the result of Makefile
 	if [ $? -eq 0 ]; then
 		echo "Build android ok!"
@@ -82,27 +84,46 @@ if [ "$BUILD_ANDROID" = true ] ; then
 	mkdir -p $STUB_PATH
 	mkdir -p $STUB_PATH/IMAGES/
 
-	cp $PROJECT_TOP/out/target/product/$TARGET_PRODUCT/super.img $STUB_PATH/IMAGES/
-	cp -rf $PROJECT_TOP/device/rockchip/rk3588/rk3588_docker/container $STUB_PATH/IMAGES/
+	cd $STUB_PATH/IMAGES/
+	mkdir super_img
+
+	# cp $PROJECT_TOP/out/target/product/$TARGET_PRODUCT/super.img $STUB_PATH/IMAGES/
+	cp $PROJECT_TOP/out/target/product/$TARGET_PRODUCT/system.img $STUB_PATH/IMAGES/super_img/
+	cp $PROJECT_TOP/out/target/product/$TARGET_PRODUCT/vendor.img $STUB_PATH/IMAGES/super_img
+	cp -rf $PROJECT_TOP/device/ntimespace/rk3588_docker/container $STUB_PATH/IMAGES/
 	#ANDROID_VERSION= `get_build_var PRODUCT_ANDROID_VERSION`
 
 	echo "pack docke android images: $TARGET_PRODUCT_$ANDROID_VERSION_$BUILD_VARIANT..."
 
-	cd $STUB_PATH/IMAGES/
 
-	mkdir super_img
+	# simg2img super.img super.img.ext4
+	# lpunpack super.img.ext4 super_img/
+	# simg2img system.img system.img.ext4
+	# lpunpack system.img super_img/
 
-	simg2img super.img super.img.ext4
-	lpunpack super.img.ext4 super_img/
-
-	# tar --use-compress-program=pigz -cvpf $TARGET_PRODUCT-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$DATE.tgz super_img/
-	run_cmd tar --use-compress-program=pigz -cvpf AOSP-super.img-$BUILD_VARIANT-$msg.tgz super_img/
+	# simg2img vendor.img vendor.img.ext4
+	# lpunpack vendor.img super_img/
+        
+	# IMAGE_LOCAL=$(echo $TARGET_PRODUCT |cut -d '_' -f3)
+	# IMAGE_LOCAL="inland"
+	
+	# tar --use-compress-program=pigz -cvpf ./container/rk3588_docker-"$ANDROID_VERSION"-$BUILD_VARIANT-super.img-$version-$IMAGE_LOCAL.tgz super_img/
+	tar --use-compress-program=pigz -cvpf ./container/rk3588_docker-"$ANDROID_VERSION"-$BUILD_VARIANT-$version-$msg.tgz super_img/
 
 	rm -rf super_img
-	rm super.img
-	rm super.img.ext4
+	# rm super.img
+	# rm super.img.ext4
+	# rm system.img
+	# rm vendor.img
 
+image_dir=$STUB_PATH
+image_name=rk3588_docker-"$ANDROID_VERSION"-$BUILD_VARIANT-$version-$msg.tgz 
+file_path=$STUB_PATH/IMAGES/container/$image_name
 	cd $PROJECT_TOP
+echo "file_path=$file_path" > a_patches/tmp/build_vars.tmp
+echo "image_dir=$image_dir" >> a_patches/tmp/build_vars.tmp
+echo "image_name=$image_name" >> a_patches/tmp/build_vars.tmp
+echo "version=$version" >> a_patches/tmp/build_vars.tmp
 fi
 
 if [ "$BUILD_KERNEL" = true ] ; then
@@ -115,7 +136,7 @@ if [ "$BUILD_KERNEL" = true ] ; then
 	else
 		export LOCAL_KERNEL_PATH=kernel-$KERNEL_VERSION
 	fi
-	echo "ANDROID_VERSION is: $ANDROID_VERSION"k
+	echo "ANDROID_VERSION is: $ANDROID_VERSION"
 	export ADDON_ARGS="CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 LLVM_IAS=1"
 	export KERNEL_DTS=`get_build_var PRODUCT_LINUX_KERNEL_DTS`
 	export KERNEL_ARCH=`get_build_var PRODUCT_KERNEL_ARCH`
@@ -140,43 +161,9 @@ fi
 if [ "$BUILD_PATCH" = true ] ; then
 	#Generate patches
 	mkdir -p $STUB_PATCH_PATH
-	.repo/repo/repo forall  -c "$PROJECT_TOP/device/rockchip/common/gen_patches_body.sh"
+	.repo/repo/repo forall  -c "$PROJECT_TOP/device/ntimespace/common/gen_patches_body.sh"
 	.repo/repo/repo manifest -r -o out/commit_id.xml
-	 #Copy stubs
-	 cp out/commit_id.xml $STUB_PATH/manifest_${DATE}.xml
+	#Copy stubs
+	cp out/commit_id.xml $STUB_PATH/manifest_${DATE}.xml
 fi
 
-
-# tips: STUB_PATH=Image/"$TARGET_PRODUCT"_"$ANDROID_VERSION"_"$BUILD_VARIANT"_"$DATE"   ------------------------------------------------
-# chaixiang
-filename=AOSP-super.img-$BUILD_VARIANT-$msg.tgz
-echo filename=$filename
-filepath=IMAGE/AOSP_"$BUILD_VARIANT"_"$DATE"_"$msg"/IMAGES/$filename
-echo filepath=$filepath
-
-cd $PROJECT_TOP
-
-if [ -n "$msg" ]; then
-    echo "msg is not empty"
-	# 改名+打印
-	run_cmd mv $STUB_PATH IMAGE/AOSP_"$BUILD_VARIANT"_"$DATE"_"$msg"
-
-	# 发送
-	run_cmd scp $filepath root@$ip:/userdata/snow/
-	run_cmd ssh root@$ip /userdata/init-in-arm/sh/build_image.sh /userdata/snow/$filename
-	run_cmd ssh root@$ip rm -rf /userdata/snow/$filename
-	if [ "$reset" = "reset" ];then
-		run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh reset $num --image=latest
-	else
-		run_cmd ssh root@$ip /userdata/arm-agent/bin/manage-shell/android_ctl.sh restart $num --image=latest
-	fi
-	run_cmd ssh root@$ip docker ps
-
-else
-    echo "msg is empty"
-fi
-
-end_time=$(date  +.%H%M)
-echo $start_time - $end_time
-	sleep 3
-	run_cmd ssh root@$ip docker exec  android_$num start adbd

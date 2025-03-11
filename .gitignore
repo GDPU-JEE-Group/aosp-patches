@@ -5,3 +5,6 @@ snow/0022-new-webview.patch
 *.tar
 *.so
 tmp
+
+0000-purerk-20241230-cached-text.patch
+0000-purerk-20241230-cached-binary.patch
