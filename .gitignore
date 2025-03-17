@@ -4,7 +4,8 @@ snow/0022-new-webview.patch
 *.zip
 *.tar
 *.so
+*.apk
 tmp
 
-0000-purerk-20241230-cached-text.patch
 0000-purerk-20241230-cached-binary.patch
+0000-purerk-20241230-cached-text.patch
