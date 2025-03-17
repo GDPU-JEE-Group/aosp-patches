@@ -7,6 +7,13 @@ num=$4
 reset=$5
 DATE=$(date  +%Y%m%d.%H%M)
 
+if [ "$1" = "check" ]; then
+    source build/envsetup.sh
+    lunch rk3588_docker_inland-user
+    m
+    exit 0
+fi
+
 if [ "$1" = "-h" -o $# -lt 1 ]; then
     echo "./snow.sh {product} {msg} {ip} {num}"
     echo "./snow.sh in test 168.34 2"

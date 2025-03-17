@@ -1,0 +1,100 @@
+diff --git a/device/rockchip/common/device.mk b/device/rockchip/common/device.mk
+index ef9e163ab2..e6aa844a4b 100644
+--- a/device/rockchip/common/device.mk
++++ b/device/rockchip/common/device.mk
+@@ -916,9 +916,9 @@ PRODUCT_PACKAGES += \
+     android.hardware.tv.cec@1.0-service
+ 
+ # Hw Output HAL
+-PRODUCT_PACKAGES += \
+-    rockchip.hardware.outputmanager@1.0-impl \
+-    rockchip.hardware.outputmanager@1.0-service
++# PRODUCT_PACKAGES += \
++#     rockchip.hardware.outputmanager@1.0-impl \
++#     rockchip.hardware.outputmanager@1.0-service
+ 
+ PRODUCT_PACKAGES += hw_output.default
+ endif
+@@ -928,9 +928,9 @@ ifeq ($(strip $(BOARD_SHOW_HDMI_SETTING)), true)
+ PRODUCT_PROPERTY_OVERRIDES += \
+     ro.rk.hdmisetting=true
+ 
+-PRODUCT_PACKAGES += \
+-    rockchip.hardware.outputmanager@1.0-impl \
+-    rockchip.hardware.outputmanager@1.0-service
++# PRODUCT_PACKAGES += \
++#     rockchip.hardware.outputmanager@1.0-impl \
++#     rockchip.hardware.outputmanager@1.0-service
+ 
+ PRODUCT_PACKAGES += hw_output.default
+ endif
+diff --git a/frameworks/base/services/core/jni/Android.bp b/frameworks/base/services/core/jni/Android.bp
+index 75f44c207f..b1cd4e0c01 100644
+--- a/frameworks/base/services/core/jni/Android.bp
++++ b/frameworks/base/services/core/jni/Android.bp
+@@ -52,7 +52,6 @@ cc_library_static {
+         "com_android_server_GraphicsStatsService.cpp",
+         "com_android_server_am_AppCompactor.cpp",
+         "com_android_server_am_LowMemDetector.cpp",
+-        "com_android_server_rkdisplay_RkDisplayModes.cpp",
+         "com_android_server_audio_RkAudioSetting.cpp",
+         "onload.cpp",
+         ":lib_networkStatsFactory_native",
+@@ -135,7 +134,6 @@ cc_defaults {
+         "android.hardware.vr@1.0",
+         "android.frameworks.schedulerservice@1.0",
+         "android.frameworks.sensorservice@1.0",
+-        "rockchip.hardware.outputmanager@1.0",
+         "librksoundsetting",
+         "android.system.suspend@1.0",
+         "suspend_control_aidl_interface-cpp",
+diff --git a/frameworks/base/services/core/jni/com_android_server_rkdisplay_RkDisplayModes.cpp b/frameworks/base/services/core/jni/com_android_server_rkdisplay_RkDisplayModes.cpp
+index b288db83f8..87b8698a67 100644
+--- a/frameworks/base/services/core/jni/com_android_server_rkdisplay_RkDisplayModes.cpp
++++ b/frameworks/base/services/core/jni/com_android_server_rkdisplay_RkDisplayModes.cpp
+@@ -27,7 +27,7 @@
+ #include <linux/netlink.h>
+ #include <sys/socket.h>
+ 
+-#include <rockchip/hardware/outputmanager/1.0/IRkOutputManager.h>
++// #include <rockchip/hardware/outputmanager/1.0/IRkOutputManager.h>
+ #include <unordered_map>
+ 
+ namespace android{
+diff --git a/frameworks/base/services/core/jni/onload.cpp b/frameworks/base/services/core/jni/onload.cpp
+index eed68d3468..597a545a3f 100644
+--- a/frameworks/base/services/core/jni/onload.cpp
++++ b/frameworks/base/services/core/jni/onload.cpp
+@@ -85,7 +85,7 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* /* reserved */)
+     register_android_server_UsbMidiDevice(env);
+     register_android_server_UsbAlsaJackDetector(env);
+     register_android_server_UsbHostManager(env);
+-    register_android_server_vr_VrManagerService(env);
++    // register_android_server_vr_VrManagerService(env);
+     register_android_server_VibratorService(env);
+     register_android_server_SystemServer(env);
+     register_android_server_location_GnssLocationProvider(env);
+@@ -95,9 +95,9 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* /* reserved */)
+     register_android_server_devicepolicy_CryptoTestHelper(env);
+     register_android_server_ConsumerIrService(env);
+     register_android_server_BatteryStatsService(env);
+-    register_android_server_hdmi_HdmiCecController(env);
+-    register_android_server_tv_TvUinputBridge(env);
+-    register_android_server_tv_TvInputHal(env);
++    // register_android_server_hdmi_HdmiCecController(env);
++    // register_android_server_tv_TvUinputBridge(env);
++    // register_android_server_tv_TvInputHal(env);
+     register_android_server_PersistentDataBlockService(env);
+     register_android_server_HardwarePropertiesManagerService(env);
+     register_android_server_storage_AppFuse(env);
+@@ -109,8 +109,8 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* /* reserved */)
+     register_android_server_security_VerityUtils(env);
+     register_android_server_am_AppCompactor(env);
+     register_android_server_am_LowMemDetector(env);
+-    register_com_android_server_rkdisplay_RkDisplayModes(env);
+-    register_com_android_server_audio_RkAudioSetting(env);
++    // register_com_android_server_rkdisplay_RkDisplayModes(env);
++    // register_com_android_server_audio_RkAudioSetting(env);
+ 
+     return JNI_VERSION_1_4;
+ }
